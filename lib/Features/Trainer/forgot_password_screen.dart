@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 
 import 'package:pro_icon/Features/Trainer/reset_password_screen.dart';
 
@@ -17,94 +18,84 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          body: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/splash.png"),
-                fit: BoxFit.cover)),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 170,
-            ),
-            const Image(image: AssetImage("assets/images/200-60-pro-2 1.png")),
-            const SizedBox(
-              height: 30,
-            ),
-            Container(
-              width: 330,
-              height: 300,
-              decoration: BoxDecoration(
-                  color: Colors.white54,
-                  borderRadius: BorderRadius.circular(24)),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 20,
+    return BaseAppScaffold(
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 170,
+          ),
+          const Image(image: AssetImage("assets/images/200-60-pro-2 1.png")),
+          const SizedBox(
+            height: 30,
+          ),
+          Container(
+            width: 330,
+            height: 300,
+            decoration: BoxDecoration(
+                color: Colors.white54, borderRadius: BorderRadius.circular(24)),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Forget password",
+                      style: GoogleFonts.roboto(
+                          fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 30, right: 20),
+                      child: Text(
+                        'Please enter the code sent to your email',
+                        style: TextStyle(
+                          fontSize: 14, // حجم الخط
+                          color: Colors.black, // لون النص
+                          fontWeight: FontWeight.normal, // سمك الخط
+                          height: 1.5, // المسافة بين الأسطر
+                        ),
                       ),
-                      Text(
-                        "Forget password",
-                        style: GoogleFonts.roboto(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 30, right: 20),
-                        child: Text(
-                          'Please enter the code sent to your email',
+                    ),
+                    const OtpForm(),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text("Resend code"),
+                        Text(
+                          "s 00:56",
                           style: TextStyle(
-                            fontSize: 14, // حجم الخط
-                            color: Colors.black, // لون النص
-                            fontWeight: FontWeight.normal, // سمك الخط
-                            height: 1.5, // المسافة بين الأسطر
-                          ),
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Container(
+                      width: 294,
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                      child: MaterialButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, ResetPasswordScreen.routeName);
+                        },
+                        color: AppColor.buttonColors,
+                        child: const Text(
+                          "Send",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       ),
-                      const OtpForm(),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text("Resend code"),
-                          Text(
-                            "s 00:56",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Container(
-                        width: 294,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8)),
-                        child: MaterialButton(
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(
-                                context, ResetPasswordScreen.routeName);
-                          },
-                          color: AppColor.buttonColors,
-                          child: const Text(
-                            "Send",
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
-            )
-          ],
-        ),
-      )),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

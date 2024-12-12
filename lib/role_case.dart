@@ -1,14 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pro_icon/Core/Theming/Colors/app_color.dart';
 import 'package:pro_icon/Features/Admin/Admin_auth.dart';
-
 import 'Features/Trainer/trainer.dart';
 
-
+enum Role { admin, coach }
 
 class RoleCase extends StatefulWidget {
+  static const routeName = '/role-case';
   const RoleCase({super.key});
 
   @override
@@ -16,102 +15,111 @@ class RoleCase extends StatefulWidget {
 }
 
 class _RoleCaseState extends State<RoleCase> {
-
-
-  String selectedRole = "";
+  Role? selectedRole;
 
   void navigateBasedOnRole() {
-    if (selectedRole == "Admin") {
-      // التوجيه لصفحة الأدمن
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => AdminAuth()));
-    // استبدل بـ اسم صفحة الأدمن الفعلي
-    } else if (selectedRole == "Coach") {
-      // التوجيه لصفحة المدرب
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TrainerAuth()));  // استبدل بـ اسم صفحة المدرب الفعلي
+    if (selectedRole == Role.admin) {
+      // Navigate to Admin page
+      Navigator.pushReplacementNamed(context, AdminAuth.routeName);
+    } else if (selectedRole == Role.coach) {
+      // Navigate to Coach page
+      Navigator.pushReplacementNamed(context, TrainerAuth.routeName);
     } else {
-      // إذا لم يتم اختيار دور
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("يرجى اختيار دور أولاً!"),
+      // If no role is selected
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Please select a role"),
       ));
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          body: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage("assets/images/splash.png") , fit: BoxFit.cover)
+        body: Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/splash.png"),
+              fit: BoxFit.cover,
             ),
-            child: Column(
-              children: [
-                SizedBox(height: 170,),
-                Image(image: AssetImage("assets/images/200-60-pro-2 1.png")),
-                SizedBox(height: 30,),
-                Container(
-                  width: 330,
-                  height: 295,
-                  decoration: BoxDecoration(
-                    color: Colors.white54,
-                    borderRadius: BorderRadius.circular(24)
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20,),
-                      Text("Welcome!" ,style: GoogleFonts.roboto(
+          ),
+          child: Column(
+            children: [
+              const SizedBox(height: 170),
+              const Image(
+                  image: AssetImage("assets/images/200-60-pro-2 1.png")),
+              const SizedBox(height: 30),
+              Container(
+                width: 330,
+                height: 295,
+                decoration: BoxDecoration(
+                  color: Colors.white54,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    Text(
+                      "Welcome!",
+                      style: GoogleFonts.roboto(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20
-                      ) , ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                            InkWell(
-                                onTap: ()
-                                {
-                                  setState(() {
-                                    selectedRole = "Admin";
-                                  });
-                                },
-                                child: Opacity(
-                                  opacity: selectedRole == "Admin" ? 0.5 : 1.0,
-                                    child: Image(image: AssetImage("assets/images/Group 2.png")))),
-                            InkWell(
-                              onTap: ()
-                                {
-                                  setState(() {
-                                    selectedRole = "Coach";
-                                  });
-                                },
-                                child: Opacity(
-                                  opacity: selectedRole == "Coach" ? 0.5 : 1.0,
-                                    child: Image(image: AssetImage("assets/images/Group 1.png"))))
-                        ],
+                        fontSize: 20,
                       ),
-                    SizedBox(height: 20,),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedRole = Role.admin;
+                            });
+                          },
+                          child: Opacity(
+                            opacity: selectedRole == Role.admin ? 0.5 : 1.0,
+                            child: const Image(
+                              image: AssetImage("assets/images/Group 2.png"),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedRole = Role.coach;
+                            });
+                          },
+                          child: Opacity(
+                            opacity: selectedRole == Role.coach ? 0.5 : 1.0,
+                            child: const Image(
+                              image: AssetImage("assets/images/Group 1.png"),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
                     Container(
-                      width: 294 ,
+                      width: 294,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8)
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: MaterialButton(
-                        onPressed: (){
-                          navigateBasedOnRole();
-                        } ,
+                        onPressed: navigateBasedOnRole,
                         color: AppColor.buttonColors,
-                        child: Text("Next" , style: TextStyle(
-                          color: Colors.white
-                        ),),
+                        child: const Text(
+                          "Next",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
-                    )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          )
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

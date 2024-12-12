@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pro_icon/Features/Admin/confirm_admin_password.dart';
 
 import '../../Core/Theming/Colors/app_color.dart';
-import 'otp_screen.dart';
 
-class TrainerAuth extends StatefulWidget {
-  static const String routeName = "/trainer-auth";
-  const TrainerAuth({super.key});
+class AdminAdressScreen extends StatefulWidget {
+  static const routeName = '/admin-address';
+  const AdminAdressScreen({super.key});
 
   @override
-  State<TrainerAuth> createState() => _TrainerAuthState();
+  State<AdminAdressScreen> createState() => _AdminAdressScreenState();
 }
 
-class _TrainerAuthState extends State<TrainerAuth> {
+class _AdminAdressScreenState extends State<AdminAdressScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -34,7 +34,7 @@ class _TrainerAuthState extends State<TrainerAuth> {
             ),
             Container(
               width: 330,
-              height: 300,
+              height: 340,
               decoration: BoxDecoration(
                   color: Colors.white54,
                   borderRadius: BorderRadius.circular(24)),
@@ -45,7 +45,7 @@ class _TrainerAuthState extends State<TrainerAuth> {
                       height: 20,
                     ),
                     Text(
-                      "login",
+                      "Sign Up",
                       style: GoogleFonts.roboto(
                           fontWeight: FontWeight.bold, fontSize: 20),
                     ),
@@ -57,19 +57,40 @@ class _TrainerAuthState extends State<TrainerAuth> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            SizedBox(
-                              height: 40,
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                  label: Text("Email"),
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  isDense: true, // تقليل الارتفاع
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 8,
-                                      horizontal: 12), // تعديل الحشو الداخلي
+                            Row(
+                              children: [
+                                Container(
+                                    width: 142,
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(24)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4),
+                                      child: DropdownButton(
+                                          items: const [],
+                                          hint: const Text("Country"),
+                                          onChanged: (value) {}),
+                                    )),
+                                const SizedBox(
+                                  width: 12,
                                 ),
-                              ),
+                                Container(
+                                    width: 142,
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(24)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4),
+                                      child: DropdownButton(
+                                          items: const [],
+                                          hint: const Text("City"),
+                                          onChanged: (value) {}),
+                                    )),
+                              ],
                             ),
                             const SizedBox(height: 24),
                             SizedBox(
@@ -77,7 +98,7 @@ class _TrainerAuthState extends State<TrainerAuth> {
                               child: TextFormField(
                                 obscureText: true,
                                 decoration: const InputDecoration(
-                                  label: Text("Password"),
+                                  label: Text("street name"),
 
                                   fillColor: Colors.white,
 
@@ -89,19 +110,25 @@ class _TrainerAuthState extends State<TrainerAuth> {
                                 ),
                               ),
                             ),
-                            Align(
-                                alignment: Alignment.bottomLeft,
-                                child: TextButton(
-                                    onPressed: () {
-                                      Navigator.pushReplacementNamed(
-                                          context, OtpScreen.routeName);
-                                    },
-                                    child: Text(
-                                      "Forget Password?",
-                                      style: GoogleFonts.roboto(
-                                          textStyle: const TextStyle(
-                                              color: Colors.black)),
-                                    )))
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            SizedBox(
+                              height: 40,
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  label: Text("postal Code"),
+
+                                  fillColor: Colors.white,
+
+                                  filled: true,
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 8,
+                                      horizontal: 12), // تعديل الحشو الداخلي
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -114,13 +141,29 @@ class _TrainerAuthState extends State<TrainerAuth> {
                       decoration:
                           BoxDecoration(borderRadius: BorderRadius.circular(8)),
                       child: MaterialButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, ConfirmAdminPassword.routeName);
+                        },
                         color: AppColor.buttonColors,
                         child: const Text(
-                          "Login",
+                          "Next",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(" have an  account ?"),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          "Sign In Here",
+                          style: TextStyle(color: Colors.red),
+                        )
+                      ],
                     )
                   ],
                 ),

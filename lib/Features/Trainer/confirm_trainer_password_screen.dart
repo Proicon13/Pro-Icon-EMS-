@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../Core/Theming/Colors/app_color.dart';
-import 'otp_screen.dart';
+import 'forgot_password_screen.dart';
 
-class TrainerAuth extends StatefulWidget {
-  static const String routeName = "/trainer-auth";
-  const TrainerAuth({super.key});
+class ConfirmTrainerPasswordScreen extends StatefulWidget {
+  static const routeName = "/confirm-trainer-password-screen";
+  const ConfirmTrainerPasswordScreen({super.key});
 
   @override
-  State<TrainerAuth> createState() => _TrainerAuthState();
+  State<ConfirmTrainerPasswordScreen> createState() => _ConfirmPasswordState();
 }
 
-class _TrainerAuthState extends State<TrainerAuth> {
+class _ConfirmPasswordState extends State<ConfirmTrainerPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,7 +45,7 @@ class _TrainerAuthState extends State<TrainerAuth> {
                       height: 20,
                     ),
                     Text(
-                      "login",
+                      "Confirm Password",
                       style: GoogleFonts.roboto(
                           fontWeight: FontWeight.bold, fontSize: 20),
                     ),
@@ -93,8 +93,8 @@ class _TrainerAuthState extends State<TrainerAuth> {
                                 alignment: Alignment.bottomLeft,
                                 child: TextButton(
                                     onPressed: () {
-                                      Navigator.pushReplacementNamed(
-                                          context, OtpScreen.routeName);
+                                      Navigator.pushReplacementNamed(context,
+                                          ForgotPasswordScreen.routeName);
                                     },
                                     child: Text(
                                       "Forget Password?",

@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../Core/Theming/Colors/app_color.dart';
-import 'otp_screen.dart';
+import 'changed_password_screen.dart';
 
-class TrainerAuth extends StatefulWidget {
-  static const String routeName = "/trainer-auth";
-  const TrainerAuth({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+  static const routeName = '/reset-password';
+  const ResetPasswordScreen({super.key});
 
   @override
-  State<TrainerAuth> createState() => _TrainerAuthState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _TrainerAuthState extends State<TrainerAuth> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,7 +45,7 @@ class _TrainerAuthState extends State<TrainerAuth> {
                       height: 20,
                     ),
                     Text(
-                      "login",
+                      "Forgot Password",
                       style: GoogleFonts.roboto(
                           fontWeight: FontWeight.bold, fontSize: 20),
                     ),
@@ -60,8 +60,9 @@ class _TrainerAuthState extends State<TrainerAuth> {
                             SizedBox(
                               height: 40,
                               child: TextFormField(
+                                obscureText: true,
                                 decoration: const InputDecoration(
-                                  label: Text("Email"),
+                                  label: Text("New Password"),
                                   fillColor: Colors.white,
                                   filled: true,
                                   isDense: true, // تقليل الارتفاع
@@ -77,7 +78,7 @@ class _TrainerAuthState extends State<TrainerAuth> {
                               child: TextFormField(
                                 obscureText: true,
                                 decoration: const InputDecoration(
-                                  label: Text("Password"),
+                                  label: Text(" Confirm Password"),
 
                                   fillColor: Colors.white,
 
@@ -89,19 +90,6 @@ class _TrainerAuthState extends State<TrainerAuth> {
                                 ),
                               ),
                             ),
-                            Align(
-                                alignment: Alignment.bottomLeft,
-                                child: TextButton(
-                                    onPressed: () {
-                                      Navigator.pushReplacementNamed(
-                                          context, OtpScreen.routeName);
-                                    },
-                                    child: Text(
-                                      "Forget Password?",
-                                      style: GoogleFonts.roboto(
-                                          textStyle: const TextStyle(
-                                              color: Colors.black)),
-                                    )))
                           ],
                         ),
                       ),
@@ -114,10 +102,13 @@ class _TrainerAuthState extends State<TrainerAuth> {
                       decoration:
                           BoxDecoration(borderRadius: BorderRadius.circular(8)),
                       child: MaterialButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, ChangedPasswordScreen.routeName);
+                        },
                         color: AppColor.buttonColors,
                         child: const Text(
-                          "Login",
+                          "Save",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

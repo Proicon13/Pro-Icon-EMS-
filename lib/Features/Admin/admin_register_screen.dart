@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pro_icon/Features/Admin/admin_address_screen.dart';
 
 import '../../Core/Theming/Colors/app_color.dart';
-import 'otp_screen.dart';
 
-class TrainerAuth extends StatefulWidget {
-  static const String routeName = "/trainer-auth";
-  const TrainerAuth({super.key});
+class AdminRegisterScreen extends StatefulWidget {
+  static const String routeName = "/admin-register";
+  const AdminRegisterScreen({super.key});
 
   @override
-  State<TrainerAuth> createState() => _TrainerAuthState();
+  State<AdminRegisterScreen> createState() => _AdminRegisterScreenState();
 }
 
-class _TrainerAuthState extends State<TrainerAuth> {
+class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -34,7 +34,7 @@ class _TrainerAuthState extends State<TrainerAuth> {
             ),
             Container(
               width: 330,
-              height: 300,
+              height: 340,
               decoration: BoxDecoration(
                   color: Colors.white54,
                   borderRadius: BorderRadius.circular(24)),
@@ -45,7 +45,7 @@ class _TrainerAuthState extends State<TrainerAuth> {
                       height: 20,
                     ),
                     Text(
-                      "login",
+                      "Sign Uo",
                       style: GoogleFonts.roboto(
                           fontWeight: FontWeight.bold, fontSize: 20),
                     ),
@@ -89,19 +89,25 @@ class _TrainerAuthState extends State<TrainerAuth> {
                                 ),
                               ),
                             ),
-                            Align(
-                                alignment: Alignment.bottomLeft,
-                                child: TextButton(
-                                    onPressed: () {
-                                      Navigator.pushReplacementNamed(
-                                          context, OtpScreen.routeName);
-                                    },
-                                    child: Text(
-                                      "Forget Password?",
-                                      style: GoogleFonts.roboto(
-                                          textStyle: const TextStyle(
-                                              color: Colors.black)),
-                                    )))
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            SizedBox(
+                              height: 40,
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  label: Text("phone Number"),
+
+                                  fillColor: Colors.white,
+
+                                  filled: true,
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 8,
+                                      horizontal: 12), // تعديل الحشو الداخلي
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -114,13 +120,29 @@ class _TrainerAuthState extends State<TrainerAuth> {
                       decoration:
                           BoxDecoration(borderRadius: BorderRadius.circular(8)),
                       child: MaterialButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, AdminAdressScreen.routeName);
+                        },
                         color: AppColor.buttonColors,
                         child: const Text(
-                          "Login",
+                          "Next",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(" have an  account ?"),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          "Sign In Here",
+                          style: TextStyle(color: Colors.red),
+                        )
+                      ],
                     )
                   ],
                 ),

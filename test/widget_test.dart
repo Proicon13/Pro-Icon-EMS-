@@ -7,15 +7,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pro_icon/Core/Routing/app_Router.dart';
 
-import 'package:pro_icon/main.dart';
 import 'package:pro_icon/pro_icon_app.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget( proicon(appRouter: AppRouter(),));
+    await tester.pumpWidget(const Proicon());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

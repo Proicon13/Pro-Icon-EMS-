@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Features/Admin/admin_register_screen.dart';
 
-import '../../Core/Theming/Colors/app_color.dart';
+import '../../Core/Theming/Colors/app_colors.dart';
 import '../Trainer/otp_screen.dart';
 
 class AdminAuth extends StatefulWidget {
@@ -114,7 +114,7 @@ class _AdminAuthState extends State<AdminAuth> {
                       Navigator.pushReplacementNamed(
                           context, AdminRegisterScreen.routeName);
                     },
-                    color: AppColor.buttonColors,
+                    color: AppColors.buttonColors,
                     child: const Text(
                       "Login",
                       style: TextStyle(color: Colors.white),

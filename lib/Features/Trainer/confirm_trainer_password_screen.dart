@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 
-import '../../Core/Theming/Colors/app_color.dart';
+import '../../Core/Theming/Colors/app_colors.dart';
 import 'forgot_password_screen.dart';
 
 class ConfirmTrainerPasswordScreen extends StatefulWidget {
@@ -108,7 +108,7 @@ class _ConfirmPasswordState extends State<ConfirmTrainerPasswordScreen> {
                         BoxDecoration(borderRadius: BorderRadius.circular(8)),
                     child: MaterialButton(
                       onPressed: () {},
-                      color: AppColor.buttonColors,
+                      color: AppColors.buttonColors,
                       child: const Text(
                         "Login",
                         style: TextStyle(color: Colors.white),

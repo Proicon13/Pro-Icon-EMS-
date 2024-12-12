@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 
-import '../../Core/Theming/Colors/app_color.dart';
+import '../../Core/Theming/Colors/app_colors.dart';
 import 'changed_password_screen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
@@ -99,7 +99,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       Navigator.pushReplacementNamed(
                           context, ChangedPasswordScreen.routeName);
                     },
-                    color: AppColor.buttonColors,
+                    color: AppColors.buttonColors,
                     child: const Text(
                       "Save",
                       style: TextStyle(color: Colors.white),

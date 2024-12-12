@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pro_icon/Features/Admin/confirm_admin_password.dart';
-import '../../Core/Theming/Colors/app_color.dart';
+import '../../Core/Theming/Colors/app_colors.dart';
 import '../../Core/widgets/base_app_Scaffold.dart';
 
 class AdminAdressScreen extends StatefulWidget {
@@ -135,7 +135,7 @@ class _AdminAdressScreenState extends State<AdminAdressScreen> {
                         Navigator.pushReplacementNamed(
                             context, ConfirmAdminPassword.routeName);
                       },
-                      color: AppColor.buttonColors,
+                      color: AppColors.buttonColors,
                       child: const Text(
                         "Next",
                         style: TextStyle(color: Colors.white),

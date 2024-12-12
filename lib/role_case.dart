@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pro_icon/Core/Theming/Colors/app_color.dart';
+import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
 import 'package:pro_icon/Features/Admin/Admin_auth.dart';
 import 'Features/Trainer/trainer.dart';
 
@@ -107,7 +107,7 @@ class _RoleCaseState extends State<RoleCase> {
                       ),
                       child: MaterialButton(
                         onPressed: navigateBasedOnRole,
-                        color: AppColor.buttonColors,
+                        color: AppColors.buttonColors,
                         child: const Text(
                           "Next",
                           style: TextStyle(color: Colors.white),

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Features/Admin/account_Created.dart';
 
-import '../../Core/Theming/Colors/app_color.dart';
+import '../../Core/Theming/Colors/app_colors.dart';
 
 class ConfirmAdminPassword extends StatefulWidget {
   static const routeName = "/confirm-admin-password";
@@ -98,7 +98,7 @@ class _ConfirmAdminPasswordState extends State<ConfirmAdminPassword> {
                         Navigator.pushReplacementNamed(
                             context, AccountCreatedScreen.routeName);
                       },
-                      color: AppColor.buttonColors,
+                      color: AppColors.buttonColors,
                       child: const Text(
                         "Confirm Password",
                         style: TextStyle(color: Colors.white),

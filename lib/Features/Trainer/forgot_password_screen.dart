@@ -5,7 +5,7 @@ import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 
 import 'package:pro_icon/Features/Trainer/reset_password_screen.dart';
 
-import '../../Core/Theming/Colors/app_color.dart';
+import '../../Core/Theming/Colors/app_colors.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   static const routeName = '/forgot-password-screen';
@@ -82,7 +82,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           Navigator.pushReplacementNamed(
                               context, ResetPasswordScreen.routeName);
                         },
-                        color: AppColor.buttonColors,
+                        color: AppColors.buttonColors,
                         child: const Text(
                           "Send",
                           style: TextStyle(color: Colors.white, fontSize: 16),
@@ -141,7 +141,7 @@ class OtpForm extends StatelessWidget {
                       enabledBorder: authOutlineInputBorder,
                       focusedBorder: authOutlineInputBorder.copyWith(
                           borderSide:
-                              const BorderSide(color: AppColor.buttonColor))),
+                              const BorderSide(color: AppColors.primaryColor))),
                 ),
               ),
               SizedBox(
@@ -170,7 +170,7 @@ class OtpForm extends StatelessWidget {
                       enabledBorder: authOutlineInputBorder,
                       focusedBorder: authOutlineInputBorder.copyWith(
                           borderSide:
-                              const BorderSide(color: AppColor.buttonColor))),
+                              const BorderSide(color: AppColors.primaryColor))),
                 ),
               ),
               SizedBox(
@@ -199,7 +199,7 @@ class OtpForm extends StatelessWidget {
                       enabledBorder: authOutlineInputBorder,
                       focusedBorder: authOutlineInputBorder.copyWith(
                           borderSide:
-                              const BorderSide(color: AppColor.buttonColor))),
+                              const BorderSide(color: AppColors.primaryColor))),
                 ),
               ),
               SizedBox(
@@ -228,7 +228,7 @@ class OtpForm extends StatelessWidget {
                       enabledBorder: authOutlineInputBorder,
                       focusedBorder: authOutlineInputBorder.copyWith(
                           borderSide:
-                              const BorderSide(color: AppColor.buttonColor))),
+                              const BorderSide(color: AppColors.primaryColor))),
                 ),
               ),
               SizedBox(
@@ -257,7 +257,7 @@ class OtpForm extends StatelessWidget {
                       enabledBorder: authOutlineInputBorder,
                       focusedBorder: authOutlineInputBorder.copyWith(
                           borderSide:
-                              const BorderSide(color: AppColor.buttonColor))),
+                              const BorderSide(color: AppColors.primaryColor))),
                 ),
               ),
               SizedBox(
@@ -286,7 +286,7 @@ class OtpForm extends StatelessWidget {
                       enabledBorder: authOutlineInputBorder,
                       focusedBorder: authOutlineInputBorder.copyWith(
                           borderSide:
-                              const BorderSide(color: AppColor.buttonColor))),
+                              const BorderSide(color: AppColors.primaryColor))),
                 ),
               ),
             ],

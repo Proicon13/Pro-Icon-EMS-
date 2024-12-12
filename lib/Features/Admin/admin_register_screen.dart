@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Features/Admin/admin_address_screen.dart';
 
-import '../../Core/Theming/Colors/app_color.dart';
+import '../../Core/Theming/Colors/app_colors.dart';
 
 class AdminRegisterScreen extends StatefulWidget {
   static const String routeName = "/admin-register";
@@ -117,7 +117,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                         Navigator.pushReplacementNamed(
                             context, AdminAdressScreen.routeName);
                       },
-                      color: AppColor.buttonColors,
+                      color: AppColors.buttonColors,
                       child: const Text(
                         "Next",
                         style: TextStyle(color: Colors.white),

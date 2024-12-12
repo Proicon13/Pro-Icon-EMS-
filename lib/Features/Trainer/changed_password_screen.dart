@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 
-import '../../Core/Theming/Colors/app_color.dart';
+import '../../Core/Theming/Colors/app_colors.dart';
 
 class ChangedPasswordScreen extends StatefulWidget {
   static const routeName = '/changed-password-screen';
@@ -49,7 +49,7 @@ class _ChangedPasswordScreenState extends State<ChangedPasswordScreen> {
                         BoxDecoration(borderRadius: BorderRadius.circular(8)),
                     child: MaterialButton(
                       onPressed: () {},
-                      color: AppColor.buttonColors,
+                      color: AppColors.buttonColors,
                       child: const Text(
                         "Login",
                         style: TextStyle(color: Colors.white),

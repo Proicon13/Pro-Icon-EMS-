@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 
-import '../../Core/Theming/Colors/app_colors.dart';
+import '../../../Core/Theming/Colors/app_colors.dart';
 
 class ChangedPasswordScreen extends StatefulWidget {
   static const routeName = '/changed-password-screen';

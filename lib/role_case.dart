@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
-import 'package:pro_icon/Features/Admin/Admin_auth.dart';
-import 'Features/Trainer/trainer.dart';
+import 'package:pro_icon/Core/Theming/app_text_styles.dart';
+import 'package:pro_icon/Core/constants/app_assets.dart';
+import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
+import 'package:pro_icon/Core/widgets/custom_button.dart';
+import 'package:pro_icon/Features/auth/Admin/Admin_auth.dart';
+import 'Features/auth/Trainer/trainer.dart';
 
 enum Role { admin, coach }
 
-class RoleCase extends StatefulWidget {
+class RoleSelectionScreen extends StatefulWidget {
   static const routeName = '/role-case';
-  const RoleCase({super.key});
+  const RoleSelectionScreen({super.key});
 
   @override
-  State<RoleCase> createState() => _RoleCaseState();
+  State<RoleSelectionScreen> createState() => _RoleSelectionScreenState();
 }
 
-class _RoleCaseState extends State<RoleCase> {
+class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
   Role? selectedRole;
 
   void navigateBasedOnRole() {
@@ -34,91 +39,80 @@ class _RoleCaseState extends State<RoleCase> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/splash.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            children: [
-              const SizedBox(height: 170),
-              const Image(
-                  image: AssetImage("assets/images/200-60-pro-2 1.png")),
-              const SizedBox(height: 30),
-              Container(
-                width: 330,
-                height: 295,
-                decoration: BoxDecoration(
-                  color: Colors.white54,
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Text(
-                      "Welcome!",
-                      style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              selectedRole = Role.admin;
-                            });
-                          },
-                          child: Opacity(
-                            opacity: selectedRole == Role.admin ? 0.5 : 1.0,
-                            child: const Image(
-                              image: AssetImage("assets/images/Group 2.png"),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              selectedRole = Role.coach;
-                            });
-                          },
-                          child: Opacity(
-                            opacity: selectedRole == Role.coach ? 0.5 : 1.0,
-                            child: const Image(
-                              image: AssetImage("assets/images/Group 1.png"),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      width: 294,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: MaterialButton(
-                        onPressed: navigateBasedOnRole,
-                        color: AppColors.buttonColors,
-                        child: const Text(
-                          "Next",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+    return BaseAppScaffold(
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 50.w),
+        child: Column(
+          children: [
+            SizedBox(height: 170.h),
+            SizedBox(
+                width: 200.w,
+                child: AspectRatio(
+                    aspectRatio: 200.w / 60.h,
+                    child: const Image(
+                        fit: BoxFit.cover,
+                        image: AssetImage(Assets.assetsImagesLogo)))),
+            SizedBox(height: 63.h),
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.containerColor,
+                borderRadius: BorderRadius.circular(24),
               ),
-            ],
-          ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Text("Welcome!",
+                      style: AppTextStyles.fontSize20
+                          .copyWith(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedRole = Role.admin;
+                          });
+                        },
+                        child: Opacity(
+                          opacity: selectedRole == Role.admin ? 0.5 : 1.0,
+                          child: const Image(
+                            image: AssetImage(Assets.assetsImagesAdmin),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedRole = Role.coach;
+                          });
+                        },
+                        child: Opacity(
+                          opacity: selectedRole == Role.coach ? 0.5 : 1.0,
+                          child: const Image(
+                            image: AssetImage(Assets.assetsImagesTrainer),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 18.w),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: CustomButton(
+                          text: 'Next',
+                          onPressed: navigateBasedOnRole,
+                        ),
+                      )),
+                  SizedBox(
+                    height: 27.h,
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

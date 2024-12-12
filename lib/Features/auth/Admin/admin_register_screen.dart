@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pro_icon/Features/Admin/confirm_admin_password.dart';
-import '../../Core/Theming/Colors/app_colors.dart';
-import '../../Core/widgets/base_app_Scaffold.dart';
+import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
+import 'package:pro_icon/Features/auth/Admin/admin_address_screen.dart';
 
-class AdminAdressScreen extends StatefulWidget {
-  static const routeName = '/admin-address';
-  const AdminAdressScreen({super.key});
+import '../../../Core/Theming/Colors/app_colors.dart';
+
+class AdminRegisterScreen extends StatefulWidget {
+  static const String routeName = "/admin-register";
+  const AdminRegisterScreen({super.key});
 
   @override
-  State<AdminAdressScreen> createState() => _AdminAdressScreenState();
+  State<AdminRegisterScreen> createState() => _AdminRegisterScreenState();
 }
 
-class _AdminAdressScreenState extends State<AdminAdressScreen> {
+class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseAppScaffold(
@@ -37,7 +38,7 @@ class _AdminAdressScreenState extends State<AdminAdressScreen> {
                     height: 20,
                   ),
                   Text(
-                    "Sign Up",
+                    "Sign Uo",
                     style: GoogleFonts.roboto(
                         fontWeight: FontWeight.bold, fontSize: 20),
                   ),
@@ -49,38 +50,19 @@ class _AdminAdressScreenState extends State<AdminAdressScreen> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                  width: 142,
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(24)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4),
-                                    child: DropdownButton(
-                                        items: const [],
-                                        hint: const Text("Country"),
-                                        onChanged: (value) {}),
-                                  )),
-                              const SizedBox(
-                                width: 12,
+                          SizedBox(
+                            height: 40,
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                label: Text("Email"),
+                                fillColor: Colors.white,
+                                filled: true,
+                                isDense: true, // تقليل الارتفاع
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 8,
+                                    horizontal: 12), // تعديل الحشو الداخلي
                               ),
-                              Container(
-                                  width: 142,
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(24)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4),
-                                    child: DropdownButton(
-                                        items: const [],
-                                        hint: const Text("City"),
-                                        onChanged: (value) {}),
-                                  )),
-                            ],
+                            ),
                           ),
                           const SizedBox(height: 24),
                           SizedBox(
@@ -88,7 +70,7 @@ class _AdminAdressScreenState extends State<AdminAdressScreen> {
                             child: TextFormField(
                               obscureText: true,
                               decoration: const InputDecoration(
-                                label: Text("street name"),
+                                label: Text("Password"),
 
                                 fillColor: Colors.white,
 
@@ -107,7 +89,7 @@ class _AdminAdressScreenState extends State<AdminAdressScreen> {
                             height: 40,
                             child: TextFormField(
                               decoration: const InputDecoration(
-                                label: Text("postal Code"),
+                                label: Text("phone Number"),
 
                                 fillColor: Colors.white,
 
@@ -133,7 +115,7 @@ class _AdminAdressScreenState extends State<AdminAdressScreen> {
                     child: MaterialButton(
                       onPressed: () {
                         Navigator.pushReplacementNamed(
-                            context, ConfirmAdminPassword.routeName);
+                            context, AdminAdressScreen.routeName);
                       },
                       color: AppColors.buttonColors,
                       child: const Text(

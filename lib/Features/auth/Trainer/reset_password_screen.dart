@@ -1,22 +1,19 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
-import 'package:pro_icon/Features/Admin/admin_register_screen.dart';
 
-import '../../Core/Theming/Colors/app_colors.dart';
-import '../Trainer/otp_screen.dart';
+import '../../../Core/Theming/Colors/app_colors.dart';
+import 'changed_password_screen.dart';
 
-class AdminAuth extends StatefulWidget {
-  static const String routeName = '/admin-auth';
-  const AdminAuth({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+  static const routeName = '/reset-password';
+  const ResetPasswordScreen({super.key});
 
   @override
-  State<AdminAuth> createState() => _AdminAuthState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _AdminAuthState extends State<AdminAuth> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseAppScaffold(
@@ -31,7 +28,7 @@ class _AdminAuthState extends State<AdminAuth> {
         ),
         Container(
           width: 330,
-          height: 330,
+          height: 300,
           decoration: BoxDecoration(
               color: Colors.white54, borderRadius: BorderRadius.circular(24)),
           child: SingleChildScrollView(
@@ -41,7 +38,7 @@ class _AdminAuthState extends State<AdminAuth> {
                   height: 20,
                 ),
                 Text(
-                  "login",
+                  "Forgot Password",
                   style: GoogleFonts.roboto(
                       fontWeight: FontWeight.bold, fontSize: 20),
                 ),
@@ -56,8 +53,9 @@ class _AdminAuthState extends State<AdminAuth> {
                         SizedBox(
                           height: 40,
                           child: TextFormField(
+                            obscureText: true,
                             decoration: const InputDecoration(
-                              label: Text("Email"),
+                              label: Text("New Password"),
                               fillColor: Colors.white,
                               filled: true,
                               isDense: true, // تقليل الارتفاع
@@ -73,7 +71,7 @@ class _AdminAuthState extends State<AdminAuth> {
                           child: TextFormField(
                             obscureText: true,
                             decoration: const InputDecoration(
-                              label: Text("Password"),
+                              label: Text(" Confirm Password"),
 
                               fillColor: Colors.white,
 
@@ -85,19 +83,6 @@ class _AdminAuthState extends State<AdminAuth> {
                             ),
                           ),
                         ),
-                        Align(
-                            alignment: Alignment.bottomLeft,
-                            child: TextButton(
-                                onPressed: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, OtpScreen.routeName);
-                                },
-                                child: Text(
-                                  "Forget Password?",
-                                  style: GoogleFonts.roboto(
-                                      textStyle:
-                                          const TextStyle(color: Colors.black)),
-                                )))
                       ],
                     ),
                   ),
@@ -112,27 +97,14 @@ class _AdminAuthState extends State<AdminAuth> {
                   child: MaterialButton(
                     onPressed: () {
                       Navigator.pushReplacementNamed(
-                          context, AdminRegisterScreen.routeName);
+                          context, ChangedPasswordScreen.routeName);
                     },
                     color: AppColors.buttonColors,
                     child: const Text(
-                      "Login",
+                      "Save",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
-                ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Don't have account ?"),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      "Sign up Here",
-                      style: TextStyle(color: Colors.red),
-                    )
-                  ],
                 )
               ],
             ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 
-import '../../Core/Theming/Colors/app_colors.dart';
+import '../../../Core/Theming/Colors/app_colors.dart';
 import 'forgot_password_screen.dart';
 
 class ConfirmTrainerPasswordScreen extends StatefulWidget {

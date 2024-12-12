@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../constants/app_assets.dart';
+
 class BaseAppScaffold extends StatelessWidget {
   final Widget? body;
   final Widget? bottomNavigationBar;
@@ -16,7 +18,7 @@ class BaseAppScaffold extends StatelessWidget {
           width: double.infinity,
           decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("assets/images/splash.png"),
+                  image: AssetImage(Assets.assetsImagesSplash),
                   fit: BoxFit.cover)),
           child: body,
         ),

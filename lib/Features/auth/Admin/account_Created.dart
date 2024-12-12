@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../Core/widgets/base_app_Scaffold.dart';
+import '../../../Core/widgets/base_app_Scaffold.dart';
 // Ensure correct import path
 
 class AccountCreatedScreen extends StatefulWidget {

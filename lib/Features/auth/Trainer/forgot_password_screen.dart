@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 
-import 'package:pro_icon/Features/Trainer/reset_password_screen.dart';
+import 'package:pro_icon/Features/auth/Trainer/reset_password_screen.dart';
 
-import '../../Core/Theming/Colors/app_colors.dart';
+import '../../../Core/Theming/Colors/app_colors.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   static const routeName = '/forgot-password-screen';

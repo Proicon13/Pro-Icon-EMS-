@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
-import 'package:pro_icon/Features/Admin/account_Created.dart';
 
-import '../../Core/Theming/Colors/app_colors.dart';
+import '../../../Core/Theming/Colors/app_colors.dart';
+import 'otp_screen.dart';
 
-class ConfirmAdminPassword extends StatefulWidget {
-  static const routeName = "/confirm-admin-password";
-  const ConfirmAdminPassword({super.key});
+class TrainerAuth extends StatefulWidget {
+  static const String routeName = "/trainer-auth";
+  const TrainerAuth({super.key});
 
   @override
-  State<ConfirmAdminPassword> createState() => _ConfirmAdminPasswordState();
+  State<TrainerAuth> createState() => _TrainerAuthState();
 }
 
-class _ConfirmAdminPasswordState extends State<ConfirmAdminPassword> {
+class _TrainerAuthState extends State<TrainerAuth> {
   @override
   Widget build(BuildContext context) {
     return BaseAppScaffold(
@@ -38,7 +38,7 @@ class _ConfirmAdminPasswordState extends State<ConfirmAdminPassword> {
                     height: 20,
                   ),
                   Text(
-                    "Sign Up",
+                    "login",
                     style: GoogleFonts.roboto(
                         fontWeight: FontWeight.bold, fontSize: 20),
                   ),
@@ -54,7 +54,7 @@ class _ConfirmAdminPasswordState extends State<ConfirmAdminPassword> {
                             height: 40,
                             child: TextFormField(
                               decoration: const InputDecoration(
-                                label: Text("Password"),
+                                label: Text("Email"),
                                 fillColor: Colors.white,
                                 filled: true,
                                 isDense: true, // تقليل الارتفاع
@@ -70,7 +70,7 @@ class _ConfirmAdminPasswordState extends State<ConfirmAdminPassword> {
                             child: TextFormField(
                               obscureText: true,
                               decoration: const InputDecoration(
-                                label: Text("Confirm Password"),
+                                label: Text("Password"),
 
                                 fillColor: Colors.white,
 
@@ -82,6 +82,19 @@ class _ConfirmAdminPasswordState extends State<ConfirmAdminPassword> {
                               ),
                             ),
                           ),
+                          Align(
+                              alignment: Alignment.bottomLeft,
+                              child: TextButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(
+                                        context, OtpScreen.routeName);
+                                  },
+                                  child: Text(
+                                    "Forget Password?",
+                                    style: GoogleFonts.roboto(
+                                        textStyle: const TextStyle(
+                                            color: Colors.black)),
+                                  )))
                         ],
                       ),
                     ),
@@ -94,29 +107,13 @@ class _ConfirmAdminPasswordState extends State<ConfirmAdminPassword> {
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(8)),
                     child: MaterialButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, AccountCreatedScreen.routeName);
-                      },
+                      onPressed: () {},
                       color: AppColors.buttonColors,
                       child: const Text(
-                        "Confirm Password",
+                        "Login",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                  ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("have an account ?"),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Sign up Here",
-                        style: TextStyle(color: Colors.red),
-                      )
-                    ],
                   )
                 ],
               ),

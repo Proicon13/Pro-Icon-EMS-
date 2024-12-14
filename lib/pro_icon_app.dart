@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:pro_icon/Core/constants/app_constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'Core/Routing/app_Router.dart';
@@ -21,6 +22,10 @@ class Proicon extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: AppConstants.appName,
           theme: AppTheme.appTheme,
+          supportedLocales: FormBuilderLocalizations.supportedLocales,
+          localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+            FormBuilderLocalizations.delegate,
+          ],
           onGenerateRoute: onGenerteRoute,
         );
       },

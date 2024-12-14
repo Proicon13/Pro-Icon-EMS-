@@ -9,6 +9,5 @@ class SelectRoleState extends Equatable {
       SelectRoleState(role: role ?? this.role);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [role];
 }

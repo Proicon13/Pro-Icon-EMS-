@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
+import 'package:pro_icon/Features/auth/Trainer/trainer.dart';
 
 import '../../../../../Core/Theming/app_text_styles.dart';
 import '../../../../../Core/constants/app_assets.dart';
 import '../../../../../Core/widgets/custom_button.dart';
 import '../../../../../Core/widgets/custom_asset_image.dart';
 import '../../../../../Core/utils/enums/role.dart';
+import '../Admin/Admin_auth.dart';
 import 'cubit/cubit/select_role_cubit.dart';
 import 'widgets/role_card.dart';
 
@@ -20,10 +22,10 @@ class RoleSelectionScreen extends StatelessWidget {
   void navigateBasedOnRole(BuildContext context, Role? selectedRole) {
     if (selectedRole == Role.admin) {
       // Navigate to Admin page
-      Navigator.pushReplacementNamed(context, '/admin');
+      Navigator.pushReplacementNamed(context, AdminAuth.routeName);
     } else if (selectedRole == Role.coach) {
       // Navigate to Trainer page
-      Navigator.pushReplacementNamed(context, '/trainer');
+      Navigator.pushReplacementNamed(context, TrainerAuth.routeName);
     } else {
       // If no role is selected
       ScaffoldMessenger.of(context).showSnackBar(

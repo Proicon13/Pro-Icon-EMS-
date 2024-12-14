@@ -6,8 +6,13 @@ import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
 class BaseAppScaffold extends StatelessWidget {
   final Widget? body;
   final Widget? bottomNavigationBar;
+  final bool? resizeToAvoidButtomPadding;
 
-  const BaseAppScaffold({super.key, this.body, this.bottomNavigationBar});
+  const BaseAppScaffold(
+      {super.key,
+      this.body,
+      this.bottomNavigationBar,
+      this.resizeToAvoidButtomPadding});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +20,7 @@ class BaseAppScaffold extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.backgroundColor,
         body: body,
+        resizeToAvoidBottomInset: resizeToAvoidButtomPadding,
         bottomNavigationBar: bottomNavigationBar,
       ),
     );

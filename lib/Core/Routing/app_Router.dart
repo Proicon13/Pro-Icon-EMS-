@@ -6,7 +6,7 @@ import 'package:pro_icon/Features/auth/Trainer/forgot_password_screen.dart';
 import 'package:pro_icon/Features/auth/Trainer/reset_password_screen.dart';
 import 'package:pro_icon/Features/auth/role_selection/role_selection_screen.dart';
 
-import '../../Features/auth/Admin/Admin_auth.dart';
+import '../../Features/auth/login/login_screen.dart';
 import '../../Features/auth/Admin/admin_address_screen.dart';
 import '../../Features/auth/Admin/admin_register_screen.dart';
 import '../../Features/auth/Admin/confirm_admin_password.dart';
@@ -23,8 +23,8 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
     case RoleSelectionScreen.routeName:
       return MaterialPageRoute(builder: (_) => const RoleSelectionScreen());
 
-    case AdminAuth.routeName:
-      return MaterialPageRoute(builder: (_) => const AdminAuth());
+    case LoginScreen.routeName:
+      return MaterialPageRoute(builder: (_) => const LoginScreen());
 
     case OtpScreen.routeName:
       return MaterialPageRoute(builder: (_) => const OtpScreen());

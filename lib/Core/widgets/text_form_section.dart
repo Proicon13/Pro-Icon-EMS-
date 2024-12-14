@@ -16,6 +16,7 @@ class TextFormSection extends StatelessWidget {
   final TextInputType? keyboardInputType;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
+  final bool obscureText;
 
   const TextFormSection(
       {super.key,
@@ -27,7 +28,8 @@ class TextFormSection extends StatelessWidget {
       this.onSaved,
       this.keyboardInputType,
       this.inputFormatters,
-      this.controller});
+      this.controller,
+      this.obscureText = false});
 
   @override
   Widget build(BuildContext context) {

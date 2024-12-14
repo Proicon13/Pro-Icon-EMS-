@@ -14,6 +14,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardInputType;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
+  final bool obsecure;
 
   const CustomTextField({
     super.key,
@@ -25,30 +26,35 @@ class CustomTextField extends StatelessWidget {
     this.keyboardInputType,
     this.inputFormatters,
     this.controller,
+    this.obsecure = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
       name: name,
+      obscureText: obsecure,
       controller: controller,
       inputFormatters: inputFormatters,
       keyboardType: keyboardInputType,
       style: AppTextStyles.fontSize14.copyWith(color: Colors.white),
       textInputAction: TextInputAction.next,
+      cursorColor: Colors.white,
+      cursorErrorColor: Colors.red,
       decoration: InputDecoration(
-          hintText: hintText ?? '',
-          hintStyle:
-              AppTextStyles.fontSize14.copyWith(color: AppColors.white71Color),
-          border: buildEnabledBorder(context),
-          disabledBorder: buildEnabledBorder(context),
-          focusedBorder: buildFocusedBorder(context),
-          errorBorder: buildErrorBorder(context),
-          enabledBorder: buildEnabledBorder(context),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-          errorStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: Theme.of(context).colorScheme.error,
-              )),
+        hintText: hintText ?? '',
+        hintStyle:
+            AppTextStyles.fontSize14.copyWith(color: AppColors.white71Color),
+        border: buildEnabledBorder(context),
+        disabledBorder: buildEnabledBorder(context),
+        focusedBorder: buildFocusedBorder(context),
+        errorBorder: buildErrorBorder(context),
+        enabledBorder: buildEnabledBorder(context),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+        errorStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+              color: Theme.of(context).colorScheme.error,
+            ),
+      ),
       validator: validator,
       onChanged: onChanged ?? (value) {},
       onSaved: onSaved,

@@ -65,6 +65,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.0"
+  convert:
+    dependency: transitive
+    description:
+      name: convert
+      sha256: b30acd5944035672bc15c6b7a8b47d773e41e2f17de064350988c5d02adb1c68
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.2"
+  country_flags:
+    dependency: "direct main"
+    description:
+      name: country_flags
+      sha256: dad797491167a5b8dee465b969cb756795d842fdfc3fc1ff93f22e9c1884b73d
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
+  country_picker:
+    dependency: "direct main"
+    description:
+      name: country_picker
+      sha256: "9b14c04f9a35e99f6de6bcbc453a556bb98345aecb481c7a0e843c94c2bee1f8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.27"
   crypto:
     dependency: transitive
     description:
@@ -261,6 +285,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.19.0"
+  jovial_misc:
+    dependency: transitive
+    description:
+      name: jovial_misc
+      sha256: "4b10a4cac4f492d9692e97699bff775efa84abdba29909124cbccf3126e31cea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.0"
+  jovial_svg:
+    dependency: transitive
+    description:
+      name: jovial_svg
+      sha256: ca14d42956b9949c36333065c9141f100e930c918f57f4bd8dd59d35581bd3fc
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.24"
   leak_tracker:
     dependency: transitive
     description:
@@ -482,6 +522,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  universal_io:
+    dependency: transitive
+    description:
+      name: universal_io
+      sha256: "1722b2dcc462b4b2f3ee7d188dad008b6eb4c40bbd03a3de451d82c78bba9aad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.2"
   vector_graphics:
     dependency: transitive
     description:

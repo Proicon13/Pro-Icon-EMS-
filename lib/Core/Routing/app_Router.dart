@@ -8,7 +8,7 @@ import 'package:pro_icon/Features/auth/role_selection/role_selection_screen.dart
 
 import '../../Features/auth/login/login_screen.dart';
 import '../../Features/auth/Admin/admin_address_screen.dart';
-import '../../Features/auth/Admin/admin_register_screen.dart';
+import '../../Features/auth/register/register_screen.dart';
 import '../../Features/auth/Admin/confirm_admin_password.dart';
 import '../../Features/auth/Trainer/confirm_trainer_password_screen.dart';
 import '../../Features/auth/Trainer/otp_screen.dart';
@@ -31,8 +31,8 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
 
     case TrainerAuth.routeName:
       return MaterialPageRoute(builder: (_) => const TrainerAuth());
-    case AdminRegisterScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const AdminRegisterScreen());
+    case RegisterScreen.routeName:
+      return MaterialPageRoute(builder: (_) => const RegisterScreen());
     case AdminAdressScreen.routeName:
       return MaterialPageRoute(builder: (_) => const AdminAdressScreen());
     case AccountCreatedScreen.routeName:

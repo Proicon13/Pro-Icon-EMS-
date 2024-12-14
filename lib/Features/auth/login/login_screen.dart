@@ -11,9 +11,10 @@ import '../../../Core/utils/enums/role.dart';
 import '../../../Core/utils/role_selection_helper.dart';
 import '../../../Core/widgets/base_app_Scaffold.dart';
 import '../../../Core/widgets/custom_button.dart';
+import '../../../Core/widgets/have_account_row.dart';
 import '../../../Core/widgets/text_form_section.dart';
 
-import 'widgets/dont_have_account_row.dart';
+import '../register/admin_register_screen.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -84,7 +85,12 @@ class LoginScreen extends StatelessWidget {
                 30.h.verticalSpace,
                 getIt<RoleSelectionHelper>().selectedRole ==
                         Role.admin // if admin show sign up option
-                    ? const DontHaveAccountRow()
+                    ? HaveAccountRow(
+                        action: "Sign up",
+                        title: "Don't have an account?",
+                        onAction: () => Navigator.pushNamed(
+                            context, RegisterScreen.routeName),
+                      )
                     : const SizedBox()
               ],
             ),

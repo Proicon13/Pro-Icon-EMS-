@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
@@ -12,17 +13,17 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: onPressed,
-      padding: const EdgeInsets.symmetric(
-        vertical: 10,
+      padding: EdgeInsets.symmetric(
+        vertical: 15.h,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
       color: color ?? AppColors.primaryColor,
       child: Text(text,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 16.sp,
           )),
     );
   }

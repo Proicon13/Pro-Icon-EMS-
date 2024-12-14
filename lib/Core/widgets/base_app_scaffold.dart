@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
 
 import '../constants/app_assets.dart';
 
@@ -14,14 +15,8 @@ class BaseAppScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(Assets.assetsImagesSplash),
-                  fit: BoxFit.cover)),
-          child: body,
-        ),
+        backgroundColor: AppColors.backgroundColor,
+        body: body,
         bottomNavigationBar: bottomNavigationBar,
       ),
     );

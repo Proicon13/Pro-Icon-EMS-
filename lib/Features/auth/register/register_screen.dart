@@ -1,94 +1,102 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
+import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Features/auth/login/login_screen.dart';
+import 'package:pro_icon/Features/auth/register/cubit/cubit/register_cubit.dart';
+import 'package:pro_icon/data/models/sign_up_request_builder.dart';
 
 import '../../../Core/Theming/app_text_styles.dart';
 import '../../../Core/widgets/custom_button.dart';
 import '../../../Core/widgets/have_account_row.dart';
 import '../../../Core/widgets/text_form_section.dart';
-import 'widgets/phone_form_field.dart';
+
 import 'widgets/phone_form_section.dart';
 
-final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
 class RegisterScreen extends StatelessWidget {
   static const routeName = '/sign-up';
 
   const RegisterScreen({super.key});
 
-  void _submitForm(BuildContext context) {
+  void _submitForm(BuildContext context, String phoneCode) {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
-      // Handle form submission logic here
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Form submitted successfully!")),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please fix the errors in the form.")),
-      );
+      // handle register logic
+      final builder = SignupRequestBuilder();
+
+      final fullName = _formKey.currentState?.fields['fullName']?.value;
+      final email = _formKey.currentState?.fields['email']?.value;
+      final phone = _formKey.currentState?.fields['phone']?.value;
+
+      builder
+          .setFullname(fullName)
+          .setEmail(email)
+          .setPhone("$phoneCode$phone");
+
+      log("Builder after Step 1: ${builder.toString()}");
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BaseAppScaffold(
-      resizeToAvoidButtomPadding: true,
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context)
-              .unfocus(); // Dismiss keyboard when tapping outside
-        },
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                90.h.verticalSpace,
-                Center(
-                  child: SizedBox(
-                    width: 200.w,
-                    child: AspectRatio(
-                      aspectRatio: 200.w / 60.h,
-                      child: Image.asset(
-                        'assets/images/logo.png', // Replace with your logo asset
-                        fit: BoxFit.contain,
-                      ),
+    return BlocProvider<RegisterCubit>(
+      create: (_) => getIt<RegisterCubit>(),
+      child: BaseAppScaffold(
+        resizeToAvoidButtomPadding: true,
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  90.h.verticalSpace,
+                  const Center(child: ProIconLogo()),
+                  50.h.verticalSpace,
+                  Text(
+                    "Sign up",
+                    style: AppTextStyles.fontSize24.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                50.h.verticalSpace,
-                Text(
-                  "Sign up",
-                  style: AppTextStyles.fontSize24.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                  40.h.verticalSpace,
+                  const RegisterForm(),
+                  40.h.verticalSpace,
+                  SizedBox(
+                    width: double.infinity,
+                    child: BlocSelector<RegisterCubit, RegisterState, String>(
+                      selector: (state) => state.phoneCode!,
+                      builder: (context, state) {
+                        return CustomButton(
+                          text: "Next",
+                          onPressed: () => _submitForm(context, state),
+                        );
+                      },
+                    ),
                   ),
-                ),
-                40.h.verticalSpace,
-                const RegisterForm(),
-                40.h.verticalSpace,
-                SizedBox(
-                  width: double.infinity,
-                  child: CustomButton(
-                    text: "Next",
-                    onPressed: () => _submitForm(context),
+                  15.h.verticalSpace,
+                  HaveAccountRow(
+                    action: "Sign in",
+                    title: "Have an account?",
+                    onAction: () =>
+                        Navigator.pushNamed(context, LoginScreen.routeName),
                   ),
-                ),
-                15.h.verticalSpace,
-                HaveAccountRow(
-                  action: "Sign in",
-                  title: "Have an account?",
-                  onAction: () =>
-                      Navigator.pushNamed(context, LoginScreen.routeName),
-                ),
-                30.h.verticalSpace,
-              ],
+                  30.h.verticalSpace,
+                ],
+              ),
             ),
           ),
         ),
@@ -104,15 +112,14 @@ class RegisterForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return FormBuilder(
       key: _formKey,
       child: Column(
         spacing: 30.h,
         children: [
-          // Full Name Field
           TextFormSection(
             title: "Full Name",
-            name: "full_name",
+            name: "fullName",
             hintText: "Moaid Mohamed",
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(
@@ -121,8 +128,6 @@ class RegisterForm extends StatelessWidget {
                   errorText: "Name must be at least 3 characters"),
             ]),
           ),
-
-          // Email Field
           TextFormSection(
             title: "Email",
             name: "email",
@@ -134,8 +139,7 @@ class RegisterForm extends StatelessWidget {
                   errorText: "Enter a valid email address"),
             ]),
           ),
-
-          const PhoneFormSection()
+          const PhoneFormSection(),
         ],
       ),
     );

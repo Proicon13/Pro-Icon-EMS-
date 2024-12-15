@@ -51,9 +51,7 @@ class CustomTextField extends StatelessWidget {
         errorBorder: buildErrorBorder(context),
         enabledBorder: buildEnabledBorder(context),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-        errorStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: Theme.of(context).colorScheme.error,
-            ),
+        errorStyle: AppTextStyles.fontSize14.copyWith(color: Colors.red),
       ),
       validator: validator,
       onChanged: onChanged ?? (value) {},

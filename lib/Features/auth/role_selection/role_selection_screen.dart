@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
-import 'package:pro_icon/Features/auth/Trainer/trainer.dart';
 
 import '../../../../../Core/Theming/app_text_styles.dart';
 
@@ -22,12 +21,9 @@ class RoleSelectionScreen extends StatelessWidget {
   const RoleSelectionScreen({super.key});
 
   void navigateBasedOnRole(BuildContext context, Role? selectedRole) {
-    if (selectedRole == Role.admin) {
-      // Navigate to Admin page
+    if (selectedRole == Role.admin || selectedRole == Role.coach) {
+      // Navigate to Login Screen
       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-    } else if (selectedRole == Role.coach) {
-      // Navigate to Trainer page
-      Navigator.pushReplacementNamed(context, TrainerAuth.routeName);
     } else {
       // If no role is selected
       ScaffoldMessenger.of(context).showSnackBar(

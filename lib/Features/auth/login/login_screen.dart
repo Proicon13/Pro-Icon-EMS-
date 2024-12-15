@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
@@ -14,9 +15,9 @@ import '../../../Core/widgets/custom_button.dart';
 import '../../../Core/widgets/have_account_row.dart';
 import '../../../Core/widgets/text_form_section.dart';
 
-import '../register/admin_register_screen.dart';
+import '../register/register_screen.dart';
 
-final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
 class LoginScreen extends StatelessWidget {
   static const String routeName = '/admin-auth';
@@ -26,10 +27,7 @@ class LoginScreen extends StatelessWidget {
   void _submitForm(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
-      // Handle successful form submission
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Form submitted successfully!")),
-      );
+      // handle login logic
     }
   }
 
@@ -108,7 +106,7 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return FormBuilder(
       key: _formKey,
       child: Column(
         spacing: 40.h,

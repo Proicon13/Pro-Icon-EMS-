@@ -49,6 +49,7 @@ class TextFormSection extends StatelessWidget {
         validator: validator,
         onChanged: onChanged,
         onSaved: onSaved,
+        obsecure: obscureText,
       ),
     ]);
   }

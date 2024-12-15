@@ -12,6 +12,7 @@ import 'package:pro_icon/Core/widgets/have_account_row.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Core/widgets/text_form_section.dart';
 import 'package:pro_icon/Features/auth/login/login_screen.dart';
+import 'package:pro_icon/Features/auth/register/set_password_screen.dart';
 import '../../../Core/widgets/custom_dropdown_section.dart';
 import '../../../data/models/sign_up_request_builder.dart';
 
@@ -26,7 +27,7 @@ class AdminAddressScreen extends StatelessWidget {
 
   const AdminAddressScreen({super.key});
 
-  void _submitForm() {
+  void _submitForm(BuildContext context) {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
       final formData = _formKey.currentState?.value;
       //handle logic here
@@ -38,6 +39,7 @@ class AdminAddressScreen extends StatelessWidget {
 
       builder.setCityId(city).setAddress(fullAddress).setPostalCode(postalCode);
       log(builder.toString());
+      Navigator.pushNamed(context, SetPasswordScreen.routeName);
     }
   }
 
@@ -96,13 +98,13 @@ class AdminAddressScreen extends StatelessWidget {
                     width: double.infinity,
                     child: CustomButton(
                       text: "Next",
-                      onPressed: _submitForm,
+                      onPressed: () => _submitForm(context),
                     ),
                   ),
                   15.h.verticalSpace,
                   HaveAccountRow(
                     title: "Have an account?",
-                    action: "Sign in here",
+                    action: "Sign in",
                     onAction: () {
                       Navigator.pushNamed(context, LoginScreen.routeName);
                     },

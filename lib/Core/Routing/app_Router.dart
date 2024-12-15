@@ -7,12 +7,13 @@ import 'package:pro_icon/Features/auth/Trainer/reset_password_screen.dart';
 import 'package:pro_icon/Features/auth/role_selection/role_selection_screen.dart';
 
 import '../../Features/auth/login/login_screen.dart';
-import '../../Features/auth/Admin/admin_address_screen.dart';
+import '../../Features/auth/register/admin_address_screen.dart';
 import '../../Features/auth/register/register_screen.dart';
 import '../../Features/auth/Admin/confirm_admin_password.dart';
 import '../../Features/auth/Trainer/confirm_trainer_password_screen.dart';
 import '../../Features/auth/Trainer/otp_screen.dart';
 import '../../Features/auth/Trainer/trainer.dart';
+import '../../Features/auth/register/set_password_screen.dart';
 import '../../splash_screen.dart';
 
 Route<dynamic>? onGenerteRoute(RouteSettings settings) {
@@ -25,6 +26,8 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
 
     case LoginScreen.routeName:
       return MaterialPageRoute(builder: (_) => const LoginScreen());
+    case SetPasswordScreen.routeName:
+      return MaterialPageRoute(builder: (_) => const SetPasswordScreen());
 
     case OtpScreen.routeName:
       return MaterialPageRoute(builder: (_) => const OtpScreen());

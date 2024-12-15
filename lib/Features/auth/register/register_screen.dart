@@ -9,7 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
-import 'package:pro_icon/Features/auth/Admin/admin_address_screen.dart';
+import 'package:pro_icon/Features/auth/register/admin_address_screen.dart';
 import 'package:pro_icon/Features/auth/login/login_screen.dart';
 import 'package:pro_icon/Features/auth/register/cubit/cubit/register_cubit.dart';
 import 'package:pro_icon/data/models/sign_up_request_builder.dart';

@@ -1,164 +1,213 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:pro_icon/Features/auth/Admin/confirm_admin_password.dart';
-import '../../../Core/Theming/Colors/app_colors.dart';
-import '../../../Core/widgets/base_app_Scaffold.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:pro_icon/Core/Theming/app_text_styles.dart';
+import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
+import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
+import 'package:pro_icon/Core/widgets/custom_button.dart';
+import 'package:pro_icon/Core/widgets/have_account_row.dart';
+import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
+import 'package:pro_icon/Core/widgets/text_form_section.dart';
+import 'package:pro_icon/Features/auth/login/login_screen.dart';
+import '../../../Core/widgets/custom_dropdown_section.dart';
+import '../../../data/models/sign_up_request_builder.dart';
 
-class AdminAdressScreen extends StatefulWidget {
+final _formKey = GlobalKey<FormBuilderState>();
+
+// Sample Country and City Lists
+final List<String> _countries = ["Egypt", "USA", "Canada", "UK"];
+final List<String> _cities = ["Cairo", "Alexandria", "Giza", "Luxor"];
+
+class AdminAddressScreen extends StatelessWidget {
   static const routeName = '/admin-address';
-  const AdminAdressScreen({super.key});
 
-  @override
-  State<AdminAdressScreen> createState() => _AdminAdressScreenState();
-}
+  const AdminAddressScreen({super.key});
 
-class _AdminAdressScreenState extends State<AdminAdressScreen> {
+  void _submitForm() {
+    if (_formKey.currentState?.saveAndValidate() ?? false) {
+      final formData = _formKey.currentState?.value;
+      //handle logic here
+      final builder = SignupRequestBuilder();
+      final city = formData!['city'];
+      final fullAddress = formData['fullAddress'];
+
+      final postalCode = formData['postalCode'];
+
+      builder.setCityId(city).setAddress(fullAddress).setPostalCode(postalCode);
+      log(builder.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseAppScaffold(
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 170,
-          ),
-          const Image(image: AssetImage("assets/images/200-60-pro-2 1.png")),
-          const SizedBox(
-            height: 30,
-          ),
-          Container(
-            width: 330,
-            height: 340,
-            decoration: BoxDecoration(
-                color: Colors.white54, borderRadius: BorderRadius.circular(24)),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "Sign Up",
-                    style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                  width: 142,
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(24)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4),
-                                    child: DropdownButton(
-                                        items: const [],
-                                        hint: const Text("Country"),
-                                        onChanged: (value) {}),
-                                  )),
-                              const SizedBox(
-                                width: 12,
-                              ),
-                              Container(
-                                  width: 142,
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(24)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4),
-                                    child: DropdownButton(
-                                        items: const [],
-                                        hint: const Text("City"),
-                                        onChanged: (value) {}),
-                                  )),
-                            ],
-                          ),
-                          const SizedBox(height: 24),
-                          SizedBox(
-                            height: 40,
-                            child: TextFormField(
-                              obscureText: true,
-                              decoration: const InputDecoration(
-                                label: Text("street name"),
-
-                                fillColor: Colors.white,
-
-                                filled: true,
-                                isDense: true,
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 8,
-                                    horizontal: 12), // تعديل الحشو الداخلي
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          SizedBox(
-                            height: 40,
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                label: Text("postal Code"),
-
-                                fillColor: Colors.white,
-
-                                filled: true,
-                                isDense: true,
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 8,
-                                    horizontal: 12), // تعديل الحشو الداخلي
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Container(
-                    width: 294,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                    child: MaterialButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, ConfirmAdminPassword.routeName);
-                      },
-                      color: AppColors.buttonColors,
-                      child: const Text(
-                        "Next",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(" have an  account ?"),
-                      SizedBox(
-                        width: 8,
+                      90.h.verticalSpace,
+                      const Center(
+                        child: ProIconLogo(),
                       ),
+                      50.h.verticalSpace,
                       Text(
-                        "Sign In Here",
-                        style: TextStyle(color: Colors.red),
-                      )
+                        "Address",
+                        style: AppTextStyles.fontSize24.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      10.h.verticalSpace,
+                      Text(
+                        "Enter your full address details to be associated with your email",
+                        style: AppTextStyles.fontSize14.copyWith(
+                          color: AppColors.white71Color,
+                        ),
+                      ),
+                      40.h.verticalSpace,
+
+                      // Address Form
+                      AddressForm(
+                        formKey: _formKey,
+                        countries: _countries,
+                        cities: _cities,
+                      ),
                     ],
-                  )
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: CustomButton(
+                      text: "Next",
+                      onPressed: _submitForm,
+                    ),
+                  ),
+                  15.h.verticalSpace,
+                  HaveAccountRow(
+                    title: "Have an account?",
+                    action: "Sign in here",
+                    onAction: () {
+                      Navigator.pushNamed(context, LoginScreen.routeName);
+                    },
+                  ),
                 ],
               ),
             ),
-          )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AddressForm extends StatelessWidget {
+  const AddressForm({
+    super.key,
+    required GlobalKey<FormBuilderState> formKey,
+    required List<String> countries,
+    required List<String> cities,
+  })  : _formKey = formKey,
+        _countries = countries,
+        _cities = cities;
+
+  final GlobalKey<FormBuilderState> _formKey;
+  final List<String> _countries;
+  final List<String> _cities;
+
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilder(
+      key: _formKey,
+      child: Column(
+        children: [
+          ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: 120.h),
+            child: Row(
+              children: [
+                Expanded(
+                  child: DropdownFormSection(
+                    title: "Country",
+                    name: "country",
+                    hintText: "Select Country",
+                    items: _countries
+                        .map((country) => DropdownMenuItem(
+                              value: country,
+                              child: Text(
+                                country,
+                                style: AppTextStyles.fontSize14.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                    validator: FormBuilderValidators.required(
+                        errorText: "Country is required"),
+                  ),
+                ),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: DropdownFormSection(
+                    title: "City",
+                    name: "city",
+                    hintText: "Select City",
+                    items: _cities
+                        .map((city) => DropdownMenuItem(
+                              value: city,
+                              child: Text(
+                                city,
+                                style: AppTextStyles.fontSize14.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                    validator: FormBuilderValidators.required(
+                        errorText: "City is required"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          30.h.verticalSpace,
+          // Full Address Field
+          TextFormSection(
+            title: "Full Address",
+            name: "fullAddress",
+            hintText: "Alrahman st-1804",
+            validator: FormBuilderValidators.required(
+                errorText: "Full Address is required"),
+          ),
+          30.h.verticalSpace,
+          // Postal Code Field
+          TextFormSection(
+            title: "Postal Code",
+            name: "postalCode",
+            hintText: "123456",
+            keyboardInputType: TextInputType.number,
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(
+                  errorText: "Postal code is required"),
+              FormBuilderValidators.numeric(
+                  errorText: "Postal code must be numeric"),
+            ]),
+          ),
         ],
       ),
     );

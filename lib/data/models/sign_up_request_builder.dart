@@ -1,6 +1,13 @@
 import 'sign_up_request.dart';
 
 class SignupRequestBuilder {
+  static final SignupRequestBuilder _instance =
+      SignupRequestBuilder._internal();
+
+  SignupRequestBuilder._internal();
+
+  factory SignupRequestBuilder() => _instance;
+
   String? _email;
   String? _fullname;
   String? _phone;
@@ -50,6 +57,7 @@ class SignupRequestBuilder {
     return this;
   }
 
+  // Build method to create the final SignupRequest object
   SignupRequest build() {
     if (_email == null ||
         _fullname == null ||
@@ -70,6 +78,17 @@ class SignupRequestBuilder {
       password: _password!,
       role: _role!,
     );
+  }
+
+  void reset() {
+    _email = null;
+    _fullname = null;
+    _phone = null;
+    _address = null;
+    _postalCode = null;
+    _cityId = null;
+    _password = null;
+    _role = null;
   }
 
   @override

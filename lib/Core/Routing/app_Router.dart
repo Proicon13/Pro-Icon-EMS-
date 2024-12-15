@@ -33,8 +33,8 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const TrainerAuth());
     case RegisterScreen.routeName:
       return MaterialPageRoute(builder: (_) => const RegisterScreen());
-    case AdminAdressScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const AdminAdressScreen());
+    case AdminAddressScreen.routeName:
+      return MaterialPageRoute(builder: (_) => const AdminAddressScreen());
     case AccountCreatedScreen.routeName:
       return MaterialPageRoute(builder: (_) => const AccountCreatedScreen());
     case ConfirmAdminPassword.routeName:

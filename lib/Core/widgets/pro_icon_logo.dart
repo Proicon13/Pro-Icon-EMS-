@@ -14,7 +14,7 @@ class ProIconLogo extends StatelessWidget {
     return SizedBox(
       width: 200.w,
       child: const AspectRatio(
-        aspectRatio: 3.3,
+        aspectRatio: 3.6,
         child: CustomAssetImage(
           path: Assets.assetsImagesLogo,
         ),

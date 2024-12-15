@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
+
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
+import 'package:pro_icon/Features/auth/reset_password/forget_password_screen.dart';
 
 import '../../../Core/Theming/app_text_styles.dart';
 import '../../../Core/dependencies.dart';
@@ -13,22 +14,32 @@ import '../../../Core/utils/role_selection_helper.dart';
 import '../../../Core/widgets/base_app_Scaffold.dart';
 import '../../../Core/widgets/custom_button.dart';
 import '../../../Core/widgets/have_account_row.dart';
-import '../../../Core/widgets/text_form_section.dart';
 
 import '../register/register_screen.dart';
+import 'widgets/login_form.dart';
 
-final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
-
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const String routeName = '/admin-auth';
 
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   void _submitForm(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
       // handle login logic
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _formKey.currentState!.dispose();
   }
 
   @override
@@ -55,13 +66,16 @@ class LoginScreen extends StatelessWidget {
                 ),
                 40.h.verticalSpace,
 
-                const LoginForm(),
+                LoginForm(
+                  formKey: _formKey,
+                ),
                 10.h.verticalSpace,
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      // Add forget password functionality
+                      Navigator.pushNamed(
+                          context, ForgetPasswordScreen.routeName);
                     },
                     child: Text(
                       "Forget Password?",
@@ -94,48 +108,6 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class LoginForm extends StatelessWidget {
-  const LoginForm({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return FormBuilder(
-      key: _formKey,
-      child: Column(
-        spacing: 40.h,
-        children: [
-          TextFormSection(
-            title: "Email",
-            name: "email",
-            hintText: "someone@gmail.com",
-            keyboardInputType: TextInputType.emailAddress,
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(errorText: "Email is required"),
-              FormBuilderValidators.email(
-                  errorText: "Enter a valid email address"),
-            ]),
-          ),
-
-          // Password Field
-          TextFormSection(
-            title: "Password",
-            name: "password",
-            hintText: "****************",
-            obscureText: false,
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(errorText: "Password is required"),
-              FormBuilderValidators.minLength(6,
-                  errorText: "Password must be at least 6 characters long"),
-            ]),
-          ),
-        ],
       ),
     );
   }

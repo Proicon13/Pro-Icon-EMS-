@@ -3,33 +3,38 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
+
 import 'package:pro_icon/Core/Theming/app_text_styles.dart';
 import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/have_account_row.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
-import 'package:pro_icon/Core/widgets/text_form_section.dart';
+
 import 'package:pro_icon/Features/auth/login/login_screen.dart';
 import 'package:pro_icon/Features/auth/register/set_password_screen.dart';
-import '../../../Core/widgets/custom_dropdown_section.dart';
-import '../../../data/models/sign_up_request_builder.dart';
 
-final _formKey = GlobalKey<FormBuilderState>();
+import '../../../data/models/sign_up_request_builder.dart';
+import 'widgets/address_form.dart';
 
 // Sample Country and City Lists
 final List<String> _countries = ["Egypt", "USA", "Canada", "UK"];
 final List<String> _cities = ["Cairo", "Alexandria", "Giza", "Luxor"];
 
-class AdminAddressScreen extends StatelessWidget {
+class AdminAddressScreen extends StatefulWidget {
   static const routeName = '/admin-address';
 
   const AdminAddressScreen({super.key});
 
+  @override
+  State<AdminAddressScreen> createState() => _AdminAddressScreenState();
+}
+
+class _AdminAddressScreenState extends State<AdminAddressScreen> {
+  final _addressFormKey = GlobalKey<FormBuilderState>();
   void _submitForm(BuildContext context) {
-    if (_formKey.currentState?.saveAndValidate() ?? false) {
-      final formData = _formKey.currentState?.value;
+    if (_addressFormKey.currentState?.saveAndValidate() ?? false) {
+      final formData = _addressFormKey.currentState?.value;
       //handle logic here
       final builder = SignupRequestBuilder();
       final city = formData!['city'];
@@ -41,6 +46,12 @@ class AdminAddressScreen extends StatelessWidget {
       log(builder.toString());
       Navigator.pushNamed(context, SetPasswordScreen.routeName);
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _addressFormKey.currentState?.dispose();
   }
 
   @override
@@ -80,7 +91,7 @@ class AdminAddressScreen extends StatelessWidget {
 
                       // Address Form
                       AddressForm(
-                        formKey: _formKey,
+                        formKey: _addressFormKey,
                         countries: _countries,
                         cities: _cities,
                       ),
@@ -114,103 +125,6 @@ class AdminAddressScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class AddressForm extends StatelessWidget {
-  const AddressForm({
-    super.key,
-    required GlobalKey<FormBuilderState> formKey,
-    required List<String> countries,
-    required List<String> cities,
-  })  : _formKey = formKey,
-        _countries = countries,
-        _cities = cities;
-
-  final GlobalKey<FormBuilderState> _formKey;
-  final List<String> _countries;
-  final List<String> _cities;
-
-  @override
-  Widget build(BuildContext context) {
-    return FormBuilder(
-      key: _formKey,
-      child: Column(
-        children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 120.h),
-            child: Row(
-              children: [
-                Expanded(
-                  child: DropdownFormSection(
-                    title: "Country",
-                    name: "country",
-                    hintText: "Select Country",
-                    items: _countries
-                        .map((country) => DropdownMenuItem(
-                              value: country,
-                              child: Text(
-                                country,
-                                style: AppTextStyles.fontSize14.copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ))
-                        .toList(),
-                    validator: FormBuilderValidators.required(
-                        errorText: "Country is required"),
-                  ),
-                ),
-                SizedBox(width: 16.w),
-                Expanded(
-                  child: DropdownFormSection(
-                    title: "City",
-                    name: "city",
-                    hintText: "Select City",
-                    items: _cities
-                        .map((city) => DropdownMenuItem(
-                              value: city,
-                              child: Text(
-                                city,
-                                style: AppTextStyles.fontSize14.copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ))
-                        .toList(),
-                    validator: FormBuilderValidators.required(
-                        errorText: "City is required"),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          30.h.verticalSpace,
-          // Full Address Field
-          TextFormSection(
-            title: "Full Address",
-            name: "fullAddress",
-            hintText: "Alrahman st-1804",
-            validator: FormBuilderValidators.required(
-                errorText: "Full Address is required"),
-          ),
-          30.h.verticalSpace,
-          // Postal Code Field
-          TextFormSection(
-            title: "Postal Code",
-            name: "postalCode",
-            hintText: "123456",
-            keyboardInputType: TextInputType.number,
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(
-                  errorText: "Postal code is required"),
-              FormBuilderValidators.numeric(
-                  errorText: "Postal code must be numeric"),
-            ]),
-          ),
-        ],
       ),
     );
   }

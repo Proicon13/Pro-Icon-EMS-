@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
+
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/utils/enums/role.dart';
 import 'package:pro_icon/Core/utils/role_selection_helper.dart';
@@ -13,21 +13,26 @@ import '../../../Core/Theming/app_text_styles.dart';
 import '../../../Core/widgets/custom_button.dart';
 import '../../../Core/widgets/have_account_row.dart';
 import '../../../Core/widgets/pro_icon_logo.dart';
-import '../../../Core/widgets/text_form_section.dart';
+
 import '../../../data/models/sign_up_request_builder.dart';
 import '../login/login_screen.dart';
+import 'widgets/set_password_from.dart';
 
-final _formKey = GlobalKey<FormBuilderState>();
-
-class SetPasswordScreen extends StatelessWidget {
+class SetPasswordScreen extends StatefulWidget {
   static const routeName = '/set-password';
   const SetPasswordScreen({super.key});
 
+  @override
+  State<SetPasswordScreen> createState() => _SetPasswordScreenState();
+}
+
+class _SetPasswordScreenState extends State<SetPasswordScreen> {
+  final _setPasswordFormKey = GlobalKey<FormBuilderState>();
   void _submitForm(BuildContext context) {
-    if (_formKey.currentState?.validate() ?? false) {
-      _formKey.currentState?.save();
+    if (_setPasswordFormKey.currentState?.validate() ?? false) {
+      _setPasswordFormKey.currentState?.save();
       // get form data
-      final formData = _formKey.currentState?.value;
+      final formData = _setPasswordFormKey.currentState?.value;
       final password = formData!['password'];
       final confirmPassword = formData['confirmPassword'];
       if (password != confirmPassword) {
@@ -44,6 +49,12 @@ class SetPasswordScreen extends StatelessWidget {
         // handle sign up request here
       }
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _setPasswordFormKey.currentState?.dispose();
   }
 
   @override
@@ -68,33 +79,7 @@ class SetPasswordScreen extends StatelessWidget {
               ),
             ),
             40.h.verticalSpace,
-            FormBuilder(
-                key: _formKey,
-                child: Column(
-                  spacing: 30.h,
-                  children: [
-                    TextFormSection(
-                      name: 'password',
-                      title: 'Password',
-                      obscureText: true,
-                      hintText: 'Enter your password',
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(
-                            errorText: " Confirm Password is required"),
-                      ]),
-                    ),
-                    TextFormSection(
-                      name: 'confirmPassword',
-                      title: 'Confirm Password',
-                      hintText: 'Enter your password',
-                      obscureText: true,
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(
-                            errorText: " Confirm Password is required"),
-                      ]),
-                    ),
-                  ],
-                )),
+            SetPasswordForm(setPasswordFormKey: _setPasswordFormKey),
             40.h.verticalSpace,
             SizedBox(
                 width: double.infinity,

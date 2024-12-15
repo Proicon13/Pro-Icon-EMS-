@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
@@ -17,26 +16,30 @@ import 'package:pro_icon/data/models/sign_up_request_builder.dart';
 import '../../../Core/Theming/app_text_styles.dart';
 import '../../../Core/widgets/custom_button.dart';
 import '../../../Core/widgets/have_account_row.dart';
-import '../../../Core/widgets/text_form_section.dart';
 
-import 'widgets/phone_form_section.dart';
+import 'widgets/register_form.dart';
 
-final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
-
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   static const routeName = '/sign-up';
 
   const RegisterScreen({super.key});
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final GlobalKey<FormBuilderState> _registerFormKey =
+      GlobalKey<FormBuilderState>();
   void _submitForm(BuildContext context, String phoneCode) {
-    if (_formKey.currentState?.validate() ?? false) {
-      _formKey.currentState?.save();
+    if (_registerFormKey.currentState?.validate() ?? false) {
+      _registerFormKey.currentState?.save();
       // handle register logic
       final builder = SignupRequestBuilder();
 
-      final fullName = _formKey.currentState?.fields['fullName']?.value;
-      final email = _formKey.currentState?.fields['email']?.value;
-      final phone = _formKey.currentState?.fields['phone']?.value;
+      final fullName = _registerFormKey.currentState?.fields['fullName']?.value;
+      final email = _registerFormKey.currentState?.fields['email']?.value;
+      final phone = _registerFormKey.currentState?.fields['phone']?.value;
 
       builder
           .setFullname(fullName)
@@ -46,6 +49,12 @@ class RegisterScreen extends StatelessWidget {
       log("Builder after Step 1: ${builder.toString()}");
       Navigator.pushNamed(context, AdminAddressScreen.routeName);
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _registerFormKey.currentState?.dispose();
   }
 
   @override
@@ -75,7 +84,9 @@ class RegisterScreen extends StatelessWidget {
                     ),
                   ),
                   40.h.verticalSpace,
-                  const RegisterForm(),
+                  RegisterForm(
+                    formKey: _registerFormKey,
+                  ),
                   40.h.verticalSpace,
                   SizedBox(
                     width: double.infinity,
@@ -102,47 +113,6 @@ class RegisterScreen extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class RegisterForm extends StatelessWidget {
-  const RegisterForm({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return FormBuilder(
-      key: _formKey,
-      child: Column(
-        spacing: 30.h,
-        children: [
-          TextFormSection(
-            title: "Full Name",
-            name: "fullName",
-            hintText: "Moaid Mohamed",
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(
-                  errorText: "Full Name is required"),
-              FormBuilderValidators.minLength(3,
-                  errorText: "Name must be at least 3 characters"),
-            ]),
-          ),
-          TextFormSection(
-            title: "Email",
-            name: "email",
-            hintText: "moaidmohamed123@gmail.com",
-            keyboardInputType: TextInputType.emailAddress,
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(errorText: "Email is required"),
-              FormBuilderValidators.email(
-                  errorText: "Enter a valid email address"),
-            ]),
-          ),
-          const PhoneFormSection(),
-        ],
       ),
     );
   }

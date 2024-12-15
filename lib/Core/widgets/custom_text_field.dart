@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/Theming/app_text_styles.dart';
 
 import '../Theming/Colors/app_colors.dart';
@@ -50,7 +51,7 @@ class CustomTextField extends StatelessWidget {
         focusedBorder: buildFocusedBorder(context),
         errorBorder: buildErrorBorder(context),
         enabledBorder: buildEnabledBorder(context),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+        contentPadding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 15.h),
         errorStyle: AppTextStyles.fontSize14.copyWith(color: Colors.red),
       ),
       validator: validator,

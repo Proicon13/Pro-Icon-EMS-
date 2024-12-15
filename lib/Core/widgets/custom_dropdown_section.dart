@@ -38,20 +38,11 @@ class DropdownFormSection extends StatelessWidget {
         FormBuilderDropdown<String>(
           name: name,
           decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: const BorderSide(
-                color: AppColors.lightGreyColor,
-                width: 1.3,
-              ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: const BorderSide(
-                color: AppColors.lightGreyColor,
-                width: 1.3,
-              ),
-            ),
+            border: buildEnabledBorder(context),
+            disabledBorder: buildEnabledBorder(context),
+            focusedBorder: buildFocusedBorder(context),
+            errorBorder: buildErrorBorder(context),
+            enabledBorder: buildEnabledBorder(context),
             contentPadding:
                 EdgeInsets.symmetric(horizontal: 12.w, vertical: 15.h),
           ),
@@ -68,4 +59,34 @@ class DropdownFormSection extends StatelessWidget {
       ],
     );
   }
+}
+
+OutlineInputBorder buildErrorBorder(BuildContext context) {
+  return const OutlineInputBorder(
+    borderSide: BorderSide(
+      color: Colors.red,
+      width: 1.3,
+    ),
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+  );
+}
+
+OutlineInputBorder buildEnabledBorder(BuildContext context) {
+  return const OutlineInputBorder(
+    borderSide: BorderSide(
+      color: AppColors.lightGreyColor,
+      width: 1.3,
+    ),
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+  );
+}
+
+OutlineInputBorder buildFocusedBorder(BuildContext context) {
+  return const OutlineInputBorder(
+    borderSide: BorderSide(
+      color: AppColors.primaryColor,
+      width: 1.3,
+    ),
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+  );
 }

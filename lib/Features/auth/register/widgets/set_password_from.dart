@@ -27,7 +27,7 @@ class SetPasswordForm extends StatelessWidget {
               hintText: 'Enter your password',
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(
-                    errorText: " Confirm Password is required"),
+                    errorText: "Password is required"),
               ]),
             ),
             TextFormSection(

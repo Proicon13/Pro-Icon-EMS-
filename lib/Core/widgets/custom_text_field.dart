@@ -16,7 +16,11 @@ class CustomTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
   final bool obsecure;
-
+  final TextStyle? errorTextStyle;
+  final int? errorMaxLines;
+  final bool? isDense;
+  final EdgeInsets? contentPadding;
+  final TextAlign? textAlign;
   const CustomTextField({
     super.key,
     required this.name,
@@ -28,6 +32,11 @@ class CustomTextField extends StatelessWidget {
     this.inputFormatters,
     this.controller,
     this.obsecure = false,
+    this.errorTextStyle,
+    this.errorMaxLines,
+    this.isDense,
+    this.contentPadding,
+    this.textAlign,
   });
 
   @override
@@ -35,6 +44,7 @@ class CustomTextField extends StatelessWidget {
     return FormBuilderTextField(
       name: name,
       obscureText: obsecure,
+      textAlign: textAlign ?? TextAlign.start,
       controller: controller,
       inputFormatters: inputFormatters,
       keyboardType: keyboardInputType,
@@ -43,7 +53,9 @@ class CustomTextField extends StatelessWidget {
       cursorColor: Colors.white,
       cursorErrorColor: Colors.red,
       decoration: InputDecoration(
+        isDense: isDense,
         hintText: hintText ?? '',
+        errorMaxLines: errorMaxLines,
         hintStyle:
             AppTextStyles.fontSize14.copyWith(color: AppColors.white71Color),
         border: buildEnabledBorder(context),
@@ -51,8 +63,10 @@ class CustomTextField extends StatelessWidget {
         focusedBorder: buildFocusedBorder(context),
         errorBorder: buildErrorBorder(context),
         enabledBorder: buildEnabledBorder(context),
-        contentPadding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 15.h),
-        errorStyle: AppTextStyles.fontSize14.copyWith(color: Colors.red),
+        contentPadding: contentPadding ??
+            EdgeInsets.symmetric(horizontal: 17.w, vertical: 15.h),
+        errorStyle: errorTextStyle ??
+            AppTextStyles.fontSize14.copyWith(color: Colors.red),
       ),
       validator: validator,
       onChanged: onChanged ?? (value) {},

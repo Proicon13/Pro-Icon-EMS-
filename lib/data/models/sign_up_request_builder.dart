@@ -59,15 +59,6 @@ class SignupRequestBuilder {
 
   // Build method to create the final SignupRequest object
   SignupRequest build() {
-    if (_email == null ||
-        _fullname == null ||
-        _phone == null ||
-        _address == null ||
-        _postalCode == null ||
-        _cityId == null ||
-        _password == null) {
-      throw Exception("All fields must be set before building the request");
-    }
     return SignupRequest(
       email: _email!,
       fullname: _fullname!,

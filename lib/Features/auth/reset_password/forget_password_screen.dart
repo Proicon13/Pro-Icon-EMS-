@@ -5,9 +5,11 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/text_form_section.dart';
+import 'package:pro_icon/Features/auth/reset_password/otp_screen.dart';
 import '../../../Core/Theming/app_text_styles.dart';
 import '../../../Core/widgets/custom_button.dart';
 import '../../../Core/widgets/pro_icon_logo.dart';
+import '../../../data/models/reset_password_request_builder.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   static const routeName = '/forget-password';
@@ -26,26 +28,28 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       // Extract the form data
       final email = _forgetPasswordFormKey.currentState?.fields['email']?.value;
 
-      // Handle success: Simulate sending a reset email
+      // Handle success:  sending a reset email
+      final builder = ResetPasswordRequestBuilder();
+
+      builder.setEmail(email);
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             "Password reset code sent to $email",
             style: AppTextStyles.fontSize14.copyWith(color: Colors.white),
           ),
-          backgroundColor: AppColors.primaryColor,
+          backgroundColor: Colors.green,
           duration: const Duration(seconds: 3),
         ),
       );
 
-      // Perform navigation or API call here
-      print("Form Submitted: Email = $email");
+      Navigator.pushReplacementNamed(context, OtpScreen.routeName);
     }
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _forgetPasswordFormKey.currentState?.dispose();
   }

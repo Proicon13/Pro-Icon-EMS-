@@ -3,48 +3,47 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
 
-import 'package:pro_icon/Core/dependencies.dart';
-import 'package:pro_icon/Core/utils/enums/role.dart';
-import 'package:pro_icon/Core/utils/role_selection_helper.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
+import 'package:pro_icon/data/models/reset_password_request_builder.dart';
 
 import '../../../Core/Theming/app_text_styles.dart';
 import '../../../Core/widgets/custom_button.dart';
-import '../../../Core/widgets/have_account_row.dart';
+
 import '../../../Core/widgets/pro_icon_logo.dart';
 
-import '../../../data/models/sign_up_request_builder.dart';
-import '../login/login_screen.dart';
-import 'widgets/set_password_from.dart';
+import '../register/widgets/set_password_from.dart';
 
-class SetPasswordScreen extends StatefulWidget {
-  static const routeName = '/set-password';
-  const SetPasswordScreen({super.key});
+class SetNewPasswordScreen extends StatefulWidget {
+  static const routeName = '/set-new-password';
+  const SetNewPasswordScreen({super.key});
 
   @override
-  State<SetPasswordScreen> createState() => _SetPasswordScreenState();
+  State<SetNewPasswordScreen> createState() => _SetPasswordScreenState();
 }
 
-class _SetPasswordScreenState extends State<SetPasswordScreen> {
-  final _setPasswordFormKey = GlobalKey<FormBuilderState>();
+class _SetPasswordScreenState extends State<SetNewPasswordScreen> {
+  final _setNewPasswordFormKey = GlobalKey<FormBuilderState>();
   void _submitForm(BuildContext context) {
-    if (_setPasswordFormKey.currentState?.validate() ?? false) {
-      _setPasswordFormKey.currentState?.save();
+    if (_setNewPasswordFormKey.currentState?.validate() ?? false) {
+      _setNewPasswordFormKey.currentState?.save();
       // get form data
-      final formData = _setPasswordFormKey.currentState?.value;
+      final formData = _setNewPasswordFormKey.currentState?.value;
       final password = formData!['password'];
       final confirmPassword = formData['confirmPassword'];
       if (password != confirmPassword) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Password does`t match')),
+          const SnackBar(
+              backgroundColor: AppColors.primaryColor,
+              content: Text('Password does`t match')),
         );
       } else {
-        final builder = SignupRequestBuilder();
-        final RoleSelectionHelper helper = getIt<RoleSelectionHelper>();
-        builder.setPassword(password);
-        builder.setRole(rolesMap[helper.selectedRole]!);
-        final signupRequest = builder.build();
+        final builder = ResetPasswordRequestBuilder();
+        builder.setNewPassword(password);
+
+        final resetPasswordRequest = builder.build();
+        log('resetPasswordRequest: ${resetPasswordRequest.toString()}');
         log('builder after step 3: ${builder.toString()}');
 
         // handle sign up request here
@@ -55,7 +54,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
   @override
   void dispose() {
     super.dispose();
-    _setPasswordFormKey.currentState?.dispose();
+    _setNewPasswordFormKey.currentState?.dispose();
   }
 
   @override
@@ -73,28 +72,21 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
             const Center(child: ProIconLogo()),
             50.h.verticalSpace,
             Text(
-              "Set Password",
+              "Set New Password",
               style: AppTextStyles.fontSize24.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
             40.h.verticalSpace,
-            SetPasswordForm(setPasswordFormKey: _setPasswordFormKey),
+            SetPasswordForm(setPasswordFormKey: _setNewPasswordFormKey),
             40.h.verticalSpace,
             SizedBox(
                 width: double.infinity,
                 child: CustomButton(
-                  text: "Next",
+                  text: "Confirm",
                   onPressed: () => _submitForm(context),
                 )),
-            15.h.verticalSpace,
-            HaveAccountRow(
-              action: "Sign in",
-              title: "Have an account?",
-              onAction: () =>
-                  Navigator.pushNamed(context, LoginScreen.routeName),
-            ),
           ]),
         )),
       ),

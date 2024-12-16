@@ -13,8 +13,8 @@ class ServerFailure extends Failure {
   List<Object?> get props => [message];
 }
 
-class CacheException extends Failure {
-  const CacheException({required super.message});
+class CacheFailure extends Failure {
+  const CacheFailure({required super.message});
 
   @override
   List<Object?> get props => [message];

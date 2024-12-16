@@ -28,6 +28,8 @@ class SetPasswordForm extends StatelessWidget {
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(
                     errorText: "Password is required"),
+                FormBuilderValidators.minLength(8,
+                    errorText: "Password must be at least 8 characters long"),
               ]),
             ),
             TextFormSection(

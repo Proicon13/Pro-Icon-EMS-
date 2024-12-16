@@ -39,8 +39,8 @@ class LoginForm extends StatelessWidget {
             obscureText: true,
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(errorText: "Password is required"),
-              FormBuilderValidators.minLength(6,
-                  errorText: "Password must be at least 6 characters long"),
+              FormBuilderValidators.minLength(8,
+                  errorText: "Password must be at least 8 characters long"),
             ]),
           ),
         ],

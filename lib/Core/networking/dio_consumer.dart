@@ -91,25 +91,20 @@ class DioConsumer implements BaseApiProvider {
       final response = await request();
 
       if (response.statusCode == 200 || response.statusCode == 201) {
+        // Success response
         return ApiResponse.success(fromJson(response.data));
       } else {
-        // Parse the error model and throw exception
+        // Parse and throw ServerException on error
         final errorModel = APIErrorModel.fromJson(response.data);
         throw ServerException(errorModel.message);
       }
     } on DioException catch (e) {
       if (e.response != null && e.response?.data is Map<String, dynamic>) {
-        // Parse the error model and throw ServerException
         final errorModel = APIErrorModel.fromJson(e.response!.data);
-        return ApiResponse.failure(ServerException(errorModel.message));
+        throw ServerException(errorModel.message);
       } else {
-        // Handle connection errors
-        return ApiResponse.failure(ServerException(
-            'Connection Error: ${e.message ?? "Unknown connection error"}'));
+        throw ServerException('Connection error: ${e.message}');
       }
-    } catch (e) {
-      // Handle unexpected errors
-      return ApiResponse.failure(ServerException('Unexpected Error: $e'));
     }
   }
 }

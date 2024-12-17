@@ -26,11 +26,15 @@ class AddressRegistrationCubit extends Cubit<AddressRegistrationState> {
         // Get list of country and city names for state
         final countryNames = countries.map((c) => c.name).toList();
         final cityNames = cities.map((c) => c.name).toList();
+        final cityIds = cities.map((c) => c.id.toString()).toList();
+
+        final citiesMap = Map<String, String>.fromIterables(cityNames, cityIds);
 
         emit(state.copyWith(
           countries: countryNames,
           cities: cityNames,
           errorMessage: "",
+          citiesMap: citiesMap,
           status: RequestStatus.success,
         ));
       }

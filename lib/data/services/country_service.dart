@@ -29,8 +29,6 @@ class CountryService {
     } on ServerException catch (e) {
       return Left(
           ServerFailure(message: 'Failed to fetch countries: ${e.message}'));
-    } catch (e) {
-      return Left(ServerFailure(message: 'Unexpected error occurred: $e'));
     }
   }
 
@@ -39,8 +37,7 @@ class CountryService {
     try {
       // Send request with query parameters
       final response = await _apiProvider.get<List<dynamic>>(
-        endpoint: '/lookups/cities',
-        queryParameters: {'countryId': countryId},
+        endpoint: '/lookups/cities/$countryId',
       );
 
       // Map response data to List<CityModel>
@@ -52,8 +49,6 @@ class CountryService {
     } on ServerException catch (e) {
       return Left(
           ServerFailure(message: 'Failed to fetch cities: ${e.message}'));
-    } catch (e) {
-      return Left(ServerFailure(message: 'Unexpected error occurred: $e'));
     }
   }
 }

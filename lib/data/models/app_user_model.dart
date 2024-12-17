@@ -30,7 +30,7 @@ class AppUserModel extends Equatable {
       id: json['id'] as int,
       email: json['email'] as String,
       fullname: json['fullname'] as String,
-      image: json['image'] as String,
+      image: json['image'] != null ? json['image'] as String : '',
       city: CityModel.fromJson(json['city'] as Map<String, dynamic>),
       postalCode: json['postalCode'] as String,
       address: json['address'] as String,

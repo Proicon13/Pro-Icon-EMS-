@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/widgets/custom_loader.dart';
 
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Features/auth/login/cubit/cubit/login_cubit.dart';
@@ -18,7 +19,6 @@ import '../../../Core/widgets/base_app_Scaffold.dart';
 import '../../../Core/widgets/custom_button.dart';
 import '../../../Core/widgets/have_account_row.dart';
 
-import '../../../core/Theming/Colors/app_colors.dart';
 import '../register/register_screen.dart';
 import 'widgets/login_form.dart';
 
@@ -115,6 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           }
                           if (state.loginStatus == LoginStatus.success) {
+                            // navigate to home screen
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Login successful'),
@@ -128,11 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         builder: (context, state) {
                           if (state.loginStatus == LoginStatus.submitting) {
                             // loading
-                            return const Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.primaryColor,
-                              ),
-                            );
+                            return const CustomLoader();
                           } else {
                             return CustomButton(
                               text: "Login",

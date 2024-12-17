@@ -34,13 +34,12 @@ class ResetPasswordRequestBuilder {
 
   ResetPasswordRequest build() {
     return ResetPasswordRequest(
-      email: _email!,
-      resetCode: _resetCode!,
-      newPassword: _newPassword!,
+      email: _email,
+      resetCode: _resetCode,
+      newPassword: _newPassword,
     );
   }
 
-  // Reset Builder State
   void reset() {
     _email = null;
     _resetCode = null;

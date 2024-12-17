@@ -5,7 +5,12 @@ import 'package:pro_icon/Core/networking/base_api_provider.dart';
 import 'package:pro_icon/Core/networking/dio_consumer.dart';
 import 'package:pro_icon/Core/networking/interceptor.dart';
 import 'package:pro_icon/Features/auth/login/cubit/cubit/login_cubit.dart';
+import 'package:pro_icon/Features/auth/register/cubit/cubit/address_registration_cubit.dart';
 import 'package:pro_icon/Features/auth/register/cubit/cubit/register_cubit.dart';
+import 'package:pro_icon/Features/auth/register/cubit/cubit/set_password_cubit.dart';
+import 'package:pro_icon/Features/auth/reset_password/cubits/otp/otp_cubit.dart';
+import 'package:pro_icon/Features/auth/reset_password/cubits/forget_password/forget_password_cubit.dart';
+import 'package:pro_icon/Features/auth/reset_password/cubits/set_new_password/set_new_password_cubit.dart';
 import 'package:pro_icon/Features/auth/role_selection/cubit/cubit/select_role_cubit.dart';
 import 'package:pro_icon/data/repos/auth_repo.dart';
 import 'package:pro_icon/data/services/auth_service.dart';
@@ -43,4 +48,13 @@ void setupDependencies() {
   getIt.registerFactory<SelectRoleCubit>(() => SelectRoleCubit(getIt()));
   getIt.registerFactory<RegisterCubit>(() => RegisterCubit());
   getIt.registerFactory<LoginCubit>(() => LoginCubit(authRepo: getIt()));
+  getIt.registerFactory<AddressRegistrationCubit>(
+      () => AddressRegistrationCubit(countryService: getIt()));
+  getIt.registerFactory<SetPasswordCubit>(
+      () => SetPasswordCubit(authRepo: getIt()));
+  getIt.registerFactory<ForgetPasswordCubit>(
+      () => ForgetPasswordCubit(authRepo: getIt()));
+  getIt.registerFactory<OtpCubit>(() => OtpCubit(authRepo: getIt()));
+  getIt.registerFactory<SetNewPasswordCubit>(
+      () => SetNewPasswordCubit(authRepo: getIt()));
 }

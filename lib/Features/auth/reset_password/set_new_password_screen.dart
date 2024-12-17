@@ -1,14 +1,20 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
 
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
+import 'package:pro_icon/Core/widgets/custom_loader.dart';
+import 'package:pro_icon/Features/auth/login/login_screen.dart';
+import 'package:pro_icon/Features/auth/reset_password/cubits/set_new_password/set_new_password_cubit.dart';
+import 'package:pro_icon/Features/auth/reset_password/forget_password_screen.dart';
 import 'package:pro_icon/data/models/reset_password_request_builder.dart';
 
 import '../../../Core/Theming/app_text_styles.dart';
+import '../../../Core/dependencies.dart';
 import '../../../Core/widgets/custom_button.dart';
 
 import '../../../Core/widgets/pro_icon_logo.dart';
@@ -43,10 +49,10 @@ class _SetPasswordScreenState extends State<SetNewPasswordScreen> {
         builder.setNewPassword(password);
 
         final resetPasswordRequest = builder.build();
+        BlocProvider.of<SetNewPasswordCubit>(context, listen: false)
+            .resetPassword(resetPasswordRequest);
         log('resetPasswordRequest: ${resetPasswordRequest.toString()}');
         log('builder after step 3: ${builder.toString()}');
-
-        // handle sign up request here
       }
     }
   }
@@ -63,32 +69,70 @@ class _SetPasswordScreenState extends State<SetNewPasswordScreen> {
       resizeToAvoidButtomPadding: true,
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: SingleChildScrollView(
-            child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.w),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            90.h.verticalSpace,
-            const Center(child: ProIconLogo()),
-            50.h.verticalSpace,
-            Text(
-              "Set New Password",
-              style: AppTextStyles.fontSize24.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+        child: BlocProvider<SetNewPasswordCubit>(
+          create: (context) => getIt<SetNewPasswordCubit>(),
+          child: SingleChildScrollView(
+              child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.w),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              90.h.verticalSpace,
+              const Center(child: ProIconLogo()),
+              50.h.verticalSpace,
+              Text(
+                "Set New Password",
+                style: AppTextStyles.fontSize24.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            40.h.verticalSpace,
-            SetPasswordForm(setPasswordFormKey: _setNewPasswordFormKey),
-            40.h.verticalSpace,
-            SizedBox(
-                width: double.infinity,
-                child: CustomButton(
-                  text: "Confirm",
-                  onPressed: () => _submitForm(context),
-                )),
-          ]),
-        )),
+              40.h.verticalSpace,
+              SetPasswordForm(setPasswordFormKey: _setNewPasswordFormKey),
+              40.h.verticalSpace,
+              SizedBox(
+                  width: double.infinity,
+                  child: BlocConsumer<SetNewPasswordCubit, SetNewPasswordState>(
+                    listener: (context, state) {
+                      if (state.status == SetNewPasswordStatus.error) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              backgroundColor: AppColors.primaryColor,
+                              content: Text(state.responseMessage!)),
+                        );
+                        Future.delayed(const Duration(seconds: 2), () {
+                          if (context.mounted) {
+                            Navigator.pushReplacementNamed(
+                                context, ForgetPasswordScreen.routeName);
+                          }
+                        });
+                      }
+                      if (state.status == SetNewPasswordStatus.success) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Text(state.responseMessage!)),
+                        );
+                        Future.delayed(const Duration(seconds: 2), () {
+                          if (context.mounted) {
+                            Navigator.pushReplacementNamed(
+                                context, LoginScreen.routeName);
+                          }
+                        });
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state.status == SetNewPasswordStatus.submitting) {
+                        return const CustomLoader();
+                      }
+                      return CustomButton(
+                        text: "Confirm",
+                        onPressed: () => _submitForm(context),
+                      );
+                    },
+                  )),
+            ]),
+          )),
+        ),
       ),
     );
   }

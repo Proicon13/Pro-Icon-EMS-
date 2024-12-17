@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -11,8 +12,10 @@ import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/custom_text_field.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
+import 'package:pro_icon/Features/auth/reset_password/cubits/otp/otp_cubit.dart';
 import 'package:pro_icon/Features/auth/reset_password/set_new_password_screen.dart';
 
+import '../../../Core/dependencies.dart';
 import '../../../data/models/reset_password_request_builder.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -34,7 +37,7 @@ class _OtpScreenState extends State<OtpScreen> {
           .map((entry) => entry.value) // Combine all digit inputs
           .join();
 
-      if (otpCode.length == 5) {
+      if (otpCode.length == 6) {
         // set the otp code
         final builder = ResetPasswordRequestBuilder();
         builder.setResetCode(otpCode);
@@ -100,75 +103,114 @@ class _OtpScreenState extends State<OtpScreen> {
           child: SizedBox(
             width: double.infinity,
             child: CustomButton(
-              text: 'Send',
+              text: 'next',
               onPressed: () => _submitOtp(context),
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                90.h.verticalSpace,
-                const Center(child: ProIconLogo()),
-                50.h.verticalSpace,
-                Text(
-                  "Verification",
-                  style: AppTextStyles.fontSize24.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+        body: BlocProvider<OtpCubit>(
+          create: (context) => getIt<OtpCubit>(),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  90.h.verticalSpace,
+                  const Center(child: ProIconLogo()),
+                  50.h.verticalSpace,
+                  Text(
+                    "Verification",
+                    style: AppTextStyles.fontSize24.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                25.h.verticalSpace,
-                Text(
-                  'Enter the 6 digits code that you have received in your email',
-                  style: AppTextStyles.fontSize14
-                      .copyWith(color: AppColors.white71Color),
-                ),
-                70.h.verticalSpace,
-                FormBuilder(
-                  key: _otpFormKey,
-                  child: Row(
-                    spacing: 20.w,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildOtpField(context, 'otp1'),
-                      _buildOtpField(context, 'otp2'),
-                      _buildOtpField(context, 'otp3'),
-                      _buildOtpField(context, 'otp4'),
-                      _buildOtpField(context, 'otp5'),
-                    ],
+                  25.h.verticalSpace,
+                  Text(
+                    'Enter the 6 digits code that you have received in your email',
+                    style: AppTextStyles.fontSize14
+                        .copyWith(color: AppColors.white71Color),
                   ),
-                ),
-                30.h.verticalSpace,
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Didn't receive code? ",
-                        style: AppTextStyles.fontSize14
-                            .copyWith(color: Colors.white),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // make request to email to resend code
-                        },
-                        child: Text(
-                          "Resend code",
-                          style: AppTextStyles.fontSize14.copyWith(
-                            color: AppColors.primaryColor,
-                            fontWeight: FontWeight.w600,
-                            decoration: TextDecoration.underline,
-                          ),
+                  70.h.verticalSpace,
+                  FormBuilder(
+                    key: _otpFormKey,
+                    child: Row(
+                      spacing: 10.w,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _buildOtpField(context, 'otp1'),
+                        _buildOtpField(context, 'otp2'),
+                        _buildOtpField(context, 'otp3'),
+                        _buildOtpField(context, 'otp4'),
+                        _buildOtpField(context, 'otp5'),
+                        _buildOtpField(context, 'otp6'),
+                      ],
+                    ),
+                  ),
+                  30.h.verticalSpace,
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Didn't receive code? ",
+                          style: AppTextStyles.fontSize14
+                              .copyWith(color: Colors.white),
                         ),
-                      ),
-                    ],
+                        BlocConsumer<OtpCubit, OtpState>(
+                          listener: (context, state) {
+                            if (state.resendOtpStatus ==
+                                ResendOtpStatus.success) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    state.resendCodeMessage!,
+                                    style: AppTextStyles.fontSize14
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                  backgroundColor: Colors.green,
+                                ),
+                              );
+                            }
+                            if (state.resendOtpStatus ==
+                                ResendOtpStatus.error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    state.resendCodeMessage!,
+                                    style: AppTextStyles.fontSize14
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
+                          },
+                          builder: (context, state) {
+                            return GestureDetector(
+                              onTap: () {
+                                // make request to email to resend code
+                                BlocProvider.of<OtpCubit>(context,
+                                        listen: false)
+                                    .resendCode();
+                              },
+                              child: Text(
+                                "Resend code",
+                                style: AppTextStyles.fontSize14.copyWith(
+                                  color: AppColors.primaryColor,
+                                  fontWeight: FontWeight.w600,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

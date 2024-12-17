@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 class ResetPasswordRequest extends Equatable {
-  final String email;
-  final String resetCode;
-  final String newPassword;
+  final String? email;
+  final String? resetCode;
+  final String? newPassword;
 
   const ResetPasswordRequest({
     required this.email,

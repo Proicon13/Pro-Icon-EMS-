@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -51,7 +52,7 @@ class AddressForm extends StatelessWidget {
                         errorText: "Country is required"),
                   ),
                 ),
-                SizedBox(width: 16.w),
+                16.w.horizontalSpace,
                 Expanded(
                   child: DropdownFormSection(
                     title: "City",
@@ -75,7 +76,7 @@ class AddressForm extends StatelessWidget {
               ],
             ),
           ),
-          30.h.verticalSpace,
+          20.h.verticalSpace,
           // Full Address Field
           TextFormSection(
             title: "Full Address",
@@ -91,6 +92,10 @@ class AddressForm extends StatelessWidget {
             name: "postalCode",
             hintText: "123456",
             keyboardInputType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(6),
+            ],
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(
                   errorText: "Postal code is required"),

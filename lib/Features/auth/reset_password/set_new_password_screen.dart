@@ -4,22 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
 
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
-import 'package:pro_icon/Core/widgets/custom_loader.dart';
-import 'package:pro_icon/Features/auth/login/login_screen.dart';
+
+import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
+
 import 'package:pro_icon/Features/auth/reset_password/cubits/set_new_password/set_new_password_cubit.dart';
-import 'package:pro_icon/Features/auth/reset_password/forget_password_screen.dart';
+
 import 'package:pro_icon/data/models/reset_password_request_builder.dart';
 
 import '../../../Core/Theming/app_text_styles.dart';
 import '../../../Core/dependencies.dart';
-import '../../../Core/widgets/custom_button.dart';
 
 import '../../../Core/widgets/pro_icon_logo.dart';
 
 import '../register/widgets/set_password_from.dart';
+import 'widgets/confirm_button.dart';
 
 class SetNewPasswordScreen extends StatefulWidget {
   static const routeName = '/set-new-password';
@@ -39,11 +39,7 @@ class _SetPasswordScreenState extends State<SetNewPasswordScreen> {
       final password = formData!['password'];
       final confirmPassword = formData['confirmPassword'];
       if (password != confirmPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              backgroundColor: AppColors.primaryColor,
-              content: Text('Password does`t match')),
-        );
+        buildCustomSnackBar(context, "Password does not match", Colors.red);
       } else {
         final builder = ResetPasswordRequestBuilder();
         builder.setNewPassword(password);
@@ -89,47 +85,9 @@ class _SetPasswordScreenState extends State<SetNewPasswordScreen> {
               40.h.verticalSpace,
               SetPasswordForm(setPasswordFormKey: _setNewPasswordFormKey),
               40.h.verticalSpace,
-              SizedBox(
-                  width: double.infinity,
-                  child: BlocConsumer<SetNewPasswordCubit, SetNewPasswordState>(
-                    listener: (context, state) {
-                      if (state.status == SetNewPasswordStatus.error) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              backgroundColor: AppColors.primaryColor,
-                              content: Text(state.responseMessage!)),
-                        );
-                        Future.delayed(const Duration(seconds: 2), () {
-                          if (context.mounted) {
-                            Navigator.pushReplacementNamed(
-                                context, ForgetPasswordScreen.routeName);
-                          }
-                        });
-                      }
-                      if (state.status == SetNewPasswordStatus.success) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              backgroundColor: Colors.green,
-                              content: Text(state.responseMessage!)),
-                        );
-                        Future.delayed(const Duration(seconds: 2), () {
-                          if (context.mounted) {
-                            Navigator.pushReplacementNamed(
-                                context, LoginScreen.routeName);
-                          }
-                        });
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state.status == SetNewPasswordStatus.submitting) {
-                        return const CustomLoader();
-                      }
-                      return CustomButton(
-                        text: "Confirm",
-                        onPressed: () => _submitForm(context),
-                      );
-                    },
-                  )),
+              ConfirmButton(
+                onSubmit: _submitForm,
+              ),
             ]),
           )),
         ),

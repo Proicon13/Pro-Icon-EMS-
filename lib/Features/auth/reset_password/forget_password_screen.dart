@@ -3,17 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
+
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
+import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
+
 import 'package:pro_icon/Core/widgets/text_form_section.dart';
+import 'package:pro_icon/Core/widgets/title_section.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/forget_password/forget_password_cubit.dart';
-import 'package:pro_icon/Features/auth/reset_password/otp_screen.dart';
-import '../../../Core/Theming/app_text_styles.dart';
+
 import '../../../Core/dependencies.dart';
-import '../../../Core/widgets/custom_button.dart';
-import '../../../Core/widgets/custom_loader.dart';
+
 import '../../../Core/widgets/pro_icon_logo.dart';
 import '../../../data/models/reset_password_request_builder.dart';
+import 'widgets/send_code_button.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   static const routeName = '/forget-password';
@@ -50,62 +52,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+    return KeyboardDismissable(
       child: BlocProvider<ForgetPasswordCubit>(
         create: (context) => getIt<ForgetPasswordCubit>(),
         child: BaseAppScaffold(
           bottomNavigationBar: Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
-            child: SizedBox(
-              width: double.infinity,
-              child: BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
-                listener: (context, state) {
-                  if (state.codeRequestStatus == CodeRequestStatus.success) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          state.codeStatusMessage!,
-                          style: AppTextStyles.fontSize14
-                              .copyWith(color: Colors.white),
-                        ),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
-                    Future.delayed(const Duration(seconds: 2), () {
-                      if (context.mounted) {
-                        Navigator.pushReplacementNamed(
-                            context, OtpScreen.routeName);
-                      }
-                    });
-                  }
-                  if (state.codeRequestStatus == CodeRequestStatus.error) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          state.codeStatusMessage!,
-                          style: AppTextStyles.fontSize14
-                              .copyWith(color: Colors.white),
-                        ),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  }
-                },
-                builder: (context, state) {
-                  if (state.codeRequestStatus == CodeRequestStatus.submitting) {
-                    return SizedBox(
-                      height: 50.h,
-                      child: const CustomLoader(),
-                    );
-                  }
-                  return CustomButton(
-                    text: 'Send',
-                    onPressed: () =>
-                        _submitForm(context, state.codeRequestStatus!),
-                  );
-                },
-              ),
+            child: SendCodeButton(
+              onSubmit: _submitForm,
             ),
           ),
           body: SingleChildScrollView(
@@ -119,18 +73,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     child: ProIconLogo(),
                   ),
                   50.h.verticalSpace,
-                  Text(
-                    "Forget Password",
-                    style: AppTextStyles.fontSize24.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  25.h.verticalSpace,
-                  Text(
-                    'Please enter the email associated with your account and we will send you a code to reset password',
-                    textAlign: TextAlign.left,
-                    style: AppTextStyles.fontSize14
-                        .copyWith(color: AppColors.white71Color),
-                  ),
+                  const TitleSection(
+                      title: "Forget Password",
+                      subtitle:
+                          'Please enter the email associated with your account and we will send you a code to reset password'),
                   50.h.verticalSpace,
                   FormBuilder(
                     key: _forgetPasswordFormKey,

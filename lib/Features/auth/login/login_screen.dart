@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pro_icon/Core/widgets/custom_loader.dart';
+import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Features/auth/login/cubit/cubit/login_cubit.dart';
@@ -16,10 +16,11 @@ import '../../../Core/dependencies.dart';
 import '../../../Core/utils/enums/role.dart';
 import '../../../Core/utils/role_selection_helper.dart';
 import '../../../Core/widgets/base_app_Scaffold.dart';
-import '../../../Core/widgets/custom_button.dart';
+
 import '../../../Core/widgets/have_account_row.dart';
 
 import '../register/register_screen.dart';
+import 'widgets/login_button.dart';
 import 'widgets/login_form.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -58,8 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<LoginCubit>(),
-      child: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: KeyboardDismissable(
         child: BaseAppScaffold(
           resizeToAvoidButtomPadding: true,
           body: SingleChildScrollView(
@@ -103,41 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   30.h.verticalSpace, // Space between form and button
                   SizedBox(
                       width: double.infinity,
-                      child: BlocConsumer<LoginCubit, LoginState>(
-                        listener: (context, state) {
-                          if (state.loginStatus == LoginStatus.error) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(state.errorMessage!),
-                                backgroundColor: Colors.red,
-                                duration: const Duration(seconds: 2),
-                              ),
-                            );
-                          }
-                          if (state.loginStatus == LoginStatus.success) {
-                            // navigate to home screen
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Login successful'),
-                                backgroundColor: Colors.green,
-                                duration: Duration(seconds: 2),
-                              ),
-                            );
-                          }
-                        },
-                        buildWhen: (previous, current) => previous != current,
-                        builder: (context, state) {
-                          if (state.loginStatus == LoginStatus.submitting) {
-                            // loading
-                            return const CustomLoader();
-                          } else {
-                            return CustomButton(
-                              text: "Login",
-                              onPressed: () =>
-                                  _submitForm(context), // Submit the form
-                            );
-                          }
-                        },
+                      child: LoginButton(
+                        onSubmit: _submitForm,
                       )),
                   30.h.verticalSpace,
                   getIt<RoleSelectionHelper>().selectedRole ==

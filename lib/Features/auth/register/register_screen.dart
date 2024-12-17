@@ -7,6 +7,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
+import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Features/auth/register/admin_address_screen.dart';
 import 'package:pro_icon/Features/auth/login/login_screen.dart';
@@ -61,13 +62,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return BlocProvider<RegisterCubit>(
       create: (_) => getIt<RegisterCubit>(),
-      child: BaseAppScaffold(
-        resizeToAvoidButtomPadding: true,
-        body: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: SingleChildScrollView(
+      child: KeyboardDismissable(
+        child: BaseAppScaffold(
+          resizeToAvoidButtomPadding: true,
+          body: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 25.w),
               child: Column(

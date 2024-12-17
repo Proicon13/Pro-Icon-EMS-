@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
-
-import '../../../../../Core/Theming/app_text_styles.dart';
+import 'package:pro_icon/Core/widgets/title_section.dart';
 
 import '../../../../../Core/widgets/custom_button.dart';
 
@@ -37,7 +36,6 @@ class RoleSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      lazy: true,
       create: (context) => getIt<SelectRoleCubit>(),
       child: BaseAppScaffold(
         body: Padding(
@@ -50,16 +48,10 @@ class RoleSelectionScreen extends StatelessWidget {
                 child: ProIconLogo(),
               ),
               50.h.verticalSpace,
-              Text(
-                "Select User Type",
-                style: AppTextStyles.fontSize24.copyWith(color: Colors.white),
-              ),
-              25.h.verticalSpace,
-              Text(
-                'Tell us about yourself so we can get better experience for you',
-                textAlign: TextAlign.left,
-                style: AppTextStyles.fontSize14.copyWith(color: Colors.white),
-              ),
+              const TitleSection(
+                  title: "Select User Type",
+                  subtitle:
+                      'Tell us about yourself so we can get better experience for you'),
               60.h.verticalSpace,
               const UserTypesBlocSelector(),
               const Spacer(),

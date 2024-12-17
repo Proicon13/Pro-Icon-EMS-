@@ -10,7 +10,9 @@ import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
 import 'package:pro_icon/Core/Theming/app_text_styles.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
+import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
 import 'package:pro_icon/Core/widgets/custom_text_field.dart';
+import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/otp/otp_cubit.dart';
 import 'package:pro_icon/Features/auth/reset_password/set_new_password_screen.dart';
@@ -47,12 +49,8 @@ class _OtpScreenState extends State<OtpScreen> {
       }
     } else {
       // Validation failed
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please fill all fields correctly"),
-          backgroundColor: Colors.red,
-        ),
-      );
+      buildCustomSnackBar(
+          context, "Please fill all fields correctly", Colors.red);
     }
   }
 
@@ -95,8 +93,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+    return KeyboardDismissable(
       child: BaseAppScaffold(
         bottomNavigationBar: Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
@@ -162,29 +159,13 @@ class _OtpScreenState extends State<OtpScreen> {
                           listener: (context, state) {
                             if (state.resendOtpStatus ==
                                 ResendOtpStatus.success) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    state.resendCodeMessage!,
-                                    style: AppTextStyles.fontSize14
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  backgroundColor: Colors.green,
-                                ),
-                              );
+                              buildCustomSnackBar(context,
+                                  state.resendCodeMessage!, Colors.green);
                             }
                             if (state.resendOtpStatus ==
                                 ResendOtpStatus.error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    state.resendCodeMessage!,
-                                    style: AppTextStyles.fontSize14
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
+                              buildCustomSnackBar(context,
+                                  state.resendCodeMessage!, Colors.red);
                             }
                           },
                           builder: (context, state) {

@@ -5,21 +5,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:pro_icon/Core/Theming/app_text_styles.dart';
-import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/have_account_row.dart';
+import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
+import 'package:pro_icon/Core/widgets/title_section.dart';
 
 import 'package:pro_icon/Features/auth/login/login_screen.dart';
 import 'package:pro_icon/Features/auth/register/cubit/cubit/address_registration_cubit.dart';
 import 'package:pro_icon/Features/auth/register/set_password_screen.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Core/dependencies.dart';
 import '../../../data/models/sign_up_request_builder.dart';
-import 'widgets/address_form.dart';
+
+import 'widgets/address_form_bloc_consumer.dart';
 
 class AdminAddressScreen extends StatefulWidget {
   static const routeName = '/admin-address';
@@ -64,8 +64,7 @@ class _AdminAddressScreenState extends State<AdminAddressScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseAppScaffold(
-      body: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      body: KeyboardDismissable(
         child: BlocProvider<AddressRegistrationCubit>(
           create: (context) =>
               getIt<AddressRegistrationCubit>()..getCountries(),
@@ -83,47 +82,16 @@ class _AdminAddressScreenState extends State<AdminAddressScreen> {
                           child: ProIconLogo(),
                         ),
                         50.h.verticalSpace,
-                        Text(
-                          "Address",
-                          style: AppTextStyles.fontSize24.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        10.h.verticalSpace,
-                        Text(
-                          "Enter your full address details to be associated with your email",
-                          style: AppTextStyles.fontSize14.copyWith(
-                            color: AppColors.white71Color,
-                          ),
+                        const TitleSection(
+                          title: "Address",
+                          subtitle:
+                              "Enter your full address details to be associated with your email",
                         ),
                         40.h.verticalSpace,
 
                         // Address Form
-                        BlocConsumer<AddressRegistrationCubit,
-                            AddressRegistrationState>(
-                          listener: (context, state) {
-                            if (state.status == RequestStatus.error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    backgroundColor: Colors.red,
-                                    duration: const Duration(seconds: 2),
-                                    content: Text(state.errorMessage!)),
-                              );
-                            }
-                          },
-                          buildWhen: (previous, current) =>
-                              previous.status != current.status,
-                          builder: (context, state) {
-                            return Skeletonizer(
-                              enabled: state.status == RequestStatus.loading,
-                              child: AddressForm(
-                                  formKey: _addressFormKey,
-                                  countries: state.countries ?? [],
-                                  cities: state.cities ?? []),
-                            );
-                          },
-                        ),
+                        AddressFormBlocCounsumer(
+                            addressFormKey: _addressFormKey),
                       ],
                     ),
                   ),

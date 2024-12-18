@@ -37,12 +37,11 @@ class AuthRepoImpl implements AuthRepo {
   @override
   Future<Either<Failure, String>> forgetPassword(
       {required String email}) async {
-    try {
-      // send email to reset password
-      final response = await _resetPasswordService.forgotPassword(email: email);
-      return Right(response);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+    final response = await _resetPasswordService.forgotPassword(email: email);
+    if (response.isSuccess) {
+      return Right(response.data!);
+    } else {
+      return Left(ServerFailure(message: response.error!.message));
     }
   }
 
@@ -85,14 +84,12 @@ class AuthRepoImpl implements AuthRepo {
   @override
   Future<Either<Failure, String>> resetPassword(
       {required ResetPasswordRequest resetPasswordRequest}) async {
-    try {
-      // send reset password request
-      final response = await _resetPasswordService.resetPassword(
-          resetPasswordRequest: resetPasswordRequest);
-
-      return Right(response);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+    final response = await _resetPasswordService.resetPassword(
+        resetPasswordRequest: resetPasswordRequest);
+    if (response.isSuccess) {
+      return Right(response.data!);
+    } else {
+      return Left(ServerFailure(message: response.error!.message));
     }
   }
 }

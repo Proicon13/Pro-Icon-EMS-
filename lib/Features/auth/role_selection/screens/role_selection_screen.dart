@@ -3,16 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
+import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
 import 'package:pro_icon/Core/widgets/title_section.dart';
 
-import '../../../../../Core/widgets/custom_button.dart';
+import '../../../../../../Core/widgets/custom_button.dart';
 
-import '../../../../../Core/utils/enums/role.dart';
-import '../../../Core/widgets/pro_icon_logo.dart';
-import '../login/login_screen.dart';
-import 'cubit/cubit/select_role_cubit.dart';
+import '../../../../../../Core/utils/enums/role.dart';
+import '../../../../Core/widgets/pro_icon_logo.dart';
 
-import 'widgets/user_type_bloc_selector.dart';
+import '../../login/screens/login_screen.dart';
+import '../cubit/cubit/select_role_cubit.dart';
+
+import '../widgets/user_type_bloc_selector.dart';
 
 class RoleSelectionScreen extends StatelessWidget {
   static const routeName = '/role-case';
@@ -25,11 +27,7 @@ class RoleSelectionScreen extends StatelessWidget {
       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
     } else {
       // If no role is selected
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please select a role"),
-        ),
-      );
+      buildCustomSnackBar(context, 'Please Select a role', Colors.red);
     }
   }
 

@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../../data/models/sign_up_request.dart';
-import '../../../../../data/models/sign_up_request_builder.dart';
-import '../../../../../data/repos/auth_repo.dart';
+import '../../../../data/models/sign_up_request.dart';
+import '../../../../data/models/sign_up_request_builder.dart';
+import '../../../../data/repos/auth_repo.dart';
 
 part 'set_password_state.dart';
 

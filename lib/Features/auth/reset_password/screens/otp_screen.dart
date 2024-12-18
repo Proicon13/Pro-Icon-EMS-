@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
-import 'package:pro_icon/Core/Theming/app_text_styles.dart';
+import 'package:pro_icon/Core/theme/Colors/app_colors.dart';
+import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
@@ -15,10 +15,10 @@ import 'package:pro_icon/Core/widgets/custom_text_field.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/otp/otp_cubit.dart';
-import 'package:pro_icon/Features/auth/reset_password/set_new_password_screen.dart';
+import 'package:pro_icon/Features/auth/reset_password/screens/set_new_password_screen.dart';
 
-import '../../../Core/dependencies.dart';
-import '../../../data/models/reset_password_request_builder.dart';
+import '../../../../Core/dependencies.dart';
+import '../../../../data/models/reset_password_request_builder.dart';
 
 class OtpScreen extends StatefulWidget {
   static const String routeName = '/otp-screen';

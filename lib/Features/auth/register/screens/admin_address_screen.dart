@@ -12,14 +12,14 @@ import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Core/widgets/title_section.dart';
 
-import 'package:pro_icon/Features/auth/login/login_screen.dart';
-import 'package:pro_icon/Features/auth/register/cubit/cubit/address_registration_cubit.dart';
-import 'package:pro_icon/Features/auth/register/set_password_screen.dart';
+import 'package:pro_icon/Features/auth/register/cubits/address_registration_cubit.dart';
+import 'package:pro_icon/Features/auth/register/screens/set_password_screen.dart';
 
-import '../../../Core/dependencies.dart';
-import '../../../data/models/sign_up_request_builder.dart';
+import '../../../../Core/dependencies.dart';
+import '../../../../data/models/sign_up_request_builder.dart';
 
-import 'widgets/address_form_bloc_consumer.dart';
+import '../../login/screens/login_screen.dart';
+import '../widgets/address_form_bloc_consumer.dart';
 
 class AdminAddressScreen extends StatefulWidget {
   static const routeName = '/admin-address';

@@ -1,7 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:pro_icon/Core/Theming/Colors/app_colors.dart';
+
+import '../theme/app_colors.dart';
 
 class BaseAppScaffold extends StatelessWidget {
   final Widget? body;

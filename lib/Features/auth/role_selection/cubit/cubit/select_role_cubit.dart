@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../../Core/utils/enums/role.dart';
 import '../../../../../Core/utils/role_selection_helper.dart';

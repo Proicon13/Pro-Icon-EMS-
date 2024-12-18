@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pro_icon/Core/Theming/app_text_styles.dart';
 
-import '../Theming/Colors/app_colors.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 
 class CustomTextField extends StatelessWidget {
   final String name;

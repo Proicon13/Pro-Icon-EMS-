@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../Core/widgets/custom_button.dart';
 import '../../../../Core/widgets/custom_loader.dart';
 import '../../../../Core/widgets/custom_snack_bar.dart';
-import '../../login/login_screen.dart';
+
+import '../../login/screens/login_screen.dart';
 import '../cubits/set_new_password/set_new_password_cubit.dart';
-import '../forget_password_screen.dart';
+import '../screens/forget_password_screen.dart';
 
 class ConfirmButton extends StatelessWidget {
   final void Function(BuildContext) onSubmit;

@@ -2,16 +2,14 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:pro_icon/Features/auth/role_selection/role_selection_screen.dart';
-
-import '../../Features/auth/login/login_screen.dart';
-import '../../Features/auth/register/admin_address_screen.dart';
-import '../../Features/auth/register/register_screen.dart';
-
-import '../../Features/auth/register/set_password_screen.dart';
-import '../../Features/auth/reset_password/forget_password_screen.dart';
-import '../../Features/auth/reset_password/otp_screen.dart';
-import '../../Features/auth/reset_password/set_new_password_screen.dart';
+import '../../Features/auth/login/screens/login_screen.dart';
+import '../../Features/auth/register/screens/admin_address_screen.dart';
+import '../../Features/auth/register/screens/register_screen.dart';
+import '../../Features/auth/register/screens/set_password_screen.dart';
+import '../../Features/auth/reset_password/screens/forget_password_screen.dart';
+import '../../Features/auth/reset_password/screens/otp_screen.dart';
+import '../../Features/auth/reset_password/screens/set_new_password_screen.dart';
+import '../../Features/auth/role_selection/screens/role_selection_screen.dart';
 import '../../splash_screen.dart';
 
 Route<dynamic>? onGenerteRoute(RouteSettings settings) {

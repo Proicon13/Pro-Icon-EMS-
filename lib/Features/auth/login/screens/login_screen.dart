@@ -11,17 +11,17 @@ import 'package:pro_icon/Features/auth/login/cubit/cubit/login_cubit.dart';
 import 'package:pro_icon/Features/auth/reset_password/forget_password_screen.dart';
 import 'package:pro_icon/data/models/login_request_.dart';
 
-import '../../../Core/Theming/app_text_styles.dart';
-import '../../../Core/dependencies.dart';
-import '../../../Core/utils/enums/role.dart';
-import '../../../Core/utils/role_selection_helper.dart';
-import '../../../Core/widgets/base_app_Scaffold.dart';
+import '../../../../Core/theme/app_text_styles.dart';
+import '../../../../Core/dependencies.dart';
+import '../../../../Core/utils/enums/role.dart';
+import '../../../../Core/utils/role_selection_helper.dart';
+import '../../../../Core/widgets/base_app_Scaffold.dart';
 
-import '../../../Core/widgets/have_account_row.dart';
+import '../../../../Core/widgets/have_account_row.dart';
 
-import '../register/register_screen.dart';
-import 'widgets/login_button.dart';
-import 'widgets/login_form.dart';
+import '../../register/screens/register_screen.dart';
+import '../widgets/login_button.dart';
+import '../widgets/login_form.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/admin-auth';

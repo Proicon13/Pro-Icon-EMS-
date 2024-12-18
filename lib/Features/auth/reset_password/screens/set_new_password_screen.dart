@@ -13,13 +13,13 @@ import 'package:pro_icon/Features/auth/reset_password/cubits/set_new_password/se
 
 import 'package:pro_icon/data/models/reset_password_request_builder.dart';
 
-import '../../../Core/Theming/app_text_styles.dart';
-import '../../../Core/dependencies.dart';
+import '../../../../Core/theme/app_text_styles.dart';
+import '../../../../Core/dependencies.dart';
 
-import '../../../Core/widgets/pro_icon_logo.dart';
+import '../../../../Core/widgets/pro_icon_logo.dart';
 
-import '../register/widgets/set_password_from.dart';
-import 'widgets/confirm_button.dart';
+import '../../register/widgets/set_password_from.dart';
+import '../widgets/confirm_button.dart';
 
 class SetNewPasswordScreen extends StatefulWidget {
   static const routeName = '/set-new-password';

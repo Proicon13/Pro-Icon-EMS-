@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pro_icon/Core/cubits/cubit/user_state_cubit.dart';
 import 'package:pro_icon/Core/networking/base_api_provider.dart';
 import 'package:pro_icon/Core/networking/dio_consumer.dart';
 import 'package:pro_icon/Core/networking/interceptor.dart';
@@ -15,6 +16,7 @@ import 'package:pro_icon/Features/auth/role_selection/cubit/cubit/select_role_cu
 import 'package:pro_icon/data/repos/auth_repo.dart';
 import 'package:pro_icon/data/services/auth_service.dart';
 import 'package:pro_icon/data/services/reset_password_service.dart';
+import 'package:pro_icon/data/services/user_service.dart';
 
 import '../data/services/country_service.dart';
 import 'local_storage/local_storage_provider.dart';
@@ -34,15 +36,18 @@ void setupDependencies() {
 
   //services
   getIt.registerLazySingleton(() => RoleSelectionHelper());
-  getIt.registerLazySingleton(() => AuthService(apiProvider: getIt()));
+  getIt.registerLazySingleton(
+      () => AuthService(apiProvider: getIt(), localService: getIt()));
   getIt.registerLazySingleton(() => ResetPasswordService(apiProvider: getIt()));
   getIt.registerLazySingleton(() => CountryService(apiProvider: getIt()));
+  getIt.registerLazySingleton(
+      () => UserService(apiProvider: getIt(), localService: getIt()));
 
   // repos
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(
       authService: getIt(),
       resetPasswordService: getIt(),
-      localService: getIt()));
+      userService: getIt()));
 
   // cubits
   getIt.registerFactory<SelectRoleCubit>(() => SelectRoleCubit(getIt()));
@@ -57,4 +62,6 @@ void setupDependencies() {
   getIt.registerFactory<OtpCubit>(() => OtpCubit(authRepo: getIt()));
   getIt.registerFactory<SetNewPasswordCubit>(
       () => SetNewPasswordCubit(authRepo: getIt()));
+  getIt.registerLazySingleton<UserStateCubit>(
+      () => UserStateCubit(userService: getIt(), authRepo: getIt()));
 }

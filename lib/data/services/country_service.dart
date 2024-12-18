@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:pro_icon/Core/networking/api_constants.dart';
 
 import 'package:pro_icon/Core/networking/base_api_provider.dart';
 import 'package:pro_icon/data/models/city_model.dart';
@@ -15,7 +16,7 @@ class CountryService {
   Future<Either<Failure, List<CountryModel>>> getCountries() async {
     // Send request and parse response
     final response = await _apiProvider.get<List<dynamic>>(
-      endpoint: '/lookups/countries',
+      endpoint: ApiConstants.lookUpCountriesEndpoint,
     );
     if (response.isSuccess) {
       // Map response data to List<CountryModel>
@@ -36,7 +37,7 @@ class CountryService {
     // Send request with query parameters
 
     final response = await _apiProvider.get<List<dynamic>>(
-      endpoint: '/lookups/cities/$countryId',
+      endpoint: '${ApiConstants.lookUpCitiesEndpoint}/$countryId',
     );
 
     if (response.isSuccess) {

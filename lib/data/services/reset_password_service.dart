@@ -1,3 +1,4 @@
+import 'package:pro_icon/Core/networking/api_constants.dart';
 import 'package:pro_icon/Core/networking/base_api_provider.dart';
 
 import '../models/api_response.dart';
@@ -11,7 +12,7 @@ class ResetPasswordService {
 
   Future<ApiResponse<String>> forgotPassword({required String email}) async {
     final response = await _apiProvider.post<Map<String, dynamic>>(
-        endpoint: '/auth/forgot-password', data: {'email': email});
+        endpoint: ApiConstants.forgotPasswordEndpoint, data: {'email': email});
     if (response.isSuccess) {
       return ApiResponse.success(response.data!['message']);
     } else {
@@ -22,7 +23,8 @@ class ResetPasswordService {
   Future<ApiResponse<String>> resetPassword(
       {required ResetPasswordRequest resetPasswordRequest}) async {
     final response = await _apiProvider.post<Map<String, dynamic>>(
-        endpoint: '/auth/reset-password', data: resetPasswordRequest.toJson());
+        endpoint: ApiConstants.resetPasswordEndpoint,
+        data: resetPasswordRequest.toJson());
     if (response.isSuccess) {
       return ApiResponse.success(response.data!['message']);
     } else {

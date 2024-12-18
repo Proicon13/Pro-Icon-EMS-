@@ -12,8 +12,10 @@ class AppUserModel extends Equatable {
   final String address;
   final String phone;
   final String role;
+  final String? status;
 
   const AppUserModel({
+    this.status,
     required this.id,
     required this.email,
     required this.fullname,
@@ -36,6 +38,7 @@ class AppUserModel extends Equatable {
       address: json['address'] as String,
       phone: json['phone'] as String,
       role: json['role'] as String,
+      status: json['status'] != null ? json['status'] as String : 'NOT ACTIVE',
     );
   }
 
@@ -50,5 +53,6 @@ class AppUserModel extends Equatable {
         address,
         phone,
         role,
+        status
       ];
 }

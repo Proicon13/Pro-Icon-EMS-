@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pro_icon/Core/Theming/app_text_styles.dart';
+import 'package:pro_icon/Core/theme/app_text_styles.dart';
 
 void buildCustomSnackBar(BuildContext context, String message, Color color,
     [Duration? duration]) {

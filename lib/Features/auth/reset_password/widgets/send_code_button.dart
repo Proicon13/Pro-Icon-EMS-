@@ -6,7 +6,7 @@ import '../../../../Core/widgets/custom_button.dart';
 import '../../../../Core/widgets/custom_loader.dart';
 import '../../../../Core/widgets/custom_snack_bar.dart';
 import '../cubits/forget_password/forget_password_cubit.dart';
-import '../otp_screen.dart';
+import '../screens/otp_screen.dart';
 
 class SendCodeButton extends StatelessWidget {
   final void Function(BuildContext, CodeRequestStatus) onSubmit;
@@ -35,6 +35,8 @@ class SendCodeButton extends StatelessWidget {
             buildCustomSnackBar(context, state.codeStatusMessage!, Colors.red);
           }
         },
+        buildWhen: (previous, current) =>
+            previous.codeRequestStatus != current.codeRequestStatus,
         builder: (context, state) {
           if (state.codeRequestStatus == CodeRequestStatus.submitting) {
             return SizedBox(

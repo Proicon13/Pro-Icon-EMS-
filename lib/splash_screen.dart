@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/constants/app_assets.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
-import 'package:pro_icon/Features/auth/role_selection/role_selection_screen.dart';
+import 'package:pro_icon/Features/auth/role_selection/screens/role_selection_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = '/splash';

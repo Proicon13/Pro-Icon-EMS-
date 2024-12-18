@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../cubit/cubit/address_registration_cubit.dart';
+import '../cubits/address_registration_cubit.dart';
 import 'address_form.dart';
 
 class AddressFormBlocCounsumer extends StatelessWidget {

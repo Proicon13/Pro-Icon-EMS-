@@ -44,6 +44,7 @@ class ConfirmButton extends StatelessWidget {
               });
             }
           },
+          buildWhen: (previous, current) => previous.status != current.status,
           builder: (context, state) {
             if (state.status == SetNewPasswordStatus.submitting) {
               return const CustomLoader();

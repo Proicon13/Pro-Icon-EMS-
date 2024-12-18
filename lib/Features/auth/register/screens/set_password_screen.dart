@@ -12,17 +12,17 @@ import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
-import 'package:pro_icon/Features/auth/register/cubit/cubit/set_password_cubit.dart';
+import 'package:pro_icon/Features/auth/register/cubits/set_password_cubit.dart';
 
-import '../../../Core/Theming/app_text_styles.dart';
+import '../../../../Core/theme/app_text_styles.dart';
 
-import '../../../Core/widgets/have_account_row.dart';
-import '../../../Core/widgets/pro_icon_logo.dart';
+import '../../../../Core/widgets/have_account_row.dart';
+import '../../../../Core/widgets/pro_icon_logo.dart';
 
-import '../../../data/models/sign_up_request_builder.dart';
-import '../login/login_screen.dart';
-import 'widgets/set_password_button.dart';
-import 'widgets/set_password_from.dart';
+import '../../../../data/models/sign_up_request_builder.dart';
+import '../../login/screens/login_screen.dart';
+import '../widgets/set_password_button.dart';
+import '../widgets/set_password_from.dart';
 
 class SetPasswordScreen extends StatefulWidget {
   static const routeName = '/set-password';

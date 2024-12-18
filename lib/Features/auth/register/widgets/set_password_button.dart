@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../Core/widgets/custom_button.dart';
 import '../../../../Core/widgets/custom_loader.dart';
 import '../../../../Core/widgets/custom_snack_bar.dart';
-import '../../login/login_screen.dart';
-import '../cubit/cubit/set_password_cubit.dart';
-import '../register_screen.dart';
+import '../../login/screens/login_screen.dart';
+import '../cubits/set_password_cubit.dart';
+import '../screens/register_screen.dart';
 
 class SetPasswordButton extends StatelessWidget {
   final void Function(BuildContext) onSubmit;
@@ -44,6 +44,7 @@ class SetPasswordButton extends StatelessWidget {
               });
             }
           },
+          buildWhen: (previous, current) => previous.status != current.status,
           builder: (context, state) {
             if (state.status == SetPasswordStatus.submitting) {
               return const CustomLoader();

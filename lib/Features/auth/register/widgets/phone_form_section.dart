@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pro_icon/Features/auth/register/cubit/cubit/register_cubit.dart';
+import 'package:pro_icon/Features/auth/register/cubits/register_cubit.dart';
 
-import '../../../../Core/Theming/app_text_styles.dart';
+import '../../../../Core/theme/app_text_styles.dart';
 import 'phone_form_field.dart';
 
 class PhoneFormSection extends StatelessWidget {

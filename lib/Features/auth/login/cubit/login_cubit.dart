@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pro_icon/data/repos/auth_repo.dart';
 
-import '../../../../../data/models/login_request_.dart';
+import '../../../../data/models/login_request_.dart';
 
 part 'login_state.dart';
 

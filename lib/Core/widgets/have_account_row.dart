@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/Theming/Colors/app_colors.dart';
+import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 
 class HaveAccountRow extends StatelessWidget {
@@ -30,7 +30,7 @@ class HaveAccountRow extends StatelessWidget {
           child: Text(
             action,
             style: AppTextStyles.fontSize14.copyWith(
-              color: AppColors.primaryColor, // Highlighted color for the link
+              color: AppColors.primaryColor,
               fontWeight: FontWeight.bold,
             ),
           ),

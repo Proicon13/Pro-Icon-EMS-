@@ -11,11 +11,11 @@ import 'package:pro_icon/Core/widgets/text_form_section.dart';
 import 'package:pro_icon/Core/widgets/title_section.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/forget_password/forget_password_cubit.dart';
 
-import '../../../Core/dependencies.dart';
+import '../../../../Core/dependencies.dart';
 
-import '../../../Core/widgets/pro_icon_logo.dart';
-import '../../../data/models/reset_password_request_builder.dart';
-import 'widgets/send_code_button.dart';
+import '../../../../Core/widgets/pro_icon_logo.dart';
+import '../../../../data/models/reset_password_request_builder.dart';
+import '../widgets/send_code_button.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   static const routeName = '/forget-password';

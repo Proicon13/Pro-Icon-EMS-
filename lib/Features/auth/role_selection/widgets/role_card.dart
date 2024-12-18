@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../Core/constants/app_assets.dart';
-import '../../../../Core/theme/Colors/app_colors.dart';
+import '../../../../Core/theme/app_colors.dart';
 import '../../../../Core/theme/app_text_styles.dart';
 import '../../../../Core/widgets/custom_asset_image.dart';
 

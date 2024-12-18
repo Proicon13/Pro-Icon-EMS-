@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../Core/Theming/Colors/app_colors.dart';
-import '../../../../Core/Theming/app_text_styles.dart';
+import '../../../../Core/theme/app_colors.dart';
+import '../../../../Core/theme/app_text_styles.dart';
 
 class PhoneNumberField extends StatelessWidget {
   final String countryCode;

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/widgets/custom_button.dart';
 import '../../../../Core/widgets/custom_loader.dart';
-import '../cubit/cubit/login_cubit.dart';
+import '../cubit/login_cubit.dart';
 
 class LoginButton extends StatelessWidget {
   final void Function(BuildContext) onSubmit;

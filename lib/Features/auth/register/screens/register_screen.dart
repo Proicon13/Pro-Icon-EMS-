@@ -9,16 +9,16 @@ import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
-import 'package:pro_icon/Features/auth/register/admin_address_screen.dart';
-import 'package:pro_icon/Features/auth/login/login_screen.dart';
-import 'package:pro_icon/Features/auth/register/cubit/cubit/register_cubit.dart';
+import 'package:pro_icon/Features/auth/register/screens/admin_address_screen.dart';
+import 'package:pro_icon/Features/auth/login/screens/login_screen.dart';
+import 'package:pro_icon/Features/auth/register/cubits/register_cubit.dart';
 import 'package:pro_icon/data/models/sign_up_request_builder.dart';
 
-import '../../../Core/Theming/app_text_styles.dart';
-import '../../../Core/widgets/custom_button.dart';
-import '../../../Core/widgets/have_account_row.dart';
+import '../../../../Core/theme/app_text_styles.dart';
+import '../../../../Core/widgets/custom_button.dart';
+import '../../../../Core/widgets/have_account_row.dart';
 
-import 'widgets/register_form.dart';
+import '../widgets/register_form.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = '/sign-up';

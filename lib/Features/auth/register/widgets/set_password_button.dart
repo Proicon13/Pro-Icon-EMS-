@@ -49,7 +49,7 @@ class SetPasswordButton extends StatelessWidget {
               return const CustomLoader();
             } else {
               return CustomButton(
-                  text: "Next", onPressed: () => onSubmit(context));
+                  text: "Confirm", onPressed: () => onSubmit(context));
             }
           },
         ));

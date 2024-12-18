@@ -1,7 +1,7 @@
 class APIErrorModel {
   final String message;
 
-  APIErrorModel._(this.message);
+  APIErrorModel({required this.message});
 
   factory APIErrorModel.fromJson(Map<String, dynamic> json) {
     final nestedMessage = json['message'];
@@ -10,6 +10,6 @@ class APIErrorModel {
         ? nestedMessage['message'] ?? 'An unknown error occurred'
         : nestedMessage?.toString() ?? 'An unknown error occurred';
 
-    return APIErrorModel._(extractedMessage);
+    return APIErrorModel(message: extractedMessage);
   }
 }

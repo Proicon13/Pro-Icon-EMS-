@@ -7,7 +7,7 @@ import 'package:pro_icon/data/models/api_response.dart';
 import '../../data/models/api_error_model.dart';
 import '../constants/app_constants.dart';
 import '../dependencies.dart';
-import '../errors/exceptions.dart';
+
 import '../errors/status_code.dart';
 import 'interceptor.dart';
 
@@ -86,25 +86,37 @@ class DioConsumer implements BaseApiProvider {
   }
 
   Future<ApiResponse<T>> _handleRequest<T>(
-      Future<Response> Function() request, T Function(dynamic) fromJson) async {
+    Future<Response> Function() request,
+    T Function(dynamic) fromJson,
+  ) async {
     try {
       final response = await request();
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // Success response
+        // Return success response
         return ApiResponse.success(fromJson(response.data));
       } else {
-        // Parse and throw ServerException on error
+        // Parse the error model and return failure response
         final errorModel = APIErrorModel.fromJson(response.data);
-        throw ServerException(errorModel.message);
+        return ApiResponse.failure(errorModel);
       }
     } on DioException catch (e) {
       if (e.response != null && e.response?.data is Map<String, dynamic>) {
+        // Parse error model and return failure response
         final errorModel = APIErrorModel.fromJson(e.response!.data);
-        throw ServerException(errorModel.message);
+        return ApiResponse.failure(errorModel);
       } else {
-        throw ServerException('Connection error: ${e.message}');
+        // Handle connection error
+        final connectionErrorModel = APIErrorModel(
+          message: 'Connection error: ${e.message ?? "Unknown error"}',
+        );
+        return ApiResponse.failure(connectionErrorModel);
       }
+    } catch (e) {
+      final unexpectedErrorModel = APIErrorModel(
+        message: 'Unexpected error: $e',
+      );
+      return ApiResponse.failure(unexpectedErrorModel);
     }
   }
 }

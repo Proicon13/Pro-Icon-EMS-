@@ -50,33 +50,35 @@ class AuthRepoImpl implements AuthRepo {
   Future<Either<Failure, void>> login({
     required LoginRequest loginRequest,
   }) async {
-    try {
-      // Send login request
-      final response = await _authService.login(loginRequest: loginRequest);
-      final token = response.accessToken;
+    // Send login request
+    final response = await _authService.login(loginRequest: loginRequest);
+    if (response.isSuccess) {
+      // success response
+      final token = response.data!.accessToken;
+      try {
+        // Save token to secured local storage
+        await _localService.put(AppConstants.tokenLocalKey, token);
 
-      // Save token to secured local storage
-      await _localService.put(AppConstants.tokenLocalKey, token);
-
-      return const Right(null);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
-    } on CacheException catch (e) {
-      return Left(CacheFailure(message: e.message));
+        return const Right(null);
+      } on CacheException catch (e) {
+        // on local storage error
+        return Left(CacheFailure(message: e.message));
+      }
+    } else {
+      // failure response
+      return Left(ServerFailure(message: response.error!.message));
     }
   }
 
   @override
   Future<Either<Failure, AppUserModel>> registerUser(
       {required SignupRequest signUpRequest}) async {
-    try {
-      // send register user request
-      final response =
-          await _authService.register(signUpRequest: signUpRequest);
-
-      return Right(response);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+    // send register user request
+    final response = await _authService.register(signUpRequest: signUpRequest);
+    if (response.isSuccess) {
+      return Right(response.data!);
+    } else {
+      return Left(ServerFailure(message: response.error!.message));
     }
   }
 

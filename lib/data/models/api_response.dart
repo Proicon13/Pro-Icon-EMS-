@@ -1,8 +1,8 @@
-import '../../Core/errors/exceptions.dart';
+import 'api_error_model.dart';
 
 class ApiResponse<T> {
   final T? data;
-  final AppException? error;
+  final APIErrorModel? error;
 
   ApiResponse.success(this.data) : error = null;
   ApiResponse.failure(this.error) : data = null;

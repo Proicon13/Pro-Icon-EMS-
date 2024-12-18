@@ -9,6 +9,7 @@ import '../constants/app_constants.dart';
 import '../dependencies.dart';
 
 import '../errors/status_code.dart';
+import 'api_error_handler.dart';
 import 'interceptor.dart';
 
 class DioConsumer implements BaseApiProvider {
@@ -93,30 +94,39 @@ class DioConsumer implements BaseApiProvider {
       final response = await request();
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // Return success response
+        // Success response
         return ApiResponse.success(fromJson(response.data));
       } else {
-        // Parse the error model and return failure response
-        final errorModel = APIErrorModel.fromJson(response.data);
-        return ApiResponse.failure(errorModel);
+        // Handle known server errors
+        return _handleServerError(response);
       }
     } on DioException catch (e) {
-      if (e.response != null && e.response?.data is Map<String, dynamic>) {
-        // Parse error model and return failure response
-        final errorModel = APIErrorModel.fromJson(e.response!.data);
-        return ApiResponse.failure(errorModel);
-      } else {
-        // Handle connection error
-        final connectionErrorModel = APIErrorModel(
-          message: 'Connection error: ${e.message ?? "Unknown error"}',
-        );
-        return ApiResponse.failure(connectionErrorModel);
-      }
+      // Handle Dio-specific errors
+      return ApiResponse.failure(ApiErrorHandler.handleDioError(e));
     } catch (e) {
-      final unexpectedErrorModel = APIErrorModel(
-        message: 'Unexpected error: $e',
+      // Handle unexpected errors
+      return ApiResponse.failure(ApiErrorHandler.handleUnexpectedError(e));
+    }
+  }
+
+  /// Handle server-side errors
+  ApiResponse<T> _handleServerError<T>(Response response) {
+    if (response.data is Map<String, dynamic>) {
+      // Parse error model if present
+      final errorModel = APIErrorModel.fromJson(response.data);
+      return ApiResponse.failure(
+        ApiErrorHandler.handleServerError(
+          statusCode: response.statusCode!,
+          serverMessage: errorModel.message,
+        ),
       );
-      return ApiResponse.failure(unexpectedErrorModel);
+    } else {
+      // Generic error response if no error model
+      return ApiResponse.failure(
+        ApiErrorHandler.handleServerError(
+          statusCode: response.statusCode!,
+        ),
+      );
     }
   }
 }

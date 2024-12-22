@@ -42,6 +42,7 @@ class RegisterForm extends StatelessWidget {
                   errorText: "Enter a valid email address"),
             ]),
           ),
+          30.h.verticalSpace,
           const PhoneFormSection(),
         ],
       ),

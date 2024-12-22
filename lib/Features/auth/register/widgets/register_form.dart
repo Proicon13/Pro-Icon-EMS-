@@ -18,7 +18,6 @@ class RegisterForm extends StatelessWidget {
     return FormBuilder(
       key: formKey,
       child: Column(
-        spacing: 30.h,
         children: [
           TextFormSection(
             title: "Full Name",
@@ -31,6 +30,7 @@ class RegisterForm extends StatelessWidget {
                   errorText: "Name must be at least 3 characters"),
             ]),
           ),
+          30.h.verticalSpace,
           TextFormSection(
             title: "Email",
             name: "email",

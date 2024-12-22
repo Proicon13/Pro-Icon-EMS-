@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:pro_icon/Core/constants/app_constants.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:pro_icon/Core/cubits/cubit/user_state_cubit.dart';
 import 'package:pro_icon/Core/dependencies.dart';
+
+import 'Core/constants/app_constants.dart';
 import 'Core/routing/app_router.dart';
 import 'Core/theme/app_theme.dart';
 
@@ -31,8 +33,11 @@ class Proicon extends StatelessWidget {
             title: AppConstants.appName,
             theme: AppTheme.appTheme,
             supportedLocales: FormBuilderLocalizations.supportedLocales,
-            localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+            localizationsDelegates: const [
               FormBuilderLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
             ],
             onGenerateRoute: onGenerteRoute,
           ),

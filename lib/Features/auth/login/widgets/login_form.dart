@@ -17,7 +17,6 @@ class LoginForm extends StatelessWidget {
     return FormBuilder(
       key: formKey,
       child: Column(
-        spacing: 40.h,
         children: [
           TextFormSection(
             title: "Email",
@@ -30,7 +29,7 @@ class LoginForm extends StatelessWidget {
                   errorText: "Enter a valid email address"),
             ]),
           ),
-
+          40.h.verticalSpace,
           // Password Field
           TextFormSection(
             title: "Password",

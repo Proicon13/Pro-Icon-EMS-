@@ -17,7 +17,6 @@ class HaveAccountRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: 5.w,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
@@ -25,6 +24,7 @@ class HaveAccountRow extends StatelessWidget {
           style: AppTextStyles.fontSize14
               .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
         ),
+        5.w.horizontalSpace,
         GestureDetector(
           onTap: onAction,
           child: Text(

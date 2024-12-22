@@ -133,14 +133,18 @@ class _OtpScreenState extends State<OtpScreen> {
                   FormBuilder(
                     key: _otpFormKey,
                     child: Row(
-                      spacing: 10.w,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         _buildOtpField(context, 'otp1'),
+                        10.w.horizontalSpace,
                         _buildOtpField(context, 'otp2'),
+                        10.w.horizontalSpace,
                         _buildOtpField(context, 'otp3'),
+                        10.w.horizontalSpace,
                         _buildOtpField(context, 'otp4'),
+                        10.w.horizontalSpace,
                         _buildOtpField(context, 'otp5'),
+                        10.w.horizontalSpace,
                         _buildOtpField(context, 'otp6'),
                       ],
                     ),

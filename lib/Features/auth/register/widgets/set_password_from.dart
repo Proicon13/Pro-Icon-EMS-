@@ -18,7 +18,6 @@ class SetPasswordForm extends StatelessWidget {
     return FormBuilder(
         key: _setPasswordFormKey,
         child: Column(
-          spacing: 30.h,
           children: [
             TextFormSection(
               name: 'password',
@@ -32,6 +31,7 @@ class SetPasswordForm extends StatelessWidget {
                     errorText: "Password must be at least 8 characters long"),
               ]),
             ),
+            30.h.verticalSpace,
             TextFormSection(
               name: 'confirmPassword',
               title: 'Confirm Password',

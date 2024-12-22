@@ -13,12 +13,12 @@ class TitleSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 20.h,
       children: [
         Text(
           title,
           style: AppTextStyles.fontSize24.copyWith(color: Colors.white),
         ),
+        20.h.verticalSpace,
         Text(
           subtitle,
           textAlign: TextAlign.left,

@@ -25,7 +25,6 @@ class PhoneNumberField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 5.h,
       children: [
         Container(
           decoration: BoxDecoration(
@@ -95,6 +94,7 @@ class PhoneNumberField extends StatelessWidget {
             ],
           ),
         ),
+        5.h.verticalSpace,
         errorMessage != null && errorMessage!.isNotEmpty
             ? Row(
                 children: [

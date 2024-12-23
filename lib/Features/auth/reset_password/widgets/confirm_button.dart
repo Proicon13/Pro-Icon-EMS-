@@ -23,7 +23,7 @@ class ConfirmButton extends StatelessWidget {
         child: BlocConsumer<SetNewPasswordCubit, SetNewPasswordState>(
           listener: (context, state) {
             if (state.status == SetNewPasswordStatus.error) {
-              buildCustomSnackBar(context, state.responseMessage!, Colors.red);
+              buildCustomAlert(context, state.responseMessage!, Colors.red);
 
               Future.delayed(const Duration(seconds: 2), () {
                 if (context.mounted) {
@@ -33,8 +33,7 @@ class ConfirmButton extends StatelessWidget {
               });
             }
             if (state.status == SetNewPasswordStatus.success) {
-              buildCustomSnackBar(
-                  context, state.responseMessage!, Colors.green);
+              buildCustomAlert(context, state.responseMessage!, Colors.green);
 
               Future.delayed(const Duration(seconds: 2), () {
                 if (context.mounted) {

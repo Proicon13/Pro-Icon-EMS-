@@ -25,7 +25,7 @@ class RoleSelectionScreen extends StatelessWidget {
       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
     } else {
       // If no role is selected
-      buildCustomSnackBar(
+      buildCustomAlert(
           context, "roleSelection.screen.message".tr(), Colors.red);
     }
   }

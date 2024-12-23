@@ -22,8 +22,7 @@ class SendCodeButton extends StatelessWidget {
       child: BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
         listener: (context, state) {
           if (state.codeRequestStatus == CodeRequestStatus.success) {
-            buildCustomSnackBar(
-                context, state.codeStatusMessage!, Colors.green);
+            buildCustomAlert(context, state.codeStatusMessage!, Colors.green);
 
             Future.delayed(const Duration(seconds: 2), () {
               if (context.mounted) {
@@ -32,7 +31,7 @@ class SendCodeButton extends StatelessWidget {
             });
           }
           if (state.codeRequestStatus == CodeRequestStatus.error) {
-            buildCustomSnackBar(context, state.codeStatusMessage!, Colors.red);
+            buildCustomAlert(context, state.codeStatusMessage!, Colors.red);
           }
         },
         buildWhen: (previous, current) =>

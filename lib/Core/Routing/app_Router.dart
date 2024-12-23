@@ -10,6 +10,7 @@ import '../../Features/auth/reset_password/screens/forget_password_screen.dart';
 import '../../Features/auth/reset_password/screens/otp_screen.dart';
 import '../../Features/auth/reset_password/screens/set_new_password_screen.dart';
 import '../../Features/auth/role_selection/screens/role_selection_screen.dart';
+import '../../Features/users/screens/users_screen.dart';
 import '../../splash_screen.dart';
 
 Route<dynamic>? onGenerteRoute(RouteSettings settings) {
@@ -37,6 +38,9 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const RegisterScreen());
     case AdminAddressScreen.routeName:
       return MaterialPageRoute(builder: (_) => const AdminAddressScreen());
+
+    case UsersScreen.routeName:
+      return MaterialPageRoute(builder: (_) => const UsersScreen());
 
     default:
       return MaterialPageRoute(

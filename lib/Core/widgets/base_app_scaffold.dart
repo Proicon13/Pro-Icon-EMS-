@@ -8,17 +8,20 @@ class BaseAppScaffold extends StatelessWidget {
   final Widget? body;
   final Widget? bottomNavigationBar;
   final bool? resizeToAvoidButtomPadding;
+  final PreferredSizeWidget? appBar;
 
   const BaseAppScaffold(
       {super.key,
       this.body,
       this.bottomNavigationBar,
-      this.resizeToAvoidButtomPadding});
+      this.resizeToAvoidButtomPadding,
+      this.appBar});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: appBar,
         backgroundColor: AppColors.backgroundColor,
         body: body,
         resizeToAvoidBottomInset: resizeToAvoidButtomPadding,

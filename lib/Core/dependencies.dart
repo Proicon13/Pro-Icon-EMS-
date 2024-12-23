@@ -9,8 +9,8 @@ import 'package:pro_icon/Features/auth/login/cubit/login_cubit.dart';
 import 'package:pro_icon/Features/auth/register/cubits/address_registration_cubit.dart';
 import 'package:pro_icon/Features/auth/register/cubits/register_cubit.dart';
 import 'package:pro_icon/Features/auth/register/cubits/set_password_cubit.dart';
-import 'package:pro_icon/Features/auth/reset_password/cubits/otp/otp_cubit.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/forget_password/forget_password_cubit.dart';
+import 'package:pro_icon/Features/auth/reset_password/cubits/otp/otp_cubit.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/set_new_password/set_new_password_cubit.dart';
 import 'package:pro_icon/Features/auth/role_selection/cubit/cubit/select_role_cubit.dart';
 import 'package:pro_icon/data/repos/auth_repo.dart';
@@ -28,7 +28,6 @@ final getIt = GetIt.instance;
 void setupDependencies() {
   getIt.registerLazySingleton(() => const FlutterSecureStorage());
   getIt.registerLazySingleton(() => Dio());
-  getIt.registerLazySingleton(() => AppInterceptor());
   getIt.registerLazySingleton(() => LogInterceptor());
   getIt.registerLazySingleton<BaseApiProvider>(() => DioConsumer(dio: getIt()));
   getIt.registerLazySingleton<BaseLocalService>(
@@ -42,6 +41,7 @@ void setupDependencies() {
   getIt.registerLazySingleton(() => CountryService(apiProvider: getIt()));
   getIt.registerLazySingleton(
       () => UserService(apiProvider: getIt(), localService: getIt()));
+  getIt.registerLazySingleton(() => AppInterceptor(userService: getIt()));
 
   // repos
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(

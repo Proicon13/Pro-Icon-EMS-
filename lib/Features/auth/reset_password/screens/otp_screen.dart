@@ -50,7 +50,7 @@ class _OtpScreenState extends State<OtpScreen> {
       }
     } else {
       // Validation failed
-      buildCustomSnackBar(
+      buildCustomAlert(
           context, "otp.screen.validationMessage".tr(), Colors.red);
     }
   }
@@ -165,12 +165,12 @@ class _OtpScreenState extends State<OtpScreen> {
                           listener: (context, state) {
                             if (state.resendOtpStatus ==
                                 ResendOtpStatus.success) {
-                              buildCustomSnackBar(context,
+                              buildCustomAlert(context,
                                   state.resendCodeMessage!, Colors.green);
                             }
                             if (state.resendOtpStatus ==
                                 ResendOtpStatus.error) {
-                              buildCustomSnackBar(context,
+                              buildCustomAlert(context,
                                   state.resendCodeMessage!, Colors.red);
                             }
                           },

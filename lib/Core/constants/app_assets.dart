@@ -25,7 +25,7 @@ class Assets {
 
   /// Assets for assetsImagesSuccess
   /// assets/images/success.png
-  static const String assetsIconsSuccess = "assets/images/success.png";
+  static const String assetsIconsSuccess = "assets/images/success.svg";
 
   /// Assets for assetsImagesTrainer
   /// assets/images/trainer.png

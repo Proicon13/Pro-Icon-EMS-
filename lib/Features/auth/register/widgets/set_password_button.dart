@@ -23,7 +23,7 @@ class SetPasswordButton extends StatelessWidget {
         child: BlocConsumer<SetPasswordCubit, SetPasswordState>(
           listener: (context, state) {
             if (state.status == SetPasswordStatus.error) {
-              buildCustomSnackBar(context, state.errorMessage!, Colors.red);
+              buildCustomAlert(context, state.errorMessage!, Colors.red);
 
               // in error case navigate to register screen
               Future.delayed(const Duration(seconds: 2), () {
@@ -34,7 +34,7 @@ class SetPasswordButton extends StatelessWidget {
               });
             }
             if (state.status == SetPasswordStatus.success) {
-              buildCustomSnackBar(
+              buildCustomAlert(
                   context, "register.successMessage".tr(), Colors.green);
               // navigate to login screen
               Future.delayed(const Duration(seconds: 2), () {

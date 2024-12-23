@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
 
 import '../../../../Core/widgets/custom_button.dart';
 import '../../../../Core/widgets/custom_loader.dart';
@@ -18,23 +19,11 @@ class LoginButton extends StatelessWidget {
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state.loginStatus == LoginStatus.error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errorMessage!),
-              backgroundColor: Colors.red,
-              duration: const Duration(seconds: 2),
-            ),
-          );
+          buildCustomAlert(context, state.errorMessage!, Colors.red);
         }
         if (state.loginStatus == LoginStatus.success) {
           // navigate to home screen
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("login.success".tr()),
-              backgroundColor: Colors.green,
-              duration: const Duration(seconds: 2),
-            ),
-          );
+          buildCustomAlert(context, "login.success".tr(), Colors.green);
         }
       },
       buildWhen: (previous, current) => previous != current,

@@ -34,7 +34,7 @@ class _SetPasswordScreenState extends State<SetNewPasswordScreen> {
       final password = formData!['password'];
       final confirmPassword = formData['confirmPassword'];
       if (password != confirmPassword) {
-        buildCustomSnackBar(
+        buildCustomAlert(
             context, "resetPassword.passwordMismatch".tr(), Colors.red);
       } else {
         final builder = ResetPasswordRequestBuilder();

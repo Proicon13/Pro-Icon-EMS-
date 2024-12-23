@@ -70,5 +70,8 @@
     "setPasswordForm.passwordRequiredError": "Password is required",
     "setPasswordForm.passwordMinLengthError": "Password must be at least 8 characters long",
     "setPasswordForm.confirmPasswordTitle": "Confirm Password",
-    "setPasswordForm.confirmPasswordRequiredError": "Confirm Password is required"
+    "setPasswordForm.confirmPasswordRequiredError": "Confirm Password is required",
+    "userManagment.screen.title": "User Management",
+    "userManagment.screen.trainers": "Trainers",
+    "userManagment.screen.clients": "Clients"
 }

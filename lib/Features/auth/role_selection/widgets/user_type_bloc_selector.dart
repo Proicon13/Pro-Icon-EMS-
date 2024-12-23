@@ -8,44 +8,47 @@ import '../../../../Core/utils/enums/role.dart';
 import '../cubit/cubit/select_role_cubit.dart';
 import 'role_card.dart';
 
-class UserTypesBlocSelector extends StatelessWidget {
-  const UserTypesBlocSelector({
-    super.key,
-  });
+class UserTypesBlocBuilder extends StatelessWidget {
+  const UserTypesBlocBuilder({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<SelectRoleCubit, SelectRoleState, Role?>(
-      selector: (state) => state.role,
-      builder: (context, selectedRole) {
-        return Row(
-          children: [
-            Expanded(
-              child: RoleCard(
-                isSelected: selectedRole == Role.admin,
+    return Row(
+      children: [
+        Expanded(
+          child: BlocSelector<SelectRoleCubit, SelectRoleState, bool>(
+            selector: (state) => state.role == Role.admin,
+            builder: (context, isSelected) {
+              return RoleCard(
+                isSelected: isSelected,
                 title: "roleSelection.adminRole".tr(),
                 imagePath: Assets.assetsImagesAdmin,
                 onTap: () {
                   BlocProvider.of<SelectRoleCubit>(context)
                       .selectRole(Role.admin);
                 },
-              ),
-            ),
-            20.w.horizontalSpace,
-            Expanded(
-              child: RoleCard(
-                isSelected: selectedRole == Role.coach,
+              );
+            },
+          ),
+        ),
+        20.w.horizontalSpace,
+        Expanded(
+          child: BlocSelector<SelectRoleCubit, SelectRoleState, bool>(
+            selector: (state) => state.role == Role.coach,
+            builder: (context, isSelected) {
+              return RoleCard(
+                isSelected: isSelected,
                 title: "roleSelection.trainerRole".tr(),
                 imagePath: Assets.assetsImagesTrainer,
                 onTap: () {
                   BlocProvider.of<SelectRoleCubit>(context)
                       .selectRole(Role.coach);
                 },
-              ),
-            ),
-          ],
-        );
-      },
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

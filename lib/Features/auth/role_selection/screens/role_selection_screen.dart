@@ -49,7 +49,7 @@ class RoleSelectionScreen extends StatelessWidget {
                   title: "roleSelection.title".tr(),
                   subtitle: "roleSelection.subtitle".tr()),
               60.h.verticalSpace,
-              const UserTypesBlocSelector(),
+              const UserTypesBlocBuilder(),
               const Spacer(),
               BlocSelector<SelectRoleCubit, SelectRoleState, Role?>(
                 selector: (state) => state.role,

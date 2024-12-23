@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
 
 import '../../../../Core/constants/app_assets.dart';
 import '../../../../Core/theme/app_colors.dart';
@@ -63,14 +63,13 @@ class RoleCard extends StatelessWidget {
           ),
           if (isSelected)
             Positioned(
-              top: 10.h,
-              right: 10.w,
-              child: SvgPicture.asset(
-                Assets.assetsImagesSelectedIcon,
-                height: 24.h,
-                width: 24.w,
-              ),
-            ),
+                top: 10.h,
+                right: 10.w,
+                child: CustomSvgVisual(
+                  height: 24.h,
+                  width: 24.w,
+                  assetPath: Assets.assetsIconsSelectedIcon,
+                )),
         ],
       ),
     );

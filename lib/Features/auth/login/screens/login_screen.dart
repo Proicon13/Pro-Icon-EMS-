@@ -1,24 +1,22 @@
 // ignore_for_file: file_names
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
-
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Features/auth/login/cubit/login_cubit.dart';
 import 'package:pro_icon/Features/auth/reset_password/screens/forget_password_screen.dart';
 import 'package:pro_icon/data/models/login_request_.dart';
 
-import '../../../../Core/theme/app_text_styles.dart';
 import '../../../../Core/dependencies.dart';
+import '../../../../Core/theme/app_text_styles.dart';
 import '../../../../Core/utils/enums/role.dart';
 import '../../../../Core/utils/role_selection_helper.dart';
 import '../../../../Core/widgets/base_app_Scaffold.dart';
-
 import '../../../../Core/widgets/have_account_row.dart';
-
 import '../../register/screens/register_screen.dart';
 import '../widgets/login_button.dart';
 import '../widgets/login_form.dart';
@@ -72,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Center(child: ProIconLogo()),
                   50.h.verticalSpace,
                   Text(
-                    "Login",
+                    "login".tr(),
                     style: AppTextStyles.fontSize24.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -92,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             context, ForgetPasswordScreen.routeName);
                       },
                       child: Text(
-                        "Forget Password?",
+                        "forgotPassword.label".tr(),
                         style: AppTextStyles.fontSize14.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
@@ -110,8 +108,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   getIt<RoleSelectionHelper>().selectedRole ==
                           Role.admin // if admin show sign up option
                       ? HaveAccountRow(
-                          action: "Sign up",
-                          title: "Don't have an account?",
+                          action: "signup".tr(),
+                          title: "donthaveAccount.title",
                           onAction: () => Navigator.pushNamed(
                               context, RegisterScreen.routeName),
                         )

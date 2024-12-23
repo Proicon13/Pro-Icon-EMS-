@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -34,9 +35,9 @@ class AddressForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: DropdownFormSection(
-                    title: "Country",
+                    title: "register.countryLabel".tr(), // "Country"
                     name: "country",
-                    hintText: "Select Country",
+                    hintText: "register.countryHint".tr(), // "Select Country"
                     items: _countries
                         .map((country) => DropdownMenuItem(
                               value: country,
@@ -49,15 +50,17 @@ class AddressForm extends StatelessWidget {
                             ))
                         .toList(),
                     validator: FormBuilderValidators.required(
-                        errorText: "Country is required"),
+                      errorText: "register.countryRequiredError"
+                          .tr(), // "Country is required"
+                    ),
                   ),
                 ),
                 16.w.horizontalSpace,
                 Expanded(
                   child: DropdownFormSection(
-                    title: "City",
+                    title: "register.cityLabel".tr(), // "City"
                     name: "city",
-                    hintText: "Select City",
+                    hintText: "register.cityHint".tr(), // "Select City"
                     items: _cities
                         .map((city) => DropdownMenuItem(
                               value: city,
@@ -70,7 +73,9 @@ class AddressForm extends StatelessWidget {
                             ))
                         .toList(),
                     validator: FormBuilderValidators.required(
-                        errorText: "City is required"),
+                      errorText: "register.cityRequiredError"
+                          .tr(), // "City is required"
+                    ),
                   ),
                 ),
               ],
@@ -79,18 +84,20 @@ class AddressForm extends StatelessWidget {
           20.h.verticalSpace,
           // Full Address Field
           TextFormSection(
-            title: "Full Address",
+            title: "register.addressLabel".tr(), // "Full Address"
             name: "fullAddress",
-            hintText: "Alrahman st-1804",
+            hintText: "register.addressHint".tr(), // "Alrahman st-1804"
             validator: FormBuilderValidators.required(
-                errorText: "Full Address is required"),
+              errorText: "register.addressRequiredError"
+                  .tr(), // "Full Address is required"
+            ),
           ),
           30.h.verticalSpace,
           // Postal Code Field
           TextFormSection(
-            title: "Postal Code",
+            title: "register.postalCodeLabel".tr(), // "Postal Code"
             name: "postalCode",
-            hintText: "123456",
+            hintText: "register.postalCodeHint".tr(), // "123456"
             keyboardInputType: TextInputType.number,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
@@ -98,9 +105,13 @@ class AddressForm extends StatelessWidget {
             ],
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(
-                  errorText: "Postal code is required"),
+                errorText: "register.postalCodeRequiredError"
+                    .tr(), // "Postal code is required"
+              ),
               FormBuilderValidators.numeric(
-                  errorText: "Postal code must be numeric"),
+                errorText: "register.postalCodeNumericError"
+                    .tr(), // "Postal code must be numeric"
+              ),
             ]),
           ),
         ],

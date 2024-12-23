@@ -1,18 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
-
 import 'package:pro_icon/Core/widgets/text_form_section.dart';
 import 'package:pro_icon/Core/widgets/title_section.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/forget_password/forget_password_cubit.dart';
 
 import '../../../../Core/dependencies.dart';
-
 import '../../../../Core/widgets/pro_icon_logo.dart';
 import '../../../../data/models/reset_password_request_builder.dart';
 import '../widgets/send_code_button.dart';
@@ -73,25 +71,29 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     child: ProIconLogo(),
                   ),
                   50.h.verticalSpace,
-                  const TitleSection(
-                      title: "Forget Password",
+                  TitleSection(
+                      title: "forgotPassword.title".tr(),
                       subtitle:
-                          'Please enter the email associated with your account and we will send you a code to reset password'),
+                          "forgotPassword.subtitle".tr()), // Title and subtitle
                   50.h.verticalSpace,
                   FormBuilder(
                     key: _forgetPasswordFormKey,
                     child: Column(
                       children: [
                         TextFormSection(
-                          title: 'Email',
+                          title: "signup.email".tr(),
                           name: 'email',
                           hintText: 'someone@gmail.com',
                           keyboardInputType: TextInputType.emailAddress,
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(
-                                errorText: "Email is required"),
+                              errorText: "signup.emailRequiredError"
+                                  .tr(), // Email is required
+                            ),
                             FormBuilderValidators.email(
-                                errorText: "Enter a valid email address"),
+                              errorText: "signup.emailInvalidError"
+                                  .tr(), // Enter a valid email address
+                            ),
                           ]),
                         ),
                       ],

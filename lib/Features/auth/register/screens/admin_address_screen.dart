@@ -1,23 +1,21 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/have_account_row.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Core/widgets/title_section.dart';
-
 import 'package:pro_icon/Features/auth/register/cubits/address_registration_cubit.dart';
 import 'package:pro_icon/Features/auth/register/screens/set_password_screen.dart';
 
 import '../../../../Core/dependencies.dart';
 import '../../../../data/models/sign_up_request_builder.dart';
-
 import '../../login/screens/login_screen.dart';
 import '../widgets/address_form_bloc_consumer.dart';
 
@@ -82,10 +80,9 @@ class _AdminAddressScreenState extends State<AdminAddressScreen> {
                           child: ProIconLogo(),
                         ),
                         50.h.verticalSpace,
-                        const TitleSection(
-                          title: "Address",
-                          subtitle:
-                              "Enter your full address details to be associated with your email",
+                        TitleSection(
+                          title: "address.title".tr(),
+                          subtitle: "address.subtitle".tr(),
                         ),
                         40.h.verticalSpace,
 
@@ -110,7 +107,7 @@ class _AdminAddressScreenState extends State<AdminAddressScreen> {
                             previous.status != current.status,
                         builder: (context, state) {
                           return CustomButton(
-                            text: "Next",
+                            text: "next".tr(),
                             onPressed: () => _submitForm(context, state),
                           );
                         },
@@ -118,8 +115,8 @@ class _AdminAddressScreenState extends State<AdminAddressScreen> {
                     ),
                     15.h.verticalSpace,
                     HaveAccountRow(
-                      title: "Have an account?",
-                      action: "Sign in",
+                      title: "haveAccount.title".tr(),
+                      action: "signin".tr(),
                       onAction: () {
                         // reset builder
                         SignupRequestBuilder().reset();

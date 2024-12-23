@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,27 +20,33 @@ class LoginForm extends StatelessWidget {
       child: Column(
         children: [
           TextFormSection(
-            title: "Email",
+            title: "signup.email".tr(), // Email
             name: "email",
-            hintText: "someone@gmail.com",
+            hintText: "signup.emailHint".tr(), // moaidmohamed123@gmail.com
             keyboardInputType: TextInputType.emailAddress,
             validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(errorText: "Email is required"),
+              FormBuilderValidators.required(
+                errorText:
+                    "signup.emailRequiredError".tr(), // Email is required
+              ),
               FormBuilderValidators.email(
-                  errorText: "Enter a valid email address"),
+                errorText: "signup.emailInvalidError"
+                    .tr(), // Enter a valid email address
+              ),
             ]),
           ),
           40.h.verticalSpace,
           // Password Field
           TextFormSection(
-            title: "Password",
-            name: "password",
-            hintText: "****************",
+            name: 'password',
+            title: 'setPasswordForm.passwordTitle'.tr(),
             obscureText: true,
+            hintText: 'setPasswordForm.passwordHint'.tr(),
             validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(errorText: "Password is required"),
+              FormBuilderValidators.required(
+                  errorText: "setPasswordForm.passwordRequiredError".tr()),
               FormBuilderValidators.minLength(8,
-                  errorText: "Password must be at least 8 characters long"),
+                  errorText: "setPasswordForm.passwordMinLengthError".tr()),
             ]),
           ),
         ],

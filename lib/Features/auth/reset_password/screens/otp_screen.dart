@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,7 +51,7 @@ class _OtpScreenState extends State<OtpScreen> {
     } else {
       // Validation failed
       buildCustomSnackBar(
-          context, "Please fill all fields correctly", Colors.red);
+          context, "otp.screen.validationMessage".tr(), Colors.red);
     }
   }
 
@@ -100,7 +101,7 @@ class _OtpScreenState extends State<OtpScreen> {
           child: SizedBox(
             width: double.infinity,
             child: CustomButton(
-              text: 'next',
+              text: 'next'.tr(),
               onPressed: () => _submitOtp(context),
             ),
           ),
@@ -117,7 +118,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   const Center(child: ProIconLogo()),
                   50.h.verticalSpace,
                   Text(
-                    "Verification",
+                    "verification.title".tr(),
                     style: AppTextStyles.fontSize24.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -125,7 +126,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   ),
                   25.h.verticalSpace,
                   Text(
-                    'Enter the 6 digits code that you have received in your email',
+                    "otp.screen.message".tr(),
                     style: AppTextStyles.fontSize14
                         .copyWith(color: AppColors.white71Color),
                   ),
@@ -155,7 +156,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Didn't receive code? ",
+                          "otp.screen.didn'tReceive".tr(),
                           style: AppTextStyles.fontSize14
                               .copyWith(color: Colors.white),
                         ),
@@ -184,7 +185,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                     .resendCode();
                               },
                               child: Text(
-                                "Resend code",
+                                "otp.screen.resendLabel".tr(),
                                 style: AppTextStyles.fontSize14.copyWith(
                                   color: AppColors.primaryColor,
                                   fontWeight: FontWeight.w600,

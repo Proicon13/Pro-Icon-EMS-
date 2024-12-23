@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,10 +29,10 @@ class LoginButton extends StatelessWidget {
         if (state.loginStatus == LoginStatus.success) {
           // navigate to home screen
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Login successful'),
+            SnackBar(
+              content: Text("login.success".tr()),
               backgroundColor: Colors.green,
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
             ),
           );
         }
@@ -43,7 +44,7 @@ class LoginButton extends StatelessWidget {
           return const CustomLoader();
         } else {
           return CustomButton(
-            text: "Login", onPressed: () => onSubmit(context),
+            text: "login".tr(), onPressed: () => onSubmit(context),
             // Submit the form
           );
         }

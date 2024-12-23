@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,26 +21,36 @@ class RegisterForm extends StatelessWidget {
       child: Column(
         children: [
           TextFormSection(
-            title: "Full Name",
+            title: "signup.fullName".tr(), // Full Name
             name: "fullName",
-            hintText: "Moaid Mohamed",
+            hintText: "signup.fullNameHint".tr(), // Moaid Mohamed
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(
-                  errorText: "Full Name is required"),
-              FormBuilderValidators.minLength(3,
-                  errorText: "Name must be at least 3 characters"),
+                errorText: "signup.fullNameRequiredError"
+                    .tr(), // Full Name is required
+              ),
+              FormBuilderValidators.minLength(
+                3,
+                errorText: "signup.fullNameMinLengthError"
+                    .tr(), // Name must be at least 3 characters
+              ),
             ]),
           ),
           30.h.verticalSpace,
           TextFormSection(
-            title: "Email",
+            title: "signup.email".tr(), // Email
             name: "email",
-            hintText: "moaidmohamed123@gmail.com",
+            hintText: "signup.emailHint".tr(), // moaidmohamed123@gmail.com
             keyboardInputType: TextInputType.emailAddress,
             validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(errorText: "Email is required"),
+              FormBuilderValidators.required(
+                errorText:
+                    "signup.emailRequiredError".tr(), // Email is required
+              ),
               FormBuilderValidators.email(
-                  errorText: "Enter a valid email address"),
+                errorText: "signup.emailInvalidError"
+                    .tr(), // Enter a valid email address
+              ),
             ]),
           ),
           30.h.verticalSpace,

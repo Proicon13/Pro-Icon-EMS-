@@ -1,24 +1,21 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/utils/enums/role.dart';
 import 'package:pro_icon/Core/utils/role_selection_helper.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
-
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Features/auth/register/cubits/set_password_cubit.dart';
 
 import '../../../../Core/theme/app_text_styles.dart';
-
 import '../../../../Core/widgets/have_account_row.dart';
 import '../../../../Core/widgets/pro_icon_logo.dart';
-
 import '../../../../data/models/sign_up_request_builder.dart';
 import '../../login/screens/login_screen.dart';
 import '../widgets/set_password_button.dart';
@@ -78,7 +75,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
               const Center(child: ProIconLogo()),
               50.h.verticalSpace,
               Text(
-                "Set Password",
+                "resetPassword.screen.title".tr(),
                 style: AppTextStyles.fontSize24.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -92,8 +89,8 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
               ),
               15.h.verticalSpace,
               HaveAccountRow(
-                action: "Sign in",
-                title: "Have an account?",
+                action: "signin".tr(),
+                title: "haveAccount.title".tr(),
                 onAction: () => Navigator.pushReplacementNamed(
                     context, LoginScreen.routeName),
               ),

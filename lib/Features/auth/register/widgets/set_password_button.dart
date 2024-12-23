@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +35,7 @@ class SetPasswordButton extends StatelessWidget {
             }
             if (state.status == SetPasswordStatus.success) {
               buildCustomSnackBar(
-                  context, "User created Successfully", Colors.green);
+                  context, "register.successMessage".tr(), Colors.green);
               // navigate to login screen
               Future.delayed(const Duration(seconds: 2), () {
                 if (context.mounted) {
@@ -50,7 +51,7 @@ class SetPasswordButton extends StatelessWidget {
               return const CustomLoader();
             } else {
               return CustomButton(
-                  text: "Confirm", onPressed: () => onSubmit(context));
+                  text: "confirm".tr(), onPressed: () => onSubmit(context));
             }
           },
         ));

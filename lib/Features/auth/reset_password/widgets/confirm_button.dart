@@ -1,10 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/widgets/custom_button.dart';
 import '../../../../Core/widgets/custom_loader.dart';
 import '../../../../Core/widgets/custom_snack_bar.dart';
-
 import '../../login/screens/login_screen.dart';
 import '../cubits/set_new_password/set_new_password_cubit.dart';
 import '../screens/forget_password_screen.dart';
@@ -50,7 +50,7 @@ class ConfirmButton extends StatelessWidget {
               return const CustomLoader();
             }
             return CustomButton(
-              text: "Confirm",
+              text: "confirm".tr(),
               onPressed: () => onSubmit(context),
             );
           },

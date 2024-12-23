@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,7 +16,7 @@ class PhoneFormSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Phone Number",
+          "signup.phone".tr(),
           style: AppTextStyles.fontSize16
               .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
         ),
@@ -28,11 +29,12 @@ class PhoneFormSection extends StatelessWidget {
               validator: (phone) {
                 if (phone == null) {
                   BlocProvider.of<RegisterCubit>(context, listen: false)
-                      .setErrorMessage('Phone number is required');
+                      .setErrorMessage(
+                    "register.phoneRequired".tr(),
+                  );
                 } else if (phone.length < 10) {
                   BlocProvider.of<RegisterCubit>(context, listen: false)
-                      .setErrorMessage(
-                          'Phone number is cannot be smaller than 10 digits');
+                      .setErrorMessage("register.phoneInvalid".tr());
                 } else {
                   BlocProvider.of<RegisterCubit>(context, listen: false)
                       .setErrorMessage('');

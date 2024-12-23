@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,14 +7,11 @@ import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
 import 'package:pro_icon/Core/widgets/title_section.dart';
 
-import '../../../../../../Core/widgets/custom_button.dart';
-
 import '../../../../../../Core/utils/enums/role.dart';
+import '../../../../../../Core/widgets/custom_button.dart';
 import '../../../../Core/widgets/pro_icon_logo.dart';
-
 import '../../login/screens/login_screen.dart';
 import '../cubit/cubit/select_role_cubit.dart';
-
 import '../widgets/user_type_bloc_selector.dart';
 
 class RoleSelectionScreen extends StatelessWidget {
@@ -27,7 +25,8 @@ class RoleSelectionScreen extends StatelessWidget {
       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
     } else {
       // If no role is selected
-      buildCustomSnackBar(context, 'Please Select a role', Colors.red);
+      buildCustomSnackBar(
+          context, "roleSelection.screen.message".tr(), Colors.red);
     }
   }
 
@@ -46,10 +45,9 @@ class RoleSelectionScreen extends StatelessWidget {
                 child: ProIconLogo(),
               ),
               50.h.verticalSpace,
-              const TitleSection(
-                  title: "Select User Type",
-                  subtitle:
-                      'Tell us about yourself so we can get better experience for you'),
+              TitleSection(
+                  title: "roleSelection.title".tr(),
+                  subtitle: "roleSelection.subtitle".tr()),
               60.h.verticalSpace,
               const UserTypesBlocSelector(),
               const Spacer(),
@@ -59,7 +57,7 @@ class RoleSelectionScreen extends StatelessWidget {
                   return SizedBox(
                     width: double.infinity,
                     child: CustomButton(
-                      text: "Next",
+                      text: "next".tr(),
                       onPressed: () =>
                           navigateBasedOnRole(context, selectedRole),
                     ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,25 +22,27 @@ class SetPasswordForm extends StatelessWidget {
           children: [
             TextFormSection(
               name: 'password',
-              title: 'Password',
+              title: 'setPasswordForm.passwordTitle'.tr(),
               obscureText: true,
-              hintText: 'Enter your password',
+              hintText: 'setPasswordForm.passwordHint'.tr(),
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(
-                    errorText: "Password is required"),
+                    errorText: "setPasswordForm.passwordRequiredError".tr()),
                 FormBuilderValidators.minLength(8,
-                    errorText: "Password must be at least 8 characters long"),
+                    errorText: "setPasswordForm.passwordMinLengthError".tr()),
               ]),
             ),
             30.h.verticalSpace,
             TextFormSection(
               name: 'confirmPassword',
-              title: 'Confirm Password',
-              hintText: 'Enter your password',
+              title: 'setPasswordForm.confirmPasswordTitle'
+                  .tr(), // "Confirm Password"
+              hintText: 'setPasswordForm.passwordHint'.tr(),
               obscureText: true,
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(
-                    errorText: " Confirm Password is required"),
+                    errorText:
+                        "setPasswordForm.confirmPasswordRequiredError".tr()),
               ]),
             ),
           ],

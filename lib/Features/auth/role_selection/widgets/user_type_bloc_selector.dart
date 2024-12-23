@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +23,7 @@ class UserTypesBlocSelector extends StatelessWidget {
             Expanded(
               child: RoleCard(
                 isSelected: selectedRole == Role.admin,
-                title: "Admin",
+                title: "roleSelection.adminRole".tr(),
                 imagePath: Assets.assetsImagesAdmin,
                 onTap: () {
                   BlocProvider.of<SelectRoleCubit>(context)
@@ -34,7 +35,7 @@ class UserTypesBlocSelector extends StatelessWidget {
             Expanded(
               child: RoleCard(
                 isSelected: selectedRole == Role.coach,
-                title: "Trainer",
+                title: "roleSelection.trainerRole".tr(),
                 imagePath: Assets.assetsImagesTrainer,
                 onTap: () {
                   BlocProvider.of<SelectRoleCubit>(context)

@@ -37,5 +37,11 @@
     "roleSelection.adminRole": "Admin",
     "roleSelection.trainerRole": "Trainer",
     "verification.title": "Verification",
-    "forgotPassword.subtitle": "Please enter the email associated with your account and we will send you a code to reset password"
+    "forgotPassword.subtitle": "Please enter the email associated with your account and we will send you a code to reset password",
+    "setPasswordForm.passwordTitle": "Password",
+    "setPasswordForm.passwordHint": "Enter your password",
+    "setPasswordForm.passwordRequiredError": "Password is required",
+    "setPasswordForm.passwordMinLengthError": "Password must be at least 8 characters long",
+    "setPasswordForm.confirmPasswordTitle": "Confirm Password",
+    "setPasswordForm.confirmPasswordRequiredError": "Confirm Password is required"
 }

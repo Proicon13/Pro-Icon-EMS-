@@ -1,23 +1,18 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
-
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
-
 import 'package:pro_icon/Features/auth/reset_password/cubits/set_new_password/set_new_password_cubit.dart';
-
 import 'package:pro_icon/data/models/reset_password_request_builder.dart';
 
-import '../../../../Core/theme/app_text_styles.dart';
 import '../../../../Core/dependencies.dart';
-
+import '../../../../Core/theme/app_text_styles.dart';
 import '../../../../Core/widgets/pro_icon_logo.dart';
-
 import '../../register/widgets/set_password_from.dart';
 import '../widgets/confirm_button.dart';
 
@@ -76,7 +71,7 @@ class _SetPasswordScreenState extends State<SetNewPasswordScreen> {
               const Center(child: ProIconLogo()),
               50.h.verticalSpace,
               Text(
-                "Set New Password",
+                "setNewPassword.submitLabel".tr(),
                 style: AppTextStyles.fontSize24.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

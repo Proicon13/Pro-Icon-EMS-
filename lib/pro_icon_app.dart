@@ -10,6 +10,7 @@ import 'package:pro_icon/Core/dependencies.dart';
 import 'Core/constants/app_constants.dart';
 import 'Core/routing/app_router.dart';
 import 'Core/theme/app_theme.dart';
+import 'splash_screen.dart';
 
 class Proicon extends StatelessWidget {
   const Proicon({
@@ -42,6 +43,7 @@ class Proicon extends StatelessWidget {
               ...context.localizationDelegates,
             ],
             onGenerateRoute: onGenerteRoute,
+            initialRoute: SplashScreen.routeName,
           ),
         );
       },

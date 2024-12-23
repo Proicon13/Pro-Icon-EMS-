@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
+import 'package:pro_icon/Core/widgets/email_form_section.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
-import 'package:pro_icon/Core/widgets/text_form_section.dart';
 import 'package:pro_icon/Core/widgets/title_section.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/forget_password/forget_password_cubit.dart';
 
@@ -78,25 +77,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   50.h.verticalSpace,
                   FormBuilder(
                     key: _forgetPasswordFormKey,
-                    child: Column(
-                      children: [
-                        TextFormSection(
-                          title: "signup.email".tr(),
-                          name: 'email',
-                          hintText: 'someone@gmail.com',
-                          keyboardInputType: TextInputType.emailAddress,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(
-                              errorText: "signup.emailRequiredError"
-                                  .tr(), // Email is required
-                            ),
-                            FormBuilderValidators.email(
-                              errorText: "signup.emailInvalidError"
-                                  .tr(), // Enter a valid email address
-                            ),
-                          ]),
-                        ),
-                      ],
+                    child: const Column(
+                      children: [EmailFormSection()],
                     ),
                   )
                 ],

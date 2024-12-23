@@ -1,0 +1,24 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+
+import 'text_form_section.dart';
+
+class FullAddressFormSection extends StatelessWidget {
+  const FullAddressFormSection({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormSection(
+      title: "register.addressLabel".tr(), // "Full Address"
+      name: "fullAddress",
+      hintText: "register.addressHint".tr(), // "Alrahman st-1804"
+      validator: FormBuilderValidators.required(
+        errorText:
+            "register.addressRequiredError".tr(), // "Full Address is required"
+      ),
+    );
+  }
+}

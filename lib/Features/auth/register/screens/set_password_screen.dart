@@ -39,7 +39,8 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
       final password = formData!['password'];
       final confirmPassword = formData['confirmPassword'];
       if (password != confirmPassword) {
-        buildCustomSnackBar(context, "Passwords does not match", Colors.red);
+        buildCustomSnackBar(
+            context, "resetPassword.passwordMismatch".tr(), Colors.red);
       } else {
         final builder = SignupRequestBuilder();
         final RoleSelectionHelper helper = getIt<RoleSelectionHelper>();

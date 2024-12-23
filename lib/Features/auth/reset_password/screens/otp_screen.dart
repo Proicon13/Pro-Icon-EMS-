@@ -160,6 +160,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           style: AppTextStyles.fontSize14
                               .copyWith(color: Colors.white),
                         ),
+                        5.w.horizontalSpace,
                         BlocConsumer<OtpCubit, OtpState>(
                           listener: (context, state) {
                             if (state.resendOtpStatus ==

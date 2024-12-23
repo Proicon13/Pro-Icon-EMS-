@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Role.admin // if admin show sign up option
                       ? HaveAccountRow(
                           action: "signup".tr(),
-                          title: "donthaveAccount.title",
+                          title: "donthaveAccount.title".tr(),
                           onAction: () => Navigator.pushNamed(
                               context, RegisterScreen.routeName),
                         )

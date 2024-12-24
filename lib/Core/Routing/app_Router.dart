@@ -15,35 +15,69 @@ import '../../splash_screen.dart';
 
 Route<dynamic>? onGenerteRoute(RouteSettings settings) {
   switch (settings.name) {
-    case SplashScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const SplashScreen());
+    case "/":
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: "/"),
+        builder: (_) => const SplashScreen(),
+      );
 
     case RoleSelectionScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const RoleSelectionScreen());
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: RoleSelectionScreen.routeName),
+        builder: (_) => const RoleSelectionScreen(),
+      );
 
     case LoginScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const LoginScreen());
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: LoginScreen.routeName),
+        builder: (_) => const LoginScreen(),
+      );
+
     case SetPasswordScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const SetPasswordScreen());
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: SetPasswordScreen.routeName),
+        builder: (_) => const SetPasswordScreen(),
+      );
+
     case ForgetPasswordScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: ForgetPasswordScreen.routeName),
+        builder: (_) => const ForgetPasswordScreen(),
+      );
 
     case OtpScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const OtpScreen());
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: OtpScreen.routeName),
+        builder: (_) => const OtpScreen(),
+      );
 
     case SetNewPasswordScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const SetNewPasswordScreen());
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: SetNewPasswordScreen.routeName),
+        builder: (_) => const SetNewPasswordScreen(),
+      );
 
     case RegisterScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const RegisterScreen());
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: RegisterScreen.routeName),
+        builder: (_) => const RegisterScreen(),
+      );
+
     case AdminAddressScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const AdminAddressScreen());
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: AdminAddressScreen.routeName),
+        builder: (_) => const AdminAddressScreen(),
+      );
 
     case UsersScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const UsersScreen());
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: UsersScreen.routeName),
+        builder: (_) => const UsersScreen(),
+      );
 
     default:
       return MaterialPageRoute(
+        settings: const RouteSettings(name: '/unknown'),
         builder: (_) => const SplashScreen(),
       );
   }

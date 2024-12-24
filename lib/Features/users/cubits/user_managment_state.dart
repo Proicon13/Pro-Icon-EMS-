@@ -23,7 +23,7 @@ class UserManagmentState extends Equatable {
       this.searchList = const [],
       this.currentTrainersPage = 1,
       this.currentClientsPage = 1,
-      this.requestStatus = RequestStatus.loaded,
+      this.requestStatus = RequestStatus.loading,
       this.currentVariation = UserVariations.trainer});
 
   UserManagmentState copyWith({

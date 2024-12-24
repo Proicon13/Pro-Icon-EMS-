@@ -13,7 +13,9 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
   final TrainerService trainerService;
 
   UserManagmentCubit({required this.trainerService})
-      : super(const UserManagmentState());
+      : super(const UserManagmentState()) {
+    getTrainers(); // Trigger once when the Cubit is created
+  }
 
   Timer? _debounce;
 
@@ -29,8 +31,10 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
   }
 
   Future<void> getTrainers() async {
-    emit(state.copyWith(requestStatus: RequestStatus.loading));
     final currentPage = state.currentTrainersPage;
+    // if not first load then show loading indicator when call
+    if (currentPage! > 1)
+      emit(state.copyWith(requestStatus: RequestStatus.loading));
     final response = await trainerService.getTrainers(page: currentPage);
     response.fold(
         (failure) => emit(state.copyWith(
@@ -39,6 +43,7 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
       emit(state.copyWith(
           trainers: trainers,
           errorMessage: "",
+          currentTrainersPage: currentPage + 1,
           requestStatus: RequestStatus.loaded));
     });
   }

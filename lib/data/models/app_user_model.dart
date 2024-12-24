@@ -32,16 +32,18 @@ class AppUserModel extends Equatable {
       id: json['id'] != null ? json['id'] as int : null,
       email: json['email'] != null ? json['email'] as String : null,
       fullname: json['fullname'] != null ? json['fullname'] as String : null,
-      image: json['image'] != null ? json['image'] as String : null,
+      image: json['image'] != null ? json['image'] as String : "",
       city: json['city'] != null
           ? CityModel.fromJson(json['city'] as Map<String, dynamic>)
           : null,
-      postalCode:
-          json['postalCode'] != null ? json['postalCode'] as String : null,
-      address: json['address'] != null ? json['address'] as String : null,
-      phone: json['phone'] != null ? json['phone'] as String : null,
+      postalCode: json['postalCode'] != null
+          ? json['postalCode'] as String
+          : "No Postal Code",
+      address:
+          json['address'] != null ? json['address'] as String : "No Address",
+      phone: json['phone'] != null ? json['phone'] as String : "No Phone",
       role: json['role'] != null ? json['role'] as String : null,
-      status: json['status'] != null ? json['status'] as String : null,
+      status: json['status'] != null ? json['status'] as String : "NOT ACTIVE",
     );
   }
 

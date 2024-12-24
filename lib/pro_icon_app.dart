@@ -6,11 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:pro_icon/Core/cubits/cubit/user_state_cubit.dart';
 import 'package:pro_icon/Core/dependencies.dart';
+import 'package:pro_icon/Core/routing/router_observer.dart';
 
 import 'Core/constants/app_constants.dart';
 import 'Core/routing/app_router.dart';
 import 'Core/theme/app_theme.dart';
-import 'splash_screen.dart';
 
 class Proicon extends StatelessWidget {
   const Proicon({
@@ -30,21 +30,21 @@ class Proicon extends StatelessWidget {
                 create: (context) => getIt<UserStateCubit>())
           ],
           child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: AppConstants.appName,
-            theme: AppTheme.appTheme,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            localizationsDelegates: [
-              FormBuilderLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              ...context.localizationDelegates,
-            ],
-            onGenerateRoute: onGenerteRoute,
-            initialRoute: SplashScreen.routeName,
-          ),
+              debugShowCheckedModeBanner: false,
+              title: AppConstants.appName,
+              theme: AppTheme.appTheme,
+              navigatorObservers: [MyNavigatorObserver()],
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              localizationsDelegates: [
+                FormBuilderLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                ...context.localizationDelegates,
+              ],
+              onGenerateRoute: onGenerteRoute,
+              initialRoute: "/"),
         );
       },
     );

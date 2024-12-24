@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
-
 import 'package:pro_icon/Core/errors/exceptions.dart';
 import 'package:pro_icon/Core/errors/failures.dart';
-
 import 'package:pro_icon/data/services/auth_service.dart';
+import 'package:pro_icon/data/services/auth_token_service.dart';
 import 'package:pro_icon/data/services/reset_password_service.dart';
 
 import '../models/app_user_model.dart';
@@ -30,13 +29,16 @@ class AuthRepoImpl implements AuthRepo {
   final ResetPasswordService _resetPasswordService;
 
   final UserService _userService;
+  final AuthTokenService _authTokenService;
 
   AuthRepoImpl(
       {required AuthService authService,
       required UserService userService,
+      required AuthTokenService authTokenService,
       required ResetPasswordService resetPasswordService})
       : _authService = authService,
         _userService = userService,
+        _authTokenService = authTokenService,
         _resetPasswordService = resetPasswordService;
   @override
   Future<Either<Failure, String>> forgetPassword(
@@ -65,7 +67,7 @@ class AuthRepoImpl implements AuthRepo {
       if (userResponse.isSuccess) {
         try {
           // Save token to secured local storage
-          await _userService.saveToken(token);
+          await _authTokenService.saveToken(token);
 
           return const Right(null);
         } on CacheException catch (e) {

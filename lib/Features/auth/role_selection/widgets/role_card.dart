@@ -68,7 +68,7 @@ class RoleCard extends StatelessWidget {
                 child: CustomSvgVisual(
                   height: 24.h,
                   width: 24.w,
-                  assetPath: Assets.assetsIconsSelectedIcon,
+                  assetPath: Assets.assetsImagesSelectedIcon,
                 )),
         ],
       ),

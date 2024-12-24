@@ -21,8 +21,8 @@ class CustomSnackBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String assetPath = status == AlertStatus.success
-        ? Assets.assetsIconsSuccess
-        : Assets.assetsIconsFailure;
+        ? Assets.assetsImagesSuccess
+        : Assets.assetsImagesFailure;
 
     final Color statusColor =
         status == AlertStatus.success ? Colors.green : AppColors.primaryColor;

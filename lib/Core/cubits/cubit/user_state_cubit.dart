@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pro_icon/data/models/app_user_model.dart';
 import 'package:pro_icon/data/repos/auth_repo.dart';
+import 'package:pro_icon/data/services/auth_token_service.dart';
 
 import '../../../data/services/user_service.dart';
 
@@ -10,11 +11,15 @@ part 'user_state_state.dart';
 class UserStateCubit extends Cubit<UserStateState> {
   final UserService userService;
   final AuthRepo authRepo;
-  UserStateCubit({required this.userService, required this.authRepo})
+  final AuthTokenService authTokenService;
+  UserStateCubit(
+      {required this.userService,
+      required this.authRepo,
+      required this.authTokenService})
       : super(const UserStateState());
 
   Future<void> intializeUser() async {
-    final token = await userService.getToken();
+    final token = await authTokenService.getToken();
     if (token == null) {
       _setUserUnlogged();
     } else {

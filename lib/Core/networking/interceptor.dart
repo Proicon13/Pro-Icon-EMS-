@@ -1,13 +1,13 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:pro_icon/data/services/user_service.dart';
+import 'package:pro_icon/data/services/auth_token_service.dart';
 
 class AppInterceptor implements Interceptor {
-  final UserService _userService;
+  final AuthTokenService _authTokenService;
 
-  AppInterceptor({required UserService userService})
-      : _userService = userService;
+  AppInterceptor({required AuthTokenService authTokenService})
+      : _authTokenService = authTokenService;
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     log('ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
@@ -18,7 +18,7 @@ class AppInterceptor implements Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    final token = await _userService.getToken();
+    final token = await _authTokenService.getToken();
     if (token != null) {
       options.headers['Authorization'] = 'Bearer $token';
     }

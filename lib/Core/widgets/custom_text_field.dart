@@ -21,9 +21,11 @@ class CustomTextField extends StatelessWidget {
   final bool? isDense;
   final EdgeInsets? contentPadding;
   final TextAlign? textAlign;
+  final Widget? prefixIcon;
   const CustomTextField({
     super.key,
     required this.name,
+    this.prefixIcon,
     this.hintText,
     this.validator,
     this.onChanged,
@@ -53,6 +55,7 @@ class CustomTextField extends StatelessWidget {
       cursorColor: Colors.white,
       cursorErrorColor: Colors.red,
       decoration: InputDecoration(
+        prefixIcon: prefixIcon,
         isDense: isDense,
         hintText: hintText ?? '',
         errorMaxLines: errorMaxLines,

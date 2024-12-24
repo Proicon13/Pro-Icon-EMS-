@@ -13,9 +13,12 @@ import 'package:pro_icon/Features/auth/reset_password/cubits/forget_password/for
 import 'package:pro_icon/Features/auth/reset_password/cubits/otp/otp_cubit.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/set_new_password/set_new_password_cubit.dart';
 import 'package:pro_icon/Features/auth/role_selection/cubit/cubit/select_role_cubit.dart';
+import 'package:pro_icon/Features/users/cubits/user_managment_cubit.dart';
 import 'package:pro_icon/data/repos/auth_repo.dart';
 import 'package:pro_icon/data/services/auth_service.dart';
+import 'package:pro_icon/data/services/auth_token_service.dart';
 import 'package:pro_icon/data/services/reset_password_service.dart';
+import 'package:pro_icon/data/services/trainer_service.dart';
 import 'package:pro_icon/data/services/user_service.dart';
 
 import '../data/services/country_service.dart';
@@ -28,25 +31,30 @@ final getIt = GetIt.instance;
 void setupDependencies() {
   getIt.registerLazySingleton(() => const FlutterSecureStorage());
   getIt.registerLazySingleton(() => Dio());
-  getIt.registerLazySingleton(() => LogInterceptor());
-  getIt.registerLazySingleton<BaseApiProvider>(() => DioConsumer(dio: getIt()));
   getIt.registerLazySingleton<BaseLocalService>(
       () => SecureStorageConsumer(secureStorage: getIt()));
+  getIt.registerLazySingleton<AuthTokenService>(
+      () => AuthTokenService(localService: getIt()));
+  getIt.registerLazySingleton(() => AppInterceptor(authTokenService: getIt()));
+  getIt.registerLazySingleton(() => LogInterceptor());
+  getIt.registerLazySingleton<BaseApiProvider>(() => DioConsumer(dio: getIt()));
 
   //services
   getIt.registerLazySingleton(() => RoleSelectionHelper());
   getIt.registerLazySingleton(
-      () => AuthService(apiProvider: getIt(), localService: getIt()));
+      () => AuthService(apiProvider: getIt(), tokenService: getIt()));
   getIt.registerLazySingleton(() => ResetPasswordService(apiProvider: getIt()));
   getIt.registerLazySingleton(() => CountryService(apiProvider: getIt()));
-  getIt.registerLazySingleton(
-      () => UserService(apiProvider: getIt(), localService: getIt()));
-  getIt.registerLazySingleton(() => AppInterceptor(userService: getIt()));
+  getIt.registerLazySingleton(() => UserService(
+        apiProvider: getIt(),
+      ));
+  getIt.registerLazySingleton(() => TrainerService(apiProvider: getIt()));
 
   // repos
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(
       authService: getIt(),
       resetPasswordService: getIt(),
+      authTokenService: getIt(),
       userService: getIt()));
 
   // cubits
@@ -62,6 +70,8 @@ void setupDependencies() {
   getIt.registerFactory<OtpCubit>(() => OtpCubit(authRepo: getIt()));
   getIt.registerFactory<SetNewPasswordCubit>(
       () => SetNewPasswordCubit(authRepo: getIt()));
-  getIt.registerLazySingleton<UserStateCubit>(
-      () => UserStateCubit(userService: getIt(), authRepo: getIt()));
+  getIt.registerLazySingleton<UserStateCubit>(() => UserStateCubit(
+      userService: getIt(), authRepo: getIt(), authTokenService: getIt()));
+  getIt.registerFactory<UserManagmentCubit>(
+      () => UserManagmentCubit(trainerService: getIt()));
 }

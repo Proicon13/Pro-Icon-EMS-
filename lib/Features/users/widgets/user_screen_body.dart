@@ -1,42 +1,29 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Features/users/cubits/user_managment_cubit.dart';
+import 'package:pro_icon/Features/users/widgets/search_section.dart';
 
-import '../../../Core/theme/app_colors.dart';
-import '../../../Core/theme/app_text_styles.dart';
+import 'user_variation_section.dart';
 
 class UsersScreenBody extends StatelessWidget {
   const UsersScreenBody({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<UserManagmentCubit>(context, listen: false);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           40.h.verticalSpace,
-          Row(
-            mainAxisAlignment:
-                MainAxisAlignment.center, // Centers and evenly spaces the texts
-            children: [
-              Text(
-                "userManagment.screen.trainers".tr(),
-                style: AppTextStyles.fontSize16.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              40.w.horizontalSpace,
-              Text(
-                "userManagment.screen.clients".tr(),
-                style: AppTextStyles.fontSize16.copyWith(
-                  color: AppColors.lightGreyColor,
-                ),
-              ),
-            ],
-          ),
+          UserVariationSection(cubit: cubit),
           50.h.verticalSpace,
+          SearchSection(
+              onSearch: (value) {},
+              onFilterPressed: () {},
+              onAddPressed: () {}),
         ],
       ),
     );

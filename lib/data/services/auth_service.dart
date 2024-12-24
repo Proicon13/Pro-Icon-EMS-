@@ -3,24 +3,23 @@ import 'package:pro_icon/Core/networking/base_api_provider.dart';
 import 'package:pro_icon/data/models/api_response.dart';
 import 'package:pro_icon/data/models/login_response_model.dart';
 
-import '../../Core/constants/app_constants.dart';
 import '../../Core/errors/exceptions.dart';
-import '../../Core/local_storage/local_storage_provider.dart';
 import '../models/app_user_model.dart';
 import '../models/login_request_.dart';
 import '../models/sign_up_request.dart';
+import 'auth_token_service.dart';
 
 class AuthService {
   final BaseApiProvider _apiProvider;
-  final BaseLocalService _localService;
+  final AuthTokenService _tokenService;
   AuthService(
       {required BaseApiProvider apiProvider,
-      required BaseLocalService localService})
-      : _localService = localService,
+      required AuthTokenService tokenService})
+      : _tokenService = tokenService,
         _apiProvider = apiProvider;
   Future<void> logout() async {
     try {
-      await _localService.delete(AppConstants.tokenLocalKey);
+      await _tokenService.deleteToken();
     } on CacheException catch (_) {
       rethrow;
     }

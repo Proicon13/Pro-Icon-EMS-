@@ -73,5 +73,6 @@
     "setPasswordForm.confirmPasswordRequiredError": "Confirm Password is required",
     "userManagment.screen.title": "User Management",
     "userManagment.screen.trainers": "Trainers",
-    "userManagment.screen.clients": "Clients"
+    "userManagment.screen.clients": "Clients",
+    "userManagment.screen.searchHint": "Search by name or email..."
 }

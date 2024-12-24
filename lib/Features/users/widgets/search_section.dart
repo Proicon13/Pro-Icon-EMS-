@@ -37,11 +37,11 @@ class SearchSection extends StatelessWidget {
               prefixIcon: Icon(
                 Icons.search,
                 color: AppColors.white71Color,
-                size: 20.sp,
+                size: 24.sp,
               ),
               isDense: true,
               contentPadding: EdgeInsets.symmetric(
-                vertical: (searchBarHeight - 20.sp) / 2, // Center content
+                vertical: (searchBarHeight - 24.sp) / 2,
                 horizontal: 10.w,
               ),
             ),

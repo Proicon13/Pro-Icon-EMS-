@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
+import 'package:pro_icon/data/services/clients_service.dart';
 import 'package:pro_icon/data/services/trainer_service.dart';
 
 import '../../../Core/utils/enums/filteration_type.dart';
@@ -11,8 +12,10 @@ part 'user_managment_state.dart';
 
 class UserManagmentCubit extends Cubit<UserManagmentState> {
   final TrainerService trainerService;
+  final ClientsService clientsService;
 
-  UserManagmentCubit({required this.trainerService})
+  UserManagmentCubit(
+      {required this.trainerService, required this.clientsService})
       : super(const UserManagmentState()) {
     getTrainers(); // Trigger once when the Cubit is created
   }
@@ -53,9 +56,33 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
     // if not first load then show loading indicator when call
     if (currentPage! > 1)
       emit(state.copyWith(requestStatus: RequestStatus.loading));
-    Future.delayed(const Duration(seconds: 2), () {
+    final response = await clientsService.getClients(page: currentPage);
+    response.fold(
+        (failure) => emit(state.copyWith(
+            errorMessage: failure.message,
+            requestStatus: RequestStatus.error)), (clients) {
       emit(state.copyWith(
-          clients: [], errorMessage: "", requestStatus: RequestStatus.loaded));
+          clients: clients,
+          errorMessage: "",
+          currentClientsPage: currentPage + 1,
+          requestStatus: RequestStatus.loaded));
+    });
+  }
+
+  Future<void> _searchClientByNameOrEmail(String query) async {
+    if (!_canPerformAction()) return;
+    emit(state.copyWith(
+        requestStatus: RequestStatus.loading)); // trigger loading
+    final response =
+        await clientsService.searchClientByNameOrEmail(query: query);
+    response.fold(
+        (failure) => emit(state.copyWith(
+            errorMessage: failure.message,
+            requestStatus: RequestStatus.error)), (clients) {
+      emit(state.copyWith(
+          searchList: clients,
+          errorMessage: "",
+          requestStatus: RequestStatus.loaded));
     });
   }
 
@@ -70,10 +97,15 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
       if (currentVariation == UserVariations.trainer && query.isNotEmpty) {
         await _searchTrainerByNameOrEmail(query); // search for trainers
       }
+      if (currentVariation == UserVariations.client && query.isNotEmpty) {
+        await _searchClientByNameOrEmail(query); // search for clients
+      }
     });
   }
 
-  Future<void> onFilter(FilterationType filterBy) async {
+  Future<void> _filterTrainers(FilterationType filterBy) async {
+    if (!_canPerformAction()) return;
+
     emit(state.copyWith(requestStatus: RequestStatus.loading));
     final response = await trainerService.filterTrainers(filterBy: filterBy);
     response.fold(
@@ -85,6 +117,30 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
           errorMessage: "",
           requestStatus: RequestStatus.loaded));
     });
+  }
+
+  Future<void> _filterClients(FilterationType filterBy) async {
+    if (!_canPerformAction()) return;
+
+    emit(state.copyWith(requestStatus: RequestStatus.loading));
+    final response = await clientsService.filterClients(filterBy: filterBy);
+    response.fold(
+        (failure) => emit(state.copyWith(
+            errorMessage: failure.message,
+            requestStatus: RequestStatus.error)), (clients) {
+      emit(state.copyWith(
+          clients: clients,
+          errorMessage: "",
+          requestStatus: RequestStatus.loaded));
+    });
+  }
+
+  Future<void> onFilter(FilterationType filterBy) async {
+    if (state.currentVariation == UserVariations.trainer) {
+      await _filterTrainers(filterBy);
+    } else if (state.currentVariation == UserVariations.client) {
+      await _filterClients(filterBy);
+    }
   }
 
   Future<void> _searchTrainerByNameOrEmail(String query) async {

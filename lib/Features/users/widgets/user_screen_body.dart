@@ -33,12 +33,16 @@ class UsersScreenBody extends StatelessWidget {
                 }
               },
               onFilterPressed: () {
-                // context
-                //     .read<UserManagmentCubit>()
-                //     .onFilter(FilterationType.newest);
+                // if not loading then show filter dialog
+                if (cubit.state.requestStatus != RequestStatus.loading) {
+                  return;
+                }
               },
               onAddPressed: () {
-                // Add your add logic here
+                // if not loading then navigate to add user screen
+                if (cubit.state.requestStatus != RequestStatus.loading) {
+                  return;
+                }
               },
             ),
             SizedBox(height: 30.h),

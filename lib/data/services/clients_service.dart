@@ -44,7 +44,7 @@ class ClientsService {
     }
   }
 
-  Future<Either<Failure, List<UserEntity>>> searchTrainerByNameOrEmail(
+  Future<Either<Failure, List<UserEntity>>> searchClientByNameOrEmail(
       {required String query}) async {
     final response = await _apiProvider.get<Map<String, dynamic>>(
       endpoint: ApiConstants.clientsEndPoint,
@@ -73,7 +73,7 @@ class ClientsService {
     }
   }
 
-  Future<Either<Failure, List<UserEntity>>> filterTrainers(
+  Future<Either<Failure, List<UserEntity>>> filterClients(
       {required FilterationType filterBy}) async {
     final response = await _apiProvider.get<Map<String, dynamic>>(
         endpoint: ApiConstants.clientsEndPoint,

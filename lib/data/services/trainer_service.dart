@@ -30,14 +30,15 @@ class TrainerService {
 
   Future<Either<Failure, List<AppUserModel>>> searchTrainerByNameOrEmail(
       {required String query}) async {
-    final response = await _apiProvider.get<List<dynamic>>(
+    final response = await _apiProvider.get<Map<String, dynamic>>(
       endpoint: ApiConstants.getTrainersEndpoint,
       queryParameters: {'searchKey': query},
     );
 
     if (response.isSuccess) {
-      final trainers =
-          response.data!.map((e) => AppUserModel.fromJson(e)).toList();
+      final trainers = (response.data!["trainers"] as List)
+          .map((e) => AppUserModel.fromJson(e as Map<String, dynamic>))
+          .toList();
       return Right(trainers);
     } else {
       return Left(ServerFailure(message: response.error!.message));

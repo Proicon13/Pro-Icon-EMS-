@@ -22,6 +22,10 @@ class Assets {
   /// assets/images/email_icon.svg
   static const String assetsImagesEmailIcon = "assets/images/email_icon.svg";
 
+  /// Assets for assetsImagesEmptyStateIcon
+  /// assets/images/empty_state_icon.svg
+  static const String assetsImagesEmptyStateIcon = "assets/images/empty_state_icon.svg";
+
   /// Assets for assetsImagesFailure
   /// assets/images/failure.svg
   static const String assetsImagesFailure = "assets/images/failure.svg";

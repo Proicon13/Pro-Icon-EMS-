@@ -48,12 +48,23 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
     });
   }
 
+  Future<void> getClients() async {
+    final currentPage = state.currentClientsPage;
+    // if not first load then show loading indicator when call
+    if (currentPage! > 1)
+      emit(state.copyWith(requestStatus: RequestStatus.loading));
+    Future.delayed(const Duration(seconds: 2), () {
+      emit(state.copyWith(
+          clients: [], errorMessage: "", requestStatus: RequestStatus.loaded));
+    });
+  }
+
   Future<void> onSearch(String query) async {
     if (!_canPerformAction()) return;
 
     toggleIsSearching(true);
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 300), () async {
+    _debounce = Timer(const Duration(milliseconds: 800), () async {
       final currentVariation =
           state.currentVariation; // get current variation (trainers or clients)
       if (currentVariation == UserVariations.trainer && query.isNotEmpty) {
@@ -93,7 +104,10 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
   }
 
   void toggleIsSearching(bool isSearching) {
+    final currentMode = state.isSearching;
     if (!_canPerformAction()) return;
+
+    if (currentMode == isSearching) return;
 
     emit(state.copyWith(isSearching: isSearching));
   }

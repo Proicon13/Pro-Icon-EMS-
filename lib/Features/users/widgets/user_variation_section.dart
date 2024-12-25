@@ -7,8 +7,10 @@ import '../cubits/user_managment_cubit.dart';
 import 'user_variation_column.dart';
 
 class UserVariationSection extends StatelessWidget {
-  const UserVariationSection({
+  final UserManagmentCubit cubit;
+  UserVariationSection({
     super.key,
+    required this.cubit,
   });
 
   @override
@@ -20,8 +22,7 @@ class UserVariationSection extends StatelessWidget {
           selector: (state) => state.currentVariation == UserVariations.trainer,
           builder: (context, state) {
             return UserVariationColumn(
-              onTap: () => BlocProvider.of<UserManagmentCubit>(context)
-                  .toggleVariation(UserVariations.trainer),
+              onTap: () => cubit.toggleVariation(UserVariations.trainer),
               isSelected: state,
               userVariation: "userManagment.screen.trainers".tr(),
             );
@@ -32,8 +33,7 @@ class UserVariationSection extends StatelessWidget {
           selector: (state) => state.currentVariation == UserVariations.client,
           builder: (context, state) {
             return UserVariationColumn(
-              onTap: () => BlocProvider.of<UserManagmentCubit>(context)
-                  .toggleVariation(UserVariations.client),
+              onTap: () => cubit.toggleVariation(UserVariations.client),
               isSelected: state,
               userVariation: "userManagment.screen.clients".tr(),
             );

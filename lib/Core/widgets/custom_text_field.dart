@@ -22,6 +22,7 @@ class CustomTextField extends StatelessWidget {
   final EdgeInsets? contentPadding;
   final TextAlign? textAlign;
   final Widget? prefixIcon;
+  final void Function(PointerDownEvent)? onTapOutside;
   const CustomTextField({
     super.key,
     required this.name,
@@ -39,12 +40,14 @@ class CustomTextField extends StatelessWidget {
     this.isDense,
     this.contentPadding,
     this.textAlign,
+    this.onTapOutside,
   });
 
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
       name: name,
+      onTapOutside: onTapOutside,
       obscureText: obsecure,
       textAlign: textAlign ?? TextAlign.start,
       controller: controller,

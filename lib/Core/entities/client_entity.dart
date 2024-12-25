@@ -23,6 +23,7 @@ class ClientEntity extends UserEntity {
     String? postalCode,
     String? address,
     String? phone,
+    String? status,
   }) : super(
           id: id,
           role: role,
@@ -30,6 +31,7 @@ class ClientEntity extends UserEntity {
           fullname: fullname,
           image: image,
           city: city,
+          status: status,
           postalCode: postalCode,
           address: address,
           phone: phone,

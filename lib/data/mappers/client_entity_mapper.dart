@@ -10,6 +10,7 @@ class ClientEntityMapper {
       fullname: model.fullname,
       image: model.image,
       city: model.city,
+      status: model.status,
       postalCode: model.postalCode,
       address: model.address,
       phone: model.phone,

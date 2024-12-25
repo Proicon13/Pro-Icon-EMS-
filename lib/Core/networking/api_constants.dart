@@ -8,4 +8,5 @@ class ApiConstants {
   static const lookUpCitiesEndpoint = "/lookups/cities/";
   static const currentUserEndpoint = "/auth/me";
   static const getTrainersEndpoint = "/trainers";
+  static const clientsEndPoint = "/clients";
 }

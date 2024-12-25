@@ -5,9 +5,9 @@ enum UserVariations { trainer, client }
 enum RequestStatus { loading, loaded, error }
 
 class UserManagmentState extends Equatable {
-  final List<AppUserModel>? trainers;
-  final List<AppUserModel>? clients;
-  final List<AppUserModel>? searchList;
+  final List<UserEntity>? trainers;
+  final List<UserEntity>? clients;
+  final List<UserEntity>? searchList;
   final String? errorMessage;
   final RequestStatus? requestStatus;
   final UserVariations? currentVariation;
@@ -27,15 +27,15 @@ class UserManagmentState extends Equatable {
       this.currentVariation = UserVariations.trainer});
 
   UserManagmentState copyWith({
-    List<AppUserModel>? trainers,
-    List<AppUserModel>? clients,
+    List<UserEntity>? trainers,
+    List<UserEntity>? clients,
     String? errorMessage,
     RequestStatus? requestStatus,
     UserVariations? currentVariation,
     int? currentTrainersPage,
     int? currentClientsPage,
     bool? isSearching,
-    List<AppUserModel>? searchList,
+    List<UserEntity>? searchList,
   }) {
     return UserManagmentState(
       trainers: trainers ?? this.trainers,

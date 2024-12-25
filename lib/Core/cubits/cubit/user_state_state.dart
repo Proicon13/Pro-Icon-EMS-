@@ -4,13 +4,12 @@ enum UserStatus { loggedIn, loggedOut }
 
 class UserStateState extends Equatable {
   final UserStatus? userStatus;
-  final AppUserModel? currentUser;
+  final UserEntity? currentUser;
   const UserStateState(
       {this.userStatus = UserStatus.loggedOut,
-      this.currentUser = const AppUserModel()});
+      this.currentUser = const UserEntity()});
 
-  UserStateState copyWith(
-          {UserStatus? userStatus, AppUserModel? currentUser}) =>
+  UserStateState copyWith({UserStatus? userStatus, UserEntity? currentUser}) =>
       UserStateState(
           userStatus: userStatus ?? this.userStatus,
           currentUser: currentUser ?? this.currentUser);

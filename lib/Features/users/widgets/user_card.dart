@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Core/constants/app_assets.dart';
+import '../../../Core/entities/user_entity.dart';
 import '../../../Core/theme/app_colors.dart';
 import '../../../Core/theme/app_text_styles.dart';
 import '../../../Core/widgets/custom_network_image.dart';
 import '../../../Core/widgets/custom_svg_visual.dart';
-import '../../../data/models/app_user_model.dart';
 
 abstract class UserCardBase extends StatelessWidget {
   final void Function() onTap;
@@ -36,7 +36,7 @@ abstract class UserCardBase extends StatelessWidget {
 }
 
 class UserCardLoaded extends UserCardBase {
-  final AppUserModel user;
+  final UserEntity user;
   final void Function() onEdit;
   final void Function() onDelete;
 

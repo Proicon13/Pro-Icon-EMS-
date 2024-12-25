@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
+import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/Core/errors/failures.dart';
 import 'package:pro_icon/Core/networking/api_constants.dart';
+import 'package:pro_icon/data/mappers/app_user_mapper.dart';
 import 'package:pro_icon/data/models/app_user_model.dart';
 
 import '../../Core/networking/base_api_provider.dart';
@@ -12,7 +14,7 @@ class TrainerService {
   TrainerService({required BaseApiProvider apiProvider})
       : _apiProvider = apiProvider;
 
-  Future<Either<Failure, List<AppUserModel>>> getTrainers({int? page}) async {
+  Future<Either<Failure, List<UserEntity>>> getTrainers({int? page}) async {
     final response = await _apiProvider.get<Map<String, dynamic>>(
       endpoint: ApiConstants.getTrainersEndpoint,
       queryParameters: {'page': page ?? 1},
@@ -20,7 +22,8 @@ class TrainerService {
 
     if (response.isSuccess) {
       final trainers = (response.data!["trainers"] as List)
-          .map((e) => AppUserModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => AppUserEntityMapper.toEntity(
+              AppUserModel.fromJson(e as Map<String, dynamic>)))
           .toList();
       return Right(trainers);
     } else {
@@ -28,7 +31,7 @@ class TrainerService {
     }
   }
 
-  Future<Either<Failure, List<AppUserModel>>> searchTrainerByNameOrEmail(
+  Future<Either<Failure, List<UserEntity>>> searchTrainerByNameOrEmail(
       {required String query}) async {
     final response = await _apiProvider.get<Map<String, dynamic>>(
       endpoint: ApiConstants.getTrainersEndpoint,
@@ -37,7 +40,8 @@ class TrainerService {
 
     if (response.isSuccess) {
       final trainers = (response.data!["trainers"] as List)
-          .map((e) => AppUserModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => AppUserEntityMapper.toEntity(
+              AppUserModel.fromJson(e as Map<String, dynamic>)))
           .toList();
       return Right(trainers);
     } else {
@@ -45,15 +49,17 @@ class TrainerService {
     }
   }
 
-  Future<Either<Failure, List<AppUserModel>>> filterTrainers(
+  Future<Either<Failure, List<UserEntity>>> filterTrainers(
       {required FilterationType filterBy}) async {
-    final response = await _apiProvider.get<List<dynamic>>(
+    final response = await _apiProvider.get<Map<String, dynamic>>(
         endpoint: ApiConstants.getTrainersEndpoint,
         queryParameters: {'orderBy': filterBy.name});
 
     if (response.isSuccess) {
-      final trainers =
-          response.data!.map((e) => AppUserModel.fromJson(e)).toList();
+      final trainers = (response.data!["trainers"] as List)
+          .map((e) => AppUserEntityMapper.toEntity(
+              AppUserModel.fromJson(e as Map<String, dynamic>)))
+          .toList();
       return Right(trainers);
     } else {
       return Left(ServerFailure(message: response.error!.message));

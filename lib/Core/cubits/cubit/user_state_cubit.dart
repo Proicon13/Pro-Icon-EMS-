@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pro_icon/data/models/app_user_model.dart';
+import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/data/repos/auth_repo.dart';
 import 'package:pro_icon/data/services/auth_token_service.dart';
 

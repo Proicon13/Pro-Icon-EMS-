@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/Core/widgets/empty_state_widget.dart';
 import 'package:pro_icon/Features/users/widgets/user_card.dart';
 
-import '../../../data/models/app_user_model.dart';
 import '../cubits/user_managment_cubit.dart';
 
 class UsersListLoadedWidget extends StatelessWidget {
@@ -15,7 +15,7 @@ class UsersListLoadedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final emptyStateMessage = _getEmptyStateMessage(state);
 
-    final List<AppUserModel> users = state.isSearching!
+    final List<UserEntity> users = state.isSearching!
         ? state.searchList!
         : (state.currentVariation == UserVariations.trainer
             ? state.trainers!
@@ -37,7 +37,7 @@ class UsersListLoadedWidget extends StatelessWidget {
                 key: ValueKey(state.currentVariation),
                 itemCount: users.length,
                 itemBuilder: (context, index) {
-                  final AppUserModel user = users[index];
+                  final UserEntity user = users[index];
                   return UserCardLoaded(
                     key: ValueKey(user.id),
                     user: user,

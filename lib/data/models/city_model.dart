@@ -18,6 +18,12 @@ class CityModel extends Equatable {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'country': country.toJson(),
+      };
+
   @override
   List<Object?> get props => [id, name, country];
 }

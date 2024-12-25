@@ -1,5 +1,6 @@
 import 'app_user_model.dart';
 import 'city_model.dart';
+import 'country_model.dart';
 
 class ClientModel extends AppUserModel {
   final String? gender;
@@ -38,27 +39,49 @@ class ClientModel extends AppUserModel {
   factory ClientModel.fromJson(Map<String, dynamic> json) {
     return ClientModel(
       id: json['id'] as int?,
-      fullname: json['fullname'] as String?,
-      email: json['email'] as String?,
-      phone: json['phone'] as String?,
-      address: json['address'] as String?,
-      postalCode: json['postalCode']?.toString(),
-      image: json['image'] as String?,
-      status: json['status'] as String?,
-      city: json['city'] != null
-          ? CityModel.fromJson(json['city'] as Map<String, dynamic>)
-          : null,
-      gender: json['gender'] as String?,
+      fullname: json['fullname'] ?? 'Unknown Name',
+      email: json['email'] ?? 'Unknown Email',
+      phone: json['phone'] ?? 'No Phone',
+      address: json['address'] ?? 'No Address Provided',
+      postalCode:
+          json['postalCode'] != null ? json['postalCode'].toString() : '00000',
+      image: json['image'] ?? '',
+      status: json['status'] ?? 'NOT ACTIVE',
+      gender: json['gender'] ?? 'Unknown',
       startDate: json['startDate'] != null
           ? DateTime.parse(json['startDate'] as String)
-          : null,
+          : DateTime.now(),
       endDate: json['endDate'] != null
           ? DateTime.parse(json['endDate'] as String)
-          : null,
+          : DateTime.now(),
       user: json['user'] != null
           ? SupervisorModel.fromJson(json['user'] as Map<String, dynamic>)
           : null,
+      city: json['city'] != null
+          ? CityModel.fromJson(json['city'] as Map<String, dynamic>)
+          : const CityModel(
+              id: 0,
+              name: 'Unknown City',
+              country: CountryModel(name: "Unknown Country")),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'fullname': fullname,
+      'email': email,
+      'phone': phone,
+      'address': address,
+      'postalCode': postalCode,
+      'image': image,
+      'status': status,
+      'gender': gender,
+      'startDate': startDate?.toIso8601String(),
+      'endDate': endDate?.toIso8601String(),
+      'user': user?.toJson(),
+      'city': city?.toJson(),
+    };
   }
 }
 

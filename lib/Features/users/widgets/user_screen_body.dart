@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,8 +12,8 @@ class UsersScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("built users screen body");
     final cubit = BlocProvider.of<UserManagmentCubit>(context, listen: false);
+
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(

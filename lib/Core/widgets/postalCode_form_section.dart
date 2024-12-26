@@ -6,13 +6,18 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'text_form_section.dart';
 
 class PostalCodeFormSection extends StatelessWidget {
+  final String? intialValue;
+  final bool? isFieldNotRequired;
   const PostalCodeFormSection({
     super.key,
+    this.intialValue,
+    this.isFieldNotRequired,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormSection(
+      intialValue: intialValue,
       title: "register.postalCodeLabel".tr(), // "Postal Code"
       name: "postalCode",
       hintText: "register.postalCodeHint".tr(), // "123456"
@@ -21,16 +26,18 @@ class PostalCodeFormSection extends StatelessWidget {
         FilteringTextInputFormatter.digitsOnly,
         LengthLimitingTextInputFormatter(6),
       ],
-      validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(
-          errorText: "register.postalCodeRequiredError"
-              .tr(), // "Postal code is required"
-        ),
-        FormBuilderValidators.numeric(
-          errorText: "register.postalCodeNumericError"
-              .tr(), // "Postal code must be numeric"
-        ),
-      ]),
+      validator: isFieldNotRequired == null
+          ? FormBuilderValidators.compose([
+              FormBuilderValidators.required(
+                errorText: "register.postalCodeRequiredError"
+                    .tr(), // "Postal code is required"
+              ),
+              FormBuilderValidators.numeric(
+                errorText: "register.postalCodeNumericError"
+                    .tr(), // "Postal code must be numeric"
+              ),
+            ])
+          : null,
     );
   }
 }

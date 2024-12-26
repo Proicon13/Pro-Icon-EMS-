@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/cubits/region_cubit/address_registration_cubit.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/have_account_row.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Core/widgets/title_section.dart';
-import 'package:pro_icon/Features/auth/register/cubits/address_registration_cubit.dart';
 import 'package:pro_icon/Features/auth/register/screens/set_password_screen.dart';
 
 import '../../../../Core/dependencies.dart';
@@ -30,7 +30,7 @@ class AdminAddressScreen extends StatefulWidget {
 
 class _AdminAddressScreenState extends State<AdminAddressScreen> {
   final _addressFormKey = GlobalKey<FormBuilderState>();
-  void _submitForm(BuildContext context, AddressRegistrationState state) {
+  void _submitForm(BuildContext context, RegionState state) {
     if (state.status == RequestStatus.success) {
       // if loaing or error don`t submit
       if (_addressFormKey.currentState?.saveAndValidate() ?? false) {
@@ -63,9 +63,8 @@ class _AdminAddressScreenState extends State<AdminAddressScreen> {
   Widget build(BuildContext context) {
     return BaseAppScaffold(
       body: KeyboardDismissable(
-        child: BlocProvider<AddressRegistrationCubit>(
-          create: (context) =>
-              getIt<AddressRegistrationCubit>()..getCountries(),
+        child: BlocProvider<RegionCubit>(
+          create: (context) => getIt<RegionCubit>()..getCountries(),
           child: Column(
             children: [
               Expanded(
@@ -101,8 +100,7 @@ class _AdminAddressScreenState extends State<AdminAddressScreen> {
                   children: [
                     SizedBox(
                       width: double.infinity,
-                      child: BlocBuilder<AddressRegistrationCubit,
-                          AddressRegistrationState>(
+                      child: BlocBuilder<RegionCubit, RegionState>(
                         buildWhen: (previous, current) =>
                             previous.status != current.status,
                         builder: (context, state) {

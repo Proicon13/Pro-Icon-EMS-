@@ -1,9 +1,9 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../Core/theme/app_colors.dart';
 import '../../../../Core/theme/app_text_styles.dart';
 
@@ -12,6 +12,7 @@ class PhoneNumberField extends StatelessWidget {
   final Function(String) onCountryCodeChanged;
   final String? Function(String?)? validator;
   final String? errorMessage;
+  final String? intialValue;
 
   const PhoneNumberField({
     super.key,
@@ -19,6 +20,7 @@ class PhoneNumberField extends StatelessWidget {
     required this.onCountryCodeChanged,
     required this.validator,
     this.errorMessage,
+    this.intialValue,
   });
 
   @override
@@ -75,6 +77,7 @@ class PhoneNumberField extends StatelessWidget {
               Expanded(
                 child: FormBuilderTextField(
                     name: "phone",
+                    initialValue: intialValue,
                     keyboardType: TextInputType.phone,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,

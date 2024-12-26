@@ -9,15 +9,20 @@ class CityDropDownFormSection extends StatelessWidget {
   const CityDropDownFormSection({
     super.key,
     required List<String> cities,
+    this.intialValue,
+    this.isFieldNotRequired,
   }) : _cities = cities;
 
   final List<String> _cities;
+  final String? intialValue;
+  final bool? isFieldNotRequired;
 
   @override
   Widget build(BuildContext context) {
     return DropdownFormSection(
       title: "register.cityLabel".tr(), // "City"
       name: "city",
+      initialValue: intialValue,
       hintText: "register.cityHint".tr(), // "Select City"
       items: _cities
           .map((city) => DropdownMenuItem(
@@ -30,9 +35,12 @@ class CityDropDownFormSection extends StatelessWidget {
                 ),
               ))
           .toList(),
-      validator: FormBuilderValidators.required(
-        errorText: "register.cityRequiredError".tr(), // "City is required"
-      ),
+      validator: isFieldNotRequired == null
+          ? FormBuilderValidators.required(
+              errorText:
+                  "register.cityRequiredError".tr(), // "City is required"
+            )
+          : null,
     );
   }
 }

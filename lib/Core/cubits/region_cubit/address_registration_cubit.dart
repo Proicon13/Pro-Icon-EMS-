@@ -3,12 +3,11 @@ import 'package:equatable/equatable.dart';
 import 'package:pro_icon/data/models/city_model.dart';
 import 'package:pro_icon/data/services/country_service.dart';
 
-part 'address_registration_state.dart';
+part 'region_state.dart';
 
-class AddressRegistrationCubit extends Cubit<AddressRegistrationState> {
+class RegionCubit extends Cubit<RegionState> {
   final CountryService countryService;
-  AddressRegistrationCubit({required this.countryService})
-      : super(const AddressRegistrationState());
+  RegionCubit({required this.countryService}) : super(const RegionState());
 
   void getCountries() async {
     final result = await countryService.getCountries();

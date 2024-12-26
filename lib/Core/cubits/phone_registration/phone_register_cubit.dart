@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'register_state.dart';
+part 'phone_register_state.dart';
 
-class RegisterCubit extends Cubit<RegisterState> {
-  RegisterCubit() : super(const RegisterState());
+class PhoneRegistrationCubit extends Cubit<PhoneRegistrationState> {
+  PhoneRegistrationCubit() : super(const PhoneRegistrationState());
 
   void setCountryCode(String phoneCode) =>
       emit(state.copyWith(phoneCode: phoneCode));

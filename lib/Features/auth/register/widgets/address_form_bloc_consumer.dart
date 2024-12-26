@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../cubits/address_registration_cubit.dart';
+import '../../../../Core/cubits/region_cubit/address_registration_cubit.dart';
 import 'address_form.dart';
 
 class AddressFormBlocCounsumer extends StatelessWidget {
@@ -16,7 +16,7 @@ class AddressFormBlocCounsumer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AddressRegistrationCubit, AddressRegistrationState>(
+    return BlocConsumer<RegionCubit, RegionState>(
       listener: (context, state) {
         if (state.status == RequestStatus.error) {
           ScaffoldMessenger.of(context).showSnackBar(

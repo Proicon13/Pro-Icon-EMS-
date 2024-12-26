@@ -9,8 +9,11 @@ class CountryDropDownFormSection extends StatelessWidget {
   const CountryDropDownFormSection({
     super.key,
     required List<String> countries,
+    this.intialValue,
+    this.isFieldNotRequired,
   }) : _countries = countries;
-
+  final String? intialValue;
+  final bool? isFieldNotRequired;
   final List<String> _countries;
 
   @override
@@ -18,6 +21,7 @@ class CountryDropDownFormSection extends StatelessWidget {
     return DropdownFormSection(
       title: "register.countryLabel".tr(), // "Country"
       name: "country",
+      initialValue: intialValue,
       hintText: "register.countryHint".tr(), // "Select Country"
       items: _countries
           .map((country) => DropdownMenuItem(
@@ -30,10 +34,12 @@ class CountryDropDownFormSection extends StatelessWidget {
                 ),
               ))
           .toList(),
-      validator: FormBuilderValidators.required(
-        errorText:
-            "register.countryRequiredError".tr(), // "Country is required"
-      ),
+      validator: isFieldNotRequired == null
+          ? FormBuilderValidators.required(
+              errorText:
+                  "register.countryRequiredError".tr(), // "Country is required"
+            )
+          : null,
     );
   }
 }

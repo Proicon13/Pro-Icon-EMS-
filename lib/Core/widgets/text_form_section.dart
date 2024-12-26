@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/widgets/custom_text_field.dart';
@@ -17,12 +16,14 @@ class TextFormSection extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
   final bool obscureText;
+  final String? intialValue;
 
   const TextFormSection(
       {super.key,
       required this.title,
       required this.name,
       required this.hintText,
+      this.intialValue,
       this.validator,
       this.onChanged,
       this.onSaved,
@@ -42,6 +43,7 @@ class TextFormSection extends StatelessWidget {
       15.h.verticalSpace,
       CustomTextField(
         name: name,
+        intialValue: intialValue,
         controller: controller,
         inputFormatters: inputFormatters,
         keyboardInputType: keyboardInputType,

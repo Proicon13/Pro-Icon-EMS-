@@ -22,10 +22,12 @@ class CustomTextField extends StatelessWidget {
   final EdgeInsets? contentPadding;
   final TextAlign? textAlign;
   final Widget? prefixIcon;
+  final String? intialValue;
   final void Function(PointerDownEvent)? onTapOutside;
   const CustomTextField({
     super.key,
     required this.name,
+    this.intialValue,
     this.prefixIcon,
     this.hintText,
     this.validator,
@@ -47,6 +49,7 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return FormBuilderTextField(
       name: name,
+      initialValue: intialValue,
       onTapOutside: onTapOutside,
       obscureText: obsecure,
       textAlign: textAlign ?? TextAlign.start,

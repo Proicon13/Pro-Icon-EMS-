@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/cubits/phone_registration/phone_register_cubit.dart';
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Features/auth/login/screens/login_screen.dart';
-import 'package:pro_icon/Features/auth/register/cubits/register_cubit.dart';
 import 'package:pro_icon/Features/auth/register/screens/admin_address_screen.dart';
 import 'package:pro_icon/data/models/sign_up_request_builder.dart';
 
@@ -59,8 +59,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<RegisterCubit>(
-      create: (_) => getIt<RegisterCubit>(),
+    return BlocProvider<PhoneRegistrationCubit>(
+      create: (_) => getIt<PhoneRegistrationCubit>(),
       child: KeyboardDismissable(
         child: BaseAppScaffold(
           resizeToAvoidButtomPadding: true,
@@ -87,7 +87,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   40.h.verticalSpace,
                   SizedBox(
                     width: double.infinity,
-                    child: BlocSelector<RegisterCubit, RegisterState, String>(
+                    child: BlocSelector<PhoneRegistrationCubit,
+                        PhoneRegistrationState, String>(
                       selector: (state) => state.phoneCode!,
                       builder: (context, state) {
                         return CustomButton(

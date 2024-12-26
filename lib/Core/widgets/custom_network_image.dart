@@ -26,7 +26,7 @@ class CustomNetworkImage extends StatelessWidget {
           ),
         ),
         errorWidget: (context, url, error) => Container(
-          color: AppColors.darkGreyColor,
+          color: AppColors.primaryColor,
           child: Center(
             child: Image.asset(
               errorAssetPath,

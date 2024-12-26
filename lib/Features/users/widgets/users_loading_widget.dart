@@ -12,7 +12,7 @@ class UsersListLoadingWidget extends StatelessWidget {
       child: Skeletonizer(
         enabled: true,
         child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 800),
           child: ListView.builder(
             key: const ValueKey("loading-list"),
             itemCount: 5,

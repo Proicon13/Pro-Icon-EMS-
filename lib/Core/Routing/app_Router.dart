@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:pro_icon/Core/entities/user_entity.dart';
 
 import '../../Features/auth/login/screens/login_screen.dart';
 import '../../Features/auth/register/screens/admin_address_screen.dart';
@@ -10,6 +11,7 @@ import '../../Features/auth/reset_password/screens/forget_password_screen.dart';
 import '../../Features/auth/reset_password/screens/otp_screen.dart';
 import '../../Features/auth/reset_password/screens/set_new_password_screen.dart';
 import '../../Features/auth/role_selection/screens/role_selection_screen.dart';
+import '../../Features/manage_trainer/screens/manage_trainer_screen.dart';
 import '../../Features/users/screens/users_screen.dart';
 import '../../splash_screen.dart';
 
@@ -73,6 +75,15 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
       return MaterialPageRoute(
         settings: const RouteSettings(name: UsersScreen.routeName),
         builder: (_) => const UsersScreen(),
+      );
+    case ManageTrainerScreen.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: ManageTrainerScreen.routeName),
+        builder: (_) {
+          // Retrieve trainer from arguments
+          final trainer = settings.arguments as UserEntity?;
+          return ManageTrainerScreen(trainer: trainer);
+        },
       );
 
     default:

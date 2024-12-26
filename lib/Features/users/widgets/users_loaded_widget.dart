@@ -4,6 +4,7 @@ import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/Core/widgets/empty_state_widget.dart';
 import 'package:pro_icon/Features/users/widgets/user_card.dart';
 
+import '../../manage_trainer/screens/manage_trainer_screen.dart';
 import '../cubits/user_managment_cubit.dart';
 
 class UsersListLoadedWidget extends StatelessWidget {
@@ -32,7 +33,7 @@ class UsersListLoadedWidget extends StatelessWidget {
               ),
             )
           : AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 800),
               child: ListView.builder(
                 key: ValueKey(state.currentVariation),
                 itemCount: users.length,
@@ -46,6 +47,9 @@ class UsersListLoadedWidget extends StatelessWidget {
                     },
                     onEdit: () {
                       // navigate to edit user screen
+                      Navigator.pushNamed(
+                          context, ManageTrainerScreen.routeName,
+                          arguments: user);
                     },
                     onDelete: () {
                       // delete user

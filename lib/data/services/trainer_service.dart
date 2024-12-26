@@ -65,4 +65,20 @@ class TrainerService {
       return Left(ServerFailure(message: response.error!.message));
     }
   }
+
+  Future<Either<Failure, UserEntity>> updateTrainerDetails(
+      {required int id, required Map<String, dynamic> body}) async {
+    final response = await _apiProvider.put<Map<String, dynamic>>(
+      endpoint: "${ApiConstants.getTrainersEndpoint}/$id",
+      data: body,
+    );
+
+    if (response.isSuccess) {
+      final trainer =
+          AppUserEntityMapper.toEntity(AppUserModel.fromJson(response.data!));
+      return Right(trainer);
+    } else {
+      return Left(ServerFailure(message: response.error!.message));
+    }
+  }
 }

@@ -11,16 +11,21 @@ class CountryDropDownFormSection extends StatelessWidget {
     required List<String> countries,
     this.intialValue,
     this.isFieldNotRequired,
+    this.onChanged,
+    this.keyName,
   }) : _countries = countries;
   final String? intialValue;
   final bool? isFieldNotRequired;
   final List<String> _countries;
+  final void Function(String?)? onChanged;
+  final String? keyName;
 
   @override
   Widget build(BuildContext context) {
     return DropdownFormSection(
       title: "register.countryLabel".tr(), // "Country"
-      name: "country",
+      name: keyName ?? "country",
+      onChanged: onChanged,
       initialValue: intialValue,
       hintText: "register.countryHint".tr(), // "Select Country"
       items: _countries

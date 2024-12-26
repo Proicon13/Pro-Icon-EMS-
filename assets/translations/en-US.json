@@ -50,6 +50,7 @@
     "otp.screen.validationMessage": "Please fill all fields correctly",
     "next": "Next",
     "confirm": "Confirm",
+    "save": "Save",
     "login": "Login",
     "login.success": "Login Successful",
     "roleSelection.title": "Select User Type",
@@ -74,5 +75,8 @@
     "userManagment.screen.title": "User Management",
     "userManagment.screen.trainers": "Trainers",
     "userManagment.screen.clients": "Clients",
-    "userManagment.screen.searchHint": "Search by name or email..."
+    "userManagment.screen.searchHint": "Search by name or email...",
+    "userManagment.screen.addTrainer": "Add Trainer",
+    "userManagment.screen.addClient": "Add Client",
+    "userManagment.screen.editTrainer": "Edit Trainer"
 }

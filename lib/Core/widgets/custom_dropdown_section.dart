@@ -11,6 +11,7 @@ class DropdownFormSection extends StatelessWidget {
   final List<DropdownMenuItem<String>> items;
   final String? Function(String?)? validator;
   final String? initialValue;
+  final void Function(String?)? onChanged;
 
   const DropdownFormSection({
     super.key,
@@ -20,6 +21,7 @@ class DropdownFormSection extends StatelessWidget {
     required this.items,
     this.validator,
     this.initialValue,
+    this.onChanged,
   });
 
   @override
@@ -39,6 +41,8 @@ class DropdownFormSection extends StatelessWidget {
         // Dropdown Field
         FormBuilderDropdown<String>(
           name: name,
+          key: ValueKey(name),
+          onChanged: onChanged,
           initialValue: initialValue,
           decoration: InputDecoration(
             border: buildEnabledBorder(context),

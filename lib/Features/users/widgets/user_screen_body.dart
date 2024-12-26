@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Features/manage_trainer/screens/manage_trainer_screen.dart';
 import 'package:pro_icon/Features/users/widgets/search_section.dart';
 
 import '../cubits/user_managment_cubit.dart';
@@ -32,15 +33,15 @@ class UsersScreenBody extends StatelessWidget {
               },
               onFilterPressed: () {
                 // if not loading then show filter dialog
-                if (cubit.state.requestStatus != RequestStatus.loading) {
+                if (cubit.state.requestStatus == RequestStatus.loading) {
                   return;
                 }
               },
               onAddPressed: () {
                 // if not loading then navigate to add user screen
-                if (cubit.state.requestStatus != RequestStatus.loading) {
-                  return;
-                }
+                if (cubit.state.requestStatus == RequestStatus.loading) return;
+
+                Navigator.pushNamed(context, ManageTrainerScreen.routeName);
               },
             ),
             SizedBox(height: 30.h),

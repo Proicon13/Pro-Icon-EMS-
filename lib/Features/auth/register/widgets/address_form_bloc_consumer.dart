@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Core/cubits/region_cubit/address_registration_cubit.dart';
@@ -19,12 +20,7 @@ class AddressFormBlocCounsumer extends StatelessWidget {
     return BlocConsumer<RegionCubit, RegionState>(
       listener: (context, state) {
         if (state.status == RequestStatus.error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                backgroundColor: Colors.red,
-                duration: const Duration(seconds: 2),
-                content: Text(state.errorMessage!)),
-          );
+          buildCustomAlert(context, state.errorMessage!, Colors.red);
         }
       },
       buildWhen: (previous, current) => previous.status != current.status,

@@ -7,6 +7,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/cubits/phone_registration/phone_register_cubit.dart';
 import 'package:pro_icon/Core/dependencies.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
@@ -66,13 +68,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           resizeToAvoidButtomPadding: true,
           body: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.w),
+              padding: SizeConstants.kScaffoldPadding(context),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  90.h.verticalSpace,
+                  context.setMinSize(90).verticalSpace,
                   const Center(child: ProIconLogo()),
-                  50.h.verticalSpace,
+                  context.setMinSize(50).verticalSpace,
                   Text(
                     "signup".tr(),
                     style: AppTextStyles.fontSize24(context).copyWith(
@@ -80,11 +82,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  40.h.verticalSpace,
+                  context.setMinSize(40).verticalSpace,
                   RegisterForm(
                     formKey: _registerFormKey,
                   ),
-                  40.h.verticalSpace,
+                  context.setMinSize(40).verticalSpace,
                   SizedBox(
                     width: double.infinity,
                     child: BlocSelector<PhoneRegistrationCubit,
@@ -98,14 +100,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                     ),
                   ),
-                  15.h.verticalSpace,
+                  context.setMinSize(15).verticalSpace,
                   HaveAccountRow(
                     action: "signin".tr(),
                     title: "haveAccount.title".tr(),
                     onAction: () =>
                         Navigator.pushNamed(context, LoginScreen.routeName),
                   ),
-                  30.h.verticalSpace,
+                  context.setMinSize(30).verticalSpace,
                 ],
               ),
             ),

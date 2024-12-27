@@ -3,6 +3,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/theme/app_colors.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 
 class DropdownFormSection extends StatelessWidget {
   final String title;
@@ -50,8 +52,9 @@ class DropdownFormSection extends StatelessWidget {
             focusedBorder: buildFocusedBorder(context),
             errorBorder: buildErrorBorder(context),
             enabledBorder: buildEnabledBorder(context),
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 12.w, vertical: 15.h),
+            contentPadding: EdgeInsets.symmetric(
+                horizontal: context.setMinSize(12),
+                vertical: context.setMinSize(15)),
           ),
           items: items,
           dropdownColor: AppColors.backgroundColor,
@@ -69,31 +72,27 @@ class DropdownFormSection extends StatelessWidget {
 }
 
 OutlineInputBorder buildErrorBorder(BuildContext context) {
-  return const OutlineInputBorder(
+  return OutlineInputBorder(
     borderSide: BorderSide(
       color: Colors.red,
-      width: 1.3,
+      width: context.setMinSize(1.6),
     ),
-    borderRadius: BorderRadius.all(Radius.circular(8)),
+    borderRadius: SizeConstants.kDefaultBorderRadius(context),
   );
 }
 
 OutlineInputBorder buildEnabledBorder(BuildContext context) {
-  return const OutlineInputBorder(
+  return OutlineInputBorder(
     borderSide: BorderSide(
-      color: AppColors.lightGreyColor,
-      width: 1.3,
-    ),
-    borderRadius: BorderRadius.all(Radius.circular(8)),
+        color: AppColors.lightGreyColor, width: context.setMinSize(1.6)),
+    borderRadius: SizeConstants.kDefaultBorderRadius(context),
   );
 }
 
 OutlineInputBorder buildFocusedBorder(BuildContext context) {
-  return const OutlineInputBorder(
+  return OutlineInputBorder(
     borderSide: BorderSide(
-      color: AppColors.primaryColor,
-      width: 1.3,
-    ),
-    borderRadius: BorderRadius.all(Radius.circular(8)),
+        color: AppColors.primaryColor, width: context.setMinSize(1.6)),
+    borderRadius: SizeConstants.kDefaultBorderRadius(context),
   );
 }

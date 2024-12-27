@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
-import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
@@ -57,21 +56,9 @@ class RoleSelectionScreen extends StatelessWidget {
               BlocSelector<SelectRoleCubit, SelectRoleState, Role?>(
                 selector: (state) => state.role,
                 builder: (context, selectedRole) {
-                  return SizeConfig(
-                    baseSize: const Size(398, 50),
-                    height: context.setMinSize(50),
-                    width: context.setMinSize(398),
-                    child: Builder(builder: (context) {
-                      return SizedBox(
-                        width: double.infinity,
-                        height: context.sizeConfig.height,
-                        child: CustomButton(
-                          text: "next".tr(),
-                          onPressed: () =>
-                              navigateBasedOnRole(context, selectedRole),
-                        ),
-                      );
-                    }),
+                  return CustomButton(
+                    text: "next".tr(),
+                    onPressed: () => navigateBasedOnRole(context, selectedRole),
                   );
                 },
               ),

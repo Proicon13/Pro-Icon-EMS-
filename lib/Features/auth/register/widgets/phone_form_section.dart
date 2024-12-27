@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/cubits/phone_registration/phone_register_cubit.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 
 import '../../../../Core/theme/app_text_styles.dart';
 import 'phone_form_field.dart';
@@ -23,7 +24,7 @@ class PhoneFormSection extends StatelessWidget {
           style: AppTextStyles.fontSize16(context)
               .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
         ),
-        15.h.verticalSpace,
+        context.setMinSize(15).verticalSpace,
         BlocBuilder<PhoneRegistrationCubit, PhoneRegistrationState>(
           builder: (context, state) {
             return PhoneNumberField(

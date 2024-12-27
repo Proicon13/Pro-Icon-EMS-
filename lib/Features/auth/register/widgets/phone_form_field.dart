@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 
 import '../../../../Core/theme/app_colors.dart';
 import '../../../../Core/theme/app_text_styles.dart';
@@ -30,14 +32,16 @@ class PhoneNumberField extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: SizeConstants.kDefaultBorderRadius(context),
             border: Border.all(
                 color: errorMessage != null && errorMessage!.isNotEmpty
                     ? Colors.red
                     : AppColors.lightGreyColor,
-                width: 1.3),
+                width: context.setMinSize(1.6)),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+          padding: EdgeInsets.symmetric(
+              horizontal: context.setMinSize(16),
+              vertical: context.setMinSize(13)),
           child: Row(
             children: [
               // Country Picker Button
@@ -58,21 +62,26 @@ class PhoneNumberField extends StatelessWidget {
                       style: AppTextStyles.fontSize14(context).copyWith(
                           color: Colors.white, fontWeight: FontWeight.w500),
                     ),
-                    const Icon(
+                    Icon(
                       Icons.keyboard_arrow_down_outlined,
                       color: Colors.white,
+                      size: context.setSp(15),
                     ),
                   ],
                 ),
               ),
-              10.w.horizontalSpace, // Space between flag and line
+              context
+                  .setMinSize(10)
+                  .horizontalSpace, // Space between flag and line
               // Vertical Line
               Container(
-                width: 1.w,
-                height: 24.h,
+                width: context.setMinSize(2),
+                height: context.setMinSize(30),
                 color: AppColors.lightGreyColor,
               ),
-              10.w.horizontalSpace, // Space between line and text field
+              context
+                  .setMinSize(10)
+                  .horizontalSpace, // Space between line and text field
               // Text Field
               Expanded(
                 child: FormBuilderTextField(
@@ -97,11 +106,11 @@ class PhoneNumberField extends StatelessWidget {
             ],
           ),
         ),
-        5.h.verticalSpace,
+        context.setMinSize(5).verticalSpace,
         errorMessage != null && errorMessage!.isNotEmpty
             ? Row(
                 children: [
-                  20.w.horizontalSpace,
+                  context.setMinSize(20).horizontalSpace,
                   Text(
                     errorMessage ?? "",
                     style: AppTextStyles.fontSize14(context)

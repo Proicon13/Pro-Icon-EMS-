@@ -9,7 +9,8 @@ class SizeConstants {
       );
 
   static kBottomNavBarPadding(BuildContext context) => EdgeInsets.symmetric(
-        horizontal: context.setMinSize(15),
+        horizontal: context.setMinSize(16),
+        vertical: context.setMinSize(15),
       );
   static kDefaultBorderRadius(BuildContext context) => BorderRadius.circular(
         context.setMinSize(8),

@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/cubits/region_cubit/address_registration_cubit.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/have_account_row.dart';
@@ -70,20 +72,20 @@ class _AdminAddressScreenState extends State<AdminAddressScreen> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25.w),
+                    padding: SizeConstants.kScaffoldPadding(context),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        90.h.verticalSpace,
+                        context.setMinSize(90).verticalSpace,
                         const Center(
                           child: ProIconLogo(),
                         ),
-                        50.h.verticalSpace,
+                        context.setMinSize(50).verticalSpace,
                         TitleSection(
                           title: "address.title".tr(),
                           subtitle: "address.subtitle".tr(),
                         ),
-                        40.h.verticalSpace,
+                        context.setMinSize(40).verticalSpace,
 
                         // Address Form
                         AddressFormBlocCounsumer(
@@ -94,7 +96,9 @@ class _AdminAddressScreenState extends State<AdminAddressScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
+                padding: EdgeInsets.symmetric(
+                    horizontal: context.setMinSize(16),
+                    vertical: context.setMinSize(20)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [

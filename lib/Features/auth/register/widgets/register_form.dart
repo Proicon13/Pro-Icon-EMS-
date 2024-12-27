@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/widgets/email_form_section.dart';
 
 import '../../../../Core/widgets/fullname_form_section.dart';
@@ -20,9 +21,9 @@ class RegisterForm extends StatelessWidget {
       child: Column(
         children: [
           const FullNameFormSection(),
-          30.h.verticalSpace,
+          context.setMinSize(35).verticalSpace,
           const EmailFormSection(),
-          30.h.verticalSpace,
+          context.setMinSize(35).verticalSpace,
           const PhoneFormSection(),
         ],
       ),

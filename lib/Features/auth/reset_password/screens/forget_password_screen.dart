@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/email_form_section.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
@@ -54,27 +56,27 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         create: (context) => getIt<ForgetPasswordCubit>(),
         child: BaseAppScaffold(
           bottomNavigationBar: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
+            padding: SizeConstants.kBottomNavBarPadding(context),
             child: SendCodeButton(
               onSubmit: _submitForm,
             ),
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.w),
+              padding: SizeConstants.kScaffoldPadding(context),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  90.h.verticalSpace,
+                  context.setMinSize(90).verticalSpace,
                   const Center(
                     child: ProIconLogo(),
                   ),
-                  50.h.verticalSpace,
+                  context.setMinSize(50).verticalSpace,
                   TitleSection(
                       title: "forgotPassword.title".tr(),
                       subtitle:
                           "forgotPassword.subtitle".tr()), // Title and subtitle
-                  50.h.verticalSpace,
+                  context.setMinSize(50).verticalSpace,
                   FormBuilder(
                     key: _forgetPasswordFormKey,
                     child: const Column(

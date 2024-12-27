@@ -7,6 +7,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/utils/enums/role.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/utils/role_selection_helper.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
@@ -69,12 +71,12 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
           create: (context) => getIt<SetPasswordCubit>(),
           child: SingleChildScrollView(
               child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.w),
+            padding: SizeConstants.kScaffoldPadding(context),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              90.h.verticalSpace,
+              context.setMinSize(90).verticalSpace,
               const Center(child: ProIconLogo()),
-              50.h.verticalSpace,
+              context.setMinSize(50).verticalSpace,
               Text(
                 "resetPassword.screen.title".tr(),
                 style: AppTextStyles.fontSize24(context).copyWith(
@@ -82,13 +84,13 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              40.h.verticalSpace,
+              context.setMinSize(40).verticalSpace,
               SetPasswordForm(setPasswordFormKey: _setPasswordFormKey),
-              40.h.verticalSpace,
+              context.setMinSize(40).verticalSpace,
               SetPasswordButton(
                 onSubmit: _submitForm,
               ),
-              15.h.verticalSpace,
+              context.setMinSize(20).verticalSpace,
               HaveAccountRow(
                 action: "signin".tr(),
                 title: "haveAccount.title".tr(),

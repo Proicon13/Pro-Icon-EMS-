@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 
 import '../../../../Core/widgets/city_dropdown_form_section.dart';
 import '../../../../Core/widgets/country_dropdown_form_section.dart';
@@ -27,19 +29,26 @@ class AddressForm extends StatelessWidget {
       key: _formKey,
       child: Column(
         children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 120.h),
-            child: Row(
-              children: [
-                Expanded(
-                  child: CountryDropDownFormSection(countries: _countries),
+          SizeConfig(
+            baseSize: const Size(398, 125),
+            width: context.setMinSize(398),
+            height: context.setMinSize(125),
+            child: Builder(builder: (context) {
+              return SizedBox(
+                height: context.sizeConfig.height,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CountryDropDownFormSection(countries: _countries),
+                    ),
+                    16.w.horizontalSpace,
+                    Expanded(
+                      child: CityDropDownFormSection(cities: _cities),
+                    ),
+                  ],
                 ),
-                16.w.horizontalSpace,
-                Expanded(
-                  child: CityDropDownFormSection(cities: _cities),
-                ),
-              ],
-            ),
+              );
+            }),
           ),
           20.h.verticalSpace,
           // Full Address Field

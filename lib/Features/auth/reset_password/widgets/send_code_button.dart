@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 
 import '../../../../Core/widgets/custom_button.dart';
 import '../../../../Core/widgets/custom_loader.dart';
@@ -39,7 +39,7 @@ class SendCodeButton extends StatelessWidget {
         builder: (context, state) {
           if (state.codeRequestStatus == CodeRequestStatus.submitting) {
             return SizedBox(
-              height: 50.h,
+              height: context.setMinSize(50),
               child: const CustomLoader(),
             );
           }

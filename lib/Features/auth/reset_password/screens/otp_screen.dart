@@ -9,6 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:pro_icon/Core/theme/app_colors.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
@@ -62,7 +64,7 @@ class _OtpScreenState extends State<OtpScreen> {
         textAlign: TextAlign.center,
         isDense: true,
         contentPadding: EdgeInsets.symmetric(
-          vertical: 20.h,
+          vertical: context.setMinSize(20),
         ),
         keyboardInputType: TextInputType.number,
         errorTextStyle: const TextStyle(
@@ -86,6 +88,10 @@ class _OtpScreenState extends State<OtpScreen> {
     );
   }
 
+  Widget _otpSpace(BuildContext context) {
+    return context.setMinSize(10).horizontalSpace;
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -97,26 +103,23 @@ class _OtpScreenState extends State<OtpScreen> {
     return KeyboardDismissable(
       child: BaseAppScaffold(
         bottomNavigationBar: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
-          child: SizedBox(
-            width: double.infinity,
-            child: CustomButton(
-              text: 'next'.tr(),
-              onPressed: () => _submitOtp(context),
-            ),
+          padding: SizeConstants.kBottomNavBarPadding(context),
+          child: CustomButton(
+            text: 'next'.tr(),
+            onPressed: () => _submitOtp(context),
           ),
         ),
         body: BlocProvider<OtpCubit>(
           create: (context) => getIt<OtpCubit>(),
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.w),
+              padding: SizeConstants.kScaffoldPadding(context),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  90.h.verticalSpace,
+                  context.setMinSize(90).verticalSpace,
                   const Center(child: ProIconLogo()),
-                  50.h.verticalSpace,
+                  context.setMinSize(50).h.verticalSpace,
                   Text(
                     "verification.title".tr(),
                     style: AppTextStyles.fontSize24(context).copyWith(
@@ -124,33 +127,33 @@ class _OtpScreenState extends State<OtpScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  25.h.verticalSpace,
+                  context.setMinSize(25).verticalSpace,
                   Text(
                     "otp.screen.message".tr(),
                     style: AppTextStyles.fontSize14(context)
                         .copyWith(color: AppColors.white71Color),
                   ),
-                  70.h.verticalSpace,
+                  context.setMinSize(25).verticalSpace,
                   FormBuilder(
                     key: _otpFormKey,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         _buildOtpField(context, 'otp1'),
-                        10.w.horizontalSpace,
+                        _otpSpace(context),
                         _buildOtpField(context, 'otp2'),
-                        10.w.horizontalSpace,
+                        _otpSpace(context),
                         _buildOtpField(context, 'otp3'),
-                        10.w.horizontalSpace,
+                        _otpSpace(context),
                         _buildOtpField(context, 'otp4'),
-                        10.w.horizontalSpace,
+                        _otpSpace(context),
                         _buildOtpField(context, 'otp5'),
-                        10.w.horizontalSpace,
+                        _otpSpace(context),
                         _buildOtpField(context, 'otp6'),
                       ],
                     ),
                   ),
-                  30.h.verticalSpace,
+                  context.setMinSize(20).verticalSpace,
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -160,7 +163,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           style: AppTextStyles.fontSize14(context)
                               .copyWith(color: Colors.white),
                         ),
-                        5.w.horizontalSpace,
+                        context.setMinSize(5).horizontalSpace,
                         BlocConsumer<OtpCubit, OtpState>(
                           listener: (context, state) {
                             if (state.resendOtpStatus ==

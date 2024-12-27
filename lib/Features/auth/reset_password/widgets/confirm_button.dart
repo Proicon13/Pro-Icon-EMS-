@@ -18,41 +18,38 @@ class ConfirmButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: double.infinity,
-        child: BlocConsumer<SetNewPasswordCubit, SetNewPasswordState>(
-          listener: (context, state) {
-            if (state.status == SetNewPasswordStatus.error) {
-              buildCustomAlert(context, state.responseMessage!, Colors.red);
+    return BlocConsumer<SetNewPasswordCubit, SetNewPasswordState>(
+      listener: (context, state) {
+        if (state.status == SetNewPasswordStatus.error) {
+          buildCustomAlert(context, state.responseMessage!, Colors.red);
 
-              Future.delayed(const Duration(seconds: 2), () {
-                if (context.mounted) {
-                  Navigator.pushReplacementNamed(
-                      context, ForgetPasswordScreen.routeName);
-                }
-              });
+          Future.delayed(const Duration(seconds: 3), () {
+            if (context.mounted) {
+              Navigator.pushReplacementNamed(
+                  context, ForgetPasswordScreen.routeName);
             }
-            if (state.status == SetNewPasswordStatus.success) {
-              buildCustomAlert(context, state.responseMessage!, Colors.green);
+          });
+        }
+        if (state.status == SetNewPasswordStatus.success) {
+          buildCustomAlert(context, state.responseMessage!, Colors.green);
 
-              Future.delayed(const Duration(seconds: 2), () {
-                if (context.mounted) {
-                  Navigator.pushReplacementNamed(
-                      context, LoginScreen.routeName);
-                }
-              });
+          Future.delayed(const Duration(seconds: 3), () {
+            if (context.mounted) {
+              Navigator.pushReplacementNamed(context, LoginScreen.routeName);
             }
-          },
-          buildWhen: (previous, current) => previous.status != current.status,
-          builder: (context, state) {
-            if (state.status == SetNewPasswordStatus.submitting) {
-              return const CustomLoader();
-            }
-            return CustomButton(
-              text: "confirm".tr(),
-              onPressed: () => onSubmit(context),
-            );
-          },
-        ));
+          });
+        }
+      },
+      buildWhen: (previous, current) => previous.status != current.status,
+      builder: (context, state) {
+        if (state.status == SetNewPasswordStatus.submitting) {
+          return const CustomLoader();
+        }
+        return CustomButton(
+          text: "confirm".tr(),
+          onPressed: () => onSubmit(context),
+        );
+      },
+    );
   }
 }

@@ -24,7 +24,7 @@ class SendCodeButton extends StatelessWidget {
           if (state.codeRequestStatus == CodeRequestStatus.success) {
             buildCustomAlert(context, state.codeStatusMessage!, Colors.green);
 
-            Future.delayed(const Duration(seconds: 2), () {
+            Future.delayed(const Duration(seconds: 3), () {
               if (context.mounted) {
                 Navigator.pushReplacementNamed(context, OtpScreen.routeName);
               }

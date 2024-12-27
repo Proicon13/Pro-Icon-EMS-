@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
+import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/set_new_password/set_new_password_cubit.dart';
 import 'package:pro_icon/data/models/reset_password_request_builder.dart';
 
@@ -57,20 +60,19 @@ class _SetPasswordScreenState extends State<SetNewPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseAppScaffold(
-      resizeToAvoidButtomPadding: true,
-      body: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: BlocProvider<SetNewPasswordCubit>(
+    return KeyboardDismissable(
+      child: BaseAppScaffold(
+        resizeToAvoidButtomPadding: true,
+        body: BlocProvider<SetNewPasswordCubit>(
           create: (context) => getIt<SetNewPasswordCubit>(),
           child: SingleChildScrollView(
               child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.w),
+            padding: SizeConstants.kScaffoldPadding(context),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              90.h.verticalSpace,
+              context.setMinSize(90).verticalSpace,
               const Center(child: ProIconLogo()),
-              50.h.verticalSpace,
+              context.setMinSize(50).verticalSpace,
               Text(
                 "setNewPassword.submitLabel".tr(),
                 style: AppTextStyles.fontSize24(context).copyWith(
@@ -78,9 +80,9 @@ class _SetPasswordScreenState extends State<SetNewPasswordScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              40.h.verticalSpace,
+              context.setMinSize(40).verticalSpace,
               SetPasswordForm(setPasswordFormKey: _setNewPasswordFormKey),
-              40.h.verticalSpace,
+              context.setMinSize(40).verticalSpace,
               ConfirmButton(
                 onSubmit: _submitForm,
               ),

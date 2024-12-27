@@ -1,12 +1,24 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 
 extension SizeHelperExtension on BuildContext {
-  double get height => isLandscape
-      ? MediaQuery.of(this).size.width
-      : MediaQuery.of(this).size.height;
-  double get width => isLandscape
-      ? MediaQuery.of(this).size.height
-      : MediaQuery.of(this).size.width;
+  double get screenHeight => MediaQuery.sizeOf(this).height;
+  double get screenWidth => MediaQuery.sizeOf(this).width;
   bool get isLandscape =>
-      MediaQuery.of(this).orientation == Orientation.landscape;
+      MediaQuery.orientationOf(this) == Orientation.landscape;
+  SizeConfig get sizeConfig => SizeConfig.of(this);
+
+  double get scaleWidth => sizeConfig.width / sizeConfig.baseSize.width;
+  double get scaleHeight => sizeConfig.height / sizeConfig.baseSize.height;
+
+  double setWidth(num width) =>
+      width * scaleWidth; // get scaled width based on parent size
+  double setHeight(num height) =>
+      height * scaleHeight; // get scaled height based on parent size
+  double setSp(num fontSize) =>
+      fontSize * scaleWidth; // get scaled font size based on parent size
+  double setMinSize(num size) =>
+      size * min(scaleWidth, scaleHeight); // get min scaled size
 }

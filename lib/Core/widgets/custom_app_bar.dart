@@ -19,7 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.transparent,
       title: Text(
         titleKey,
-        style: AppTextStyles.fontSize20.copyWith(color: Colors.white),
+        style: AppTextStyles.fontSize20(context).copyWith(color: Colors.white),
       ),
       centerTitle: true,
       leading: IconButton(

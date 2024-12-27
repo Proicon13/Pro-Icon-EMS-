@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 
 import '../../../../Core/widgets/email_form_section.dart';
 import '../../../../Core/widgets/password_form_section.dart';
@@ -19,7 +20,7 @@ class LoginForm extends StatelessWidget {
       child: Column(
         children: [
           const EmailFormSection(),
-          40.h.verticalSpace,
+          context.setMinSize(40).verticalSpace,
           const PasswordFormSection(),
         ],
       ),

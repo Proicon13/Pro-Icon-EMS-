@@ -119,7 +119,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   50.h.verticalSpace,
                   Text(
                     "verification.title".tr(),
-                    style: AppTextStyles.fontSize24.copyWith(
+                    style: AppTextStyles.fontSize24(context).copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -127,7 +127,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   25.h.verticalSpace,
                   Text(
                     "otp.screen.message".tr(),
-                    style: AppTextStyles.fontSize14
+                    style: AppTextStyles.fontSize14(context)
                         .copyWith(color: AppColors.white71Color),
                   ),
                   70.h.verticalSpace,
@@ -157,7 +157,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       children: [
                         Text(
                           "otp.screen.didn'tReceive".tr(),
-                          style: AppTextStyles.fontSize14
+                          style: AppTextStyles.fontSize14(context)
                               .copyWith(color: Colors.white),
                         ),
                         5.w.horizontalSpace,
@@ -187,7 +187,8 @@ class _OtpScreenState extends State<OtpScreen> {
                               },
                               child: Text(
                                 "otp.screen.resendLabel".tr(),
-                                style: AppTextStyles.fontSize14.copyWith(
+                                style:
+                                    AppTextStyles.fontSize14(context).copyWith(
                                   color: AppColors.primaryColor,
                                   fontWeight: FontWeight.w600,
                                   decoration: TextDecoration.underline,

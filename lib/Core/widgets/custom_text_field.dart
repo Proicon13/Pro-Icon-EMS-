@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
@@ -56,7 +57,7 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       inputFormatters: inputFormatters,
       keyboardType: keyboardInputType,
-      style: AppTextStyles.fontSize14.copyWith(color: Colors.white),
+      style: AppTextStyles.fontSize14(context).copyWith(color: Colors.white),
       textInputAction: TextInputAction.next,
       cursorColor: Colors.white,
       cursorErrorColor: Colors.red,
@@ -65,17 +66,19 @@ class CustomTextField extends StatelessWidget {
         isDense: isDense,
         hintText: hintText ?? '',
         errorMaxLines: errorMaxLines,
-        hintStyle:
-            AppTextStyles.fontSize14.copyWith(color: AppColors.white71Color),
+        hintStyle: AppTextStyles.fontSize14(context)
+            .copyWith(color: AppColors.white71Color),
         border: buildEnabledBorder(context),
         disabledBorder: buildEnabledBorder(context),
         focusedBorder: buildFocusedBorder(context),
         errorBorder: buildErrorBorder(context),
         enabledBorder: buildEnabledBorder(context),
         contentPadding: contentPadding ??
-            EdgeInsets.symmetric(horizontal: 17.w, vertical: 15.h),
+            EdgeInsets.symmetric(
+                horizontal: context.setMinSize(17),
+                vertical: context.setMinSize(20)),
         errorStyle: errorTextStyle ??
-            AppTextStyles.fontSize14.copyWith(color: Colors.red),
+            AppTextStyles.fontSize14(context).copyWith(color: Colors.red),
       ),
       validator: validator,
       onChanged: onChanged ?? (value) {},
@@ -84,32 +87,32 @@ class CustomTextField extends StatelessWidget {
   }
 
   OutlineInputBorder buildErrorBorder(BuildContext context) {
-    return const OutlineInputBorder(
+    return OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.red,
-        width: 1.3,
+        width: context.setMinSize(1.6),
       ),
-      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderRadius: SizeConstants.kDefaultBorderRadius(context),
     );
   }
 
   OutlineInputBorder buildEnabledBorder(BuildContext context) {
-    return const OutlineInputBorder(
+    return OutlineInputBorder(
       borderSide: BorderSide(
         color: AppColors.lightGreyColor,
-        width: 1.3,
+        width: context.setMinSize(1.6),
       ),
-      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderRadius: SizeConstants.kDefaultBorderRadius(context),
     );
   }
 
   OutlineInputBorder buildFocusedBorder(BuildContext context) {
-    return const OutlineInputBorder(
+    return OutlineInputBorder(
       borderSide: BorderSide(
         color: AppColors.primaryColor,
-        width: 1.3,
+        width: context.setMinSize(1.6),
       ),
-      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderRadius: SizeConstants.kDefaultBorderRadius(context),
     );
   }
 }

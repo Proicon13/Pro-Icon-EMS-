@@ -34,7 +34,7 @@ class CityDropDownFormSection extends StatelessWidget {
                 value: city,
                 child: Text(
                   city,
-                  style: AppTextStyles.fontSize14.copyWith(
+                  style: AppTextStyles.fontSize14(context).copyWith(
                     color: Colors.white,
                   ),
                 ),

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Features/auth/login/cubit/login_cubit.dart';
@@ -62,26 +64,26 @@ class _LoginScreenState extends State<LoginScreen> {
           resizeToAvoidButtomPadding: true,
           body: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.w),
+              padding: SizeConstants.kScaffoldPadding(context),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  90.h.verticalSpace,
+                  context.setMinSize(90).verticalSpace,
                   const Center(child: ProIconLogo()),
-                  50.h.verticalSpace,
+                  context.setMinSize(50).verticalSpace,
                   Text(
                     "login".tr(),
-                    style: AppTextStyles.fontSize24.copyWith(
+                    style: AppTextStyles.fontSize24(context).copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  40.h.verticalSpace,
+                  context.setMinSize(40).verticalSpace,
 
                   LoginForm(
                     formKey: _formKey,
                   ),
-                  10.h.verticalSpace,
+                  context.setMinSize(10).verticalSpace,
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
@@ -91,20 +93,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: Text(
                         "forgotPassword.label".tr(),
-                        style: AppTextStyles.fontSize14.copyWith(
+                        style: AppTextStyles.fontSize14(context).copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                   ),
-                  30.h.verticalSpace, // Space between form and button
+                  context
+                      .setMinSize(30)
+                      .verticalSpace, // Space between form and button
                   SizedBox(
                       width: double.infinity,
                       child: LoginButton(
                         onSubmit: _submitForm,
                       )),
-                  30.h.verticalSpace,
+                  context.setMinSize(30).verticalSpace,
                   getIt<RoleSelectionHelper>().selectedRole ==
                           Role.admin // if admin show sign up option
                       ? HaveAccountRow(

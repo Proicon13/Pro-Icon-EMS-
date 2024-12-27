@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 
 import '../../../core/widgets/custom_text_field.dart';
 import '../theme/app_text_styles.dart';
@@ -37,21 +38,23 @@ class TextFormSection extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         title,
-        style: AppTextStyles.fontSize16
+        style: AppTextStyles.fontSize16(context)
             .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
       ),
-      15.h.verticalSpace,
-      CustomTextField(
-        name: name,
-        intialValue: intialValue,
-        controller: controller,
-        inputFormatters: inputFormatters,
-        keyboardInputType: keyboardInputType,
-        hintText: hintText,
-        validator: validator,
-        onChanged: onChanged,
-        onSaved: onSaved,
-        obsecure: obscureText,
+      context.setMinSize(15).verticalSpace,
+      Container(
+        child: CustomTextField(
+          name: name,
+          intialValue: intialValue,
+          controller: controller,
+          inputFormatters: inputFormatters,
+          keyboardInputType: keyboardInputType,
+          hintText: hintText,
+          validator: validator,
+          onChanged: onChanged,
+          onSaved: onSaved,
+          obsecure: obscureText,
+        ),
       ),
     ]);
   }

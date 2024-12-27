@@ -55,7 +55,7 @@ class PhoneNumberField extends StatelessWidget {
                   children: [
                     Text(
                       countryCode,
-                      style: AppTextStyles.fontSize14.copyWith(
+                      style: AppTextStyles.fontSize14(context).copyWith(
                           color: Colors.white, fontWeight: FontWeight.w500),
                     ),
                     const Icon(
@@ -83,13 +83,13 @@ class PhoneNumberField extends StatelessWidget {
                       FilteringTextInputFormatter.digitsOnly,
                       LengthLimitingTextInputFormatter(10),
                     ],
-                    style:
-                        AppTextStyles.fontSize14.copyWith(color: Colors.white),
+                    style: AppTextStyles.fontSize14(context)
+                        .copyWith(color: Colors.white),
                     decoration: InputDecoration(
                       isDense: true,
                       border: InputBorder.none,
                       hintText: "1033266355",
-                      hintStyle: AppTextStyles.fontSize14
+                      hintStyle: AppTextStyles.fontSize14(context)
                           .copyWith(color: AppColors.white71Color),
                     ),
                     validator: validator),
@@ -104,7 +104,8 @@ class PhoneNumberField extends StatelessWidget {
                   20.w.horizontalSpace,
                   Text(
                     errorMessage ?? "",
-                    style: AppTextStyles.fontSize14.copyWith(color: Colors.red),
+                    style: AppTextStyles.fontSize14(context)
+                        .copyWith(color: Colors.red),
                   ),
                 ],
               )

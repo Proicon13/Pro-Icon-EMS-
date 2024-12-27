@@ -32,7 +32,7 @@ class DropdownFormSection extends StatelessWidget {
         // Title Text
         Text(
           title,
-          style: AppTextStyles.fontSize16.copyWith(
+          style: AppTextStyles.fontSize16(context).copyWith(
             color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
@@ -57,7 +57,7 @@ class DropdownFormSection extends StatelessWidget {
           dropdownColor: AppColors.backgroundColor,
           hint: Text(
             hintText,
-            style: AppTextStyles.fontSize14.copyWith(
+            style: AppTextStyles.fontSize14(context).copyWith(
               color: AppColors.white71Color,
             ),
           ),

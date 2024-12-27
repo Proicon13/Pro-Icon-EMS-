@@ -20,7 +20,7 @@ class PhoneFormSection extends StatelessWidget {
       children: [
         Text(
           "signup.phone".tr(),
-          style: AppTextStyles.fontSize16
+          style: AppTextStyles.fontSize16(context)
               .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         15.h.verticalSpace,

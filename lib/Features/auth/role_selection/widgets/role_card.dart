@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
 
 import '../../../../Core/constants/app_assets.dart';
@@ -23,54 +24,66 @@ class RoleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Stack(
-        children: [
-          GestureDetector(
-            onTap: onTap,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 40.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: AppColors.darkGreyColor,
-                border: isSelected
-                    ? Border.all(
-                        color: AppColors.primaryColor,
-                        width: 2,
-                      )
-                    : Border.all(color: Colors.transparent),
-              ),
+    final cardHeight = context.sizeConfig.height;
+    final cardWidth = context.sizeConfig.width;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: cardWidth,
+        height: cardHeight,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(context.setMinSize(8)),
+          color: AppColors.darkGreyColor,
+          border: isSelected
+              ? Border.all(
+                  color: AppColors.primaryColor,
+                  width: context.setMinSize(2),
+                )
+              : Border.all(color: Colors.transparent),
+        ),
+        child: Stack(
+          children: [
+            // Amber background
+            SizedBox(
+              width: double.infinity,
+              height: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  AspectRatio(
-                    aspectRatio: 0.84,
+                  SizedBox(
+                    width: cardWidth * 0.56,
+                    height: cardHeight * 0.58,
                     child: CustomAssetImage(
                       path: imagePath,
                       fit: BoxFit.contain,
                     ),
                   ),
-                  10.h.verticalSpace,
+                  context.setMinSize(10).verticalSpace,
                   Text(
                     title,
-                    style: AppTextStyles.fontSize16.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                    style: AppTextStyles.fontSize16(context).copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
-          if (isSelected)
-            Positioned(
-                top: 10.h,
-                right: 10.w,
+            // Selected icon
+            if (isSelected)
+              Positioned(
+                top: context.setMinSize(10),
+                right: context.setMinSize(10),
                 child: CustomSvgVisual(
-                  height: 24.h,
-                  width: 24.w,
+                  height: context.setMinSize(24),
+                  width: context.setMinSize(24),
                   assetPath: Assets.assetsImagesSelectedIcon,
-                )),
-        ],
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

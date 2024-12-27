@@ -97,7 +97,7 @@ class UserCardLoaded extends UserCardBase {
                   children: [
                     Text(
                       user.fullname!,
-                      style: AppTextStyles.fontSize16.copyWith(
+                      style: AppTextStyles.fontSize16(context).copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -226,7 +226,7 @@ class UserCardLoading extends UserCardBase {
                     children: [
                       Text(
                         'Loading...',
-                        style: AppTextStyles.fontSize16.copyWith(
+                        style: AppTextStyles.fontSize16(context).copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),

@@ -73,7 +73,7 @@ class _SetPasswordScreenState extends State<SetNewPasswordScreen> {
               50.h.verticalSpace,
               Text(
                 "setNewPassword.submitLabel".tr(),
-                style: AppTextStyles.fontSize24.copyWith(
+                style: AppTextStyles.fontSize24(context).copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),

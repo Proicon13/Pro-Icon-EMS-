@@ -59,7 +59,7 @@ class CustomSnackBar extends StatelessWidget {
                       message,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.fontSize14.copyWith(
+                      style: AppTextStyles.fontSize14(context).copyWith(
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
                       ),

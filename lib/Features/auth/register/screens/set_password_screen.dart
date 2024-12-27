@@ -77,7 +77,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
               50.h.verticalSpace,
               Text(
                 "resetPassword.screen.title".tr(),
-                style: AppTextStyles.fontSize24.copyWith(
+                style: AppTextStyles.fontSize24(context).copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),

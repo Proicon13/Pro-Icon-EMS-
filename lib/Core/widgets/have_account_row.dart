@@ -21,7 +21,7 @@ class HaveAccountRow extends StatelessWidget {
       children: [
         Text(
           title,
-          style: AppTextStyles.fontSize14
+          style: AppTextStyles.fontSize14(context)
               .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         5.w.horizontalSpace,
@@ -29,7 +29,7 @@ class HaveAccountRow extends StatelessWidget {
           onTap: onAction,
           child: Text(
             action,
-            style: AppTextStyles.fontSize14.copyWith(
+            style: AppTextStyles.fontSize14(context).copyWith(
               color: AppColors.primaryColor,
               fontWeight: FontWeight.bold,
             ),

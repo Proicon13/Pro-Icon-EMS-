@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/dependencies.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
 import 'package:pro_icon/Core/widgets/title_section.dart';
@@ -36,35 +39,42 @@ class RoleSelectionScreen extends StatelessWidget {
       create: (context) => getIt<SelectRoleCubit>(),
       child: BaseAppScaffold(
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.w),
+          padding: SizeConstants.kBottomNavBarPadding(context),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              90.h.verticalSpace,
+              context.setMinSize(90).verticalSpace,
               const Center(
                 child: ProIconLogo(),
               ),
-              50.h.verticalSpace,
+              context.setMinSize(50).verticalSpace,
               TitleSection(
                   title: "roleSelection.title".tr(),
                   subtitle: "roleSelection.subtitle".tr()),
-              60.h.verticalSpace,
+              context.setMinSize(60).verticalSpace,
               const UserTypesBlocBuilder(),
               const Spacer(),
               BlocSelector<SelectRoleCubit, SelectRoleState, Role?>(
                 selector: (state) => state.role,
                 builder: (context, selectedRole) {
-                  return SizedBox(
-                    width: double.infinity,
-                    child: CustomButton(
-                      text: "next".tr(),
-                      onPressed: () =>
-                          navigateBasedOnRole(context, selectedRole),
-                    ),
+                  return SizeConfig(
+                    baseSize: const Size(398, 50),
+                    height: context.setMinSize(50),
+                    width: context.setMinSize(398),
+                    child: Builder(builder: (context) {
+                      return SizedBox(
+                        width: double.infinity,
+                        height: context.sizeConfig.height,
+                        child: CustomButton(
+                          text: "next".tr(),
+                          onPressed: () =>
+                              navigateBasedOnRole(context, selectedRole),
+                        ),
+                      );
+                    }),
                   );
                 },
               ),
-              30.h.verticalSpace,
             ],
           ),
         ),

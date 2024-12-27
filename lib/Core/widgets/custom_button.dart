@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 
 import '../theme/app_colors.dart';
 
@@ -15,16 +16,16 @@ class CustomButton extends StatelessWidget {
     return MaterialButton(
       onPressed: onPressed,
       padding: EdgeInsets.symmetric(
-        vertical: 15.h,
+        vertical: context.setMinSize(15),
       ),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: SizeConstants.kDefaultBorderRadius(context),
       ),
       color: color ?? AppColors.primaryColor,
       child: Text(text,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16.sp,
+            fontSize: context.setMinSize(16),
           )),
     );
   }

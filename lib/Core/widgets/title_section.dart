@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
@@ -16,14 +17,16 @@ class TitleSection extends StatelessWidget {
       children: [
         Text(
           title,
-          style: AppTextStyles.fontSize24.copyWith(color: Colors.white),
+          style:
+              AppTextStyles.fontSize24(context).copyWith(color: Colors.white),
         ),
-        20.h.verticalSpace,
+        context.setMinSize(20).verticalSpace,
         Text(
           subtitle,
           textAlign: TextAlign.left,
-          style:
-              AppTextStyles.fontSize14.copyWith(color: AppColors.white71Color),
+          maxLines: 2,
+          style: AppTextStyles.fontSize14(context).copyWith(
+              color: AppColors.white71Color, fontSize: context.setSp(12)),
         ),
       ],
     );

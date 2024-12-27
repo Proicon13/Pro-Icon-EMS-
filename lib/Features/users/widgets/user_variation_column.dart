@@ -23,7 +23,7 @@ class UserVariationColumn extends StatelessWidget {
         children: [
           LayoutBuilder(
             builder: (context, constraints) {
-              final textStyle = AppTextStyles.fontSize16.copyWith(
+              final textStyle = AppTextStyles.fontSize16(context).copyWith(
                 color: isSelected ? Colors.white : AppColors.lightGreyColor,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
               );

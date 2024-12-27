@@ -75,7 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   50.h.verticalSpace,
                   Text(
                     "signup".tr(),
-                    style: AppTextStyles.fontSize24.copyWith(
+                    style: AppTextStyles.fontSize24(context).copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),

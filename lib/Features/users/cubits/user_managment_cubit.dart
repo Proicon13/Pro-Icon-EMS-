@@ -37,6 +37,7 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
     final currentPage = state.currentTrainersPage;
     // if not first load then show loading indicator when call
     if (currentPage! > 1)
+      // show pagination loading
       emit(state.copyWith(requestStatus: RequestStatus.loading));
     final response = await trainerService.getTrainers(page: currentPage);
     response.fold(
@@ -55,6 +56,7 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
     final currentPage = state.currentClientsPage;
     // if first call then show loading indicator
     if (currentPage! == 1)
+      // show pagination loading
       emit(state.copyWith(requestStatus: RequestStatus.loading));
     final response = await clientsService.getClients(page: currentPage);
     response.fold(

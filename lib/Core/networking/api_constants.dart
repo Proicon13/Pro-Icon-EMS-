@@ -9,4 +9,5 @@ class ApiConstants {
   static const currentUserEndpoint = "/auth/me";
   static const getTrainersEndpoint = "/trainers";
   static const clientsEndPoint = "/clients";
+  static const addTrainerEndpoint = "/auth/add-trainer-by-admin";
 }

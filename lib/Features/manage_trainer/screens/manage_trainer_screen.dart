@@ -18,6 +18,7 @@ import 'package:pro_icon/data/models/city_model.dart';
 import '../../../Core/dependencies.dart';
 import '../../../Core/widgets/custom_loader.dart';
 import '../../../Core/widgets/custom_snack_bar.dart';
+import '../../../data/models/sign_up_request_builder.dart';
 import '../widgets/manage_trainer_form.dart';
 
 class ManageTrainerScreen extends StatefulWidget {
@@ -137,7 +138,19 @@ class _ManageTrainerScreenState extends State<ManageTrainerScreen> {
               .editTrainer(trainer.id!, updatedFormData);
         }
       } else {
+        // use builder to build current fields
+        final builder = SignupRequestBuilder();
+
+        builder
+            .setFullname(updatedFormData['fullName'])
+            .setEmail(updatedFormData['email'])
+            .setPhone(updatedFormData['phone'])
+            .setCityId(updatedFormData['cityId'])
+            .setPostalCode(updatedFormData['postalCode'])
+            .setAddress(updatedFormData['fullAddress']);
+
         // navigate to next screen for complete registration
+
         Navigator.of(context).pushNamed("/next-screen", arguments: formData);
       }
     }

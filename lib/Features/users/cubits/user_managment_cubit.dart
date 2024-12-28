@@ -44,7 +44,7 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
             errorMessage: failure.message,
             requestStatus: RequestStatus.error)), (trainers) {
       emit(state.copyWith(
-          trainers: trainers,
+          trainers: List.from(state.trainers!)..addAll(trainers),
           errorMessage: "",
           currentTrainersPage: currentPage + 1,
           requestStatus: RequestStatus.loaded));
@@ -53,8 +53,8 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
 
   Future<void> getClients() async {
     final currentPage = state.currentClientsPage;
-    // if not first load then show loading indicator when call
-    if (currentPage! > 1)
+    // if first call then show loading indicator
+    if (currentPage! == 1)
       emit(state.copyWith(requestStatus: RequestStatus.loading));
     final response = await clientsService.getClients(page: currentPage);
     response.fold(
@@ -62,7 +62,7 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
             errorMessage: failure.message,
             requestStatus: RequestStatus.error)), (clients) {
       emit(state.copyWith(
-          clients: clients,
+          clients: List.from(state.clients!)..addAll(clients),
           errorMessage: "",
           currentClientsPage: currentPage + 1,
           requestStatus: RequestStatus.loaded));
@@ -80,7 +80,7 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
             errorMessage: failure.message,
             requestStatus: RequestStatus.error)), (clients) {
       emit(state.copyWith(
-          searchList: clients,
+          searchList: List.from(clients),
           errorMessage: "",
           requestStatus: RequestStatus.loaded));
     });
@@ -113,7 +113,7 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
             errorMessage: failure.message,
             requestStatus: RequestStatus.error)), (trainers) {
       emit(state.copyWith(
-          trainers: trainers,
+          trainers: List.from(trainers),
           errorMessage: "",
           requestStatus: RequestStatus.loaded));
     });
@@ -129,7 +129,7 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
             errorMessage: failure.message,
             requestStatus: RequestStatus.error)), (clients) {
       emit(state.copyWith(
-          clients: clients,
+          clients: List.from(clients),
           errorMessage: "",
           requestStatus: RequestStatus.loaded));
     });
@@ -153,7 +153,7 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
             errorMessage: failure.message,
             requestStatus: RequestStatus.error)), (trainers) {
       emit(state.copyWith(
-          searchList: trainers,
+          searchList: List.from(trainers),
           errorMessage: "",
           requestStatus: RequestStatus.loaded));
     });
@@ -169,8 +169,38 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
   }
 
   void toggleVariation(UserVariations variation) {
-    if (!_canPerformAction()) return;
+    if (!_canPerformAction()) return; // if loading don`t do anything
+    if (variation == state.currentVariation)
+      return; // if same selected don`t do anything
+    emit(state.copyWith(
+        currentVariation: variation, requestStatus: RequestStatus.loading));
 
-    emit(state.copyWith(currentVariation: variation));
+    if (variation == UserVariations.trainer) {
+      _handleOnTrainerVariation();
+    } else {
+      _handleOnClientVariation();
+    }
+  }
+
+  void _handleOnTrainerVariation() {
+    final currentTrainerPage = state.currentTrainersPage;
+    // if not first load then don`t fetch
+    if (currentTrainerPage != 1)
+      emit(state.copyWith(requestStatus: RequestStatus.loaded));
+    else {
+      // first time fetch trainers
+      getTrainers();
+    }
+  }
+
+  void _handleOnClientVariation() {
+    final currentClientPage = state.currentClientsPage;
+    // if not first load then don`t fetch
+    if (currentClientPage != 1)
+      emit(state.copyWith(requestStatus: RequestStatus.loaded));
+    else {
+      // first time fetch clients
+      getClients();
+    }
   }
 }

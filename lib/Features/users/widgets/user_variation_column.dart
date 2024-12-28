@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 
 import '../../../Core/theme/app_colors.dart';
 import '../../../Core/theme/app_text_styles.dart';
@@ -17,43 +18,34 @@ class UserVariationColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textStyle = AppTextStyles.fontSize16(context).copyWith(
+      color: isSelected ? Colors.white : AppColors.lightGreyColor,
+      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+    );
+
+    final textWidth = TextPainter(
+      text: TextSpan(
+        text: userVariation,
+        style: textStyle,
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
     return GestureDetector(
       onTap: onTap,
       child: Column(
         children: [
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final textStyle = AppTextStyles.fontSize16(context).copyWith(
-                color: isSelected ? Colors.white : AppColors.lightGreyColor,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-              );
-
-              final textWidth = TextPainter(
-                text: TextSpan(
-                  text: userVariation,
-                  style: textStyle,
-                ),
-                textDirection: TextDirection.ltr,
-              )..layout();
-
-              return Column(
-                children: [
-                  Text(
-                    userVariation,
-                    style: textStyle,
-                  ),
-                  5.h.verticalSpace,
-                  isSelected
-                      ? Container(
-                          width: textWidth.width,
-                          height: 3.h,
-                          color: AppColors.primaryColor,
-                        )
-                      : const SizedBox.shrink(),
-                ],
-              );
-            },
+          Text(
+            userVariation,
+            style: textStyle,
           ),
+          context.setMinSize(5).verticalSpace,
+          isSelected
+              ? Container(
+                  width: textWidth.width,
+                  height: context.setMinSize(3),
+                  color: AppColors.primaryColor,
+                )
+              : const SizedBox.shrink(),
         ],
       ),
     );

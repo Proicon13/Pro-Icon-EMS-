@@ -12,6 +12,7 @@ import 'package:pro_icon/Core/widgets/custom_app_bar.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/manage_trainer_cubit.dart';
+import 'package:pro_icon/Features/users/screens/users_screen.dart';
 import 'package:pro_icon/data/models/city_model.dart';
 
 import '../../../Core/dependencies.dart';
@@ -83,6 +84,15 @@ class _ManageTrainerScreenState extends State<ManageTrainerScreen> {
       listener: (context, state) {
         if (state.requestStataus == ManageTrainerStatus.success) {
           buildCustomAlert(context, state.message!, Colors.green);
+          Future.delayed(const Duration(seconds: 3), () {
+            if (context.mounted) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                UsersScreen.routeName,
+                (route) => false,
+              );
+            }
+          });
         } else if (state.requestStataus == ManageTrainerStatus.error) {
           buildCustomAlert(context, state.message!, Colors.red);
         }

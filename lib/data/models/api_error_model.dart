@@ -5,11 +5,11 @@ class APIErrorModel {
 
   factory APIErrorModel.fromJson(Map<String, dynamic> json) {
     final nestedMessage = json['message'];
-
-    final extractedMessage = nestedMessage is Map<String, dynamic>
-        ? nestedMessage['message'] ?? 'An unknown error occurred'
-        : nestedMessage?.toString() ?? 'An unknown error occurred';
-
-    return APIErrorModel(message: extractedMessage);
+    if (nestedMessage['message'] is List<dynamic>) {
+      return APIErrorModel(message: nestedMessage['message'][0]);
+    } else {
+      return APIErrorModel(
+          message: nestedMessage['message'] ?? "An unknown error occurred");
+    }
   }
 }

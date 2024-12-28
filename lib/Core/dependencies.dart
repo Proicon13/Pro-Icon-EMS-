@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pro_icon/Core/cubits/phone_registration/phone_register_cubit.dart';
-import 'package:pro_icon/Core/cubits/region_cubit/address_registration_cubit.dart';
+import 'package:pro_icon/Core/cubits/region_cubit/region_cubit.dart';
 import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
 import 'package:pro_icon/Core/networking/base_api_provider.dart';
 import 'package:pro_icon/Core/networking/dio_consumer.dart';

@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/extract_local_phone.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../Core/cubits/region_cubit/address_registration_cubit.dart';
+import '../../../Core/cubits/region_cubit/region_cubit.dart';
 import '../../../Core/entities/user_entity.dart';
 import '../../../Core/widgets/city_dropdown_form_section.dart';
 import '../../../Core/widgets/country_dropdown_form_section.dart';
@@ -62,7 +63,7 @@ class ManageTrainerForm extends StatelessWidget {
 
   Widget _buildPhoneSection(bool? isFieldNotRequired) {
     return PhoneFormSection(
-      intialValue: trainer?.phone ?? "",
+      intialValue: trainer != null ? extractLocalNumber(trainer!.phone!) : "",
       isFieldNotRequired: isFieldNotRequired,
     );
   }
@@ -76,11 +77,20 @@ class ManageTrainerForm extends StatelessWidget {
       },
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
+        final intialCountryValue = (trainer?.city?.country != null &&
+                (state.countries?.contains(trainer!.city!.country) ?? false)
+            ? trainer!.city!.country
+            : null);
+
+        final intialCityValue = (trainer?.city != null &&
+                (state.cities?.contains(trainer!.city!) ?? false)
+            ? trainer!.city
+            : null);
         return Skeletonizer(
           enabled: state.status == RequestStatus.loading,
           child: Builder(builder: (context) {
             return ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: context.setMinSize(120)),
+              constraints: BoxConstraints(maxHeight: context.setMinSize(130)),
               child: Row(
                 children: [
                   Expanded(
@@ -95,12 +105,7 @@ class ManageTrainerForm extends StatelessWidget {
                               .onSelectCountry(country);
                         }
                       },
-                      initialValue: trainer?.city?.country != null &&
-                              (state.countries
-                                      ?.contains(trainer!.city!.country) ??
-                                  false)
-                          ? trainer!.city!.country
-                          : null,
+                      initialValue: intialCountryValue,
                       isFieldNotRequired: isFieldNotRequired,
                     ),
                   ),
@@ -111,10 +116,7 @@ class ManageTrainerForm extends StatelessWidget {
                           ? "city-loading"
                           : "city",
                       cities: state.cities!,
-                      initialValue: trainer?.city != null &&
-                              (state.cities?.contains(trainer!.city!) ?? false)
-                          ? trainer!.city
-                          : null,
+                      initialValue: intialCityValue,
                       isFieldNotRequired: isFieldNotRequired,
                     ),
                   ),

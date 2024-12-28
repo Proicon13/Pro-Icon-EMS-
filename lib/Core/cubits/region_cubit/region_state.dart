@@ -1,4 +1,4 @@
-part of 'address_registration_cubit.dart';
+part of 'region_cubit.dart';
 
 enum RequestStatus { loading, success, error }
 

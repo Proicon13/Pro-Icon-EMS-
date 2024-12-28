@@ -25,5 +25,5 @@ class CityModel extends Equatable {
       };
 
   @override
-  List<Object?> get props => [id, name, country];
+  List<Object?> get props => [id, name];
 }

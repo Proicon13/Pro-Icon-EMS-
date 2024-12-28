@@ -4,7 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../Core/cubits/region_cubit/address_registration_cubit.dart';
+import '../../../../Core/cubits/region_cubit/region_cubit.dart';
 import 'address_form.dart';
 
 class AddressFormBlocCounsumer extends StatelessWidget {

@@ -3,6 +3,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
+import 'package:pro_icon/data/models/city_model.dart';
+import 'package:pro_icon/data/models/country_model.dart';
 
 import '../../../../Core/widgets/city_dropdown_form_section.dart';
 import '../../../../Core/widgets/country_dropdown_form_section.dart';
@@ -13,15 +15,15 @@ class AddressForm extends StatelessWidget {
   const AddressForm({
     super.key,
     required GlobalKey<FormBuilderState> formKey,
-    required List<String> countries,
-    required List<String> cities,
+    required List<CountryModel> countries,
+    required List<CityModel> cities,
   })  : _formKey = formKey,
         _countries = countries,
         _cities = cities;
 
   final GlobalKey<FormBuilderState> _formKey;
-  final List<String> _countries;
-  final List<String> _cities;
+  final List<CountryModel> _countries;
+  final List<CityModel> _cities;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class AddressForm extends StatelessWidget {
                     Expanded(
                       child: CountryDropDownFormSection(countries: _countries),
                     ),
-                    16.w.horizontalSpace,
+                    context.setMinSize(16).horizontalSpace,
                     Expanded(
                       child: CityDropDownFormSection(cities: _cities),
                     ),

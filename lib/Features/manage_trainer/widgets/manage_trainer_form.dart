@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Core/cubits/region_cubit/address_registration_cubit.dart';
@@ -33,15 +34,15 @@ class ManageTrainerForm extends StatelessWidget {
         key: formKey,
         child: Column(
           children: [
-            _verticalSpace(),
+            _verticalSpace(context),
             _buildFullNameSection(isFieldNotRequired),
-            _verticalSpace(),
+            _verticalSpace(context),
             _buildPhoneSection(isFieldNotRequired),
-            _verticalSpace(),
+            _verticalSpace(context),
             _buildRegionSection(isFieldNotRequired),
-            _verticalSpace(),
+            _verticalSpace(context),
             _buildFullAddressSection(isFieldNotRequired),
-            _verticalSpace(),
+            _verticalSpace(context),
             _buildPostalCodeSection(isFieldNotRequired),
           ],
         ),
@@ -49,7 +50,8 @@ class ManageTrainerForm extends StatelessWidget {
     );
   }
 
-  Widget _verticalSpace() => 30.h.verticalSpace;
+  Widget _verticalSpace(BuildContext context) =>
+      context.setMinSize(30).verticalSpace;
 
   Widget _buildFullNameSection(bool? isFieldNotRequired) {
     return FullNameFormSection(
@@ -76,25 +78,50 @@ class ManageTrainerForm extends StatelessWidget {
       builder: (context, state) {
         return Skeletonizer(
           enabled: state.status == RequestStatus.loading,
-          child: Row(
-            children: [
-              Expanded(
-                child: CountryDropDownFormSection(
-                  countries: state.countries!,
-                  intialValue: trainer?.city?.country.name ?? "",
-                  isFieldNotRequired: isFieldNotRequired,
-                ),
+          child: Builder(builder: (context) {
+            return ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: context.setMinSize(120)),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CountryDropDownFormSection(
+                      keyName: state.status == RequestStatus.loading
+                          ? "country-loading"
+                          : "country",
+                      countries: state.countries!,
+                      onChanged: (country) {
+                        if (country != null) {
+                          BlocProvider.of<RegionCubit>(context)
+                              .onSelectCountry(country);
+                        }
+                      },
+                      initialValue: trainer?.city?.country != null &&
+                              (state.countries
+                                      ?.contains(trainer!.city!.country) ??
+                                  false)
+                          ? trainer!.city!.country
+                          : null,
+                      isFieldNotRequired: isFieldNotRequired,
+                    ),
+                  ),
+                  context.setMinSize(20).horizontalSpace,
+                  Expanded(
+                    child: CityDropDownFormSection(
+                      keyName: state.status == RequestStatus.loading
+                          ? "city-loading"
+                          : "city",
+                      cities: state.cities!,
+                      initialValue: trainer?.city != null &&
+                              (state.cities?.contains(trainer!.city!) ?? false)
+                          ? trainer!.city
+                          : null,
+                      isFieldNotRequired: isFieldNotRequired,
+                    ),
+                  ),
+                ],
               ),
-              20.w.horizontalSpace,
-              Expanded(
-                child: CityDropDownFormSection(
-                  cities: state.cities!,
-                  intialValue: trainer?.city?.name ?? "",
-                  isFieldNotRequired: isFieldNotRequired,
-                ),
-              ),
-            ],
-          ),
+            );
+          }),
         );
       },
     );

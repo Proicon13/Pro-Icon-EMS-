@@ -15,6 +15,7 @@ import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Core/widgets/title_section.dart';
 import 'package:pro_icon/Features/auth/register/screens/set_password_screen.dart';
+import 'package:pro_icon/data/models/city_model.dart';
 
 import '../../../../Core/dependencies.dart';
 import '../../../../data/models/sign_up_request_builder.dart';
@@ -39,14 +40,14 @@ class _AdminAddressScreenState extends State<AdminAddressScreen> {
         final formData = _addressFormKey.currentState?.value;
         //handle logic here
         final builder = SignupRequestBuilder();
-        final city = formData!['city'];
-        final cityId = state.citiesMap![city];
+        final city = formData!['city'] as CityModel;
+        ;
         final fullAddress = formData['fullAddress'];
 
         final postalCode = formData['postalCode'];
 
         builder
-            .setCityId(cityId!)
+            .setCityId(city.id.toString())
             .setAddress(fullAddress)
             .setPostalCode(postalCode);
         log(builder.toString());

@@ -5,13 +5,14 @@ enum RequestStatus { loading, success, error }
 class RegionState extends Equatable {
   final RequestStatus? status;
   final String? errorMessage;
-  final List<String>? countries;
-  final List<String>? cities;
-  final Map<String, String>? citiesMap; // used to get id from city name
+  final List<CountryModel>? countries;
+  final List<CityModel>? cities;
+  final Map<CountryModel, List<CityModel>>?
+      countriesMap; // used to get id from city name
 
   const RegionState(
       {this.status = RequestStatus.loading,
-      this.citiesMap = const {},
+      this.countriesMap = const {},
       this.errorMessage = "",
       this.countries = const [],
       this.cities = const []});
@@ -19,18 +20,18 @@ class RegionState extends Equatable {
   RegionState copyWith(
       {RequestStatus? status,
       String? errorMessage,
-      List<String>? countries,
-      List<String>? cities,
-      Map<String, String>? citiesMap}) {
+      List<CountryModel>? countries,
+      List<CityModel>? cities,
+      Map<CountryModel, List<CityModel>>? countriesMap}) {
     return RegionState(
         status: status ?? this.status,
         errorMessage: errorMessage ?? this.errorMessage,
         countries: countries ?? this.countries,
         cities: cities ?? this.cities,
-        citiesMap: citiesMap ?? this.citiesMap);
+        countriesMap: countriesMap ?? this.countriesMap);
   }
 
   @override
   List<Object> get props =>
-      [status!, errorMessage!, countries!, cities!, citiesMap!];
+      [status!, errorMessage!, countries!, cities!, countriesMap!];
 }

@@ -6,14 +6,15 @@ import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 
-class DropdownFormSection extends StatelessWidget {
+class DropdownFormSection<T> extends StatelessWidget {
   final String title;
   final String name;
   final String hintText;
-  final List<DropdownMenuItem<String>> items;
-  final String? Function(String?)? validator;
-  final String? initialValue;
-  final void Function(String?)? onChanged;
+  final List<DropdownMenuItem<T>> items; // List of generic items
+
+  final String? Function(T?)? validator;
+  final T? initialValue; // Initial value as a string (e.g., name)
+  final void Function(T?)? onChanged;
 
   const DropdownFormSection({
     super.key,
@@ -39,22 +40,26 @@ class DropdownFormSection extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        15.h.verticalSpace, // Space between title and dropdown
+        context
+            .setMinSize(10)
+            .verticalSpace, // Space between title and dropdown
         // Dropdown Field
-        FormBuilderDropdown<String>(
+        FormBuilderDropdown<T>(
           name: name,
           key: ValueKey(name),
           onChanged: onChanged,
-          initialValue: initialValue,
+          initialValue: initialValue ?? null,
           decoration: InputDecoration(
+            isDense: true,
             border: buildEnabledBorder(context),
             disabledBorder: buildEnabledBorder(context),
             focusedBorder: buildFocusedBorder(context),
             errorBorder: buildErrorBorder(context),
             enabledBorder: buildEnabledBorder(context),
             contentPadding: EdgeInsets.symmetric(
-                horizontal: context.setMinSize(12),
-                vertical: context.setMinSize(15)),
+              horizontal: context.setMinSize(12),
+              vertical: context.setMinSize(20),
+            ),
           ),
           items: items,
           dropdownColor: AppColors.backgroundColor,
@@ -64,7 +69,7 @@ class DropdownFormSection extends StatelessWidget {
               color: AppColors.white71Color,
             ),
           ),
-          validator: validator,
+          validator: (value) => validator?.call(value),
         ),
       ],
     );

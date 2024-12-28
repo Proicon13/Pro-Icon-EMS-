@@ -2,10 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/cubits/phone_registration/phone_register_cubit.dart';
 import 'package:pro_icon/Core/cubits/region_cubit/address_registration_cubit.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_app_bar.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
@@ -63,7 +63,7 @@ class _ManageTrainerScreenState extends State<ManageTrainerScreen> {
                 : "userManagment.screen.addTrainer".tr(),
           ),
           body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            padding: SizeConstants.kScaffoldPadding(context),
             child: ManageTrainerForm(
               trainer: widget.trainer,
               formKey: _formKey,
@@ -75,24 +75,24 @@ class _ManageTrainerScreenState extends State<ManageTrainerScreen> {
     );
   }
 
-  Padding _buildManageButton(bool isEditMode) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-      child: BlocConsumer<ManageTrainerCubit, ManageTrainerState>(
-        listener: (context, state) {
-          if (state.requestStataus == ManageTrainerStatus.success) {
-            buildCustomAlert(context, state.message!, Colors.green);
-          } else if (state.requestStataus == ManageTrainerStatus.error) {
-            buildCustomAlert(context, state.message!, Colors.red);
-          }
-        },
-        builder: (context, state) {
-          return CustomButton(
+  Widget _buildManageButton(bool isEditMode) {
+    return BlocConsumer<ManageTrainerCubit, ManageTrainerState>(
+      listener: (context, state) {
+        if (state.requestStataus == ManageTrainerStatus.success) {
+          buildCustomAlert(context, state.message!, Colors.green);
+        } else if (state.requestStataus == ManageTrainerStatus.error) {
+          buildCustomAlert(context, state.message!, Colors.red);
+        }
+      },
+      builder: (context, state) {
+        return Padding(
+          padding: SizeConstants.kBottomNavBarPadding(context),
+          child: CustomButton(
             onPressed: () => _onSubmit(context, widget.trainer),
             text: isEditMode ? "save".tr() : "next".tr(),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 

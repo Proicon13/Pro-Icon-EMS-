@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/widgets/empty_state_widget.dart';
 import 'package:pro_icon/Features/users/widgets/user_card.dart';
 
@@ -26,7 +26,7 @@ class UsersListLoadedWidget extends StatelessWidget {
       child: emptyStateMessage != null
           ? SingleChildScrollView(
               child: SizedBox(
-                height: 0.55.sh,
+                height: context.sizeConfig.height * 0.55,
                 child: Center(
                   child: EmptyStateWidget(message: emptyStateMessage),
                 ),

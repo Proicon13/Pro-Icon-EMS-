@@ -16,7 +16,10 @@ class EmptyStateWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const CustomSvgVisual(assetPath: Assets.assetsImagesEmptyStateIcon),
+        CustomSvgVisual(
+            width: context.setMinSize(242),
+            height: context.setMinSize(237),
+            assetPath: Assets.assetsImagesEmptyStateIcon),
         context.setMinSize(30).verticalSpace,
         Text(message,
             style: AppTextStyles.fontSize20(context)

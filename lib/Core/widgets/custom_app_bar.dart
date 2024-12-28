@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 
 import '../theme/app_text_styles.dart';
 
@@ -15,7 +15,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appBarHeight = context.setMinSize(70);
     return AppBar(
+      toolbarHeight: appBarHeight,
       backgroundColor: Colors.transparent,
       title: Text(
         titleKey,
@@ -26,7 +28,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         icon: Icon(
           Icons.arrow_back_ios,
           color: Colors.white,
-          size: 24.sp, // Responsive size for the icon
+          size: context.setSp(24), // Responsive size for the icon
         ),
         onPressed: onBack ?? () => Navigator.of(context).pop(),
       ),

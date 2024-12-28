@@ -1,12 +1,13 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
 
 import '../../../Core/constants/app_assets.dart';
 import '../../../Core/theme/app_colors.dart';
+import '../../../Core/utils/responsive_helper/size_config.dart';
 import '../../../Core/widgets/custom_text_field.dart';
 
 class SearchSection extends StatelessWidget {
@@ -23,8 +24,10 @@ class SearchSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("built search section");
-    final double searchBarHeight = 50.h; // Fixed height for search bar
+    final double searchBarHeight =
+        context.setMinSize(50); // height for search bar
+    final iconsBaseSize = const Size(60, 50);
+    final double iconSize = context.setMinSize(24);
 
     return Row(
       children: [
@@ -37,56 +40,79 @@ class SearchSection extends StatelessWidget {
               hintText: "userManagment.screen.searchHint".tr(),
               onChanged: (value) => onSearch(value ?? ''),
               keyboardInputType: TextInputType.emailAddress,
-              prefixIcon: Icon(
-                Icons.search,
-                color: AppColors.white71Color,
-                size: 24.sp,
+              prefixIcon: Padding(
+                padding: EdgeInsets.only(left: context.setMinSize(5)),
+                child: Icon(
+                  Icons.search,
+                  color: AppColors.white71Color,
+                  size: iconSize,
+                ),
               ),
               isDense: true,
               contentPadding: EdgeInsets.symmetric(
-                vertical: (searchBarHeight - 24.sp) / 2,
-                horizontal: 10.w,
+                vertical: (searchBarHeight - iconSize) /
+                    2, // to center content vertically
               ),
             ),
           ),
         ),
 
-        10.w.horizontalSpace,
+        context.setMinSize(10).horizontalSpace,
 
         // Filter Button
         InkWell(
           onTap: onFilterPressed,
-          child: Container(
+          child: SizeConfig(
+            baseSize: iconsBaseSize,
             height: searchBarHeight,
-            width: 50.w,
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor,
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: const CustomSvgVisual(
-              assetPath: Assets.assetsImagesFilterIcon,
-            ),
+            width: context.setMinSize(60),
+            child: Builder(builder: (context) {
+              return Container(
+                height: context.sizeConfig.height,
+                width: context.sizeConfig.width,
+                padding: EdgeInsets.symmetric(
+                    horizontal: context.setMinSize(10),
+                    vertical: context.setMinSize(10)),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColor,
+                  borderRadius: SizeConstants.kDefaultBorderRadius(context),
+                ),
+                child: Center(
+                  child: CustomSvgVisual(
+                    width: iconSize,
+                    height: iconSize,
+                    assetPath: Assets.assetsImagesFilterIcon,
+                  ),
+                ),
+              );
+            }),
           ),
         ),
 
-        10.w.horizontalSpace,
+        context.setMinSize(10).horizontalSpace,
 
         // Add Button
         InkWell(
           onTap: onAddPressed,
-          child: Container(
+          child: SizeConfig(
+            baseSize: iconsBaseSize,
             height: searchBarHeight,
-            width: 50.w,
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 24.sp,
-            ),
+            width: context.setMinSize(60),
+            child: Builder(builder: (context) {
+              return Container(
+                height: context.sizeConfig.height,
+                width: context.sizeConfig.width,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: SizeConstants.kDefaultBorderRadius(context),
+                ),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                  size: iconSize,
+                ),
+              );
+            }),
           ),
         ),
       ],

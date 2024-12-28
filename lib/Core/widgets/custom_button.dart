@@ -15,8 +15,8 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizeConfig(
-      baseSize: const Size(398, 60),
-      height: context.setMinSize(60),
+      baseSize: const Size(398, 50),
+      height: context.setMinSize(50),
       width: context.setMinSize(398),
       child: Builder(builder: (context) {
         return SizedBox(

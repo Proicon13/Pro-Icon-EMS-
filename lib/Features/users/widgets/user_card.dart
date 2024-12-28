@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Core/constants/app_assets.dart';
@@ -8,6 +11,8 @@ import '../../../Core/theme/app_colors.dart';
 import '../../../Core/theme/app_text_styles.dart';
 import '../../../Core/widgets/custom_network_image.dart';
 import '../../../Core/widgets/custom_svg_visual.dart';
+
+double userAvatarSize(BuildContext context) => context.setMinSize(80);
 
 abstract class UserCardBase extends StatelessWidget {
   final void Function() onTap;
@@ -18,17 +23,25 @@ abstract class UserCardBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-        margin: EdgeInsets.only(bottom: 10.h),
-        decoration: BoxDecoration(
-          color: AppColors.darkGreyColor,
-          borderRadius: BorderRadius.circular(8.r),
-        ),
-        child: buildContent(context),
-      ),
+    return SizeConfig(
+      baseSize: const Size(398, 132),
+      width: context.setMinSize(398),
+      height: context.setMinSize(132),
+      child: Builder(builder: (context) {
+        return GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: context.setMinSize(20),
+                vertical: context.setMinSize(20)),
+            margin: EdgeInsets.only(bottom: context.setMinSize(10)),
+            decoration: BoxDecoration(
+                color: AppColors.darkGreyColor,
+                borderRadius: SizeConstants.kDefaultBorderRadius(context)),
+            child: buildContent(context),
+          ),
+        );
+      }),
     );
   }
 
@@ -50,16 +63,27 @@ class UserCardLoaded extends UserCardBase {
 
   @override
   Widget buildContent(BuildContext context) {
-    final phoneIcon =
-        const CustomSvgVisual(assetPath: Assets.assetsImagesPhoneIcon);
-    final emailIcon =
-        const CustomSvgVisual(assetPath: Assets.assetsImagesEmailIcon);
-    final locationIcon =
-        const CustomSvgVisual(assetPath: Assets.assetsImagesAddressLocation);
-    final editIcon =
-        const CustomSvgVisual(assetPath: Assets.assetsImagesEditIcon);
-    final deleteIcon =
-        const CustomSvgVisual(assetPath: Assets.assetsImagesDeleteIcon);
+    final iconSize = context.setMinSize(18);
+    final phoneIcon = CustomSvgVisual(
+        width: iconSize,
+        height: iconSize,
+        assetPath: Assets.assetsImagesPhoneIcon);
+    final emailIcon = CustomSvgVisual(
+        width: iconSize,
+        height: iconSize,
+        assetPath: Assets.assetsImagesEmailIcon);
+    final locationIcon = CustomSvgVisual(
+        width: iconSize,
+        height: iconSize,
+        assetPath: Assets.assetsImagesAddressLocation);
+    final editIcon = CustomSvgVisual(
+        width: iconSize,
+        height: iconSize,
+        assetPath: Assets.assetsImagesEditIcon);
+    final deleteIcon = CustomSvgVisual(
+        width: iconSize,
+        height: iconSize,
+        assetPath: Assets.assetsImagesDeleteIcon);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -70,13 +94,13 @@ class UserCardLoaded extends UserCardBase {
             children: [
               // Profile Image
               Container(
-                height: 80.h,
-                width: 80.h,
+                height: userAvatarSize(context),
+                width: userAvatarSize(context),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: AppColors.white71Color, // Border color
-                    width: 3.w, // Border width
+                    width: context.setMinSize(3), // Border width
                   ),
                 ),
                 child: ClipOval(
@@ -87,7 +111,7 @@ class UserCardLoaded extends UserCardBase {
                 ),
               ),
 
-              20.w.horizontalSpace,
+              context.setMinSize(20).horizontalSpace,
 
               // User Info
               Expanded(
@@ -104,54 +128,48 @@ class UserCardLoaded extends UserCardBase {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    10.h.verticalSpace,
+                    context.setMinSize(10).verticalSpace,
                     Row(
                       children: [
                         emailIcon,
-                        10.w.horizontalSpace,
+                        context.setMinSize(10).horizontalSpace,
                         Expanded(
                           child: Text(
                             user.email!,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColors.white71Color,
-                            ),
+                            style: AppTextStyles.fontSize14(context)
+                                .copyWith(color: AppColors.white71Color),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
                     ),
-                    10.h.verticalSpace,
+                    context.setMinSize(10).verticalSpace,
                     Row(
                       children: [
                         phoneIcon,
-                        10.w.horizontalSpace,
+                        context.setMinSize(10).horizontalSpace,
                         Expanded(
                           child: Text(
                             user.phone!,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColors.white71Color,
-                            ),
+                            style: AppTextStyles.fontSize14(context)
+                                .copyWith(color: AppColors.white71Color),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
                     ),
-                    10.h.verticalSpace,
+                    context.setMinSize(10).verticalSpace,
                     Row(
                       children: [
                         locationIcon,
-                        10.w.horizontalSpace,
+                        context.setMinSize(10).horizontalSpace,
                         Expanded(
                           child: Text(
                             "${user.city!.country.name} - ${user.city!.name}",
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColors.white71Color,
-                            ),
+                            style: AppTextStyles.fontSize14(context)
+                                .copyWith(color: AppColors.white71Color),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -171,14 +189,16 @@ class UserCardLoaded extends UserCardBase {
             InkWell(
               onTap: onEdit,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                padding:
+                    EdgeInsets.symmetric(horizontal: context.setMinSize(5)),
                 child: editIcon,
               ),
             ),
             InkWell(
               onTap: onDelete,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                padding:
+                    EdgeInsets.symmetric(horizontal: context.setMinSize(5)),
                 child: deleteIcon,
               ),
             ),
@@ -208,15 +228,15 @@ class UserCardLoading extends UserCardBase {
               children: [
                 // Profile Image Placeholder
                 Container(
-                  height: 80.h,
-                  width: 80.h,
+                  height: userAvatarSize(context),
+                  width: userAvatarSize(context),
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: AppColors.white71Color,
                   ),
                 ),
 
-                20.w.horizontalSpace,
+                context.setMinSize(20).horizontalSpace,
 
                 // User Info
                 Expanded(
@@ -240,7 +260,23 @@ class UserCardLoading extends UserCardBase {
                             child: Text(
                               'Loading...',
                               style: TextStyle(
-                                fontSize: 14.sp,
+                                fontSize: context.setSp(14),
+                                color: AppColors.white71Color,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                      context.setMinSize(10).verticalSpace,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Loading...',
+                              style: TextStyle(
+                                fontSize: context.setSp(14),
                                 color: AppColors.white71Color,
                               ),
                               maxLines: 1,
@@ -256,23 +292,7 @@ class UserCardLoading extends UserCardBase {
                             child: Text(
                               'Loading...',
                               style: TextStyle(
-                                fontSize: 14.sp,
-                                color: AppColors.white71Color,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                      10.h.verticalSpace,
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Loading...',
-                              style: TextStyle(
-                                fontSize: 14.sp,
+                                fontSize: context.setSp(14),
                                 color: AppColors.white71Color,
                               ),
                               maxLines: 1,

@@ -108,7 +108,8 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
   Future<void> _filterTrainers(FilterationType filterBy) async {
     if (!_canPerformAction()) return;
 
-    emit(state.copyWith(requestStatus: RequestStatus.loading));
+    emit(state.copyWith(
+        requestStatus: RequestStatus.loading, isSearching: false));
     final response = await trainerService.filterTrainers(filterBy: filterBy);
     response.fold(
         (failure) => emit(state.copyWith(
@@ -124,7 +125,8 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
   Future<void> _filterClients(FilterationType filterBy) async {
     if (!_canPerformAction()) return;
 
-    emit(state.copyWith(requestStatus: RequestStatus.loading));
+    emit(state.copyWith(
+        requestStatus: RequestStatus.loading, isSearching: false));
     final response = await clientsService.filterClients(filterBy: filterBy);
     response.fold(
         (failure) => emit(state.copyWith(

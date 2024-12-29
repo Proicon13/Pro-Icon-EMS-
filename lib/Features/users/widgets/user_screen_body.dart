@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Features/manage_trainer/screens/manage_trainer_screen.dart';
+import 'package:pro_icon/Features/users/widgets/filter_dialog.dart';
 import 'package:pro_icon/Features/users/widgets/search_section.dart';
 
 import '../../../Core/utils/responsive_helper/size_constants.dart';
@@ -38,6 +39,13 @@ class UsersScreenBody extends StatelessWidget {
                 if (cubit.state.requestStatus == RequestStatus.loading) {
                   return;
                 }
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return BlocProvider.value(
+                        value: cubit, child: const FilterDialog());
+                  },
+                );
               },
               onAddPressed: () {
                 // if not loading then navigate to add user screen

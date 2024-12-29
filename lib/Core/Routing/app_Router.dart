@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
+import 'package:pro_icon/Features/manage_trainer/screens/trainer_password_regestraion_screen.dart';
 
 import '../../Features/auth/login/screens/login_screen.dart';
 import '../../Features/auth/register/screens/admin_address_screen.dart';
@@ -83,6 +84,14 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
           // Retrieve trainer from arguments
           final trainer = settings.arguments as UserEntity?;
           return ManageTrainerScreen(trainer: trainer);
+        },
+      );
+    case TrainerPasswordRegestraionScreen.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(
+            name: TrainerPasswordRegestraionScreen.routeName),
+        builder: (_) {
+          return const TrainerPasswordRegestraionScreen();
         },
       );
 

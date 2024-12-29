@@ -11,14 +11,13 @@ class CityDropDownFormSection extends StatelessWidget {
     super.key,
     required List<CityModel> cities,
     this.initialValue,
-    this.isFieldNotRequired,
     this.onChanged,
     this.keyName,
   }) : _cities = cities;
 
   final List<CityModel> _cities;
   final CityModel? initialValue;
-  final bool? isFieldNotRequired;
+
   final void Function(CityModel?)? onChanged;
   final String? keyName;
 
@@ -41,12 +40,9 @@ class CityDropDownFormSection extends StatelessWidget {
                 ),
               ))
           .toList(),
-      validator: isFieldNotRequired == null
-          ? FormBuilderValidators.required(
-              errorText:
-                  "register.cityRequiredError".tr(), // "City is required"
-            )
-          : null,
+      validator: FormBuilderValidators.required(
+        errorText: "register.cityRequiredError".tr(), // "City is required"
+      ),
     );
   }
 }

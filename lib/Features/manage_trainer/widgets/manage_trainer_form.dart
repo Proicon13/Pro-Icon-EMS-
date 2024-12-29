@@ -28,23 +28,21 @@ class ManageTrainerForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool? isFieldNotRequired = trainer != null ? true : null;
-
     return SingleChildScrollView(
       child: FormBuilder(
         key: formKey,
         child: Column(
           children: [
             _verticalSpace(context),
-            _buildFullNameSection(isFieldNotRequired),
+            _buildFullNameSection(),
             _verticalSpace(context),
-            _buildPhoneSection(isFieldNotRequired),
+            _buildPhoneSection(),
             _verticalSpace(context),
-            _buildRegionSection(isFieldNotRequired),
+            _buildRegionSection(),
             _verticalSpace(context),
-            _buildFullAddressSection(isFieldNotRequired),
+            _buildFullAddressSection(),
             _verticalSpace(context),
-            _buildPostalCodeSection(isFieldNotRequired),
+            _buildPostalCodeSection(),
           ],
         ),
       ),
@@ -54,21 +52,19 @@ class ManageTrainerForm extends StatelessWidget {
   Widget _verticalSpace(BuildContext context) =>
       context.setMinSize(30).verticalSpace;
 
-  Widget _buildFullNameSection(bool? isFieldNotRequired) {
+  Widget _buildFullNameSection() {
     return FullNameFormSection(
       intialValue: trainer?.fullname ?? "",
-      isFieldNotRequired: isFieldNotRequired,
     );
   }
 
-  Widget _buildPhoneSection(bool? isFieldNotRequired) {
+  Widget _buildPhoneSection() {
     return PhoneFormSection(
       intialValue: trainer != null ? extractLocalNumber(trainer!.phone!) : "",
-      isFieldNotRequired: isFieldNotRequired,
     );
   }
 
-  Widget _buildRegionSection(bool? isFieldNotRequired) {
+  Widget _buildRegionSection() {
     return BlocConsumer<RegionCubit, RegionState>(
       listener: (context, state) {
         if (state.status == RequestStatus.error) {
@@ -106,7 +102,6 @@ class ManageTrainerForm extends StatelessWidget {
                         }
                       },
                       initialValue: intialCountryValue,
-                      isFieldNotRequired: isFieldNotRequired,
                     ),
                   ),
                   context.setMinSize(20).horizontalSpace,
@@ -117,7 +112,6 @@ class ManageTrainerForm extends StatelessWidget {
                           : "city",
                       cities: state.cities!,
                       initialValue: intialCityValue,
-                      isFieldNotRequired: isFieldNotRequired,
                     ),
                   ),
                 ],
@@ -129,17 +123,15 @@ class ManageTrainerForm extends StatelessWidget {
     );
   }
 
-  Widget _buildFullAddressSection(bool? isFieldNotRequired) {
+  Widget _buildFullAddressSection() {
     return FullAddressFormSection(
       intialValue: trainer?.address ?? "",
-      isFieldNotRequired: isFieldNotRequired,
     );
   }
 
-  Widget _buildPostalCodeSection(bool? isFieldNotRequired) {
+  Widget _buildPostalCodeSection() {
     return PostalCodeFormSection(
       intialValue: trainer?.postalCode ?? "",
-      isFieldNotRequired: isFieldNotRequired,
     );
   }
 }

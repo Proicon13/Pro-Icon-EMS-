@@ -40,32 +40,37 @@ class TrainerPasswordForm extends StatelessWidget {
             context,
           ),
           _buildSpace(context),
-          BlocConsumer<TrainerPasswordCubit, TrainerPasswordState>(
-            listener: (context, state) {
-              if (state.status == RequestStatus.error) {
-                buildCustomAlert(context, state.message, Colors.red);
-              }
-              if (state.status == RequestStatus.success) {
-                SignupRequestBuilder().reset();
-                buildCustomAlert(context, state.message, Colors.green);
-
-                Future.delayed(const Duration(seconds: 3), () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      UsersScreen.routeName, (route) => false);
-                });
-              }
-            },
-            builder: (context, state) {
-              if (state.status == RequestStatus.submitting) {
-                return const CustomLoader();
-              } else {
-                return CustomButton(
-                    onPressed: () => _onConfirm(context), text: "confirm".tr());
-              }
-            },
-          )
+          _buildConfirmButton()
         ],
       ),
+    );
+  }
+
+  BlocConsumer<TrainerPasswordCubit, TrainerPasswordState>
+      _buildConfirmButton() {
+    return BlocConsumer<TrainerPasswordCubit, TrainerPasswordState>(
+      listener: (context, state) {
+        if (state.status == RequestStatus.error) {
+          buildCustomAlert(context, state.message, Colors.red);
+        }
+        if (state.status == RequestStatus.success) {
+          SignupRequestBuilder().reset();
+          buildCustomAlert(context, state.message, Colors.green);
+
+          Future.delayed(const Duration(seconds: 3), () {
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                UsersScreen.routeName, (route) => false);
+          });
+        }
+      },
+      builder: (context, state) {
+        if (state.status == RequestStatus.submitting) {
+          return const CustomLoader();
+        } else {
+          return CustomButton(
+              onPressed: () => _onConfirm(context), text: "confirm".tr());
+        }
+      },
     );
   }
 
@@ -86,7 +91,7 @@ class TrainerPasswordForm extends StatelessWidget {
         builder.setRole(rolesMap[Role.coach]!);
         final signUpRequest = builder.build();
 
-        BlocProvider.of<TrainerPasswordCubit>(context)
+        BlocProvider.of<TrainerPasswordCubit>(context, listen: false)
             .registerTrainer(signUpRequest: signUpRequest);
       }
     }

@@ -97,6 +97,7 @@ class PhoneNumberField extends StatelessWidget {
                     decoration: InputDecoration(
                       isDense: true,
                       border: InputBorder.none,
+                      errorStyle: const TextStyle(height: 0),
                       hintText: "1033266355",
                       hintStyle: AppTextStyles.fontSize14(context)
                           .copyWith(color: AppColors.white71Color),

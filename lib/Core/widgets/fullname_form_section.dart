@@ -6,11 +6,10 @@ import 'text_form_section.dart';
 
 class FullNameFormSection extends StatelessWidget {
   final String? intialValue;
-  final bool? isFieldNotRequired;
+
   const FullNameFormSection({
     super.key,
     this.intialValue,
-    this.isFieldNotRequired,
   });
 
   @override
@@ -20,19 +19,17 @@ class FullNameFormSection extends StatelessWidget {
       name: "fullName",
       intialValue: intialValue,
       hintText: "signup.fullNameHint".tr(), // Moaid Mohamed
-      validator: isFieldNotRequired == null // if not passed put validation
-          ? FormBuilderValidators.compose([
-              FormBuilderValidators.required(
-                errorText: "signup.fullNameRequiredError"
-                    .tr(), // Full Name is required
-              ),
-              FormBuilderValidators.minLength(
-                3,
-                errorText: "signup.fullNameMinLengthError"
-                    .tr(), // Name must be at least 3 characters
-              ),
-            ])
-          : null,
+      validator: FormBuilderValidators.compose([
+        FormBuilderValidators.required(
+          errorText:
+              "signup.fullNameRequiredError".tr(), // Full Name is required
+        ),
+        FormBuilderValidators.minLength(
+          3,
+          errorText: "signup.fullNameMinLengthError"
+              .tr(), // Name must be at least 3 characters
+        ),
+      ]),
     );
   }
 }

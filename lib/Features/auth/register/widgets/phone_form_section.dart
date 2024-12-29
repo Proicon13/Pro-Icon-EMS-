@@ -10,9 +10,11 @@ import 'phone_form_field.dart';
 
 class PhoneFormSection extends StatelessWidget {
   final String? intialValue;
-  final bool? isFieldNotRequired;
-  const PhoneFormSection(
-      {super.key, this.intialValue, this.isFieldNotRequired});
+
+  const PhoneFormSection({
+    super.key,
+    this.intialValue,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +33,24 @@ class PhoneFormSection extends StatelessWidget {
               countryCode: state.phoneCode!,
               errorMessage: state.errorMessage,
               intialValue: intialValue,
-              validator: isFieldNotRequired != null
-                  ? null
-                  : (phone) {
-                      if (phone == null) {
-                        BlocProvider.of<PhoneRegistrationCubit>(context,
-                                listen: false)
-                            .setErrorMessage(
-                          "register.phoneRequired".tr(),
-                        );
-                      } else if (phone.length < 10) {
-                        BlocProvider.of<PhoneRegistrationCubit>(context,
-                                listen: false)
-                            .setErrorMessage("register.phoneInvalid".tr());
-                      } else {
-                        BlocProvider.of<PhoneRegistrationCubit>(context,
-                                listen: false)
-                            .setErrorMessage('');
-                      }
-                      return null;
-                    },
+              validator: (phone) {
+                if (phone == null) {
+                  BlocProvider.of<PhoneRegistrationCubit>(context,
+                          listen: false)
+                      .setErrorMessage(
+                    "register.phoneRequired".tr(),
+                  );
+                } else if (phone.length < 10) {
+                  BlocProvider.of<PhoneRegistrationCubit>(context,
+                          listen: false)
+                      .setErrorMessage("register.phoneInvalid".tr());
+                } else {
+                  BlocProvider.of<PhoneRegistrationCubit>(context,
+                          listen: false)
+                      .setErrorMessage('');
+                }
+                return null;
+              },
               onCountryCodeChanged: (phoneCode) {
                 BlocProvider.of<PhoneRegistrationCubit>(context, listen: false)
                     .setCountryCode(phoneCode);

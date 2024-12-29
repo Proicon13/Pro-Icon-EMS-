@@ -26,18 +26,16 @@ class PostalCodeFormSection extends StatelessWidget {
         FilteringTextInputFormatter.digitsOnly,
         LengthLimitingTextInputFormatter(6),
       ],
-      validator: isFieldNotRequired == null
-          ? FormBuilderValidators.compose([
-              FormBuilderValidators.required(
-                errorText: "register.postalCodeRequiredError"
-                    .tr(), // "Postal code is required"
-              ),
-              FormBuilderValidators.numeric(
-                errorText: "register.postalCodeNumericError"
-                    .tr(), // "Postal code must be numeric"
-              ),
-            ])
-          : null,
+      validator: FormBuilderValidators.compose([
+        FormBuilderValidators.required(
+          errorText: "register.postalCodeRequiredError"
+              .tr(), // "Postal code is required"
+        ),
+        FormBuilderValidators.numeric(
+          errorText: "register.postalCodeNumericError"
+              .tr(), // "Postal code must be numeric"
+        ),
+      ]),
     );
   }
 }

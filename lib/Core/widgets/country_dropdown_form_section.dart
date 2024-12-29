@@ -11,13 +11,12 @@ class CountryDropDownFormSection extends StatelessWidget {
     super.key,
     required List<CountryModel> countries,
     this.initialValue,
-    this.isFieldNotRequired,
     this.onChanged,
     this.keyName,
   }) : _countries = countries;
 
   final CountryModel? initialValue;
-  final bool? isFieldNotRequired;
+
   final List<CountryModel> _countries;
   final void Function(CountryModel?)? onChanged;
   final String? keyName;
@@ -41,12 +40,10 @@ class CountryDropDownFormSection extends StatelessWidget {
                 ),
               ))
           .toList(),
-      validator: isFieldNotRequired == null
-          ? FormBuilderValidators.required(
-              errorText:
-                  "register.countryRequiredError".tr(), // "Country is required"
-            )
-          : null,
+      validator: FormBuilderValidators.required(
+        errorText:
+            "register.countryRequiredError".tr(), // "Country is required"
+      ),
     );
   }
 }

@@ -43,7 +43,9 @@ class UsersScreenBody extends StatelessWidget {
                 // if not loading then navigate to add user screen
                 if (cubit.state.requestStatus == RequestStatus.loading) return;
 
-                Navigator.pushNamed(context, ManageTrainerScreen.routeName);
+                if (cubit.state.currentVariation == UserVariations.trainer) {
+                  Navigator.pushNamed(context, ManageTrainerScreen.routeName);
+                }
               },
             ),
             context.setMinSize(30).verticalSpace,

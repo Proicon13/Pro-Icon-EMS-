@@ -33,7 +33,7 @@ class UsersListLoadedWidget extends StatelessWidget {
               ),
             )
           : AnimatedSwitcher(
-              duration: const Duration(milliseconds: 800),
+              duration: const Duration(milliseconds: 500),
               child: ListView.builder(
                 key: ValueKey(state.currentVariation),
                 itemCount: users.length,
@@ -46,10 +46,13 @@ class UsersListLoadedWidget extends StatelessWidget {
                       // Handle user card tap
                     },
                     onEdit: () {
+                      final currentvariation = state.currentVariation;
                       // navigate to edit user screen
-                      Navigator.pushNamed(
-                          context, ManageTrainerScreen.routeName,
-                          arguments: user);
+                      if (currentvariation == UserVariations.trainer) {
+                        Navigator.pushNamed(
+                            context, ManageTrainerScreen.routeName,
+                            arguments: user);
+                      }
                     },
                     onDelete: () {
                       // delete user

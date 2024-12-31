@@ -17,6 +17,7 @@ class UsersScreenScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return KeyboardDismissable(
       onDismiss: () {
+        // when un focus search field untrigger search mode
         FocusManager.instance.primaryFocus?.unfocus();
         BlocProvider.of<UserManagmentCubit>(context).toggleIsSearching(false);
       },

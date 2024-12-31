@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 
+import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -18,7 +19,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final appBarHeight = context.setMinSize(70);
     return AppBar(
       toolbarHeight: appBarHeight,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.backgroundColor,
+      elevation: 0,
       title: Text(
         titleKey,
         style: AppTextStyles.fontSize20(context).copyWith(color: Colors.white),

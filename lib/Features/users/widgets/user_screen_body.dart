@@ -29,16 +29,18 @@ class UsersScreenBody extends StatelessWidget {
             ),
             context.setMinSize(50).verticalSpace,
             SearchSection(
-              onSearch: (value) {
-                if (value.isNotEmpty) {
-                  cubit.onSearch(value);
+              onSearch: (query) {
+                if (query.isEmpty) {
+                  // if search field is empty then close search mode
+                  cubit.toggleIsSearching(false);
+                } else {
+                  cubit.onSearch(query);
                 }
               },
               onFilterPressed: () {
                 // if not loading then show filter dialog
-                if (cubit.state.requestStatus == RequestStatus.loading) {
-                  return;
-                }
+                if (cubit.state.requestStatus == RequestStatus.loading) return;
+
                 showDialog(
                   context: context,
                   builder: (context) {

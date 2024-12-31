@@ -8,9 +8,16 @@ import '../theme/app_colors.dart';
 class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
+  final TextStyle? style;
   final Color? color;
+  final BorderSide? borderSide;
   const CustomButton(
-      {super.key, required this.onPressed, required this.text, this.color});
+      {super.key,
+      required this.onPressed,
+      required this.text,
+      this.color,
+      this.borderSide,
+      this.style});
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +35,16 @@ class CustomButton extends StatelessWidget {
               vertical: context.setMinSize(15),
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: SizeConstants.kDefaultBorderRadius(context),
-            ),
+                borderRadius: SizeConstants.kDefaultBorderRadius(context),
+                side: borderSide ?? BorderSide.none),
             color: color ?? AppColors.primaryColor,
             child: Text(text,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: context.setMinSize(16),
-                )),
+                style: style ??
+                    TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: context.setMinSize(16),
+                    )),
           ),
         );
       }),

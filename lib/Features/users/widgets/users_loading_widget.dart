@@ -19,7 +19,6 @@ class UsersListLoadingWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               return UserCardLoading(
                 key: ValueKey(index),
-                onTap: () {},
               );
             },
           ),

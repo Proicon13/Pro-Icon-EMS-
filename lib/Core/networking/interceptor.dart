@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:pro_icon/data/services/auth_token_service.dart';
 
+import 'api_constants.dart';
+
 class AppInterceptor implements Interceptor {
   final AuthTokenService _authTokenService;
 
@@ -18,9 +20,11 @@ class AppInterceptor implements Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    final token = await _authTokenService.getToken();
-    if (token != null) {
-      options.headers['Authorization'] = 'Bearer $token';
+    if (options.path != ApiConstants.currentUserEndpoint) {
+      final token = await _authTokenService.getToken();
+      if (token != null) {
+        options.headers['Authorization'] = 'Bearer $token';
+      }
     }
     log('REQUEST[${options.method}] => PATH: ${options.path} AND Query Paramters are : ${options.queryParameters} And headers are ${options.headers} ');
     return handler.next(options);

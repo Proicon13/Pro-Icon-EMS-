@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
 
 import '../../../../Core/constants/app_assets.dart';
 import '../../../../Core/theme/app_colors.dart';
-import '../../../../Core/theme/app_text_styles.dart';
 import '../../../../Core/widgets/custom_asset_image.dart';
 
 class RoleCard extends StatelessWidget {
@@ -53,8 +53,8 @@ class RoleCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: cardWidth * 0.56,
-                    height: cardHeight * 0.58,
+                    width: cardWidth * 0.70,
+                    height: cardHeight * 0.70,
                     child: CustomAssetImage(
                       path: imagePath,
                       fit: BoxFit.contain,
@@ -64,8 +64,8 @@ class RoleCard extends StatelessWidget {
                   Text(
                     title,
                     style: AppTextStyles.fontSize16(context).copyWith(
+                      fontWeight: FontWeight.w500,
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],

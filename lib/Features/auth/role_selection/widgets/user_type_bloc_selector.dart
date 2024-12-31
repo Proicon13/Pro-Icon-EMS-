@@ -19,20 +19,21 @@ class UserTypesBlocBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        BlocSelector<SelectRoleCubit, SelectRoleState, bool>(
-          selector: (state) => state.role == Role.admin,
-          builder: (context, isSelected) {
-            log("role card width: ${context.screenWidth}");
-            log("role card height: ${context.screenHeight}");
-            return SizeConfig(
-              baseSize: const Size(180, 200),
-              width: context.setMinSize(180),
-              height: context.setMinSize(200),
-              child: Builder(builder: (context) {
-                log("role card width: ${context.sizeConfig.width}");
-                log("role card height: ${context.sizeConfig.height}");
-                return Expanded(
-                  child: RoleCard(
+        Expanded(
+          child: BlocSelector<SelectRoleCubit, SelectRoleState, bool>(
+            selector: (state) => state.role == Role.admin,
+            builder: (context, isSelected) {
+              log("role card width: ${context.screenWidth}");
+              log("role card height: ${context.screenHeight}");
+              return SizeConfig(
+                baseSize: const Size(180, 200),
+                width: context.setMinSize(180),
+                height: context.setMinSize(200),
+                child: Builder(builder: (context) {
+                  log("role card width: ${context.sizeConfig.width}");
+                  log("role card height: ${context.sizeConfig.height}");
+                  return RoleCard(
+                    key: const ValueKey("admin-role-card"),
                     isSelected: isSelected,
                     title: "roleSelection.adminRole".tr(),
                     imagePath: Assets.assetsImagesAdmin,
@@ -40,33 +41,38 @@ class UserTypesBlocBuilder extends StatelessWidget {
                       BlocProvider.of<SelectRoleCubit>(context)
                           .selectRole(Role.admin);
                     },
-                  ),
-                );
-              }),
-            );
-          },
+                  );
+                }),
+              );
+            },
+          ),
         ),
         context.setMinSize(20).horizontalSpace,
-        BlocSelector<SelectRoleCubit, SelectRoleState, bool>(
-          selector: (state) => state.role == Role.coach,
-          builder: (context, isSelected) {
-            return SizeConfig(
-              baseSize: const Size(180, 200),
-              width: context.setWidth(180),
-              height: context.setHeight(200),
-              child: Expanded(
-                child: RoleCard(
-                  isSelected: isSelected,
-                  title: "roleSelection.trainerRole".tr(),
-                  imagePath: Assets.assetsImagesTrainer,
-                  onTap: () {
-                    BlocProvider.of<SelectRoleCubit>(context)
-                        .selectRole(Role.coach);
-                  },
-                ),
-              ),
-            );
-          },
+        Expanded(
+          child: BlocSelector<SelectRoleCubit, SelectRoleState, bool>(
+            selector: (state) => state.role == Role.coach,
+            builder: (context, isSelected) {
+              return SizeConfig(
+                baseSize: const Size(180, 200),
+                width: context.setMinSize(180),
+                height: context.setMinSize(200),
+                child: Builder(builder: (context) {
+                  log("role card width: ${context.sizeConfig.width}");
+                  log("role card height: ${context.sizeConfig.height}");
+                  return RoleCard(
+                    key: const ValueKey("trainer-role-card"),
+                    isSelected: isSelected,
+                    title: "roleSelection.trainerRole".tr(),
+                    imagePath: Assets.assetsImagesTrainer,
+                    onTap: () {
+                      BlocProvider.of<SelectRoleCubit>(context)
+                          .selectRole(Role.coach);
+                    },
+                  );
+                }),
+              );
+            },
+          ),
         ),
       ],
     );

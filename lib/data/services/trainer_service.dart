@@ -8,6 +8,7 @@ import 'package:pro_icon/data/models/sign_up_request.dart';
 
 import '../../Core/networking/base_api_provider.dart';
 import '../../Core/utils/enums/filteration_type.dart';
+import '../models/pagination_response.dart';
 
 class TrainerService {
   final BaseApiProvider _apiProvider;
@@ -15,53 +16,68 @@ class TrainerService {
   TrainerService({required BaseApiProvider apiProvider})
       : _apiProvider = apiProvider;
 
-  Future<Either<Failure, List<UserEntity>>> getTrainers({int? page}) async {
+  Future<Either<Failure, PaginationResponse<UserEntity, AppUserModel>>>
+      getTrainers({int? page}) async {
     final response = await _apiProvider.get<Map<String, dynamic>>(
       endpoint: ApiConstants.getTrainersEndpoint,
       queryParameters: {'page': page ?? 1},
     );
 
     if (response.isSuccess) {
-      final trainers = (response.data!["trainers"] as List)
-          .map((e) => AppUserEntityMapper.toEntity(
-              AppUserModel.fromJson(e as Map<String, dynamic>)))
-          .toList();
-      return Right(trainers);
+      final paginatedResponse =
+          PaginationResponse<UserEntity, AppUserModel>.fromDataResponse(
+        fromJsonT: AppUserModel.fromJson, //response model
+        json: response.data!,
+        keyName: "trainers",
+        mapper: AppUserEntityMapper.toEntity, // entity mapper
+      );
+      return Right(paginatedResponse);
     } else {
       return Left(ServerFailure(message: response.error!.message));
     }
   }
 
-  Future<Either<Failure, List<UserEntity>>> searchTrainerByNameOrEmail(
-      {required String query}) async {
+  Future<Either<Failure, PaginationResponse<UserEntity, AppUserModel>>>
+      searchTrainerByNameOrEmail({required String query}) async {
     final response = await _apiProvider.get<Map<String, dynamic>>(
       endpoint: ApiConstants.getTrainersEndpoint,
       queryParameters: {'searchKey': query},
     );
 
     if (response.isSuccess) {
-      final trainers = (response.data!["trainers"] as List)
-          .map((e) => AppUserEntityMapper.toEntity(
-              AppUserModel.fromJson(e as Map<String, dynamic>)))
-          .toList();
-      return Right(trainers);
+      final paginatedResponse =
+          PaginationResponse<UserEntity, AppUserModel>.fromDataResponse(
+        fromJsonT: AppUserModel.fromJson, //response model
+        json: response.data!,
+        keyName: "trainers",
+        mapper: AppUserEntityMapper.toEntity, // entity mapper
+      );
+      return Right(paginatedResponse);
     } else {
       return Left(ServerFailure(message: response.error!.message));
     }
   }
 
-  Future<Either<Failure, List<UserEntity>>> filterTrainers(
-      {required FilterationType filterBy}) async {
+  Future<Either<Failure, PaginationResponse<UserEntity, AppUserModel>>>
+      filterTrainers({required FilterationType filterBy, int? page}) async {
     final response = await _apiProvider.get<Map<String, dynamic>>(
         endpoint: ApiConstants.getTrainersEndpoint,
-        queryParameters: {'orderBy': filterBy.name});
+        queryParameters: {
+          'orderBy': filterBy.name,
+          'perPage': page != null
+              ? (page * ApiConstants.defaultPerPage).toString()
+              : ApiConstants.defaultPerPage.toString()
+        });
 
     if (response.isSuccess) {
-      final trainers = (response.data!["trainers"] as List)
-          .map((e) => AppUserEntityMapper.toEntity(
-              AppUserModel.fromJson(e as Map<String, dynamic>)))
-          .toList();
-      return Right(trainers);
+      final paginatedResponse =
+          PaginationResponse<UserEntity, AppUserModel>.fromDataResponse(
+        fromJsonT: AppUserModel.fromJson, //response model
+        json: response.data!,
+        keyName: "trainers",
+        mapper: AppUserEntityMapper.toEntity, // entity mapper
+      );
+      return Right(paginatedResponse);
     } else {
       return Left(ServerFailure(message: response.error!.message));
     }
@@ -78,6 +94,18 @@ class TrainerService {
       final trainer =
           AppUserEntityMapper.toEntity(AppUserModel.fromJson(response.data!));
       return Right(trainer);
+    } else {
+      return Left(ServerFailure(message: response.error!.message));
+    }
+  }
+
+  Future<Either<Failure, String>> deleteTrainer({required int id}) async {
+    final response = await _apiProvider.delete<Map<String, dynamic>>(
+      endpoint: "${ApiConstants.getTrainersEndpoint}/$id",
+    );
+
+    if (response.isSuccess) {
+      return Right(response.data!["message"]);
     } else {
       return Left(ServerFailure(message: response.error!.message));
     }

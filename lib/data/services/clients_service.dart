@@ -5,6 +5,7 @@ import 'package:pro_icon/Core/networking/api_constants.dart';
 import 'package:pro_icon/data/mappers/client_entity_mapper.dart';
 import 'package:pro_icon/data/models/api_response.dart';
 import 'package:pro_icon/data/models/client_model.dart';
+import 'package:pro_icon/data/models/pagination_response.dart';
 import 'package:pro_icon/data/models/update_client_response.dart';
 
 import '../../Core/networking/base_api_provider.dart';
@@ -31,7 +32,8 @@ class ClientsService {
     }
   }
 
-  Future<Either<Failure, List<UserEntity>>> getClients({int? page}) async {
+  Future<Either<Failure, PaginationResponse<UserEntity, ClientModel>>>
+      getClients({int? page}) async {
     final response = await _apiProvider.get<Map<String, dynamic>>(
       endpoint: ApiConstants.clientsEndPoint,
       queryParameters: {'page': page ?? 1},
@@ -44,8 +46,8 @@ class ClientsService {
     }
   }
 
-  Future<Either<Failure, List<UserEntity>>> searchClientByNameOrEmail(
-      {required String query}) async {
+  Future<Either<Failure, PaginationResponse<UserEntity, ClientModel>>>
+      searchClientByNameOrEmail({required String query}) async {
     final response = await _apiProvider.get<Map<String, dynamic>>(
       endpoint: ApiConstants.clientsEndPoint,
       queryParameters: {'searchKey': query},
@@ -73,11 +75,16 @@ class ClientsService {
     }
   }
 
-  Future<Either<Failure, List<UserEntity>>> filterClients(
-      {required FilterationType filterBy}) async {
+  Future<Either<Failure, PaginationResponse<UserEntity, ClientModel>>>
+      filterClients({required FilterationType filterBy, int? page}) async {
     final response = await _apiProvider.get<Map<String, dynamic>>(
         endpoint: ApiConstants.clientsEndPoint,
-        queryParameters: {'orderBy': filterBy.name});
+        queryParameters: {
+          'orderBy': filterBy.name,
+          'perPage': page != null
+              ? (page * ApiConstants.defaultPerPage).toString()
+              : ApiConstants.defaultPerPage.toString()
+        });
 
     if (response.isSuccess) {
       return _handleSuccessClientListResponse(response);
@@ -86,12 +93,16 @@ class ClientsService {
     }
   }
 
-  Right<Failure, List<UserEntity>> _handleSuccessClientListResponse(
-      ApiResponse<Map<String, dynamic>> response) {
-    final clients = (response.data!["clients"] as List)
-        .map((e) => ClientEntityMapper.fromModel(
-            ClientModel.fromJson(e as Map<String, dynamic>)))
-        .toList();
+  Right<Failure, PaginationResponse<UserEntity, ClientModel>>
+      _handleSuccessClientListResponse(
+          ApiResponse<Map<String, dynamic>> response) {
+    final clients =
+        PaginationResponse<UserEntity, ClientModel>.fromDataResponse(
+      fromJsonT: ClientModel.fromJson, //response model
+      json: response.data!,
+      keyName: "clients",
+      mapper: ClientEntityMapper.fromModel, // entity mapper
+    );
     return Right(clients);
   }
 }

@@ -92,7 +92,7 @@ class CustomSnackBar extends StatelessWidget {
 }
 
 void buildCustomAlert(BuildContext context, String message, Color color,
-    [Duration? duration = const Duration(seconds: 3)]) {
+    [Duration? duration = const Duration(seconds: 2)]) {
   final status =
       color == Colors.green ? AlertStatus.success : AlertStatus.failure;
 

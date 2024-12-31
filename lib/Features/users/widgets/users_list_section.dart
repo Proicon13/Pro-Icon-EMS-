@@ -13,22 +13,24 @@ class UsersListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<UserManagmentCubit>(context, listen: false);
     return BlocConsumer<UserManagmentCubit, UserManagmentState>(
       listenWhen: (previous, current) =>
           previous.requestStatus != current.requestStatus,
       listener: (context, state) {
         if (state.requestStatus == RequestStatus.error) {
-          buildCustomAlert(context, state.errorMessage!, Colors.red);
+          buildCustomAlert(context, state.message!, Colors.red);
         }
       },
       buildWhen: (previous, current) =>
           previous.requestStatus != current.requestStatus ||
-          previous.isSearching != current.isSearching,
+          previous.isSearching != current.isSearching ||
+          previous.isPaginationLoading != current.isPaginationLoading,
       builder: (context, state) {
         if (state.requestStatus == RequestStatus.loading) {
           return const UsersListLoadingWidget();
         } else if (state.requestStatus == RequestStatus.loaded) {
-          return UsersListLoadedWidget(state: state);
+          return UsersListLoadedWidget(cubit: cubit);
         } else {
           return const SizedBox();
         }

@@ -15,10 +15,8 @@ import '../../../Core/widgets/custom_svg_visual.dart';
 double userAvatarSize(BuildContext context) => context.setMinSize(80);
 
 abstract class UserCardBase extends StatelessWidget {
-  final void Function() onTap;
   const UserCardBase({
     super.key,
-    required this.onTap,
   });
 
   @override
@@ -29,7 +27,6 @@ abstract class UserCardBase extends StatelessWidget {
       height: context.setMinSize(132),
       child: Builder(builder: (context) {
         return GestureDetector(
-          onTap: onTap,
           child: Container(
             padding: EdgeInsets.symmetric(
                 horizontal: context.setMinSize(20),
@@ -56,7 +53,6 @@ class UserCardLoaded extends UserCardBase {
   const UserCardLoaded({
     super.key,
     required this.user,
-    required super.onTap,
     required this.onEdit,
     required this.onDelete,
   });
@@ -212,7 +208,6 @@ class UserCardLoaded extends UserCardBase {
 class UserCardLoading extends UserCardBase {
   const UserCardLoading({
     super.key,
-    required super.onTap,
   });
 
   @override

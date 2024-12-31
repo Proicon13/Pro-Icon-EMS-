@@ -33,21 +33,43 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
     return state.requestStatus != RequestStatus.loading;
   }
 
+  bool _canFetchMore() {
+    final currentVariation = state.currentVariation;
+    late int currentPage;
+    if (currentVariation == UserVariations.trainer) {
+      currentPage = state.currentTrainersPage!;
+      if (state.totalTrainersPage == currentPage - 1)
+        return false; // reached max pages can`t fetch more
+    } else {
+      currentPage = state.currentClientsPage!;
+      if (state.totalClientsPage == currentPage - 1) return false;
+    }
+    return true;
+  }
+
   Future<void> getTrainers() async {
     final currentPage = state.currentTrainersPage;
     // if not first load then show loading indicator when call
+    if (!_canFetchMore()) return; // reatched max total pages don`t fetch
+
     if (currentPage! > 1)
       // show pagination loading
-      emit(state.copyWith(requestStatus: RequestStatus.loading));
+      emit(state.copyWith(isPaginationLoading: true));
     final response = await trainerService.getTrainers(page: currentPage);
     response.fold(
         (failure) => emit(state.copyWith(
-            errorMessage: failure.message,
+            message: failure.message,
+            isPaginationLoading: true,
             requestStatus: RequestStatus.error)), (trainers) {
       emit(state.copyWith(
-          trainers: List.from(state.trainers!)..addAll(trainers),
-          errorMessage: "",
+          trainers: trainers.data.isEmpty
+              ? List.from(state.trainers!)
+              : List.from(state.trainers!)
+            ..addAll(trainers.data),
+          message: "",
+          totalTrainersPage: trainers.totalPages,
           currentTrainersPage: currentPage + 1,
+          isPaginationLoading: false,
           requestStatus: RequestStatus.loaded));
     });
   }
@@ -55,18 +77,24 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
   Future<void> getClients() async {
     final currentPage = state.currentClientsPage;
     // if first call then show loading indicator
-    if (currentPage! == 1)
+    if (!_canFetchMore()) return;
+    if (currentPage! > 1)
       // show pagination loading
-      emit(state.copyWith(requestStatus: RequestStatus.loading));
+      emit(state.copyWith(isPaginationLoading: true));
     final response = await clientsService.getClients(page: currentPage);
     response.fold(
         (failure) => emit(state.copyWith(
-            errorMessage: failure.message,
+            message: failure.message,
             requestStatus: RequestStatus.error)), (clients) {
       emit(state.copyWith(
-          clients: List.from(state.clients!)..addAll(clients),
-          errorMessage: "",
+          clients: clients.data.isEmpty
+              ? List.from(state.clients!)
+              : List.from(state.clients!)
+            ..addAll(clients.data),
+          message: "",
+          totalClientsPage: clients.totalPages,
           currentClientsPage: currentPage + 1,
+          isPaginationLoading: false,
           requestStatus: RequestStatus.loaded));
     });
   }
@@ -79,16 +107,17 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
         await clientsService.searchClientByNameOrEmail(query: query);
     response.fold(
         (failure) => emit(state.copyWith(
-            errorMessage: failure.message,
+            message: failure.message,
             requestStatus: RequestStatus.error)), (clients) {
       emit(state.copyWith(
-          searchList: List.from(clients),
-          errorMessage: "",
+          searchList: List.from(clients.data),
+          message: "",
           requestStatus: RequestStatus.loaded));
     });
   }
 
   Future<void> onSearch(String query) async {
+    // prevent action if request is loading
     if (!_canPerformAction()) return;
 
     toggleIsSearching(true);
@@ -106,35 +135,35 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
   }
 
   Future<void> _filterTrainers(FilterationType filterBy) async {
-    if (!_canPerformAction()) return;
-
+    final currentPage = state.currentTrainersPage;
     emit(state.copyWith(
         requestStatus: RequestStatus.loading, isSearching: false));
-    final response = await trainerService.filterTrainers(filterBy: filterBy);
+    final response = await trainerService.filterTrainers(
+        filterBy: filterBy, page: currentPage! - 1);
     response.fold(
         (failure) => emit(state.copyWith(
-            errorMessage: failure.message,
+            message: failure.message,
             requestStatus: RequestStatus.error)), (trainers) {
       emit(state.copyWith(
-          trainers: List.from(trainers),
-          errorMessage: "",
+          trainers: List.from(trainers.data),
+          message: "",
           requestStatus: RequestStatus.loaded));
     });
   }
 
   Future<void> _filterClients(FilterationType filterBy) async {
-    if (!_canPerformAction()) return;
-
+    final currentPage = state.currentClientsPage;
     emit(state.copyWith(
         requestStatus: RequestStatus.loading, isSearching: false));
-    final response = await clientsService.filterClients(filterBy: filterBy);
+    final response = await clientsService.filterClients(
+        filterBy: filterBy, page: currentPage! - 1);
     response.fold(
         (failure) => emit(state.copyWith(
-            errorMessage: failure.message,
+            message: failure.message,
             requestStatus: RequestStatus.error)), (clients) {
       emit(state.copyWith(
-          clients: List.from(clients),
-          errorMessage: "",
+          clients: List.from(clients.data),
+          message: "",
           requestStatus: RequestStatus.loaded));
     });
   }
@@ -142,7 +171,7 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
   Future<void> onFilter(FilterationType filterBy) async {
     if (state.currentVariation == UserVariations.trainer) {
       await _filterTrainers(filterBy);
-    } else if (state.currentVariation == UserVariations.client) {
+    } else {
       await _filterClients(filterBy);
     }
   }
@@ -154,11 +183,11 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
         await trainerService.searchTrainerByNameOrEmail(query: query);
     response.fold(
         (failure) => emit(state.copyWith(
-            errorMessage: failure.message,
+            message: failure.message,
             requestStatus: RequestStatus.error)), (trainers) {
       emit(state.copyWith(
-          searchList: List.from(trainers),
-          errorMessage: "",
+          searchList: List.from(trainers.data),
+          message: "",
           requestStatus: RequestStatus.loaded));
     });
   }
@@ -190,6 +219,7 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
     final currentTrainerPage = state.currentTrainersPage;
     // if not first load then don`t fetch
     if (currentTrainerPage != 1)
+      // trigger state to load current trainers
       emit(state.copyWith(requestStatus: RequestStatus.loaded));
     else {
       // first time fetch trainers
@@ -201,10 +231,27 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
     final currentClientPage = state.currentClientsPage;
     // if not first load then don`t fetch
     if (currentClientPage != 1)
+      // trigger state to load current clients
       emit(state.copyWith(requestStatus: RequestStatus.loaded));
     else {
       // first time fetch clients
       getClients();
     }
+  }
+
+  void onDelete(UserEntity user) {
+    if (state.currentVariation == UserVariations.trainer) {
+      _deleteTrainer(user);
+    }
+  }
+
+  Future<void> _deleteTrainer(UserEntity trainer) async {
+    emit(state.copyWith(requestStatus: RequestStatus.loading));
+    final response = await trainerService.deleteTrainer(id: trainer.id!);
+    response.fold(
+        (failure) => emit(state.copyWith(message: failure.message)),
+        (message) => emit(state.copyWith(
+            message: message,
+            trainers: List.from(state.trainers!)..remove(trainer))));
   }
 }

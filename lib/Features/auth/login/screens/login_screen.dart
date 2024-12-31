@@ -33,7 +33,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
+  late final GlobalKey<FormBuilderState> _formKey;
   void _submitForm(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
@@ -47,6 +47,12 @@ class _LoginScreenState extends State<LoginScreen> {
           .login(loginRequest: loginRequest);
       // handle login logic
     }
+  }
+
+  @override
+  void initState() {
+    _formKey = GlobalKey<FormBuilderState>();
+    super.initState();
   }
 
   @override

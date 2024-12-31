@@ -88,7 +88,18 @@ class _UsersListLoadedWidgetState extends State<UsersListLoadedWidget> {
                             }
                           },
                           onDelete: () {
-                            _handleDelete(user);
+                            showDialog(
+                              context: context,
+                              builder: (context) => CustomConfirmationDialog(
+                                title: "confirmation.deleteUser".tr(),
+                                confirmationTitle:
+                                    "confirmation.deleteMessage".tr(),
+                                onConfirm: () {
+                                  Navigator.pop(context);
+                                  _handleDelete(user);
+                                },
+                              ),
+                            );
                           },
                         ),
                         Padding(
@@ -128,7 +139,6 @@ class _UsersListLoadedWidgetState extends State<UsersListLoadedWidget> {
                           },
                         ),
                       );
-                      _handleDelete(user);
                     },
                   );
                 },

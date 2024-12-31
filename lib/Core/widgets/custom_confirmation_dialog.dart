@@ -27,12 +27,13 @@ class CustomConfirmationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16), // Same rounded corners
+        borderRadius: BorderRadius.circular(
+            context.setMinSize(16)), // Same rounded corners
       ),
-      backgroundColor: Colors.black, // Matching background color
+      backgroundColor: AppColors.backgroundColor, // Matching background color
       child: Container(
         width: context.sizeConfig.width * 0.75,
-        height: context.sizeConfig.height * 0.45,
+        height: context.sizeConfig.height * 0.42,
         padding: EdgeInsets.symmetric(
           horizontal: context.setMinSize(16),
         ), // Consistent padding
@@ -58,7 +59,7 @@ class CustomConfirmationDialog extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             context
-                .setMinSize(24)
+                .setMinSize(50)
                 .verticalSpace, // Space between title and buttons
             // Confirm Button
             CustomButton(
@@ -70,9 +71,10 @@ class CustomConfirmationDialog extends StatelessWidget {
             CustomButton(
               onPressed: onCancel ?? () => Navigator.of(context).pop(),
               text: "cancel".tr(),
-              color: Colors.white, // Transparent background for outline
+              color: Colors.white,
               style: AppTextStyles.fontSize16(context).copyWith(
                 color: AppColors.primaryColor,
+                fontSize: context.setMinSize(16),
                 fontWeight: FontWeight.w500,
               ),
               borderSide: BorderSide(

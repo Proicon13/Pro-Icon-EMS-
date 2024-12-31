@@ -249,9 +249,11 @@ class UserManagmentCubit extends Cubit<UserManagmentState> {
     emit(state.copyWith(requestStatus: RequestStatus.loading));
     final response = await trainerService.deleteTrainer(id: trainer.id!);
     response.fold(
-        (failure) => emit(state.copyWith(message: failure.message)),
+        (failure) => emit(state.copyWith(
+            requestStatus: RequestStatus.error, message: failure.message)),
         (message) => emit(state.copyWith(
             message: message,
+            requestStatus: RequestStatus.loaded,
             trainers: List.from(state.trainers!)..remove(trainer))));
   }
 }

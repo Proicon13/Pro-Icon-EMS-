@@ -1,5 +1,5 @@
 class ApiConstants {
-  static const defaultPerPage = 10;
+  static const defaultPerPage = 5;
   static const String baseUrl = "https://api.openweathermap.org/data/2.5/";
   static const loginEndPoint = '/auth/login';
   static const registerEndpoint = '/auth/register';

@@ -29,10 +29,8 @@ class UsersListSection extends StatelessWidget {
       builder: (context, state) {
         if (state.requestStatus == RequestStatus.loading) {
           return const UsersListLoadingWidget();
-        } else if (state.requestStatus == RequestStatus.loaded) {
-          return UsersListLoadedWidget(cubit: cubit);
         } else {
-          return const SizedBox();
+          return UsersListLoadedWidget(cubit: cubit);
         }
       },
     );

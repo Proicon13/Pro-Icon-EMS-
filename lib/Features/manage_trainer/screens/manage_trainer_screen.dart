@@ -178,6 +178,12 @@ class _ManageTrainerScreenState extends State<ManageTrainerScreen> {
         if (key == 'city') {
           return MapEntry("cityId", (value as CityModel).id.toString());
         }
+        if (key == 'fullName') {
+          return MapEntry("fullname", (value as String).trim());
+        }
+        if (key == 'fullAddress') {
+          return MapEntry("address", (value as String).trim());
+        }
         return MapEntry(key, value);
       });
 

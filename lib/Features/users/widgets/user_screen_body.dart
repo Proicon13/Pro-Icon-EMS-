@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Features/clients/add_client/screens/add_client_screen.dart';
 import 'package:pro_icon/Features/manage_trainer/screens/manage_trainer_screen.dart';
+import 'package:pro_icon/Features/users/screens/users_screen.dart';
 import 'package:pro_icon/Features/users/widgets/filter_dialog.dart';
 import 'package:pro_icon/Features/users/widgets/search_section.dart';
 
@@ -55,6 +57,9 @@ class UsersScreenBody extends StatelessWidget {
 
                 if (cubit.state.currentVariation == UserVariations.trainer) {
                   Navigator.pushNamed(context, ManageTrainerScreen.routeName);
+                } else {
+                  Navigator.pushNamed(context, AddClientScreen.routeName,
+                      arguments: UsersScreen.routeName);
                 }
               },
             ),

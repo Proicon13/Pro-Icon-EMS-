@@ -14,9 +14,9 @@ import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/manage_trainer_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/screens/trainer_password_regestraion_screen.dart';
 import 'package:pro_icon/Features/users/screens/users_screen.dart';
-import 'package:pro_icon/data/models/city_model.dart';
 
 import '../../../Core/dependencies.dart';
+import '../../../Core/utils/get_formatted_formData.dart';
 import '../../../Core/widgets/custom_loader.dart';
 import '../../../Core/widgets/custom_snack_bar.dart';
 import '../../../data/models/sign_up_request_builder.dart';
@@ -70,7 +70,7 @@ class _ManageTrainerScreenState extends State<ManageTrainerScreen> {
           ),
           body: Padding(
             padding: SizeConstants.kScaffoldPadding(context),
-            child: ManageTrainerForm(
+            child: ManageUserForm(
               trainer: widget.trainer,
               formKey: _formKey,
             ),
@@ -128,7 +128,7 @@ class _ManageTrainerScreenState extends State<ManageTrainerScreen> {
       final fullPhoneNumber = '$countryCode$phone';
 
       final formData = _formKey.currentState!.value;
-      final updatedFormData = _getFormattedFormData(formData, fullPhoneNumber);
+      final updatedFormData = getFormattedFormData(formData, fullPhoneNumber);
 
       if (trainer != null) {
         // Check if the data has changed
@@ -166,28 +166,5 @@ class _ManageTrainerScreenState extends State<ManageTrainerScreen> {
         trainer.address != formData['fullAddress'] ||
         trainer.postalCode != formData['postalCode'] ||
         trainer.city?.id != formData['city'];
-  }
-
-  Map<String, dynamic> _getFormattedFormData(
-      Map<String, dynamic> formData, String fullPhoneNumber) {
-    {
-      final updatedFormData = formData.map((key, value) {
-        if (key == 'phone') {
-          return MapEntry(key, fullPhoneNumber);
-        }
-        if (key == 'city') {
-          return MapEntry("cityId", (value as CityModel).id.toString());
-        }
-        if (key == 'fullName') {
-          return MapEntry("fullname", (value as String).trim());
-        }
-        if (key == 'fullAddress') {
-          return MapEntry("address", (value as String).trim());
-        }
-        return MapEntry(key, value);
-      });
-
-      return updatedFormData;
-    }
   }
 }

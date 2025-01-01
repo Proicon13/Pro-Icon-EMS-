@@ -81,5 +81,15 @@
     "userManagment.screen.addClient": "Add Client",
     "userManagment.screen.editTrainer": "Edit Trainer",
     "confirmation.deleteUser": "Are you sure you want to delete this user?",
-    "confirmation.deleteMessage": "Yes,delete user"
+    "confirmation.deleteMessage": "Yes,delete user",
+    "gender": "Gender",
+    "male": "MALE",
+    "female": "FEMALE",
+    "weight": "Weight",
+    "height": "Height",
+    "age": "Age",
+    "birthDate": "Birth Date",
+    "weightRequired": "Weight is required",
+    "heightRequired": "Height is required",
+    "birthDateRequired": "Birth Date is required"
 }

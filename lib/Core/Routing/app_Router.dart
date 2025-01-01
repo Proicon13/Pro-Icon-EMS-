@@ -12,6 +12,7 @@ import '../../Features/auth/reset_password/screens/forget_password_screen.dart';
 import '../../Features/auth/reset_password/screens/otp_screen.dart';
 import '../../Features/auth/reset_password/screens/set_new_password_screen.dart';
 import '../../Features/auth/role_selection/screens/role_selection_screen.dart';
+import '../../Features/clients/add_client/screens/add_client_screen.dart';
 import '../../Features/manage_trainer/screens/manage_trainer_screen.dart';
 import '../../Features/users/screens/users_screen.dart';
 import '../../splash_screen.dart';
@@ -92,6 +93,16 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
             name: TrainerPasswordRegestraionScreen.routeName),
         builder: (_) {
           return const TrainerPasswordRegestraionScreen();
+        },
+      );
+    case AddClientScreen.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: AddClientScreen.routeName),
+        builder: (_) {
+          final toRoute = settings.arguments as String;
+          return AddClientScreen(
+            toRoute: toRoute,
+          );
         },
       );
 

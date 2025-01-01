@@ -16,13 +16,13 @@ import '../../../Core/widgets/fullname_form_section.dart';
 import '../../../Core/widgets/postalCode_form_section.dart';
 import '../../auth/register/widgets/phone_form_section.dart';
 
-class ManageTrainerForm extends StatelessWidget {
+class ManageUserForm extends StatelessWidget {
   final UserEntity? trainer;
   final GlobalKey<FormBuilderState> formKey;
 
-  const ManageTrainerForm({
+  const ManageUserForm({
     super.key,
-    required this.trainer,
+    this.trainer,
     required this.formKey,
   });
 

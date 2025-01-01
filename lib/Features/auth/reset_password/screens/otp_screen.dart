@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:pro_icon/Core/theme/app_colors.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
@@ -119,7 +119,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 children: [
                   context.setMinSize(90).verticalSpace,
                   const Center(child: ProIconLogo()),
-                  context.setMinSize(50).h.verticalSpace,
+                  context.setMinSize(50).verticalSpace,
                   Text(
                     "verification.title".tr(),
                     style: AppTextStyles.fontSize24(context).copyWith(

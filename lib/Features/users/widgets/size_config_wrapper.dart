@@ -8,12 +8,11 @@ class SizeConfigWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape = context.isLandscape;
     return SizeConfig(
       child: child,
       baseSize: const Size(430, 932),
-      height: isLandscape ? context.screenWidth : context.screenHeight,
-      width: isLandscape ? context.screenHeight : context.screenWidth,
+      height: context.screenWidth,
+      width: context.screenHeight,
     );
   }
 }

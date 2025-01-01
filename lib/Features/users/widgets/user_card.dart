@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -248,7 +248,7 @@ class UserCardLoading extends UserCardBase {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      10.h.verticalSpace,
+                      context.setMinSize(10).verticalSpace,
                       Row(
                         children: [
                           Expanded(
@@ -280,7 +280,7 @@ class UserCardLoading extends UserCardBase {
                           ),
                         ],
                       ),
-                      10.h.verticalSpace,
+                      context.setMinSize(10).verticalSpace,
                       Row(
                         children: [
                           Expanded(

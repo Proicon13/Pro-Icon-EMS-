@@ -1,18 +1,16 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
-import 'package:pro_icon/Core/dependencies.dart';
-import 'package:pro_icon/Core/routing/router_observer.dart';
-import 'package:pro_icon/Features/users/widgets/size_config_wrapper.dart';
 
 import 'Core/constants/app_constants.dart';
+import 'Core/cubits/user_state/user_state_cubit.dart';
+import 'Core/dependencies.dart';
 import 'Core/routing/app_router.dart';
+import 'Core/routing/router_observer.dart';
 import 'Core/theme/app_theme.dart';
+import 'Features/users/widgets/size_config_wrapper.dart';
 
 class Proicon extends StatelessWidget {
   const Proicon({
@@ -21,37 +19,29 @@ class Proicon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(430, 932),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider<UserStateCubit>(
-                create: (context) => getIt<UserStateCubit>())
-          ],
-          child: SizeConfigWrapper(
-            child: MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: AppConstants.appName,
-                theme: AppTheme.appTheme,
-                navigatorObservers: [MyNavigatorObserver()],
-                supportedLocales: context.supportedLocales,
-                locale: context.locale,
-                localizationsDelegates: [
-                  FormBuilderLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                  ...context.localizationDelegates,
-                ],
-                builder: DevicePreview.appBuilder,
-                onGenerateRoute: onGenerteRoute,
-                initialRoute: "/"),
-          ),
-        );
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<UserStateCubit>(
+            create: (context) => getIt<UserStateCubit>())
+      ],
+      child: SizeConfigWrapper(
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: AppConstants.appName,
+            theme: AppTheme.appTheme,
+            navigatorObservers: [MyNavigatorObserver()],
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            localizationsDelegates: [
+              FormBuilderLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              ...context.localizationDelegates,
+            ],
+            onGenerateRoute: onGenerteRoute,
+            initialRoute: "/"),
+      ),
     );
   }
 }

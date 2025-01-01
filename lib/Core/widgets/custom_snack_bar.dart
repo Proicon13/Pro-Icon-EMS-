@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/constants/app_assets.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/extensions/spaces.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
 
 import '../theme/app_colors.dart';
@@ -28,31 +30,37 @@ class CustomSnackBar extends StatelessWidget {
         status == AlertStatus.success ? Colors.green : AppColors.primaryColor;
 
     return Padding(
-      padding: EdgeInsets.only(bottom: 0.03.sh),
+      padding: EdgeInsets.only(bottom: context.sizeConfig.height * 0.03),
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Stack(
           children: [
             // Parent container for the snackbar
             Container(
-              width: 0.9.sw, // 90% of the screen width
-              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+              width: context.sizeConfig.width * 0.9, // 90% of the screen width
+              padding: EdgeInsets.symmetric(
+                  vertical: context.setMinSize(16),
+                  horizontal: context.setMinSize(16)),
               decoration: BoxDecoration(
                 color:
                     AppColors.backgroundColor, // Your custom background color
-                borderRadius: BorderRadius.circular(8.r),
+                borderRadius: SizeConstants.kDefaultBorderRadius(context),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  20.w.horizontalSpace, // Space to align text and icon correctly
+                  context
+                      .setMinSize(20)
+                      .horizontalSpace, // Space to align text and icon correctly
                   // Status Icon
                   CustomSvgVisual(
                     assetPath: assetPath,
-                    width: 32.w,
-                    height: 32.w,
+                    width: context.setMinSize(32),
+                    height: context.setMinSize(32),
                   ),
-                  12.w.horizontalSpace, // Space between icon and text
+                  context
+                      .setMinSize(20)
+                      .horizontalSpace, // Space between icon and text
                   // Message Text
                   Expanded(
                     child: Text(
@@ -74,12 +82,12 @@ class CustomSnackBar extends StatelessWidget {
               top: 0,
               bottom: 0,
               child: Container(
-                width: 15.w,
+                width: context.setMinSize(15),
                 decoration: BoxDecoration(
                   color: statusColor,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8.r),
-                    bottomLeft: Radius.circular(8.r),
+                    topLeft: SizeConstants.kDefaultBorderRadius(context),
+                    bottomLeft: SizeConstants.kDefaultBorderRadius(context),
                   ),
                 ),
               ),

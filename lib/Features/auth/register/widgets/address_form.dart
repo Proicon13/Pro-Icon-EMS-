@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/data/models/city_model.dart';
 import 'package:pro_icon/data/models/country_model.dart';
@@ -52,10 +52,10 @@ class AddressForm extends StatelessWidget {
               );
             }),
           ),
-          20.h.verticalSpace,
+          context.setMinSize(20).verticalSpace,
           // Full Address Field
           const FullAddressFormSection(),
-          30.h.verticalSpace,
+          context.setMinSize(20).verticalSpace,
           // Postal Code Field
           const PostalCodeFormSection(),
         ],

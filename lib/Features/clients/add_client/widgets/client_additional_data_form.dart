@@ -6,8 +6,10 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:pro_icon/Core/utils/enums/gender.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
+import 'package:pro_icon/Core/widgets/email_form_section.dart';
 
 import '../../../../Core/theme/app_text_styles.dart';
+import '../../../../Core/widgets/custom_date_picker_section.dart';
 import '../../../../Core/widgets/custom_dropdown_section.dart';
 import '../../../../Core/widgets/text_form_section.dart';
 
@@ -17,55 +19,68 @@ class ClientAdditionalDataForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilder(
-        key: formKey,
-        child: Column(children: [
-          context.setMinSize(50).verticalSpace,
-          DropdownFormSection<Gender>(
-            title: "gender".tr(),
-            name: "gender",
-            hintText: "Select Gender",
-            initialValue: Gender.male,
-            items: Gender.values
-                .map((gender) => DropdownMenuItem<Gender>(
-                      value: gender,
-                      child: Text(
-                        gender.name,
-                        style: AppTextStyles.fontSize14(context).copyWith(
-                          color: Colors.white,
+    return SingleChildScrollView(
+      child: FormBuilder(
+          key: formKey,
+          child: Column(children: [
+            context.setMinSize(50).verticalSpace,
+            const EmailFormSection(),
+            context.setMinSize(30).verticalSpace,
+            DropdownFormSection<Gender>(
+              title: "gender".tr(),
+              name: "gender",
+              hintText: "Select Gender",
+              initialValue: Gender.male,
+              items: Gender.values
+                  .map((gender) => DropdownMenuItem<Gender>(
+                        value: gender,
+                        child: Text(
+                          gender.name,
+                          style: AppTextStyles.fontSize14(context).copyWith(
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                    ))
-                .toList(),
-          ),
-          context.setMinSize(50).verticalSpace,
-          TextFormSection(
-            title: "weight".tr(),
-            name: "weight",
-            hintText: "90 Kg",
-            keyboardInputType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              LengthLimitingTextInputFormatter(3),
-            ],
-            validator: FormBuilderValidators.required(
-              errorText: "weightRequired".tr(),
+                      ))
+                  .toList(),
             ),
-          ),
-          context.setMinSize(30).verticalSpace,
-          TextFormSection(
-            title: "height".tr(),
-            name: "height",
-            hintText: "180 Cm",
-            keyboardInputType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              LengthLimitingTextInputFormatter(3),
-            ],
-            validator: FormBuilderValidators.required(
-              errorText: "heightRequired".tr(),
+            context.setMinSize(30).verticalSpace,
+            DatePickerFormSection(
+              title: "birthDate".tr(),
+              name: "birthdate",
+              hintText: "birthDate.hint".tr(),
+              validator: FormBuilderValidators.required(
+                errorText: "birthDateRequired".tr(),
+              ),
             ),
-          ),
-        ]));
+            context.setMinSize(30).verticalSpace,
+            TextFormSection(
+              title: "weight".tr(),
+              name: "weight",
+              hintText: "90 Kg",
+              keyboardInputType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                LengthLimitingTextInputFormatter(3),
+              ],
+              validator: FormBuilderValidators.required(
+                errorText: "weightRequired".tr(),
+              ),
+            ),
+            context.setMinSize(30).verticalSpace,
+            TextFormSection(
+              title: "height".tr(),
+              name: "height",
+              hintText: "180 Cm",
+              keyboardInputType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                LengthLimitingTextInputFormatter(3),
+              ],
+              validator: FormBuilderValidators.required(
+                errorText: "heightRequired".tr(),
+              ),
+            ),
+          ])),
+    );
   }
 }

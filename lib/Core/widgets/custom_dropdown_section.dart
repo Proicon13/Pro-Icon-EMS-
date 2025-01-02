@@ -50,6 +50,8 @@ class DropdownFormSection<T> extends StatelessWidget {
           onChanged: onChanged,
           initialValue: initialValue ?? null,
           decoration: InputDecoration(
+            errorStyle:
+                AppTextStyles.fontSize14(context).copyWith(color: Colors.red),
             isDense: true,
             border: buildEnabledBorder(context),
             disabledBorder: buildEnabledBorder(context),
@@ -63,6 +65,8 @@ class DropdownFormSection<T> extends StatelessWidget {
           ),
           items: items,
           dropdownColor: AppColors.backgroundColor,
+          style:
+              AppTextStyles.fontSize16(context).copyWith(color: Colors.white),
           hint: Text(
             hintText,
             style: AppTextStyles.fontSize14(context).copyWith(

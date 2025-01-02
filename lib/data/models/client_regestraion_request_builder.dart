@@ -68,6 +68,10 @@ class ClientRegistrationBuilder {
     return this;
   }
 
+  String toString() {
+    return 'ClientRegistrationBuilder(email: $email, fullname: $fullname, phone: $phone, address: $address, postalCode: $postalCode, cityId: $cityId, gender: $gender, weight: $weight, height: $height, birthDate: $birthDate)';
+  }
+
   ClientRegistration build() {
     return ClientRegistration(
       email: email,

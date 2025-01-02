@@ -23,6 +23,22 @@ class ClientRegistration extends Equatable {
       this.weight,
       this.height,
       this.birthDate});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'email': email,
+      'fullname': fullname,
+      'phone': phone,
+      'address': address,
+      'postalCode': postalCode,
+      'cityId': cityId,
+      'gender': gender,
+      'weight': weight.toString(),
+      'height': height.toString(),
+      // 'birthdate': birthDate?.toIso8601String(),
+    };
+  }
+
   @override
   List<Object?> get props => [
         email,

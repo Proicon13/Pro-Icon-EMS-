@@ -42,19 +42,17 @@ class TextFormSection extends StatelessWidget {
             .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
       ),
       context.setMinSize(15).verticalSpace,
-      Container(
-        child: CustomTextField(
-          name: name,
-          intialValue: intialValue,
-          controller: controller,
-          inputFormatters: inputFormatters,
-          keyboardInputType: keyboardInputType,
-          hintText: hintText,
-          validator: validator,
-          onChanged: onChanged,
-          onSaved: onSaved,
-          obsecure: obscureText,
-        ),
+      CustomTextField(
+        name: name,
+        intialValue: intialValue,
+        controller: controller,
+        inputFormatters: inputFormatters,
+        keyboardInputType: keyboardInputType,
+        hintText: hintText,
+        validator: validator,
+        onChanged: onChanged,
+        onSaved: onSaved,
+        obsecure: obscureText,
       ),
     ]);
   }

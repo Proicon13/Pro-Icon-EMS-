@@ -89,7 +89,9 @@
     "height": "Height",
     "age": "Age",
     "birthDate": "Birth Date",
+    "birthDate.hint": "Select Birth Date",
     "weightRequired": "Weight is required",
     "heightRequired": "Height is required",
-    "birthDateRequired": "Birth Date is required"
+    "birthDateRequired": "Birth Date is required",
+    "client.successMessage": "Client added successfully"
 }

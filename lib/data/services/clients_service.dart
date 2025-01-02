@@ -75,6 +75,21 @@ class ClientsService {
     }
   }
 
+  Future<Either<Failure, ClientModel>> addClient(
+      {required Map<String, dynamic> body}) async {
+    final response = await _apiProvider.post<Map<String, dynamic>>(
+      endpoint: ApiConstants.clientsEndPoint,
+      data: body,
+    );
+
+    if (response.isSuccess) {
+      final client = ClientModel.fromJson(response.data!);
+      return Right(client);
+    } else {
+      return Left(ServerFailure(message: response.error!.message));
+    }
+  }
+
   Future<Either<Failure, PaginationResponse<UserEntity, ClientModel>>>
       filterClients({required FilterationType filterBy, int? page}) async {
     final response = await _apiProvider.get<Map<String, dynamic>>(

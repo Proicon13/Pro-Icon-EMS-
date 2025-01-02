@@ -6,6 +6,9 @@ class ClientModel extends AppUserModel {
   final String? gender;
   final DateTime? startDate;
   final DateTime? endDate;
+  final num? weight;
+  final num? height;
+  final DateTime? birthDate;
   final SupervisorModel? user;
 
   const ClientModel({
@@ -23,6 +26,9 @@ class ClientModel extends AppUserModel {
     this.startDate,
     this.endDate,
     this.user,
+    this.weight,
+    this.height,
+    this.birthDate,
   }) : super(
           id: id,
           fullname: fullname,
@@ -48,6 +54,11 @@ class ClientModel extends AppUserModel {
       image: json['image'] ?? '',
       status: json['status'] ?? 'NOT ACTIVE',
       gender: json['gender'] ?? 'Unknown',
+      weight: json['weight'] as num?,
+      height: json['height'] as num?,
+      birthDate: json['birthdate'] != null
+          ? DateTime.parse(json['birthDate'] as String)
+          : DateTime.now(),
       startDate: json['startDate'] != null
           ? DateTime.parse(json['startDate'] as String)
           : DateTime.now(),

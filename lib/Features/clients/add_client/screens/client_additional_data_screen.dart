@@ -2,17 +2,20 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:pro_icon/Core/cubits/phone_registration/phone_register_cubit.dart';
+import 'package:pro_icon/Core/utils/enums/gender.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_app_bar.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
-import 'package:pro_icon/Features/manage_trainer/widgets/manage_trainer_form.dart';
+import 'package:pro_icon/Core/widgets/custom_loader.dart';
+import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
+import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
+import 'package:pro_icon/Features/clients/add_client/cubits/cubit/client_registration_cubit.dart';
+import 'package:pro_icon/Features/clients/add_client/widgets/client_additional_data_form.dart';
 import 'package:pro_icon/data/models/client_regestraion_request_builder.dart';
 
-import '../../../../Core/cubits/region_cubit/region_cubit.dart';
 import '../../../../Core/dependencies.dart';
-import '../../../../Core/utils/get_formatted_formData.dart';
 
 class ClientAdditionalDataScreen extends StatefulWidget {
   static const routeName = '/client-additional-data';
@@ -41,43 +44,73 @@ class _ClientAdditionalDataScreenState
 
   @override
   Widget build(BuildContext context) {
-    return BaseAppScaffold(
-      appBar: CustomAppBar(titleKey: 'userManagment.screen.addClient'.tr()),
-      body: AddClientBody(
-        formKey: _formKey,
-      ),
-      bottomNavigationBar: Padding(
-        padding: SizeConstants.kBottomNavBarPadding(context),
-        child: CustomButton(
-            onPressed: () => _onSubmit(context), text: "confirm".tr()),
+    return BlocProvider<ClientRegistrationCubit>(
+      create: (context) => getIt<ClientRegistrationCubit>(),
+      child: KeyboardDismissable(
+        child: BaseAppScaffold(
+          appBar: CustomAppBar(titleKey: 'userManagment.screen.addClient'.tr()),
+          body: Padding(
+            padding: SizeConstants.kScaffoldPadding(context),
+            child: AddClientBody(
+              formKey: _formKey,
+            ),
+          ),
+          bottomNavigationBar: Padding(
+            padding: SizeConstants.kBottomNavBarPadding(context),
+            child:
+                BlocConsumer<ClientRegistrationCubit, ClientRegistrationState>(
+              listener: (context, state) {
+                if (state.requestStatus == RequestStatus.success) {
+                  // reset client registration builder after success
+                  ClientRegistrationBuilder().reset();
+                  buildCustomAlert(context, state.message!, Colors.green);
+                  Future.delayed(const Duration(seconds: 3), () {
+                    if (context.mounted) {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        widget.toRoute,
+                      );
+                    }
+                  });
+                } else if (state.requestStatus == RequestStatus.error) {
+                  buildCustomAlert(context, state.message!, Colors.red);
+                }
+              },
+              builder: (context, state) {
+                if (state.requestStatus == RequestStatus.loading) {
+                  return SizedBox(
+                    height: context.setMinSize(50),
+                    child: const CustomLoader(),
+                  );
+                }
+                return Builder(builder: (context) {
+                  return CustomButton(
+                      onPressed: () => _onSubmit(context),
+                      text: "confirm".tr());
+                });
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
 
   void _onSubmit(BuildContext context) {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
-      String? phone = _formKey.currentState?.fields['phone']?.value;
-
-      final countryCode =
-          BlocProvider.of<PhoneRegistrationCubit>(context).state.phoneCode;
-
-      // Append the country code to the phone number
-      final fullPhoneNumber = '$countryCode$phone';
-
       final formData = _formKey.currentState!.value;
-      final updatedFormData = getFormattedFormData(formData, fullPhoneNumber);
 
       // use builder to build current fields
-      ClientRegistrationBuilder()
-          .setEmail(updatedFormData['email'])
-          .setFullname(updatedFormData['fullname'])
-          .setPhone(updatedFormData['phone'])
-          .setAddress(updatedFormData['address'])
-          .setPostalCode(updatedFormData['postalCode'])
-          .setCityId(updatedFormData['cityId']);
+      final builder = ClientRegistrationBuilder()
+          .setEmail(formData['email'])
+          .setBirthDate(formData['birthDate'])
+          .setGender((formData['gender'] as Gender).name)
+          .setHeight(int.parse(formData['height']))
+          .setWeight(int.parse(formData['weight']));
 
-      Navigator.of(context)
-          .pushNamed(widget.toRoute, arguments: widget.toRoute);
+      final clientData = builder.build();
+      BlocProvider.of<ClientRegistrationCubit>(context, listen: false)
+          .registerClient(clientData);
     }
   }
 }
@@ -88,13 +121,6 @@ class AddClientBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [
-      BlocProvider<RegionCubit>(
-        create: (_) => getIt<RegionCubit>()..getCountries(),
-      ),
-      BlocProvider<PhoneRegistrationCubit>(
-        create: (_) => getIt<PhoneRegistrationCubit>(),
-      )
-    ], child: ManageUserForm(formKey: formKey));
+    return ClientAdditionalDataForm(formKey: formKey);
   }
 }

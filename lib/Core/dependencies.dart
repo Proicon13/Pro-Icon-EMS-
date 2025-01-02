@@ -13,6 +13,7 @@ import 'package:pro_icon/Features/auth/reset_password/cubits/forget_password/for
 import 'package:pro_icon/Features/auth/reset_password/cubits/otp/otp_cubit.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/set_new_password/set_new_password_cubit.dart';
 import 'package:pro_icon/Features/auth/role_selection/cubit/cubit/select_role_cubit.dart';
+import 'package:pro_icon/Features/clients/add_client/cubits/cubit/client_registration_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/manage_trainer_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/trainer_password_cubit.dart';
 import 'package:pro_icon/Features/users/cubits/user_managment_cubit.dart';
@@ -83,5 +84,8 @@ void setupDependencies() {
       ));
   getIt.registerFactory<TrainerPasswordCubit>(() => TrainerPasswordCubit(
         trainerService: getIt(),
+      ));
+  getIt.registerFactory<ClientRegistrationCubit>(() => ClientRegistrationCubit(
+        clientsService: getIt(),
       ));
 }

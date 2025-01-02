@@ -37,4 +37,17 @@ class ClientDetailsCubit extends Cubit<ClientDetailsState> {
           message: "client.updateSuccessMessage".tr()));
     });
   }
+
+  void getClientDetails(int clientId) async {
+    emit(state.copyWith(status: RequestStatus.loading));
+    final response = await clientsService.getClientById(id: clientId);
+
+    response.fold((failure) {
+      emit(state.copyWith(
+          status: RequestStatus.error, message: failure.message));
+    }, (client) {
+      emit(state.copyWith(
+          status: RequestStatus.success, client: client, message: ""));
+    });
+  }
 }

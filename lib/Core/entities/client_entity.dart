@@ -13,7 +13,7 @@ class ClientEntity extends UserEntity {
   final DateTime? birthDate;
   final String? medicalNotes;
 
-  ClientEntity({
+  const ClientEntity({
     this.gender,
     this.startDate,
     this.endDate,

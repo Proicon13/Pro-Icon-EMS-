@@ -93,5 +93,6 @@
     "weightRequired": "Weight is required",
     "heightRequired": "Height is required",
     "birthDateRequired": "Birth Date is required",
-    "client.successMessage": "Client added successfully"
+    "client.successMessage": "Client added successfully",
+    "client.updateSuccessMessage": "Client updated successfully"
 }

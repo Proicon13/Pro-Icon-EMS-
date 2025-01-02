@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:pro_icon/Core/entities/client_entity.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/Core/errors/failures.dart';
 import 'package:pro_icon/Core/networking/api_constants.dart';
@@ -6,7 +7,6 @@ import 'package:pro_icon/data/mappers/client_entity_mapper.dart';
 import 'package:pro_icon/data/models/api_response.dart';
 import 'package:pro_icon/data/models/client_model.dart';
 import 'package:pro_icon/data/models/pagination_response.dart';
-import 'package:pro_icon/data/models/update_client_response.dart';
 
 import '../../Core/networking/base_api_provider.dart';
 import '../../Core/utils/enums/filteration_type.dart';
@@ -18,7 +18,7 @@ class ClientsService {
   ClientsService({required BaseApiProvider apiProvider})
       : _apiProvider = apiProvider;
 
-  Future<Either<Failure, UserEntity>> getClientById({required int id}) async {
+  Future<Either<Failure, ClientEntity>> getClientById({required int id}) async {
     final response = await _apiProvider.get<Map<String, dynamic>>(
       endpoint: "${ApiConstants.clientsEndPoint}/$id",
     );
@@ -60,7 +60,7 @@ class ClientsService {
     }
   }
 
-  Future<Either<Failure, UpdateResponseModel>> updateClientDetails(
+  Future<Either<Failure, ClientEntity>> updateClientDetails(
       {required int id, required Map<String, dynamic> body}) async {
     final response = await _apiProvider.put<Map<String, dynamic>>(
       endpoint: "${ApiConstants.clientsEndPoint}/$id",
@@ -68,7 +68,9 @@ class ClientsService {
     );
 
     if (response.isSuccess) {
-      final client = UpdateResponseModel.fromJson(response.data!);
+      final client = ClientEntityMapper.fromModel(
+          ClientDetailsModel.fromJson(response.data!));
+
       return Right(client);
     } else {
       return Left(ServerFailure(message: response.error!.message));

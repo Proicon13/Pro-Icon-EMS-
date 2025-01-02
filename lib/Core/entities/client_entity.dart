@@ -8,12 +8,20 @@ class ClientEntity extends UserEntity {
   final String? startDate;
   final String? endDate;
   final Supervisor? superVisor;
+  final num? weight;
+  final num? height;
+  final DateTime? birthDate;
+  final String? medicalNotes;
 
   ClientEntity({
     this.gender,
     this.startDate,
     this.endDate,
     this.superVisor,
+    this.weight,
+    this.height,
+    this.birthDate,
+    this.medicalNotes,
     int? id,
     String? role,
     String? email,
@@ -39,7 +47,17 @@ class ClientEntity extends UserEntity {
 
   @override
   List<Object?> get props =>
-      super.props + [gender, startDate, endDate, superVisor];
+      super.props +
+      [
+        gender,
+        startDate,
+        endDate,
+        superVisor,
+        weight,
+        height,
+        birthDate,
+        medicalNotes
+      ];
 }
 
 class Supervisor extends Equatable {

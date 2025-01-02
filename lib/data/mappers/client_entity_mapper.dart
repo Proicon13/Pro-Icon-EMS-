@@ -18,6 +18,10 @@ class ClientEntityMapper {
       gender: model.gender,
       startDate: model.startDate?.toIso8601String(),
       endDate: model.endDate?.toIso8601String(),
+      weight: model.weight,
+      height: model.height,
+      birthDate: model.birthDate,
+      medicalNotes: model.medicalNotes,
       superVisor: model.user != null
           ? Supervisor(
               id: model.user!.id,

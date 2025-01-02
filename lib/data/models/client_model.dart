@@ -10,6 +10,7 @@ class ClientModel extends AppUserModel {
   final num? height;
   final DateTime? birthDate;
   final SupervisorModel? user;
+  final String? medicalNotes;
 
   const ClientModel({
     int? id,
@@ -29,6 +30,7 @@ class ClientModel extends AppUserModel {
     this.weight,
     this.height,
     this.birthDate,
+    this.medicalNotes,
   }) : super(
           id: id,
           fullname: fullname,
@@ -68,6 +70,7 @@ class ClientModel extends AppUserModel {
       user: json['user'] != null
           ? SupervisorModel.fromJson(json['user'] as Map<String, dynamic>)
           : null,
+      medicalNotes: json['medicalNotes'] ?? 'No Medical Notes',
       city: json['city'] != null
           ? CityModel.fromJson(json['city'] as Map<String, dynamic>)
           : const CityModel(

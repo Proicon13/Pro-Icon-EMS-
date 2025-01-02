@@ -4,6 +4,7 @@ import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/widgets/custom_confirmation_dialog.dart';
 import 'package:pro_icon/Core/widgets/empty_state_widget.dart';
+import 'package:pro_icon/Features/client_details/client_details_screen.dart';
 import 'package:pro_icon/Features/users/widgets/user_card.dart';
 
 import '../../../Core/widgets/custom_loader.dart';
@@ -85,6 +86,12 @@ class _UsersListLoadedWidgetState extends State<UsersListLoadedWidget> {
                                 ManageTrainerScreen.routeName,
                                 arguments: user,
                               );
+                            } else {
+                              Navigator.pushNamed(
+                                context,
+                                ClientDetailsScreen.routeName,
+                                arguments: user.id,
+                              );
                             }
                           },
                           onDelete: () {
@@ -124,6 +131,12 @@ class _UsersListLoadedWidgetState extends State<UsersListLoadedWidget> {
                           context,
                           ManageTrainerScreen.routeName,
                           arguments: user,
+                        );
+                      } else {
+                        Navigator.pushNamed(
+                          context,
+                          ClientDetailsScreen.routeName,
+                          arguments: user.id,
                         );
                       }
                     },

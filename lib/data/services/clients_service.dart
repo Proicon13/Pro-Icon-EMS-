@@ -24,8 +24,8 @@ class ClientsService {
     );
 
     if (response.isSuccess) {
-      final client = ClientEntityMapper.fromModel(
-          ClientDetailsModel.fromJson(response.data!));
+      final client =
+          ClientEntityMapper.fromModel(ClientModel.fromJson(response.data!));
       return Right(client);
     } else {
       return Left(ServerFailure(message: response.error!.message));

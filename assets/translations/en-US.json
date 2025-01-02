@@ -94,5 +94,6 @@
     "heightRequired": "Height is required",
     "birthDateRequired": "Birth Date is required",
     "client.successMessage": "Client added successfully",
-    "client.updateSuccessMessage": "Client updated successfully"
+    "client.updateSuccessMessage": "Client updated successfully",
+    "clientInfo.title": "Client Info"
 }

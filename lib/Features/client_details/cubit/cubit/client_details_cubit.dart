@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pro_icon/Core/cubits/region_cubit/region_cubit.dart';
 import 'package:pro_icon/data/services/clients_service.dart';
 
 import '../../../../Core/entities/client_entity.dart';
@@ -14,8 +13,8 @@ class ClientDetailsCubit extends Cubit<ClientDetailsState> {
       : super(const ClientDetailsState());
 
   void setClient(ClientEntity client) {
-    emit(state.copyWith(status: RequestStatus.loading));
-    emit(state.copyWith(client: client, status: RequestStatus.success));
+    emit(state.copyWith(status: ClientDetailsStatus.loading));
+    emit(state.copyWith(client: client, status: ClientDetailsStatus.success));
   }
 
   void onSectionChanged(ClientSections section) {
@@ -23,31 +22,31 @@ class ClientDetailsCubit extends Cubit<ClientDetailsState> {
   }
 
   void updateClient(Map<String, dynamic> clientBody, int clientId) async {
-    emit(state.copyWith(status: RequestStatus.loading));
+    emit(state.copyWith(status: ClientDetailsStatus.loading));
     final response = await clientsService.updateClientDetails(
         body: clientBody, id: clientId);
 
     response.fold((failure) {
       emit(state.copyWith(
-          status: RequestStatus.error, message: failure.message));
+          status: ClientDetailsStatus.error, message: failure.message));
     }, (client) {
       emit(state.copyWith(
-          status: RequestStatus.success,
+          status: ClientDetailsStatus.success,
           client: client,
           message: "client.updateSuccessMessage".tr()));
     });
   }
 
   void getClientDetails(int clientId) async {
-    emit(state.copyWith(status: RequestStatus.loading));
+    emit(state.copyWith(status: ClientDetailsStatus.loading));
     final response = await clientsService.getClientById(id: clientId);
 
     response.fold((failure) {
       emit(state.copyWith(
-          status: RequestStatus.error, message: failure.message));
+          status: ClientDetailsStatus.error, message: failure.message));
     }, (client) {
       emit(state.copyWith(
-          status: RequestStatus.success, client: client, message: ""));
+          status: ClientDetailsStatus.success, client: client, message: ""));
     });
   }
 }

@@ -88,7 +88,7 @@ class _AddClientScreenState extends State<AddClientScreen> {
       final updatedFormData = getFormattedFormData(formData, fullPhoneNumber);
 
       // use builder to build current fields
-      final builder = ClientRegistrationBuilder()
+      ClientRegistrationBuilder()
           .setEmail(updatedFormData['email'])
           .setFullname(updatedFormData['fullname'])
           .setPhone(updatedFormData['phone'])

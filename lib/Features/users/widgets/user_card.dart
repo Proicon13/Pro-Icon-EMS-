@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
+import 'package:pro_icon/Core/widgets/custom_circular_image.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Core/constants/app_assets.dart';
 import '../../../Core/entities/user_entity.dart';
 import '../../../Core/theme/app_colors.dart';
 import '../../../Core/theme/app_text_styles.dart';
-import '../../../Core/widgets/custom_network_image.dart';
 import '../../../Core/widgets/custom_svg_visual.dart';
 
 double userAvatarSize(BuildContext context) => context.setMinSize(80);
@@ -89,23 +89,11 @@ class UserCardLoaded extends UserCardBase {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Profile Image
-              Container(
-                height: userAvatarSize(context),
-                width: userAvatarSize(context),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: AppColors.white71Color, // Border color
-                    width: context.setMinSize(3), // Border width
-                  ),
-                ),
-                child: ClipOval(
-                  child: CustomNetworkImage(
-                    imageUrl: user.image ?? '',
-                    errorAssetPath: Assets.assetsImagesLogo,
-                  ),
-                ),
-              ),
+
+              CustomCircularImage(
+                  width: userAvatarSize(context),
+                  height: userAvatarSize(context),
+                  imageUrl: user.image ?? ''),
 
               context.setMinSize(20).horizontalSpace,
 
@@ -248,7 +236,7 @@ class UserCardLoading extends UserCardBase {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      10.h.verticalSpace,
+                      context.setMinSize(10).verticalSpace,
                       Row(
                         children: [
                           Expanded(
@@ -280,7 +268,7 @@ class UserCardLoading extends UserCardBase {
                           ),
                         ],
                       ),
-                      10.h.verticalSpace,
+                      context.setMinSize(10).verticalSpace,
                       Row(
                         children: [
                           Expanded(

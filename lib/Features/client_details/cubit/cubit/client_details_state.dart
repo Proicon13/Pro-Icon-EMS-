@@ -11,19 +11,19 @@ enum ClientSections {
 }
 
 class ClientDetailsState extends Equatable {
-  final RequestStatus status;
+  final ClientDetailsStatus status;
   final ClientEntity? client;
   final String? message;
   final ClientSections currentSection;
 
   const ClientDetailsState(
-      {this.status = RequestStatus.loading,
+      {this.status = ClientDetailsStatus.loading,
       this.client = const ClientEntity(),
       this.message = "",
       this.currentSection = ClientSections.personalInfo});
 
   ClientDetailsState copyWith({
-    RequestStatus? status,
+    ClientDetailsStatus? status,
     ClientEntity? client,
     String? message,
     ClientSections? currentSection,

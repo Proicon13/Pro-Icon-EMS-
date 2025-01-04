@@ -24,16 +24,17 @@ class ClientDetailsCubit extends Cubit<ClientDetailsState> {
   }
 
   void updateClient(Map<String, dynamic> clientBody, int clientId) async {
-    emit(state.copyWith(status: ClientDetailsStatus.loading));
+    emit(state.copyWith(clientUpdateStatus: ClientDetailsStatus.loading));
     final response = await clientsService.updateClientDetails(
         body: clientBody, id: clientId);
 
     response.fold((failure) {
       emit(state.copyWith(
-          status: ClientDetailsStatus.error, message: failure.message));
+          clientUpdateStatus: ClientDetailsStatus.error,
+          message: failure.message));
     }, (client) {
       emit(state.copyWith(
-          status: ClientDetailsStatus.success,
+          clientUpdateStatus: ClientDetailsStatus.success,
           client: client,
           message: "client.updateSuccessMessage".tr()));
     });

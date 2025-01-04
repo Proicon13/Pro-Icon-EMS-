@@ -1,6 +1,6 @@
 part of 'client_details_cubit.dart';
 
-enum ClientDetailsStatus { loading, success, error }
+enum ClientDetailsStatus { intial, loading, success, error }
 
 enum ClientSections {
   personalInfo,
@@ -36,24 +36,28 @@ final clientSectionsToViewsMap = {
 };
 
 class ClientDetailsState extends Equatable {
-  final ClientDetailsStatus status;
+  final ClientDetailsStatus? status;
+  final ClientDetailsStatus? clientUpdateStatus;
   final ClientEntity? client;
   final String? message;
   final ClientSections currentSection;
 
   const ClientDetailsState(
       {this.status = ClientDetailsStatus.loading,
+      this.clientUpdateStatus = ClientDetailsStatus.intial,
       this.client = const ClientEntity(),
       this.message = "",
       this.currentSection = ClientSections.personalInfo});
 
   ClientDetailsState copyWith({
     ClientDetailsStatus? status,
+    ClientDetailsStatus? clientUpdateStatus,
     ClientEntity? client,
     String? message,
     ClientSections? currentSection,
   }) {
     return ClientDetailsState(
+      clientUpdateStatus: clientUpdateStatus ?? this.clientUpdateStatus,
       status: status ?? this.status,
       client: client ?? this.client,
       message: message ?? this.message,
@@ -62,5 +66,6 @@ class ClientDetailsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, client!, message!, currentSection];
+  List<Object> get props =>
+      [clientUpdateStatus!, status!, client!, message!, currentSection];
 }

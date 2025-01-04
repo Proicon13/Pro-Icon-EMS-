@@ -10,7 +10,6 @@ import 'package:pro_icon/data/models/pagination_response.dart';
 
 import '../../Core/networking/base_api_provider.dart';
 import '../../Core/utils/enums/filteration_type.dart';
-import '../models/client_details_model.dart';
 
 class ClientsService {
   final BaseApiProvider _apiProvider;
@@ -68,8 +67,8 @@ class ClientsService {
     );
 
     if (response.isSuccess) {
-      final client = ClientEntityMapper.fromModel(
-          ClientDetailsModel.fromJson(response.data!));
+      final client =
+          ClientEntityMapper.fromModel(ClientModel.fromJson(response.data!));
 
       return Right(client);
     } else {

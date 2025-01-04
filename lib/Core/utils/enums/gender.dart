@@ -6,7 +6,7 @@ enum Gender {
 }
 
 extension GenderExtension on Gender {
-  String get name {
+  String get jsonName {
     switch (this) {
       case Gender.male:
         return "male".tr();

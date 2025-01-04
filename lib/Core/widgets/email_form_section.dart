@@ -5,15 +5,20 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'text_form_section.dart';
 
 class EmailFormSection extends StatelessWidget {
+  final String? intialValue;
+  final String? name;
   const EmailFormSection({
     super.key,
+    this.intialValue,
+    this.name,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormSection(
       title: "signup.email".tr(), // Email
-      name: "email",
+      name: name ?? "email",
+      intialValue: intialValue,
       hintText: "signup.emailHint".tr(), // moaidmohamed123@gmail.com
       keyboardInputType: TextInputType.emailAddress,
       validator: FormBuilderValidators.compose([

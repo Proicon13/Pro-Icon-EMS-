@@ -15,3 +15,5 @@ extension GenderExtension on Gender {
     }
   }
 }
+
+final genderMap = {"male".tr(): Gender.male, "female".tr(): Gender.female};

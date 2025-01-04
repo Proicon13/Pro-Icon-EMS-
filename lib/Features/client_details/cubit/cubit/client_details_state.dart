@@ -10,6 +10,31 @@ enum ClientSections {
   scoreInfo
 }
 
+extension ClientSectionsX on ClientSections {
+  String get name {
+    switch (this) {
+      case ClientSections.personalInfo:
+        return "personalInfo.title".tr();
+      case ClientSections.medicalInfo:
+        return "medicalInfo.title".tr();
+      case ClientSections.historyInfo:
+        return "historyInfo.title".tr();
+      case ClientSections.startegyInfo:
+        return "strategyInfo.title".tr();
+      case ClientSections.scoreInfo:
+        return "scoreInfo.title".tr();
+    }
+  }
+}
+
+final clientSectionsToViewsMap = {
+  ClientSections.personalInfo: const PersonalInfoView(),
+  ClientSections.medicalInfo: const SizedBox(),
+  ClientSections.historyInfo: const SizedBox(),
+  ClientSections.startegyInfo: const SizedBox(),
+  ClientSections.scoreInfo: const SizedBox(),
+};
+
 class ClientDetailsState extends Equatable {
   final ClientDetailsStatus status;
   final ClientEntity? client;

@@ -95,5 +95,10 @@
     "birthDateRequired": "Birth Date is required",
     "client.successMessage": "Client added successfully",
     "client.updateSuccessMessage": "Client updated successfully",
-    "clientInfo.title": "Client Info"
+    "clientInfo.title": "Client Info",
+    "personalInfo.title": "Personal Info",
+    "medicalInfo.title": "Medical Info",
+    "historyInfo.title": "History Info",
+    "strategyInfo.title": "Strategy Info",
+    "scoreInfo.title": "Score Info"
 }

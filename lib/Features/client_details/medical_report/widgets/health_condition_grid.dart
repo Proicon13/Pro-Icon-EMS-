@@ -28,8 +28,9 @@ class HealthConditionGrid extends StatelessWidget {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: context.setMinSize(10),
-          crossAxisSpacing: context.setMinSize(80),
-          childAspectRatio: context.setMinSize(110) / context.setMinSize(30)),
+          crossAxisSpacing: context.setMinSize(50),
+          childAspectRatio:
+              context.sizeConfig.width * 0.35 / context.setMinSize(40)),
       itemCount: itemCount,
       itemBuilder: (context, index) {
         if (isLoading) {

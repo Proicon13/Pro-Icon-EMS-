@@ -22,6 +22,7 @@ import 'package:pro_icon/data/repos/auth_repo.dart';
 import 'package:pro_icon/data/services/auth_service.dart';
 import 'package:pro_icon/data/services/auth_token_service.dart';
 import 'package:pro_icon/data/services/clients_service.dart';
+import 'package:pro_icon/data/services/health_condition_service.dart';
 import 'package:pro_icon/data/services/reset_password_service.dart';
 import 'package:pro_icon/data/services/trainer_service.dart';
 import 'package:pro_icon/data/services/user_service.dart';
@@ -55,6 +56,8 @@ void setupDependencies() {
       ));
   getIt.registerLazySingleton(() => TrainerService(apiProvider: getIt()));
   getIt.registerLazySingleton(() => ClientsService(apiProvider: getIt()));
+  getIt.registerLazySingleton(
+      () => HealthConditionService(apiProvider: getIt()));
 
   // repos
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(

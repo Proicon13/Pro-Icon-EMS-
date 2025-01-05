@@ -4,10 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pro_icon/Core/networking/base_api_provider.dart';
 import 'package:pro_icon/data/models/api_response.dart';
+
 import '../../data/models/api_error_model.dart';
 import '../constants/app_constants.dart';
 import '../dependencies.dart';
-
 import '../errors/status_code.dart';
 import 'api_error_handler.dart';
 import 'interceptor.dart';
@@ -67,6 +67,15 @@ class DioConsumer implements BaseApiProvider {
     Map<String, dynamic>? data,
     Object? options,
   }) {
+    return _handleRequest<T>(
+      () => dio.put(endpoint, data: data, options: options as Options?),
+      (data) => data as T,
+    );
+  }
+
+  @override
+  Future<ApiResponse<T>> putMultipart<T>(
+      {required String endpoint, FormData? data, Object? options}) {
     return _handleRequest<T>(
       () => dio.put(endpoint, data: data, options: options as Options?),
       (data) => data as T,

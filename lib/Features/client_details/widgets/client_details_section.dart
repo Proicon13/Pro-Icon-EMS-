@@ -31,7 +31,13 @@ class ClientDetailsSection extends StatelessWidget {
             case ClientDetailsStatus.error:
               return const SizedBox.shrink();
             case ClientDetailsStatus.success:
-              return ClientDetailsCard(client: state.client!);
+              return ClientDetailsCard(
+                  onProfileImageTap: () {
+                    context.read<ClientDetailsCubit>().onUpdateProfile(
+                          state.client!.id!,
+                        );
+                  },
+                  client: state.client!);
             case ClientDetailsStatus.loading:
               return const Skeletonizer(
                 enabled: true,

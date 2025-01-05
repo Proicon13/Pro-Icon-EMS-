@@ -19,3 +19,10 @@ class CacheFailure extends Failure {
   @override
   List<Object?> get props => [message];
 }
+
+class ImagePickerFailure extends Failure {
+  const ImagePickerFailure({required super.message});
+
+  @override
+  List<Object?> get props => [message];
+}

@@ -12,10 +12,12 @@ import '../../../Core/theme/app_colors.dart';
 
 class ClientDetailsCard extends StatelessWidget {
   final ClientEntity client;
+  final void Function()? onProfileImageTap;
 
   const ClientDetailsCard({
     super.key,
     required this.client,
+    this.onProfileImageTap,
   });
 
   @override
@@ -29,10 +31,26 @@ class ClientDetailsCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Profile Image
-            CustomCircularImage(
-              width: context.setMinSize(65),
-              height: context.setMinSize(65),
-              imageUrl: client.image ?? "",
+            GestureDetector(
+              onTap: onProfileImageTap ?? () {},
+              child: Stack(
+                children: [
+                  CustomCircularImage(
+                    width: context.setMinSize(65),
+                    height: context.setMinSize(65),
+                    imageUrl: client.image ?? "",
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child: CustomSvgVisual(
+                      assetPath: Assets.assetsImagesEditProfileIcon,
+                      width: context.setMinSize(30),
+                      height: context.setMinSize(30),
+                    ),
+                  )
+                ],
+              ),
             ),
             context.setMinSize(12).horizontalSpace,
             // Left Section (Name and Phone)

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:pro_icon/Core/entities/client_entity.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/Core/errors/failures.dart';
@@ -64,6 +65,37 @@ class ClientsService {
     final response = await _apiProvider.put<Map<String, dynamic>>(
       endpoint: "${ApiConstants.clientsEndPoint}/$id",
       data: body,
+    );
+
+    if (response.isSuccess) {
+      final client =
+          ClientEntityMapper.fromModel(ClientModel.fromJson(response.data!));
+
+      return Right(client);
+    } else {
+      return Left(ServerFailure(message: response.error!.message));
+    }
+  }
+
+  Future<Either<Failure, ClientEntity>> updateProfileImage(
+      {required int id, required String imageFile}) async {
+    final file = await MultipartFile.fromFile(
+      imageFile,
+      filename: imageFile.split('/').last,
+    );
+
+    final body = FormData.fromMap({
+      "file": file,
+    });
+
+    final response = await _apiProvider.putMultipart<Map<String, dynamic>>(
+      endpoint: "${ApiConstants.clientsEndPoint}/$id",
+      data: body,
+      options: Options(
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      ),
     );
 
     if (response.isSuccess) {

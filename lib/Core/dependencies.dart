@@ -14,6 +14,7 @@ import 'package:pro_icon/Features/auth/reset_password/cubits/otp/otp_cubit.dart'
 import 'package:pro_icon/Features/auth/reset_password/cubits/set_new_password/set_new_password_cubit.dart';
 import 'package:pro_icon/Features/auth/role_selection/cubit/cubit/select_role_cubit.dart';
 import 'package:pro_icon/Features/client_details/cubit/cubit/client_details_cubit.dart';
+import 'package:pro_icon/Features/client_details/medical_report/cubits/cubit/medical_info_cubit.dart';
 import 'package:pro_icon/Features/clients/add_client/cubits/cubit/client_registration_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/manage_trainer_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/trainer_password_cubit.dart';
@@ -94,5 +95,9 @@ void setupDependencies() {
       ));
   getIt.registerFactory<ClientDetailsCubit>(() => ClientDetailsCubit(
         clientsService: getIt(),
+      ));
+
+  getIt.registerFactory<MedicalInfoCubit>(() => MedicalInfoCubit(
+        healthConditionService: getIt(),
       ));
 }

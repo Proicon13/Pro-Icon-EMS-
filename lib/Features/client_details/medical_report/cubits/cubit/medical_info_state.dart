@@ -15,8 +15,8 @@ class MedicalInfoState extends Equatable {
     this.allDiseases = const [],
     this.clientInjuries = const [],
     this.clientDiseases = const [],
-    this.isInjurySectionOpen = false,
-    this.isDiseaseSectionOpen = false,
+    this.isInjurySectionOpen = true,
+    this.isDiseaseSectionOpen = true,
     this.status = ClientDetailsStatus.loading,
     this.message = '',
   });

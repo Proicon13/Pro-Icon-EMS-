@@ -29,7 +29,7 @@ extension ClientSectionsX on ClientSections {
 
 final clientSectionsToViewsMap = {
   ClientSections.personalInfo: const PersonalInfoView(),
-  ClientSections.medicalInfo: const SizedBox(),
+  ClientSections.medicalInfo: const MedicalInfoView(),
   ClientSections.historyInfo: const SizedBox(),
   ClientSections.startegyInfo: const SizedBox(),
   ClientSections.scoreInfo: const SizedBox(),

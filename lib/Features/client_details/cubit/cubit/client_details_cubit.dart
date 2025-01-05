@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pro_icon/Core/errors/failures.dart';
 import 'package:pro_icon/Core/utils/image_picker.dart';
+import 'package:pro_icon/Features/client_details/medical_report/medical_info_view.dart';
 import 'package:pro_icon/data/services/clients_service.dart';
 
 import '../../../../Core/entities/client_entity.dart';

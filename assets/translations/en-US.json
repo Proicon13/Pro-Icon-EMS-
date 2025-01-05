@@ -100,5 +100,7 @@
     "medicalInfo.title": "Medical Info",
     "historyInfo.title": "History Info",
     "strategyInfo.title": "Strategy Info",
-    "scoreInfo.title": "Score Info"
+    "scoreInfo.title": "Score Info",
+    "medicalInfo.injuries": "Injuries",
+    "medicalInfo.diseases": "Diseases"
 }

@@ -85,8 +85,8 @@
     "gender": "Gender",
     "male": "MALE",
     "female": "FEMALE",
-    "weight": "Weight",
-    "height": "Height",
+    "weight": "Weight (Kg)",
+    "height": "Height (Cm)",
     "age": "Age",
     "birthDate": "Birth Date",
     "birthDate.hint": "Select Birth Date",
@@ -102,5 +102,7 @@
     "strategyInfo.title": "Strategy Info",
     "scoreInfo.title": "Score Info",
     "medicalInfo.injuries": "Injuries",
-    "medicalInfo.diseases": "Diseases"
+    "medicalInfo.diseases": "Diseases",
+    "notes": "Notes",
+    "notes.updateSuccessMessage": "Notes updated successfully"
 }

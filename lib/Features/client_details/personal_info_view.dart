@@ -137,8 +137,13 @@ class _SaveButton extends StatelessWidget {
     return BlocListener<ClientDetailsCubit, ClientDetailsState>(
       listener: (context, state) {
         if (state.clientUpdateStatus == ClientDetailsStatus.success) {
+          final cubit =
+              BlocProvider.of<ClientDetailsCubit>(context, listen: false);
           buildCustomAlert(
               context, state.message ?? 'Update successful', Colors.green);
+
+          Future.delayed(const Duration(seconds: 3),
+              () => cubit.setUpdateStatus(ClientDetailsStatus.intial));
         } else if (state.clientUpdateStatus == ClientDetailsStatus.error) {
           buildCustomAlert(
               context, state.message ?? 'Update failed', Colors.red);

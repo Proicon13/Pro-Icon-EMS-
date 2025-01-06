@@ -24,6 +24,7 @@ class CustomTextField extends StatelessWidget {
   final TextAlign? textAlign;
   final Widget? prefixIcon;
   final String? intialValue;
+  final int? maxLines;
   final void Function(PointerDownEvent)? onTapOutside;
   const CustomTextField({
     super.key,
@@ -44,6 +45,7 @@ class CustomTextField extends StatelessWidget {
     this.contentPadding,
     this.textAlign,
     this.onTapOutside,
+    this.maxLines,
   });
 
   @override
@@ -53,6 +55,7 @@ class CustomTextField extends StatelessWidget {
       initialValue: intialValue,
       onTapOutside: onTapOutside,
       obscureText: obsecure,
+      maxLines: maxLines,
       textAlign: textAlign ?? TextAlign.start,
       controller: controller,
       inputFormatters: inputFormatters,

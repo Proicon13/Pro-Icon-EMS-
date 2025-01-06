@@ -18,7 +18,9 @@ class DiseaseSection extends StatelessWidget {
     return BlocBuilder<MedicalInfoCubit, MedicalInfoState>(
       buildWhen: (previous, current) =>
           previous.status != current.status ||
-          previous.clientDiseases != current.clientDiseases,
+          previous.clientDiseases != current.clientDiseases ||
+          previous.diseaseUpdateStatus != current.diseaseUpdateStatus ||
+          previous.isDiseaseSectionOpen != current.isDiseaseSectionOpen,
       builder: (context, state) {
         if (state.status == ClientDetailsStatus.error) {
           return SizedBox(
@@ -32,27 +34,37 @@ class DiseaseSection extends StatelessWidget {
             ),
           );
         }
-        return Skeletonizer(
-            enabled: state.status == ClientDetailsStatus.loading,
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              child: HealthConditionGrid(
-                  key: state.status == ClientDetailsStatus.loading
-                      ? const ValueKey("Diseases-grid")
-                      : const ValueKey("Diseases-grid-loading"),
-                  healthConditions: state.allDiseases,
-                  itemCount: state.status == ClientDetailsStatus.loading
-                      ? 6
-                      : state.allDiseases.length,
-                  selectedConditions: state.clientDiseases,
-                  isLoading: state.status == ClientDetailsStatus.loading,
-                  onSelect: (index) {
-                    context
-                        .read<MedicalInfoCubit>()
-                        .updateDisease(client.id!, index);
-                  }),
-            ));
+
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          switchInCurve: Curves.easeIn,
+          switchOutCurve: Curves.easeOut,
+          child: state.isDiseaseSectionOpen
+              ? _buildSectionContent(state, context)
+              : const SizedBox.shrink(
+                  key: ValueKey("Diseases-grid-closed"),
+                ),
+        );
       },
+    );
+  }
+
+  Skeletonizer _buildSectionContent(
+      MedicalInfoState state, BuildContext context) {
+    return Skeletonizer(
+      enabled: state.status == ClientDetailsStatus.loading,
+      child: HealthConditionGrid(
+        key: const ValueKey("Diseases-grid"),
+        healthConditions: state.allDiseases,
+        itemCount: state.status == ClientDetailsStatus.loading
+            ? 2
+            : state.allDiseases.length,
+        selectedConditions: state.clientDiseases,
+        isLoading: state.status == ClientDetailsStatus.loading,
+        onSelect: (index) {
+          context.read<MedicalInfoCubit>().updateDisease(client.id!, index);
+        },
+      ),
     );
   }
 }

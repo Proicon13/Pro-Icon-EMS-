@@ -29,7 +29,7 @@ class SectionTitle extends StatelessWidget {
           child: Icon(
             isOpen ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
             color: Colors.white,
-            size: context.setMinSize(20),
+            size: context.setMinSize(25),
           ),
         )
       ],

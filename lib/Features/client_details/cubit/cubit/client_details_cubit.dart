@@ -19,12 +19,17 @@ class ClientDetailsCubit extends Cubit<ClientDetailsState> {
       : super(const ClientDetailsState());
 
   void setClient(ClientEntity client) {
-    emit(state.copyWith(status: ClientDetailsStatus.loading));
-    emit(state.copyWith(client: client, status: ClientDetailsStatus.success));
+    emit(state.copyWith(
+      client: client,
+    ));
   }
 
   void onSectionChanged(ClientSections section) {
     emit(state.copyWith(currentSection: section));
+  }
+
+  void setUpdateStatus(ClientDetailsStatus status) {
+    emit(state.copyWith(clientUpdateStatus: status));
   }
 
   void updateClient(Map<String, dynamic> clientBody, int clientId) async {

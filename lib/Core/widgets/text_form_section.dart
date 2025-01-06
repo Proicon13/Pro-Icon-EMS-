@@ -18,6 +18,7 @@ class TextFormSection extends StatelessWidget {
   final TextEditingController? controller;
   final bool obscureText;
   final String? intialValue;
+  final int? maxLines;
 
   const TextFormSection(
       {super.key,
@@ -31,7 +32,8 @@ class TextFormSection extends StatelessWidget {
       this.keyboardInputType,
       this.inputFormatters,
       this.controller,
-      this.obscureText = false});
+      this.obscureText = false,
+      this.maxLines});
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +55,7 @@ class TextFormSection extends StatelessWidget {
         onChanged: onChanged,
         onSaved: onSaved,
         obsecure: obscureText,
+        maxLines: maxLines,
       ),
     ]);
   }

@@ -36,7 +36,7 @@ class SectionsList extends StatelessWidget {
               final section = ClientSections.values[index];
               final isSelected = section == state;
               return Container(
-                margin: EdgeInsets.only(right: context.setMinSize(10)),
+                margin: EdgeInsets.only(right: context.setMinSize(20)),
                 child: UserVariationColumn(
                     userVariation: section.name,
                     isSelected: isSelected,

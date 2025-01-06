@@ -55,7 +55,7 @@ class MedicalInfoCubit extends Cubit<MedicalInfoState> {
   }
 
   Future<void> updateInjury(int clientId, int injuryId) async {
-    emit(state.copyWith(status: ClientDetailsStatus.loading));
+    emit(state.copyWith(injuriesUpdateStatus: ClientDetailsStatus.loading));
 
     final response = await healthConditionService.updateClientInjuries(
         clientId: clientId, injuryId: injuryId);
@@ -72,7 +72,7 @@ class MedicalInfoCubit extends Cubit<MedicalInfoState> {
   }
 
   Future<void> updateDisease(int clientId, int diseaseId) async {
-    emit(state.copyWith(status: ClientDetailsStatus.loading));
+    emit(state.copyWith(diseaseUpdateStatus: ClientDetailsStatus.loading));
 
     final response = await healthConditionService.updateClientDisease(
         clientId: clientId, diseaseId: diseaseId);
@@ -116,7 +116,12 @@ class MedicalInfoCubit extends Cubit<MedicalInfoState> {
           updateType == 'injury' ? updatedConditions : state.clientInjuries,
       clientDiseases:
           updateType == 'disease' ? updatedConditions : state.clientDiseases,
-      status: ClientDetailsStatus.success,
+      injuriesUpdateStatus: updateType == 'injury'
+          ? ClientDetailsStatus.success
+          : state.injuriesUpdateStatus,
+      diseaseUpdateStatus: updateType == 'disease'
+          ? ClientDetailsStatus.success
+          : state.diseaseUpdateStatus,
       message: successMessage,
     ));
   }

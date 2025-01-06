@@ -8,6 +8,8 @@ class MedicalInfoState extends Equatable {
   final bool isInjurySectionOpen;
   final bool isDiseaseSectionOpen;
   final ClientDetailsStatus status;
+  final ClientDetailsStatus injuriesUpdateStatus;
+  final ClientDetailsStatus diseaseUpdateStatus;
   final String message;
 
   const MedicalInfoState({
@@ -18,6 +20,8 @@ class MedicalInfoState extends Equatable {
     this.isInjurySectionOpen = true,
     this.isDiseaseSectionOpen = true,
     this.status = ClientDetailsStatus.loading,
+    this.injuriesUpdateStatus = ClientDetailsStatus.intial,
+    this.diseaseUpdateStatus = ClientDetailsStatus.intial,
     this.message = '',
   });
 
@@ -29,6 +33,8 @@ class MedicalInfoState extends Equatable {
     bool? isInjurySectionOpen,
     bool? isDiseaseSectionOpen,
     ClientDetailsStatus? status,
+    ClientDetailsStatus? injuriesUpdateStatus,
+    ClientDetailsStatus? diseaseUpdateStatus,
     String? message,
   }) {
     return MedicalInfoState(
@@ -40,6 +46,8 @@ class MedicalInfoState extends Equatable {
       isDiseaseSectionOpen: isDiseaseSectionOpen ?? this.isDiseaseSectionOpen,
       status: status ?? this.status,
       message: message ?? this.message,
+      diseaseUpdateStatus: diseaseUpdateStatus ?? this.diseaseUpdateStatus,
+      injuriesUpdateStatus: injuriesUpdateStatus ?? this.injuriesUpdateStatus,
     );
   }
 
@@ -53,5 +61,7 @@ class MedicalInfoState extends Equatable {
         isDiseaseSectionOpen,
         status,
         message,
+        injuriesUpdateStatus,
+        diseaseUpdateStatus
       ];
 }

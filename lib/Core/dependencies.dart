@@ -15,6 +15,7 @@ import 'package:pro_icon/Features/auth/reset_password/cubits/set_new_password/se
 import 'package:pro_icon/Features/auth/role_selection/cubit/cubit/select_role_cubit.dart';
 import 'package:pro_icon/Features/client_details/cubit/cubit/client_details_cubit.dart';
 import 'package:pro_icon/Features/client_details/medical_report/cubits/cubit/medical_info_cubit.dart';
+import 'package:pro_icon/Features/client_details/strategy/cubits/cubit/strategy_cubit.dart';
 import 'package:pro_icon/Features/clients/add_client/cubits/cubit/client_registration_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/manage_trainer_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/trainer_password_cubit.dart';
@@ -22,6 +23,7 @@ import 'package:pro_icon/Features/users/cubits/user_managment_cubit.dart';
 import 'package:pro_icon/data/repos/auth_repo.dart';
 import 'package:pro_icon/data/services/auth_service.dart';
 import 'package:pro_icon/data/services/auth_token_service.dart';
+import 'package:pro_icon/data/services/client_strategy_service.dart';
 import 'package:pro_icon/data/services/clients_service.dart';
 import 'package:pro_icon/data/services/health_condition_service.dart';
 import 'package:pro_icon/data/services/reset_password_service.dart';
@@ -60,6 +62,8 @@ void setupDependencies() {
   getIt.registerLazySingleton(
       () => HealthConditionService(apiProvider: getIt()));
 
+  getIt.registerLazySingleton(
+      () => ClientStrategyService(baseApiProvider: getIt()));
   // repos
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(
       authService: getIt(),
@@ -99,5 +103,9 @@ void setupDependencies() {
 
   getIt.registerFactory<MedicalInfoCubit>(() => MedicalInfoCubit(
         healthConditionService: getIt(),
+      ));
+
+  getIt.registerFactory<StrategyCubit>(() => StrategyCubit(
+        clientStrategyService: getIt(),
       ));
 }

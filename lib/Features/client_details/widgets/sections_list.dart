@@ -13,10 +13,8 @@ class SectionsList extends StatelessWidget {
   });
 
   void _animateToNextPage(int index) {
-    pageController.animateToPage(
+    pageController.jumpToPage(
       index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
     );
   }
 

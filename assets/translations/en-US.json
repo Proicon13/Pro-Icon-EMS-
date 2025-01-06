@@ -104,5 +104,9 @@
     "medicalInfo.injuries": "Injuries",
     "medicalInfo.diseases": "Diseases",
     "notes": "Notes",
-    "notes.updateSuccessMessage": "Notes updated successfully"
+    "notes.updateSuccessMessage": "Notes updated successfully",
+    "static.type": "Static",
+    "dynamic.type": "Dynamic",
+    "power.type": "Power",
+    "training.type": "Training Type"
 }

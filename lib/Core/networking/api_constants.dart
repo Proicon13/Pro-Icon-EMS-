@@ -18,4 +18,5 @@ class ApiConstants {
       "/clients/$clientId/injuries/$injuryId";
   static updateClientDiseaseEndpoint(int clientId, int diseaseId) =>
       "/clients/$clientId/diseases/$diseaseId";
+  static clientStrategyEndpoint(int clientId) => "/clients/$clientId/strategy";
 }

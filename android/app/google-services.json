@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "844488863144",
+    "project_id": "pro-icon-ems",
+    "storage_bucket": "pro-icon-ems.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844488863144:android:56bbb34ade394bc3ee819d",
+        "android_client_info": {
+          "package_name": "com.example.pro_icon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC61LeZ1LRD7Y1EbIfsoxMOh0QhijHhIZE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

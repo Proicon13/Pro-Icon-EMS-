@@ -29,6 +29,7 @@ class CustomRectangularImage extends StatelessWidget {
         ),
       ),
       child: ClipRRect(
+        borderRadius: BorderRadius.circular(context.setMinSize(12)),
         child: CustomNetworkImage(
           imageUrl: imageUrl,
           errorAssetPath: Assets.assetsImagesLogo,

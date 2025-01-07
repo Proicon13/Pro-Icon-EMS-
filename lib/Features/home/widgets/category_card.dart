@@ -37,8 +37,10 @@ class CategoryCard extends StatelessWidget {
                 context.setMinSize(5).verticalSpace,
                 Text(
                   "${currentCategory.name}",
-                  style: AppTextStyles.fontSize14(context).copyWith(
-                      color: Colors.white, fontSize: context.setMinSize(14)),
+                  style: AppTextStyles.fontSize16(context).copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: context.setMinSize(16)),
                 ),
               ],
             ),

@@ -90,7 +90,7 @@ class _ManageTrainerScreenState extends State<ManageTrainerScreen> {
             if (context.mounted) {
               Navigator.pushReplacementNamed(
                 context,
-                UsersScreen.routeName,
+                UsersView.routeName,
               );
             }
           });

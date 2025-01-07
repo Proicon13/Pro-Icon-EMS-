@@ -58,8 +58,8 @@ class TrainerPasswordForm extends StatelessWidget {
           buildCustomAlert(context, state.message, Colors.green);
 
           Future.delayed(const Duration(seconds: 3), () {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                UsersScreen.routeName, (route) => false);
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil(UsersView.routeName, (route) => false);
           });
         }
       },

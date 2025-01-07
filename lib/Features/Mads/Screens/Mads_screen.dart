@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Features/CategoryDetails/Widget/custom_app_bar.dart';
 import 'package:pro_icon/Features/Mads/Widgets/card_Mads_Widget.dart';
-import 'package:pro_icon/Features/Settings/Screens/settings_Screen.dart';
+import 'package:pro_icon/Features/Settings/Screens/settings_view.dart';
 
 class MadsScreen extends StatefulWidget {
   const MadsScreen({super.key});
@@ -24,7 +24,7 @@ class _MadsScreenState extends State<MadsScreen> {
               text: "MaDs",
               onIconPressed: () {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const SettingsScreen()));
+                    MaterialPageRoute(builder: (_) => const SettingsView()));
               },
             ),
             const Padding(

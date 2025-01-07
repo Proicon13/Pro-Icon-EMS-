@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pro_icon/Features/users/cubits/user_managment_cubit.dart';
 
 import '../../../Core/dependencies.dart';
-import '../widgets/users_screen_scaffold.dart';
+import '../widgets/users_view.dart';
 
-class UsersScreen extends StatelessWidget {
+class UsersView extends StatelessWidget {
   static const routeName = '/users-screen';
-  const UsersScreen({super.key});
+  const UsersView({super.key});
 
   @override
   Widget build(BuildContext context) {

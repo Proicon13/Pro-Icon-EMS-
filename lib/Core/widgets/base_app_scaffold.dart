@@ -9,13 +9,17 @@ class BaseAppScaffold extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final bool? resizeToAvoidButtomPadding;
   final PreferredSizeWidget? appBar;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   const BaseAppScaffold(
       {super.key,
       this.body,
       this.bottomNavigationBar,
       this.resizeToAvoidButtomPadding,
-      this.appBar});
+      this.appBar,
+      this.floatingActionButton,
+      this.floatingActionButtonLocation});
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +29,8 @@ class BaseAppScaffold extends StatelessWidget {
         backgroundColor: AppColors.backgroundColor,
         body: body,
         resizeToAvoidBottomInset: resizeToAvoidButtomPadding,
+        floatingActionButton: floatingActionButton,
+        floatingActionButtonLocation: floatingActionButtonLocation,
         bottomNavigationBar: bottomNavigationBar,
       ),
     );

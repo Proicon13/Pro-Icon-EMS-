@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pro_icon/Features/Profile/Screens/Profile.dart';
+import 'package:pro_icon/Features/Profile/Screens/profile_screen.dart';
 
 class AppBarWidget extends StatelessWidget {
   final String text;
@@ -37,7 +37,7 @@ class AppBarWidget extends StatelessWidget {
           InkWell(
               onTap: () {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const Profile()));
+                    MaterialPageRoute(builder: (_) => const ProfileScreen()));
               },
               child:
                   const Image(image: AssetImage("assets/images/userImage.png")))

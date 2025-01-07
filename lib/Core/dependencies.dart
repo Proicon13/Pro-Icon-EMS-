@@ -18,6 +18,7 @@ import 'package:pro_icon/Features/client_details/medical_report/cubits/cubit/med
 import 'package:pro_icon/Features/client_details/strategy/cubits/cubit/strategy_cubit.dart';
 import 'package:pro_icon/Features/clients/add_client/cubits/cubit/client_registration_cubit.dart';
 import 'package:pro_icon/Features/home/cubit/home_cubit.dart';
+import 'package:pro_icon/Features/main/cubit/cubit/main_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/manage_trainer_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/trainer_password_cubit.dart';
 import 'package:pro_icon/Features/users/cubits/user_managment_cubit.dart';
@@ -116,4 +117,6 @@ void setupDependencies() {
   getIt.registerFactory<HomeCubit>(() => HomeCubit(
         categoriesServices: getIt(),
       ));
+
+  getIt.registerLazySingleton<MainCubit>(() => MainCubit());
 }

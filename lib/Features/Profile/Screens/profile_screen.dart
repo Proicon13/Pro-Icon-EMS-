@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/custom_dropdown_section.dart';
 import 'package:pro_icon/Core/widgets/text_form_section.dart';
 import 'package:pro_icon/Features/CategoryDetails/Widget/custom_app_bar.dart';
 import 'package:pro_icon/Features/auth/register/widgets/phone_form_field.dart';
-import 'package:pro_icon/Features/home/screens/home_screen.dart';
+import 'package:pro_icon/Features/home/screens/home_view.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({super.key});
+import '../../../Core/theme/app_colors.dart';
+
+class ProfileScreen extends StatefulWidget {
+  static const String routeName = "ProfileScreen";
+  const ProfileScreen({super.key});
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return BaseAppScaffold(
-      resizeToAvoidButtomPadding: false,
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: DecoratedBox(
+        decoration: const BoxDecoration(
+          color: AppColors.backgroundColor,
+        ),
         child: Column(
           children: [
             CustomAppBar(
@@ -28,7 +32,7 @@ class _ProfileState extends State<Profile> {
               text: "Profile",
               onIconPressed: () {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const HomeScreen()));
+                    MaterialPageRoute(builder: (_) => const HomeView()));
               },
             ),
             40.h.verticalSpace,

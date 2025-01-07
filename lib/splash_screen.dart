@@ -4,7 +4,7 @@ import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 import 'package:pro_icon/Features/auth/role_selection/screens/role_selection_screen.dart';
-import 'package:pro_icon/Features/users/screens/users_screen.dart';
+import 'package:pro_icon/Features/main/main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = '/splash';
@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (state.userStatus == UserStatus.loggedIn) {
           Future.delayed(const Duration(seconds: 2), () {
             if (context.mounted) {
-              Navigator.of(context).pushReplacementNamed(UsersScreen.routeName);
+              Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
             }
           });
         } else {

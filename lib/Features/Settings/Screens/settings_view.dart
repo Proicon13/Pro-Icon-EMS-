@@ -1,17 +1,25 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
-import 'package:pro_icon/Features/CategoryDetails/Widget/custom_app_bar.dart';
+import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
+import 'package:pro_icon/Core/theme/app_colors.dart';
+import 'package:pro_icon/Core/theme/app_text_styles.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
+import 'package:pro_icon/Core/widgets/custom_circular_image.dart';
+import 'package:pro_icon/Core/widgets/custom_header.dart';
 import 'package:pro_icon/Features/Mads/Screens/Mads_screen.dart';
 
-class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+import '../../../Core/dependencies.dart';
+
+class SettingsView extends StatefulWidget {
+  const SettingsView({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  State<SettingsView> createState() => _SettingsViewState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsViewState extends State<SettingsView> {
   final List<Map<String, dynamic>> settingsItems = [
     {
       'title': 'Edit Profile',
@@ -33,50 +41,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseAppScaffold(
-      resizeToAvoidButtomPadding: true,
-      body: Column(
+    return Padding(
+      padding: SizeConstants.kScaffoldPadding(context),
+      child: Column(
         children: [
           // CustomAppBar
-          const CustomAppBar(icon: Icons.arrow_back_ios, text: "Settings"),
-          40.h.verticalSpace,
-
-          const Padding(
-            padding: EdgeInsets.only(left: 25),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundImage: AssetImage("assets/images/userImage.png"),
-                ),
-                SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Admin 123",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                    Text(
-                      "omarsabry8989@gmail.com",
-                      style: TextStyle(
-                        color: Colors.white60,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          context.setMinSize(30).verticalSpace,
+          CustomHeader(
+            titleKey: "settings".tr(),
+            isIconVisible: false,
           ),
-          40.h.verticalSpace,
+          context.setMinSize(30).verticalSpace,
+
+          Row(
+            children: [
+              CustomCircularImage(
+                  width: context.setMinSize(80),
+                  height: context.setMinSize(80),
+                  imageUrl: getIt<UserStateCubit>().state.currentUser!.image!),
+              const SizedBox(width: 16),
+
+              // get user info from user state
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Admin 123",
+                      style: AppTextStyles.fontSize20(context).copyWith(
+                        color: Colors.white,
+                      )),
+                  context.setMinSize(10).verticalSpace,
+                  Text("omarsabry8989@gmail.com",
+                      style: AppTextStyles.fontSize16(context).copyWith(
+                        color: AppColors.white71Color,
+                      )),
+                ],
+              ),
+            ],
+          ),
+          context.setMinSize(30).verticalSpace,
 
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
               itemCount: settingsItems.length,
               itemBuilder: (context, index) {
                 final item = settingsItems[index];

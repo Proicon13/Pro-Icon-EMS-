@@ -17,6 +17,7 @@ import 'package:pro_icon/Features/client_details/cubit/cubit/client_details_cubi
 import 'package:pro_icon/Features/client_details/medical_report/cubits/cubit/medical_info_cubit.dart';
 import 'package:pro_icon/Features/client_details/strategy/cubits/cubit/strategy_cubit.dart';
 import 'package:pro_icon/Features/clients/add_client/cubits/cubit/client_registration_cubit.dart';
+import 'package:pro_icon/Features/home/cubit/home_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/manage_trainer_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/trainer_password_cubit.dart';
 import 'package:pro_icon/Features/users/cubits/user_managment_cubit.dart';
@@ -30,6 +31,7 @@ import 'package:pro_icon/data/services/reset_password_service.dart';
 import 'package:pro_icon/data/services/trainer_service.dart';
 import 'package:pro_icon/data/services/user_service.dart';
 
+import '../data/services/categories_services.dart';
 import '../data/services/country_service.dart';
 import 'local_storage/local_storage_provider.dart';
 import 'local_storage/secure_storage_consumer.dart';
@@ -57,6 +59,8 @@ void setupDependencies() {
   getIt.registerLazySingleton(() => UserService(
         apiProvider: getIt(),
       ));
+  getIt.registerLazySingleton(
+      () => CategoriesServices(baseApiProvider: getIt()));
   getIt.registerLazySingleton(() => TrainerService(apiProvider: getIt()));
   getIt.registerLazySingleton(() => ClientsService(apiProvider: getIt()));
   getIt.registerLazySingleton(
@@ -107,5 +111,9 @@ void setupDependencies() {
 
   getIt.registerFactory<StrategyCubit>(() => StrategyCubit(
         clientStrategyService: getIt(),
+      ));
+
+  getIt.registerFactory<HomeCubit>(() => HomeCubit(
+        categoriesServices: getIt(),
       ));
 }

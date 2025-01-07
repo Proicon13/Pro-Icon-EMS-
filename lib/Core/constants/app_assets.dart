@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_single_quotes
 class Assets {
   Assets._();
-  
+
   /// Assets for assetsImagesAddressLocation
   /// assets/images/Address_location.svg
-  static const String assetsImagesAddressLocation = "assets/images/Address_location.svg";
+  static const String assetsImagesAddressLocation =
+      "assets/images/Address_location.svg";
 
   /// Assets for assetsImagesAdmin
   /// assets/images/admin.png
@@ -12,7 +13,8 @@ class Assets {
 
   /// Assets for assetsImagesConfirmationIcon
   /// assets/images/confirmation_icon.svg
-  static const String assetsImagesConfirmationIcon = "assets/images/confirmation_icon.svg";
+  static const String assetsImagesConfirmationIcon =
+      "assets/images/confirmation_icon.svg";
 
   /// Assets for assetsImagesDeleteIcon
   /// assets/images/delete_icon.svg
@@ -24,7 +26,8 @@ class Assets {
 
   /// Assets for assetsImagesEditProfileIcon
   /// assets/images/edit_profile_icon.svg
-  static const String assetsImagesEditProfileIcon = "assets/images/edit_profile_icon.svg";
+  static const String assetsImagesEditProfileIcon =
+      "assets/images/edit_profile_icon.svg";
 
   /// Assets for assetsImagesEmailIcon
   /// assets/images/email_icon.svg
@@ -32,7 +35,8 @@ class Assets {
 
   /// Assets for assetsImagesEmptyStateIcon
   /// assets/images/empty_state_icon.svg
-  static const String assetsImagesEmptyStateIcon = "assets/images/empty_state_icon.svg";
+  static const String assetsImagesEmptyStateIcon =
+      "assets/images/empty_state_icon.svg";
 
   /// Assets for assetsImagesFailure
   /// assets/images/failure.svg
@@ -64,7 +68,8 @@ class Assets {
 
   /// Assets for assetsImagesSelectedIcon
   /// assets/images/selected_icon.svg
-  static const String assetsImagesSelectedIcon = "assets/images/selected_icon.svg";
+  static const String assetsImagesSelectedIcon =
+      "assets/images/selected_icon.svg";
 
   /// Assets for assetsImagesSuccess
   /// assets/images/success.svg
@@ -73,5 +78,6 @@ class Assets {
   /// Assets for assetsImagesTrainer
   /// assets/images/trainer.png
   static const String assetsImagesTrainer = "assets/images/trainer.png";
-}
 
+  static const String assetsImagesMadsIcon = "assets/images/Vector.svg";
+}

@@ -38,8 +38,7 @@ class InjuriesSecion extends StatelessWidget {
             child: Center(
               child: Text(
                 state.message,
-                style: AppTextStyles.fontSize14(context)
-                    .copyWith(color: Colors.white),
+                style: AppTextStyles.fontSize14(context),
               ),
             ),
           );

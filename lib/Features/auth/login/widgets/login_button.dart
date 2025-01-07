@@ -31,7 +31,8 @@ class LoginButton extends StatelessWidget {
           });
         }
       },
-      buildWhen: (previous, current) => previous != current,
+      buildWhen: (previous, current) =>
+          previous.loginStatus != current.loginStatus,
       builder: (context, state) {
         if (state.loginStatus == LoginStatus.submitting) {
           // loading

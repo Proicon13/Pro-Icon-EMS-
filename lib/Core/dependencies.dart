@@ -3,7 +3,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pro_icon/Core/cubits/phone_registration/phone_register_cubit.dart';
 import 'package:pro_icon/Core/cubits/region_cubit/region_cubit.dart';
-import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
 import 'package:pro_icon/Core/networking/base_api_provider.dart';
 import 'package:pro_icon/Core/networking/dio_consumer.dart';
 import 'package:pro_icon/Core/networking/interceptor.dart';
@@ -34,6 +33,7 @@ import 'package:pro_icon/data/services/user_service.dart';
 
 import '../data/services/categories_services.dart';
 import '../data/services/country_service.dart';
+import 'cubits/user_state/user_state_cubit.dart';
 import 'local_storage/local_storage_provider.dart';
 import 'local_storage/secure_storage_consumer.dart';
 import 'utils/role_selection_helper.dart';
@@ -89,8 +89,7 @@ void setupDependencies() {
   getIt.registerFactory<OtpCubit>(() => OtpCubit(authRepo: getIt()));
   getIt.registerFactory<SetNewPasswordCubit>(
       () => SetNewPasswordCubit(authRepo: getIt()));
-  getIt.registerLazySingleton<UserStateCubit>(() => UserStateCubit(
-      userService: getIt(), authRepo: getIt(), authTokenService: getIt()));
+
   getIt.registerFactory<UserManagmentCubit>(() =>
       UserManagmentCubit(trainerService: getIt(), clientsService: getIt()));
   getIt.registerFactory<ManageTrainerCubit>(() => ManageTrainerCubit(
@@ -119,4 +118,11 @@ void setupDependencies() {
       ));
 
   getIt.registerLazySingleton<MainCubit>(() => MainCubit());
+  getIt.registerLazySingleton<UserStateCubit>(
+    () => UserStateCubit(
+      authRepo: getIt(),
+      authTokenService: getIt(),
+      userService: getIt(),
+    ),
+  );
 }

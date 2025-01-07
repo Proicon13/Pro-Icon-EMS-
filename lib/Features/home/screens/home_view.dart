@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pro_icon/Core/dependencies.dart';
-import 'package:pro_icon/Core/theme/app_colors.dart';
+import 'package:pro_icon/Core/entities/user_entity.dart';
+import 'package:pro_icon/Core/theme/app_text_styles.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/extensions/spaces.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/app_bar_widget.dart';
 import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
-import 'package:pro_icon/Features/CategoryDetails/Screens/Category_details.dart';
 import 'package:pro_icon/Features/home/cubit/home_cubit.dart';
+
+import '../../../Core/cubits/user_state/user_state_cubit.dart';
+import '../widgets/categories_section.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -15,94 +20,35 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<HomeCubit>(
       create: (context) => getIt<HomeCubit>()..getCategories(),
-      child: DecoratedBox(
-        decoration: const BoxDecoration(color: AppColors.backgroundColor),
+      child: Padding(
+        padding: SizeConstants.kScaffoldPadding(context),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 30,
-            ),
+            context.setMinSize(30).verticalSpace,
             const Center(child: ProIconLogo()),
-            const SizedBox(
-              height: 30,
+            context.setMinSize(30).verticalSpace,
+            BlocSelector<UserStateCubit, UserStateState, UserEntity>(
+              selector: (state) => state.currentUser!,
+              builder: (context, state) {
+                return AppBarWidget(text: "Welcome!", user: state);
+              },
             ),
-            const AppBarWidget(text: "Welcome!", username: "Admin"),
             const Divider(
               thickness: 2,
               color: Colors.grey,
             ),
-            const SizedBox(
-              height: 15,
-            ),
-            const Align(
+            context.setMinSize(20).verticalSpace,
+            Align(
               alignment: Alignment.topLeft,
-              child: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: Text(
-                  "Choose a category to start with",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
+              child: Text(
+                "Choose a category to start with",
+                style: AppTextStyles.fontSize16(context)
+                    .copyWith(color: Colors.white),
               ),
             ),
-            SizedBox(
-              height: 400,
-              child: BlocBuilder<HomeCubit, HomeState>(
-                builder: (BuildContext context, state) {
-                  if (state is CategoryError) {
-                    return Text("${state.errorMessage}");
-                  }
-                  if (state is CategoryLoaded) {
-                    return GridView.builder(
-                      itemCount: state.categories.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                      ),
-                      itemBuilder: (context, index) {
-                        final currentCategory = state.categories[index];
-                        return Column(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const CategoryDetails(),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                width: 100,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      "${currentCategory.image}",
-                                    ),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "${currentCategory.name}",
-                              style: GoogleFonts.roboto(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  } else {
-                    return const CircularProgressIndicator(
-                      color: Colors.white,
-                    );
-                  }
-                },
-              ),
-            ),
+            context.setMinSize(20).verticalSpace,
+            const CategoriesSection(),
           ],
         ),
       ),

@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (state.userStatus == UserStatus.loggedIn) {
           Future.delayed(const Duration(seconds: 2), () {
             if (context.mounted) {
-             Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SettingsScreen()));
             }
           });
         } else {

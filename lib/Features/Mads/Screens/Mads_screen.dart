@@ -18,14 +18,20 @@ class MadsScreen extends StatefulWidget {
     Widget build(BuildContext context) {
       return BaseAppScaffold(
           resizeToAvoidBottomInset: true,
-          body: Column(
-            children: [
-              CustomAppBar(icon: Icons.arrow_back_ios, text: "MaDs" , onIconPressed: (){
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SettingsScreen()));
-              },),
-              CardMadsWidget()
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                CustomAppBar(icon: Icons.arrow_back_ios, text: "MaDs" , onIconPressed: (){
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SettingsScreen()));
+                },),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CardMadsWidget(),
+                )
 
-            ],
+              ],
+            ),
           ),
       );
     }

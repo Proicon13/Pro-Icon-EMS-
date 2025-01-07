@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
+import 'package:pro_icon/Features/users/screens/users_screen.dart';
 
 import '../../../../Core/widgets/custom_button.dart';
 import '../../../../Core/widgets/custom_loader.dart';
@@ -24,6 +25,10 @@ class LoginButton extends StatelessWidget {
         if (state.loginStatus == LoginStatus.success) {
           // navigate to home screen
           buildCustomAlert(context, "login.success".tr(), Colors.green);
+
+          Future.delayed(const Duration(seconds: 3), () {
+            Navigator.of(context).pushReplacementNamed(UsersScreen.routeName);
+          });
         }
       },
       buildWhen: (previous, current) => previous != current,

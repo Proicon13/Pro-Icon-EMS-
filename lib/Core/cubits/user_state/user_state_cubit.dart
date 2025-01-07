@@ -41,6 +41,13 @@ class UserStateCubit extends Cubit<UserStateState> {
     _setUserUnlogged();
   }
 
+  void setUser(UserEntity user) {
+    emit(state.copyWith(
+      userStatus: UserStatus.loggedIn,
+      currentUser: user,
+    ));
+  }
+
   void _setUserUnlogged() {
     emit(state.copyWith(
       userStatus: UserStatus.loggedOut,

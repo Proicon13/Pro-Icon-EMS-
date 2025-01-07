@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/Core/errors/exceptions.dart';
 import 'package:pro_icon/Core/errors/failures.dart';
 import 'package:pro_icon/data/services/auth_service.dart';
@@ -12,7 +13,8 @@ import '../models/sign_up_request.dart';
 import '../services/user_service.dart';
 
 abstract class AuthRepo {
-  Future<Either<Failure, void>> login({required LoginRequest loginRequest});
+  Future<Either<Failure, UserEntity>> login(
+      {required LoginRequest loginRequest});
   Future<Either<Failure, AppUserModel>> registerUser(
       {required SignupRequest signUpRequest});
 
@@ -52,7 +54,7 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<Either<Failure, void>> login({
+  Future<Either<Failure, UserEntity>> login({
     required LoginRequest loginRequest,
   }) async {
     // Send login request
@@ -69,7 +71,7 @@ class AuthRepoImpl implements AuthRepo {
           // Save token to secured local storage
           await _authTokenService.saveToken(token);
 
-          return const Right(null);
+          return Right(userResponse.data!);
         } on CacheException catch (e) {
           // on local storage error
           return Left(CacheFailure(message: e.message));

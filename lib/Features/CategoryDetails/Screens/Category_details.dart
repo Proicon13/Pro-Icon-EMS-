@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pro_icon/Core/theme/app_colors.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
-import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_header.dart';
@@ -33,60 +32,51 @@ class _CategoryDetailsState extends State<CategoryDetails> {
         ..intialize(
             widget.categories[widget.currentIndex], widget.currentIndex),
       child: BaseAppScaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: SizeConstants.kScaffoldPadding(context),
+        body: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: SizedBox(height: context.setMinSize(20)),
+            ),
+            SliverPadding(
+              padding: SizeConstants.kScaffoldPadding(context),
+              sliver: SliverToBoxAdapter(
                 child: CustomHeader(
                     titleKey: widget.categories[widget.currentIndex].name!),
               ),
-              context.setMinSize(30).verticalSpace,
-              SizedBox(
-                height: context.screenHeight * 0.2,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.only(left: context.setMinSize(16)),
-                    itemCount: widget.categories.length,
-                    itemBuilder: (context, index) {
-                      final currentCategory = widget.categories[index];
-                      return AnimatedScale(
-                          scale: 1,
-                          duration: Duration.zero,
-                          child: CategoryCard(
-                            currentCategory: currentCategory,
-                            onTap: () {},
-                          ));
-                    }),
-              ),
-              context.setMinSize(30).verticalSpace,
-              Padding(
-                padding: SizeConstants.kScaffoldPadding(context),
-                child: BlocBuilder<CategoryDetailsCubit, CategoryDetailsState>(
-                  buildWhen: (previous, current) =>
-                      previous.programs != current.programs,
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(height: context.setMinSize(30)),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: context.screenHeight * 0.15,
+                child: BlocSelector<CategoryDetailsCubit, CategoryDetailsState,
+                    int>(
+                  selector: (state) {
+                    return state.currentCategoryIndex!;
+                  },
                   builder: (context, state) {
-                    if (state.programs!.isEmpty) {
-                      return const EmptyStateWidget(message: "No Programs");
-                    }
                     return ListView.builder(
-                      itemCount: state.programs!.length,
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.only(left: context.setMinSize(16)),
+                      itemCount: widget.categories.length,
                       itemBuilder: (context, index) {
-                        final program = state.programs![index];
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.darkGreyColor,
-                            borderRadius:
-                                SizeConstants.kDefaultBorderRadius(context),
-                          ),
-                          height: context.setMinSize(100),
-                          child: Center(
-                            child: Text(program.name!,
-                                style:
-                                    AppTextStyles.fontSize16(context).copyWith(
-                                  color: Colors.white,
-                                )),
+                        final currentCategory = widget.categories[index];
+                        return AnimatedScale(
+                          scale: index == state ? 1 : 0.8,
+                          duration: const Duration(milliseconds: 400),
+                          child: AnimatedOpacity(
+                            opacity: index == state ? 1 : 0.65,
+                            duration: const Duration(milliseconds: 400),
+                            child: CategoryCard(
+                              currentCategory: currentCategory,
+                              onTap: () {
+                                context
+                                    .read<CategoryDetailsCubit>()
+                                    .onCategoryChanged(
+                                        widget.categories[index], index);
+                              },
+                            ),
                           ),
                         );
                       },
@@ -94,8 +84,54 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                   },
                 ),
               ),
-            ],
-          ),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(height: context.setMinSize(30)),
+            ),
+            BlocBuilder<CategoryDetailsCubit, CategoryDetailsState>(
+              buildWhen: (previous, current) =>
+                  previous.programs != current.programs,
+              builder: (context, state) {
+                if (state.programs!.isEmpty) {
+                  return SliverToBoxAdapter(
+                    child: Padding(
+                      padding: SizeConstants.kScaffoldPadding(context),
+                      child: const EmptyStateWidget(message: "No Programs"),
+                    ),
+                  );
+                }
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final program = state.programs![index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 8.0,
+                            horizontal: SizeConstants.kScaffoldPadding(context)
+                                .horizontal),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.darkGreyColor,
+                            borderRadius:
+                                SizeConstants.kDefaultBorderRadius(context),
+                          ),
+                          height: context.setMinSize(100),
+                          child: Center(
+                            child: Text(
+                              program.name!,
+                              style: AppTextStyles.fontSize16(context)
+                                  .copyWith(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    childCount: state.programs!.length,
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

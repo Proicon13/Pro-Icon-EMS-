@@ -10,6 +10,10 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
   CategoryDetailsCubit() : super(const CategoryDetailsState());
 
   void intialize(Categories categories, int index) {
+    onCategoryChanged(categories, index);
+  }
+
+  void onCategoryChanged(Categories categories, int index) {
     emit(state.copyWith(
         currentCategoryIndex: index,
         programs: List.from(categories.programs!)));

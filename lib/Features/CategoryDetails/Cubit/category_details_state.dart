@@ -1,6 +1,23 @@
 part of 'category_details_cubit.dart';
 
 @immutable
-sealed class CategoryDetailsState {}
+class CategoryDetailsState extends Equatable {
+  final int? currentCategoryIndex;
+  final List<Programs>? programs;
 
-final class CategoryDetailsInitial extends CategoryDetailsState {}
+  const CategoryDetailsState(
+      {this.currentCategoryIndex = 0, this.programs = const []});
+
+  CategoryDetailsState copyWith({
+    int? currentCategoryIndex,
+    List<Programs>? programs,
+  }) {
+    return CategoryDetailsState(
+      currentCategoryIndex: currentCategoryIndex ?? this.currentCategoryIndex,
+      programs: programs ?? this.programs,
+    );
+  }
+
+  @override
+  List<Object?> get props => [currentCategoryIndex, programs];
+}

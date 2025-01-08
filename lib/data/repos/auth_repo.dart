@@ -6,6 +6,7 @@ import 'package:pro_icon/data/services/auth_service.dart';
 import 'package:pro_icon/data/services/auth_token_service.dart';
 import 'package:pro_icon/data/services/reset_password_service.dart';
 
+import '../../Core/entities/user_factory.dart';
 import '../models/app_user_model.dart';
 import '../models/login_request_.dart';
 import '../models/reset_password_request.dart';
@@ -71,7 +72,7 @@ class AuthRepoImpl implements AuthRepo {
           // Save token to secured local storage
           await _authTokenService.saveToken(token);
 
-          return Right(userResponse.data!);
+          return Right(UserFactory.getUserType(userResponse.data!.role!));
         } on CacheException catch (e) {
           // on local storage error
           return Left(CacheFailure(message: e.message));

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'city_model.dart';
+import 'programming_request.dart';
 
 class AppUserModel extends Equatable {
   final int? id;
@@ -13,6 +14,7 @@ class AppUserModel extends Equatable {
   final String? phone;
   final String? role;
   final String? status;
+  final ProgrammingRequest? promotionRequest;
 
   const AppUserModel({
     this.id,
@@ -25,6 +27,7 @@ class AppUserModel extends Equatable {
     this.phone,
     this.role,
     this.status,
+    this.promotionRequest,
   });
 
   factory AppUserModel.fromJson(Map<String, dynamic> json) {
@@ -44,6 +47,10 @@ class AppUserModel extends Equatable {
       phone: json['phone'] != null ? json['phone'] as String : "No Phone",
       role: json['role'] != null ? json['role'] as String : null,
       status: json['status'] != null ? json['status'] as String : "NOT ACTIVE",
+      promotionRequest: json['promotionRequest'] != null
+          ? ProgrammingRequest.fromJson(
+              json['promotionRequest'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -58,6 +65,7 @@ class AppUserModel extends Equatable {
         address,
         phone,
         role,
-        status
+        status,
+        promotionRequest
       ];
 }

@@ -1,19 +1,22 @@
 import 'package:pro_icon/Core/entities/user_entity.dart';
+import 'package:pro_icon/data/models/programming_request.dart';
 
 class AdminEntity extends UserEntity {
-  AdminEntity({
-    id,
-    role,
-    email,
-    fullname,
-    image,
-    city,
-    postalCode,
-    address,
-    phone,
-  }) : super(
+  final ProgrammingRequest? programmingRequest;
+  AdminEntity(
+      {id,
+      email,
+      fullname,
+      image,
+      city,
+      postalCode,
+      address,
+      phone,
+      status,
+      this.programmingRequest})
+      : super(
           id: id,
-          role: role,
+          role: "ADMIN",
           email: email,
           fullname: fullname,
           image: image,
@@ -21,5 +24,6 @@ class AdminEntity extends UserEntity {
           postalCode: postalCode,
           address: address,
           phone: phone,
+          status: status,
         );
 }

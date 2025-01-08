@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
-import 'package:pro_icon/Core/entities/user_factory.dart';
 import 'package:pro_icon/Core/networking/base_api_provider.dart';
 import 'package:pro_icon/data/mappers/app_user_mapper.dart';
 import 'package:pro_icon/data/models/api_response.dart';
@@ -24,10 +23,9 @@ class UserService {
     if (response.isSuccess) {
       final user =
           AppUserEntityMapper.toEntity(AppUserModel.fromJson(response.data!));
-      final userType = UserFactory.getUserType(user.role!);
 
       return ApiResponse.success(
-        userType,
+        user,
       );
     } else {
       return ApiResponse.failure(response.error);

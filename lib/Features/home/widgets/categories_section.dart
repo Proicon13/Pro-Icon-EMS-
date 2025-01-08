@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Features/CategoryDetails/Screens/Category_details.dart';
 
 import '../../../Core/widgets/custom_loader.dart';
 import '../cubit/home_cubit.dart';
@@ -44,7 +45,12 @@ class CategoriesSection extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         final currentCategory = state.categories[index];
-        return CategoryCard(currentCategory: currentCategory);
+        return CategoryCard(
+            onTap: () {
+              Navigator.pushNamed(context, CategoryDetails.routeName,
+                  arguments: [state.categories, index]);
+            },
+            currentCategory: currentCategory);
       },
     );
   }

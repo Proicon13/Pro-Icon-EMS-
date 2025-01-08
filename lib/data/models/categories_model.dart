@@ -1,4 +1,3 @@
-
 class Categories {
   int? id;
   String? name;
@@ -10,9 +9,9 @@ class Categories {
 
   Categories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
-    description = json['description'];
-    image = json['image'];
+    name = json['name'] ?? "Category";
+    description = json['description'] ?? "";
+    image = json['image'] ?? "";
     if (json['programs'] != null) {
       programs = <Programs>[];
       (json['programs'] as List<dynamic>).forEach((v) {
@@ -46,23 +45,23 @@ class Programs {
 
   Programs(
       {this.id,
-        this.name,
-        this.description,
-        this.duration,
-        this.image,
-        this.createdById,
-        this.pulse,
-        this.hertez});
+      this.name,
+      this.description,
+      this.duration,
+      this.image,
+      this.createdById,
+      this.pulse,
+      this.hertez});
 
   Programs.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
-    description = json['description'];
-    duration = json['duration'];
-    image = json['image'];
+    name = json['name'] ?? "Default Program";
+    description = json['description'] ?? "";
+    duration = json['duration'] ?? 20;
+    image = json['image'] ?? "";
     createdById = json['createdById'];
-    pulse = json['pulse'];
-    hertez = json['hertez'];
+    pulse = json['pulse'] ?? 0;
+    hertez = json['hertez'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {

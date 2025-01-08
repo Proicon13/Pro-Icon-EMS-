@@ -6,6 +6,7 @@ import 'package:pro_icon/Core/cubits/region_cubit/region_cubit.dart';
 import 'package:pro_icon/Core/networking/base_api_provider.dart';
 import 'package:pro_icon/Core/networking/dio_consumer.dart';
 import 'package:pro_icon/Core/networking/interceptor.dart';
+import 'package:pro_icon/Features/CategoryDetails/Cubit/category_details_cubit.dart';
 import 'package:pro_icon/Features/auth/login/cubit/login_cubit.dart';
 import 'package:pro_icon/Features/auth/register/cubits/set_password_cubit.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/forget_password/forget_password_cubit.dart';
@@ -116,6 +117,8 @@ void setupDependencies() {
   getIt.registerFactory<HomeCubit>(() => HomeCubit(
         categoriesServices: getIt(),
       ));
+
+  getIt.registerFactory<CategoryDetailsCubit>(() => CategoryDetailsCubit());
 
   getIt.registerLazySingleton<MainCubit>(() => MainCubit());
   getIt.registerLazySingleton<UserStateCubit>(

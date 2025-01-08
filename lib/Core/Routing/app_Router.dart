@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/Features/manage_trainer/screens/trainer_password_regestraion_screen.dart';
+import 'package:pro_icon/data/models/categories_model.dart';
 
+import '../../Features/CategoryDetails/Screens/Category_details.dart';
 import '../../Features/auth/login/screens/login_screen.dart';
 import '../../Features/auth/register/screens/admin_address_screen.dart';
 import '../../Features/auth/register/screens/register_screen.dart';
@@ -134,6 +136,18 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
         settings: const RouteSettings(name: MainScreen.routeName),
         builder: (_) {
           return const MainScreen();
+        },
+      );
+
+    case CategoryDetails.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: CategoryDetails.routeName),
+        builder: (_) {
+          final arguments = settings.arguments as List<dynamic>;
+          final categories = arguments[0] as List<Categories>;
+          final index = arguments[1] as int;
+
+          return CategoryDetails(categories: categories, currentIndex: index);
         },
       );
 

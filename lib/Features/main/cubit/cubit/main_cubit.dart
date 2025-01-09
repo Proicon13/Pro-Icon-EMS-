@@ -10,6 +10,10 @@ part 'main_state.dart';
 class MainCubit extends Cubit<MainState> {
   MainCubit() : super(const MainState());
 
+  void onInit(MainSections section) {
+    changeSection(section);
+  }
+
   void changeSection(MainSections section) {
     emit(state.copyWith(currentSection: section));
   }

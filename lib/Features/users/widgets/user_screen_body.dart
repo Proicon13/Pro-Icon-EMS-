@@ -6,8 +6,8 @@ import 'package:pro_icon/Core/theme/app_colors.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Features/clients/add_client/screens/add_client_screen.dart';
+import 'package:pro_icon/Features/main/main_screen.dart';
 import 'package:pro_icon/Features/manage_trainer/screens/manage_trainer_screen.dart';
-import 'package:pro_icon/Features/users/screens/users_screen.dart';
 import 'package:pro_icon/Features/users/widgets/filter_dialog.dart';
 import 'package:pro_icon/Features/users/widgets/search_section.dart';
 
@@ -68,7 +68,7 @@ class UsersScreenBody extends StatelessWidget {
                 Navigator.pushNamed(context, ManageTrainerScreen.routeName);
               } else {
                 Navigator.pushNamed(context, AddClientScreen.routeName,
-                    arguments: UsersView.routeName);
+                    arguments: MainScreen.routeName);
               }
             },
           ),

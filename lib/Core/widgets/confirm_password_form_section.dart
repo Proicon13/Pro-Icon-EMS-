@@ -16,6 +16,7 @@ class ConfirmPasswordFormSection extends StatelessWidget {
       title: 'setPasswordForm.confirmPasswordTitle'.tr(), // "Confirm Password"
       hintText: 'setPasswordForm.passwordHint'.tr(),
       obscureText: true,
+      maxLines: 1,
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(
             errorText: "setPasswordForm.confirmPasswordRequiredError".tr()),

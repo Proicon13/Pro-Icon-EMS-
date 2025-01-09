@@ -1,12 +1,12 @@
 part of 'client_registration_cubit.dart';
 
-enum RequestStatus { loading, success, error }
+enum RequestStatus { intial, loading, success, error }
 
 class ClientRegistrationState extends Equatable {
   final RequestStatus? requestStatus;
   final String? message;
   const ClientRegistrationState(
-      {this.requestStatus = RequestStatus.loading, this.message = ""});
+      {this.requestStatus = RequestStatus.intial, this.message = ""});
 
   ClientRegistrationState copyWith({
     RequestStatus? requestStatus,

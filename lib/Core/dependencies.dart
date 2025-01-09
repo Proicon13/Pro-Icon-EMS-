@@ -120,7 +120,7 @@ void setupDependencies() {
 
   getIt.registerFactory<CategoryDetailsCubit>(() => CategoryDetailsCubit());
 
-  getIt.registerLazySingleton<MainCubit>(() => MainCubit());
+  getIt.registerFactory<MainCubit>(() => MainCubit());
   getIt.registerLazySingleton<UserStateCubit>(
     () => UserStateCubit(
       authRepo: getIt(),

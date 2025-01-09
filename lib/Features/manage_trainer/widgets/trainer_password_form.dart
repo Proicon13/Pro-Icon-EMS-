@@ -4,8 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
+import 'package:pro_icon/Features/main/cubit/cubit/main_cubit.dart';
+import 'package:pro_icon/Features/main/main_screen.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/trainer_password_cubit.dart';
-import 'package:pro_icon/Features/users/screens/users_screen.dart';
 import 'package:pro_icon/data/models/sign_up_request_builder.dart';
 
 import '../../../Core/utils/enums/role.dart';
@@ -58,8 +59,11 @@ class TrainerPasswordForm extends StatelessWidget {
           buildCustomAlert(context, state.message, Colors.green);
 
           Future.delayed(const Duration(seconds: 3), () {
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil(UsersView.routeName, (route) => false);
+            // move to main screen with users section view
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                MainScreen.routeName,
+                arguments: MainSections.users,
+                (route) => false);
           });
         }
       },

@@ -52,7 +52,14 @@ class _AddClientScreenState extends State<AddClientScreen> {
       ],
       child: KeyboardDismissable(
         child: BaseAppScaffold(
-          appBar: CustomAppBar(titleKey: 'userManagment.screen.addClient'.tr()),
+          appBar: CustomAppBar(
+            titleKey: 'userManagment.screen.addClient'.tr(),
+            onBack: () {
+              // RESET BUILDER IF back
+              ClientRegistrationBuilder().reset();
+              Navigator.pop(context);
+            },
+          ),
           body: Padding(
             padding: SizeConstants.kScaffoldPadding(context),
             child: AddClientBody(
@@ -89,7 +96,6 @@ class _AddClientScreenState extends State<AddClientScreen> {
 
       // use builder to build current fields
       ClientRegistrationBuilder()
-          .setEmail(updatedFormData['email'])
           .setFullname(updatedFormData['fullname'])
           .setPhone(updatedFormData['phone'])
           .setAddress(updatedFormData['address'])

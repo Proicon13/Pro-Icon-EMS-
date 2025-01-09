@@ -142,11 +142,11 @@ class _ManageTrainerScreenState extends State<ManageTrainerScreen> {
         final builder = SignupRequestBuilder();
 
         builder
-            .setFullname(updatedFormData['fullName'])
+            .setFullname(updatedFormData['fullname'])
             .setPhone(updatedFormData['phone'])
             .setCityId(updatedFormData['cityId'])
             .setPostalCode(updatedFormData['postalCode'])
-            .setAddress(updatedFormData['fullAddress']);
+            .setAddress(updatedFormData['address']);
 
         // navigate to next screen for complete registration
 

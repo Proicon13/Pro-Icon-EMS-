@@ -11,7 +11,8 @@ import 'widgets/start_icon.dart';
 
 class MainScreen extends StatefulWidget {
   static const String routeName = '/main-screen';
-  const MainScreen({super.key});
+  const MainScreen({super.key, this.selectedSection = MainSections.programs});
+  final MainSections? selectedSection;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -19,10 +20,16 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   late PageController _pageController;
+  late int intialPage;
 
   @override
   void initState() {
-    _pageController = PageController();
+    if (widget.selectedSection == null) {
+      intialPage = 0;
+    } else {
+      intialPage = MainSections.values.indexOf(widget.selectedSection!);
+    }
+    _pageController = PageController(initialPage: intialPage);
     super.initState();
   }
 
@@ -35,7 +42,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => getIt<MainCubit>(),
+        create: (context) => getIt<MainCubit>()
+          ..onInit(widget.selectedSection ?? MainSections.programs),
         child: BaseAppScaffold(
           body: PageView.builder(
               itemCount: MainSections.values.length,

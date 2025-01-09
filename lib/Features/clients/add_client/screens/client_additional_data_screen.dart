@@ -13,9 +13,11 @@ import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Features/clients/add_client/cubits/cubit/client_registration_cubit.dart';
 import 'package:pro_icon/Features/clients/add_client/widgets/client_additional_data_form.dart';
+import 'package:pro_icon/Features/main/main_screen.dart';
 import 'package:pro_icon/data/models/client_regestraion_request_builder.dart';
 
 import '../../../../Core/dependencies.dart';
+import '../../../main/cubit/cubit/main_cubit.dart';
 
 class ClientAdditionalDataScreen extends StatefulWidget {
   static const routeName = '/client-additional-data';
@@ -66,10 +68,15 @@ class _ClientAdditionalDataScreenState
                   buildCustomAlert(context, state.message!, Colors.green);
                   Future.delayed(const Duration(seconds: 3), () {
                     if (context.mounted) {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        widget.toRoute,
-                      );
+                      if (widget.toRoute == MainScreen.routeName) {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          MainScreen.routeName,
+                          arguments: MainSections.users,
+                        );
+                      } else {
+                        Navigator.pushReplacementNamed(context, widget.toRoute);
+                      }
                     }
                   });
                 } else if (state.requestStatus == RequestStatus.error) {
@@ -103,12 +110,13 @@ class _ClientAdditionalDataScreenState
       // use builder to build current fields
       final builder = ClientRegistrationBuilder()
           .setEmail(formData['email'])
-          .setBirthDate(formData['birthDate'])
-          .setGender((formData['gender'] as Gender).name)
+          .setBirthDate(formData['birthdate'])
+          .setGender((formData['gender'] as Gender).jsonName)
           .setHeight(int.parse(formData['height']))
           .setWeight(int.parse(formData['weight']));
 
       final clientData = builder.build();
+
       BlocProvider.of<ClientRegistrationCubit>(context, listen: false)
           .registerClient(clientData);
     }

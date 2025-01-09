@@ -35,7 +35,8 @@ class ClientRegistration extends Equatable {
       'gender': gender,
       'weight': weight.toString(),
       'height': height.toString(),
-      // 'birthdate': birthDate?.toIso8601String(),
+      'birthDate':
+          birthDate?.toIso8601String().split('T').first, // Format birthDate,
     };
   }
 

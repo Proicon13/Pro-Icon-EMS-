@@ -17,35 +17,57 @@ class CategoriesListSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<CategoryDetailsCubit, CategoryDetailsState, int>(
-      selector: (state) {
-        return state.currentCategoryIndex!;
-      },
-      builder: (context, state) {
+      selector: (state) => state.currentCategoryIndex!,
+      builder: (context, selectedIndex) {
         return ListView.builder(
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.only(left: context.setMinSize(16)),
           itemCount: categories.length,
           itemBuilder: (context, index) {
             final currentCategory = categories[index];
-            return AnimatedScale(
-              scale: index == state ? 1 : 0.8,
-              duration: const Duration(milliseconds: 400),
-              child: AnimatedOpacity(
-                opacity: index == state ? 1 : 0.65,
-                duration: const Duration(milliseconds: 400),
-                child: CategoryCard(
-                  currentCategory: currentCategory,
-                  onTap: () {
-                    context
-                        .read<CategoryDetailsCubit>()
-                        .onCategoryChanged(categories[index], index);
-                  },
-                ),
-              ),
+            return CategoryItem(
+              category: currentCategory,
+              isSelected: index == selectedIndex,
+              onTap: () {
+                context
+                    .read<CategoryDetailsCubit>()
+                    .onCategoryChanged(currentCategory, index);
+              },
             );
           },
         );
       },
+    );
+  }
+}
+
+class CategoryItem extends StatelessWidget {
+  const CategoryItem({
+    super.key,
+    required this.category,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final Categories category;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return RepaintBoundary(
+      child: AnimatedScale(
+        scale: isSelected ? 1 : 0.7,
+        duration: const Duration(milliseconds: 300),
+        child: AnimatedOpacity(
+          opacity: isSelected ? 1 : 0.65,
+          duration: const Duration(milliseconds: 300),
+          child: CategoryCard(
+            currentCategory: category,
+            onTap: onTap,
+          ),
+        ),
+      ),
     );
   }
 }

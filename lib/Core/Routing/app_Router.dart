@@ -6,6 +6,7 @@ import 'package:pro_icon/Features/manage_trainer/screens/trainer_password_regest
 import 'package:pro_icon/data/models/categories_model.dart';
 
 import '../../Features/CategoryDetails/Screens/Category_details.dart';
+import '../../Features/Profile/Screens/profile_screen.dart';
 import '../../Features/auth/login/screens/login_screen.dart';
 import '../../Features/auth/register/screens/admin_address_screen.dart';
 import '../../Features/auth/register/screens/register_screen.dart';
@@ -152,6 +153,14 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
           final index = arguments[1] as int;
 
           return CategoryDetails(categories: categories, currentIndex: index);
+        },
+      );
+
+    case ProfileScreen.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: ProfileScreen.routeName),
+        builder: (_) {
+          return const ProfileScreen();
         },
       );
 

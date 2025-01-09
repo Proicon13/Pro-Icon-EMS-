@@ -36,14 +36,18 @@ class CustomHeader extends StatelessWidget {
                   ),
                   onTap: onBack ?? () => Navigator.of(context).pop(),
                 ),
-          const Spacer(), // Pushes the title to the center
-          Text(
-            titleKey,
-            style:
-                AppTextStyles.fontSize20(context).copyWith(color: Colors.white),
-            textAlign: TextAlign.center,
+          // Pushes the title to the center
+          Expanded(
+            child: Center(
+              child: Text(
+                titleKey,
+                style: AppTextStyles.fontSize20(context)
+                    .copyWith(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
-          const Spacer(), // Ensures symmetry on the right
+          // Ensures symmetry on the right
         ],
       ),
     );

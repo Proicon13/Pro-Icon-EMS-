@@ -24,6 +24,7 @@
     "signup.emailInvalidError": "Enter a valid email address",
     "signup": "Sign up",
     "signin": "Sign in",
+    "profile": "profile",
     "haveAccount.title": "Have an account?",
     "donthaveAccount.title": "Don`t have an account?",
     "register.countryLabel": "Country",

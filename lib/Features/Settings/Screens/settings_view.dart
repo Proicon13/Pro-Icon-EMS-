@@ -9,6 +9,7 @@ import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/custom_circular_image.dart';
 import 'package:pro_icon/Core/widgets/custom_header.dart';
 import 'package:pro_icon/Features/Mads/Screens/Mads_screen.dart';
+import 'package:pro_icon/Features/Profile/Screens/profile_screen.dart';
 
 import '../../../Core/dependencies.dart';
 
@@ -65,12 +66,12 @@ class _SettingsViewState extends State<SettingsView> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Admin 123",
+                  Text(getIt<UserStateCubit>().state.currentUser!.fullname!,
                       style: AppTextStyles.fontSize20(context).copyWith(
                         color: Colors.white,
                       )),
                   context.setMinSize(10).verticalSpace,
-                  Text("omarsabry8989@gmail.com",
+                  Text(getIt<UserStateCubit>().state.currentUser!.email!,
                       style: AppTextStyles.fontSize16(context).copyWith(
                         color: AppColors.white71Color,
                       )),
@@ -100,7 +101,7 @@ class _SettingsViewState extends State<SettingsView> {
                     // إضافة وظيفة عند النقر على العنصر
                     switch (item['title']) {
                       case 'Edit Profile':
-                        // انتقل إلى شاشة تعديل الملف الشخصي
+                        Navigator.pushNamed(context, ProfileScreen.routeName);
                         break;
                       case 'Mads':
                         Navigator.pushReplacement(

@@ -35,8 +35,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late final GlobalKey<FormBuilderState> _formKey;
   void _submitForm(BuildContext context) {
-    if (_formKey.currentState?.validate() ?? false) {
-      _formKey.currentState?.save();
+    if (_formKey.currentState?.saveAndValidate() ?? false) {
       final formData = _formKey.currentState?.value;
       final email = formData!['email'];
       final password = formData['password'];
@@ -58,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     super.dispose();
-    _formKey.currentState!.dispose();
+    _formKey.currentState?.dispose();
   }
 
   @override

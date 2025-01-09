@@ -103,8 +103,8 @@ class Assets {
   static const String assetsImagesStartIcon = "assets/images/start_icon.svg";
 
   /// Assets for assetsImagesSuccess
-  /// assets/images/success.png
-  static const String assetsImagesSuccess = "assets/images/success.png";
+  /// assets/images/success.svg
+  static const String assetsImagesSuccess = "assets/images/success.svg";
 
   /// Assets for assetsImagesTrainer
   /// assets/images/trainer.png
@@ -125,4 +125,6 @@ class Assets {
   /// Assets for assetsImagesVector (1)
   /// assets/images/Vector (1).png
   static const String assetsImagesVector1 = "assets/images/Vector (1).png";
+
+  static const String assetsPulseIcon = "assets/images/pulse_icon.svg";
 }

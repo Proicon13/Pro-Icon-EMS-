@@ -19,7 +19,7 @@ class CustomNetworkImage extends StatelessWidget {
     return LayoutBuilder(builder: (context, constraints) {
       return CachedNetworkImage(
         imageUrl: imageUrl,
-        fit: BoxFit.contain,
+        fit: BoxFit.cover,
         placeholder: (context, url) => Skeletonizer(
           child: Container(
             color: Colors.grey[300],

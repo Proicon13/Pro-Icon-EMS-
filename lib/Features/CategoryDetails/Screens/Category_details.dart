@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pro_icon/Core/theme/app_colors.dart';
-import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_header.dart';
 import 'package:pro_icon/Core/widgets/empty_state_widget.dart';
 import 'package:pro_icon/Features/CategoryDetails/Cubit/category_details_cubit.dart';
-import 'package:pro_icon/Features/home/widgets/category_card.dart';
+import 'package:pro_icon/Features/CategoryDetails/Widget/program_card.dart';
 import 'package:pro_icon/data/models/categories_model.dart';
 
 import '../../../Core/dependencies.dart';
+import '../Widget/categories_section.dart';
 
 class CategoryDetails extends StatefulWidget {
   static const routeName = "/Category-details";
@@ -50,39 +50,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
             SliverToBoxAdapter(
               child: SizedBox(
                 height: context.screenHeight * 0.15,
-                child: BlocSelector<CategoryDetailsCubit, CategoryDetailsState,
-                    int>(
-                  selector: (state) {
-                    return state.currentCategoryIndex!;
-                  },
-                  builder: (context, state) {
-                    return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.only(left: context.setMinSize(16)),
-                      itemCount: widget.categories.length,
-                      itemBuilder: (context, index) {
-                        final currentCategory = widget.categories[index];
-                        return AnimatedScale(
-                          scale: index == state ? 1 : 0.8,
-                          duration: const Duration(milliseconds: 400),
-                          child: AnimatedOpacity(
-                            opacity: index == state ? 1 : 0.65,
-                            duration: const Duration(milliseconds: 400),
-                            child: CategoryCard(
-                              currentCategory: currentCategory,
-                              onTap: () {
-                                context
-                                    .read<CategoryDetailsCubit>()
-                                    .onCategoryChanged(
-                                        widget.categories[index], index);
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
+                child: CategoriesListSection(categories: widget.categories),
               ),
             ),
             SliverToBoxAdapter(
@@ -106,23 +74,17 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                       final program = state.programs![index];
                       return Padding(
                         padding: EdgeInsets.symmetric(
-                            vertical: 8.0,
+                            vertical: context.setMinSize(10),
                             horizontal: SizeConstants.kScaffoldPadding(context)
                                 .horizontal),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.darkGreyColor,
-                            borderRadius:
-                                SizeConstants.kDefaultBorderRadius(context),
-                          ),
-                          height: context.setMinSize(100),
-                          child: Center(
-                            child: Text(
-                              program.name!,
-                              style: AppTextStyles.fontSize16(context)
-                                  .copyWith(color: Colors.white),
-                            ),
-                          ),
+                        child: SizeConfig(
+                          baseSize: const Size(398, 175),
+                          width: context.setMinSize(398),
+                          height: context.setMinSize(175),
+                          child: Builder(builder: (context) {
+                            return ProgramCard(
+                                key: ValueKey(program.id!), program: program);
+                          }),
                         ),
                       );
                     },

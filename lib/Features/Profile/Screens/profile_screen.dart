@@ -9,8 +9,10 @@ import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_header.dart';
+import 'package:pro_icon/Features/Profile/Cubit/profile_cubit.dart';
 
 import '../../../Core/dependencies.dart';
+import '../../../Core/widgets/keyboard_dismissable.dart';
 import '../widgets/profile_image_section.dart';
 import '../widgets/update_profile_form.dart';
 
@@ -41,6 +43,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<ProfileCubit>(
+          create: (context) => getIt<ProfileCubit>(),
+        ),
         BlocProvider<RegionCubit>(
           create: (context) => getIt<RegionCubit>()..getCountries(),
         ),
@@ -48,19 +53,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
           create: (context) => getIt<PhoneRegistrationCubit>(),
         )
       ],
-      child: BaseAppScaffold(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: SizeConstants.kScaffoldPadding(context),
-            child: Column(
-              children: [
-                context.setMinSize(30).verticalSpace,
-                CustomHeader(titleKey: "profile".tr()),
-                context.setMinSize(30).verticalSpace,
-                const ProfileImageSection(),
-                context.setMinSize(20).verticalSpace,
-                UpdateProfileForm(formKey: _formKey)
-              ],
+      child: KeyboardDismissable(
+        child: BaseAppScaffold(
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: SizeConstants.kScaffoldPadding(context),
+              child: Column(
+                children: [
+                  context.setMinSize(30).verticalSpace,
+                  CustomHeader(titleKey: "profile".tr()),
+                  context.setMinSize(30).verticalSpace,
+                  const ProfileImageSection(),
+                  context.setMinSize(20).verticalSpace,
+                  UpdateProfileForm(formKey: _formKey)
+                ],
+              ),
             ),
           ),
         ),

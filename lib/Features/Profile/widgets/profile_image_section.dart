@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Features/Profile/Cubit/profile_cubit.dart';
 
 import '../../../Core/constants/app_assets.dart';
 import '../../../Core/widgets/custom_circular_image.dart';
@@ -20,7 +21,9 @@ class ProfileImageSection extends StatelessWidget {
       },
       builder: (context, state) {
         return GestureDetector(
-          onTap: () {},
+          onTap: () {
+            context.read<ProfileCubit>().onPickImage();
+          },
           child: Stack(
             children: [
               CustomCircularImage(

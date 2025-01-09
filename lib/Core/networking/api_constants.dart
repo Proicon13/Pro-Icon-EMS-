@@ -3,6 +3,7 @@ class ApiConstants {
   static const String baseUrl = "https://api.openweathermap.org/data/2.5/";
   static const loginEndPoint = '/auth/login';
   static const registerEndpoint = '/auth/register';
+  static const usersEndpoint = '/users';
   static const forgotPasswordEndpoint = '/auth/forgot-password';
   static const resetPasswordEndpoint = '/auth/reset-password';
   static const lookUpCountriesEndpoint = '/lookups/countries';

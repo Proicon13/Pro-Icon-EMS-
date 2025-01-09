@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
+import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/Core/theme/app_colors.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
@@ -10,8 +12,6 @@ import 'package:pro_icon/Core/widgets/custom_circular_image.dart';
 import 'package:pro_icon/Core/widgets/custom_header.dart';
 import 'package:pro_icon/Features/Mads/Screens/Mads_screen.dart';
 import 'package:pro_icon/Features/Profile/Screens/profile_screen.dart';
-
-import '../../../Core/dependencies.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -54,30 +54,37 @@ class _SettingsViewState extends State<SettingsView> {
           ),
           context.setMinSize(30).verticalSpace,
 
-          Row(
-            children: [
-              CustomCircularImage(
-                  width: context.setMinSize(80),
-                  height: context.setMinSize(80),
-                  imageUrl: getIt<UserStateCubit>().state.currentUser!.image!),
-              const SizedBox(width: 16),
-
-              // get user info from user state
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          BlocSelector<UserStateCubit, UserStateState, UserEntity>(
+            selector: (state) {
+              return state.currentUser!;
+            },
+            builder: (context, state) {
+              return Row(
                 children: [
-                  Text(getIt<UserStateCubit>().state.currentUser!.fullname!,
-                      style: AppTextStyles.fontSize20(context).copyWith(
-                        color: Colors.white,
-                      )),
-                  context.setMinSize(10).verticalSpace,
-                  Text(getIt<UserStateCubit>().state.currentUser!.email!,
-                      style: AppTextStyles.fontSize16(context).copyWith(
-                        color: AppColors.white71Color,
-                      )),
+                  CustomCircularImage(
+                      width: context.setMinSize(80),
+                      height: context.setMinSize(80),
+                      imageUrl: state.image!),
+                  const SizedBox(width: 16),
+
+                  // get user info from user state
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(state.fullname!,
+                          style: AppTextStyles.fontSize20(context).copyWith(
+                            color: Colors.white,
+                          )),
+                      context.setMinSize(10).verticalSpace,
+                      Text(state.email!,
+                          style: AppTextStyles.fontSize16(context).copyWith(
+                            color: AppColors.white71Color,
+                          )),
+                    ],
+                  ),
                 ],
-              ),
-            ],
+              );
+            },
           ),
           context.setMinSize(30).verticalSpace,
 

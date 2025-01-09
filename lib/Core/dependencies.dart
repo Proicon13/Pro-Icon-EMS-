@@ -7,6 +7,7 @@ import 'package:pro_icon/Core/networking/base_api_provider.dart';
 import 'package:pro_icon/Core/networking/dio_consumer.dart';
 import 'package:pro_icon/Core/networking/interceptor.dart';
 import 'package:pro_icon/Features/CategoryDetails/Cubit/category_details_cubit.dart';
+import 'package:pro_icon/Features/Profile/Cubit/profile_cubit.dart';
 import 'package:pro_icon/Features/auth/login/cubit/login_cubit.dart';
 import 'package:pro_icon/Features/auth/register/cubits/set_password_cubit.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/forget_password/forget_password_cubit.dart';
@@ -28,6 +29,7 @@ import 'package:pro_icon/data/services/auth_token_service.dart';
 import 'package:pro_icon/data/services/client_strategy_service.dart';
 import 'package:pro_icon/data/services/clients_service.dart';
 import 'package:pro_icon/data/services/health_condition_service.dart';
+import 'package:pro_icon/data/services/profile_service.dart';
 import 'package:pro_icon/data/services/reset_password_service.dart';
 import 'package:pro_icon/data/services/trainer_service.dart';
 import 'package:pro_icon/data/services/user_service.dart';
@@ -70,6 +72,8 @@ void setupDependencies() {
 
   getIt.registerLazySingleton(
       () => ClientStrategyService(baseApiProvider: getIt()));
+
+  getIt.registerLazySingleton(() => ProfileService(apiProvider: getIt()));
   // repos
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(
       authService: getIt(),
@@ -126,6 +130,12 @@ void setupDependencies() {
       authRepo: getIt(),
       authTokenService: getIt(),
       userService: getIt(),
+    ),
+  );
+
+  getIt.registerFactory<ProfileCubit>(
+    () => ProfileCubit(
+      profileService: getIt(),
     ),
   );
 }

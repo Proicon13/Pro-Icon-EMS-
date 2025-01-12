@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 class Categories {
   int? id;
   String? name;
@@ -33,17 +35,17 @@ class Categories {
   }
 }
 
-class Programs {
-  int? id;
-  String? name;
-  String? description;
-  int? duration;
-  String? image;
-  int? createdById;
-  int? pulse;
-  int? hertez;
+class Programs extends Equatable {
+  final int? id;
+  final String? name;
+  final String? description;
+  final int? duration;
+  final String? image;
+  final int? createdById;
+  final int? pulse;
+  final int? hertez;
 
-  Programs(
+  const Programs(
       {this.id,
       this.name,
       this.description,
@@ -53,15 +55,16 @@ class Programs {
       this.pulse,
       this.hertez});
 
-  Programs.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'] ?? "Default Program";
-    description = json['description'] ?? "";
-    duration = json['duration'] ?? 20;
-    image = json['image'] ?? "";
-    createdById = json['createdById'];
-    pulse = json['pulse'] ?? 0;
-    hertez = json['hertez'] ?? 0;
+  factory Programs.fromJson(Map<String, dynamic> json) {
+    return Programs(
+        id: json['id'] ?? 0,
+        name: json['name'] ?? "Not Definded",
+        description: json['description'] ?? '',
+        duration: json['duration'] ?? 0,
+        image: json['image'] ?? '',
+        createdById: json['createdById'] ?? 0,
+        pulse: json['pulse'] ?? 0,
+        hertez: json['hertez'] ?? 0);
   }
 
   Map<String, dynamic> toJson() {
@@ -76,4 +79,9 @@ class Programs {
     data['hertez'] = this.hertez;
     return data;
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props =>
+      [id, name, description, duration, image, createdById, pulse, hertez];
 }

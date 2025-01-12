@@ -1,7 +1,10 @@
+import 'package:pro_icon/Core/entities/program_entity.dart';
+
 import 'user_entity.dart';
 
 class ProgrammerEntity extends UserEntity {
-  ProgrammerEntity({
+  final List<ProgramEntity>? customPrograms;
+  const ProgrammerEntity({
     id,
     email,
     fullname,
@@ -11,6 +14,7 @@ class ProgrammerEntity extends UserEntity {
     address,
     status,
     phone,
+    this.customPrograms,
   }) : super(
           id: id,
           role: "PROGRAMMER",

@@ -1,3 +1,5 @@
+import 'package:pro_icon/data/mappers/program_entity_mapper.dart';
+
 import '../../Core/entities/admin_entity.dart';
 import '../../Core/entities/programmer_entity.dart';
 import '../../Core/entities/trainer_entity.dart';
@@ -6,7 +8,6 @@ import '../models/app_user_model.dart';
 
 class AppUserEntityMapper {
   static UserEntity toEntity(AppUserModel model) {
-    // Use the factory to create a specific user type
     switch (model.role) {
       case 'ADMIN':
         return AdminEntity(
@@ -44,6 +45,13 @@ class AppUserEntityMapper {
           address: model.address,
           phone: model.phone,
           status: model.status,
+          customPrograms: model.customPrograms != null
+              ? []
+              : model.customPrograms!
+                  .map((element) =>
+                      ProgramModelToEntityMapper.mapCustomProgramModelToEntity(
+                          element))
+                  .toList(),
         );
       default:
         return UserEntity(

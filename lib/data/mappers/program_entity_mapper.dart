@@ -1,10 +1,10 @@
-import 'package:pro_icon/data/models/categories_model.dart';
+import 'package:pro_icon/data/models/category_model.dart';
 
 import '../../Core/entities/program_entity.dart';
 import '../models/custom_program_model.dart';
 
 class ProgramModelToEntityMapper {
-  static ProgramEntity mapProgramModelToEntity(Programs programModel) {
+  static ProgramEntity mapProgramModelToEntity(ProgramModel programModel) {
     return ProgramEntity(
       id: programModel.id ?? 0,
       name: programModel.name ?? "Default Program",

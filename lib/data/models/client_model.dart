@@ -8,7 +8,7 @@ class ClientModel extends AppUserModel {
   final DateTime? endDate;
   final num? weight;
   final num? height;
-  final DateTime? birthDate;
+  final num? age;
   final SupervisorModel? user;
   final String? medicalNotes;
 
@@ -29,7 +29,7 @@ class ClientModel extends AppUserModel {
     this.user,
     this.weight,
     this.height,
-    this.birthDate,
+    this.age,
     this.medicalNotes,
   }) : super(
           id: id,
@@ -58,9 +58,7 @@ class ClientModel extends AppUserModel {
       gender: json['gender'] ?? 'Unknown',
       weight: json['weight'] as num?,
       height: json['height'] as num?,
-      birthDate: json['birthdate'] != null
-          ? DateTime.parse(json['birthDate'] as String)
-          : DateTime.now(),
+      age: json['age'] ?? 0,
       startDate: json['startDate'] != null
           ? DateTime.parse(json['startDate'] as String)
           : DateTime.now(),

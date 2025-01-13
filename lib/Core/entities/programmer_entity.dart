@@ -27,4 +27,24 @@ class ProgrammerEntity extends UserEntity {
           phone: phone,
           status: status,
         );
+
+  ProgrammerEntity copyWith({
+    List<ProgramEntity>? customPrograms,
+  }) {
+    return ProgrammerEntity(
+      id: this.id,
+      email: this.email,
+      fullname: this.fullname,
+      image: this.image,
+      city: this.city,
+      postalCode: this.postalCode,
+      address: this.address,
+      status: this.status,
+      phone: this.phone,
+      customPrograms: customPrograms ?? this.customPrograms,
+    );
+  }
+
+  @override
+  List<Object?> get props => [...super.props, customPrograms, role];
 }

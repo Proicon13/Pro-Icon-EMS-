@@ -10,7 +10,7 @@ class ClientEntity extends UserEntity {
   final Supervisor? superVisor;
   final num? weight;
   final num? height;
-  final DateTime? birthDate;
+  final num? age;
   final String? medicalNotes;
 
   const ClientEntity({
@@ -20,7 +20,7 @@ class ClientEntity extends UserEntity {
     this.superVisor,
     this.weight,
     this.height,
-    this.birthDate,
+    this.age,
     this.medicalNotes,
     int? id,
     String? role,
@@ -55,7 +55,7 @@ class ClientEntity extends UserEntity {
         superVisor,
         weight,
         height,
-        birthDate,
+        age,
         medicalNotes
       ];
 }

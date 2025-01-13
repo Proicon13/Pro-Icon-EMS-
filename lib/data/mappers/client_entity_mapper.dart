@@ -20,7 +20,7 @@ class ClientEntityMapper {
       endDate: model.endDate?.toIso8601String(),
       weight: model.weight,
       height: model.height,
-      birthDate: model.birthDate,
+      age: model.age,
       medicalNotes: model.medicalNotes,
       superVisor: model.user != null
           ? Supervisor(

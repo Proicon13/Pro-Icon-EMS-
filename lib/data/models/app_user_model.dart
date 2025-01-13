@@ -50,8 +50,8 @@ class AppUserModel extends Equatable {
       phone: json['phone'] != null ? json['phone'] as String : "No Phone",
       role: json['role'] != null ? json['role'] as String : null,
       status: json['status'] != null ? json['status'] as String : "NOT ACTIVE",
-      customPrograms: json['customPrograms'] != null
-          ? (json['customPrograms'] as List)
+      customPrograms: json['programs'] != null
+          ? (json['programs'] as List)
               .map((e) => CustomProgramModel.fromJson(e))
               .toList()
           : [],

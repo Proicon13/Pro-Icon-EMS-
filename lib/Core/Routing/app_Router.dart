@@ -1,9 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:pro_icon/Core/entities/category_entity.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/Features/manage_trainer/screens/trainer_password_regestraion_screen.dart';
-import 'package:pro_icon/data/models/categories_model.dart';
 
 import '../../Features/CategoryDetails/Screens/Category_details.dart';
 import '../../Features/Profile/Screens/profile_screen.dart';
@@ -18,6 +18,7 @@ import '../../Features/auth/role_selection/screens/role_selection_screen.dart';
 import '../../Features/client_details/client_details_screen.dart';
 import '../../Features/clients/add_client/screens/add_client_screen.dart';
 import '../../Features/clients/add_client/screens/client_additional_data_screen.dart';
+import '../../Features/custom_programs/my_programs_screen.dart';
 import '../../Features/main/cubit/cubit/main_cubit.dart';
 import '../../Features/main/main_screen.dart';
 import '../../Features/manage_trainer/screens/manage_trainer_screen.dart';
@@ -149,7 +150,7 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
         settings: const RouteSettings(name: CategoryDetails.routeName),
         builder: (_) {
           final arguments = settings.arguments as List<dynamic>;
-          final categories = arguments[0] as List<Categories>;
+          final categories = arguments[0] as List<CategoryEntity>;
           final index = arguments[1] as int;
 
           return CategoryDetails(categories: categories, currentIndex: index);
@@ -161,6 +162,14 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
         settings: const RouteSettings(name: ProfileScreen.routeName),
         builder: (_) {
           return const ProfileScreen();
+        },
+      );
+
+    case MyProgramsScreen.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: MyProgramsScreen.routeName),
+        builder: (_) {
+          return const MyProgramsScreen();
         },
       );
 

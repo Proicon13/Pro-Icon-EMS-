@@ -1,9 +1,8 @@
+import 'package:pro_icon/data/models/category_model.dart';
 import 'package:pro_icon/data/models/cycle.dart';
 import 'package:pro_icon/data/models/program_muscle.dart';
 
-import 'categories_model.dart';
-
-class CustomProgramModel extends Programs {
+class CustomProgramModel extends ProgramModel {
   final int? categoryId;
   final int? stimulation;
   final int? pauseInterval;

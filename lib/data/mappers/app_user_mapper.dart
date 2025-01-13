@@ -34,7 +34,7 @@ class AppUserEntityMapper {
           phone: model.phone,
           status: model.status,
         );
-      case 'PROGRAMMER':
+      case 'PROGRAMER':
         return ProgrammerEntity(
           id: model.id,
           email: model.email,

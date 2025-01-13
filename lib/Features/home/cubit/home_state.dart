@@ -5,19 +5,14 @@ sealed class HomeState {}
 
 final class HomeInitial extends HomeState {}
 
-  class CategoryLoaded extends HomeState {
-
-  late final  List<Categories> categories;
+class CategoryLoaded extends HomeState {
+  late final List<CategoryEntity> categories;
 
   CategoryLoaded(this.categories);
+}
 
-
-  }
-
-  class CategoryError extends HomeState {
-
+class CategoryError extends HomeState {
   final String errorMessage;
 
-  CategoryError ({required this.errorMessage});
-
-  }
+  CategoryError({required this.errorMessage});
+}

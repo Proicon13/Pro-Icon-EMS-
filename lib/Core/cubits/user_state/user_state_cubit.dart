@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pro_icon/Core/constants/app_constants.dart';
+import 'package:pro_icon/Core/entities/programmer_entity.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/data/repos/auth_repo.dart';
 import 'package:pro_icon/data/services/auth_token_service.dart';
@@ -26,6 +28,18 @@ class UserStateCubit extends Cubit<UserStateState> {
       final userResponse = await userService.getUserByToken(token: token);
       if (userResponse.isSuccess) {
         // if user data retrieved
+
+        if (userResponse.data! is ProgrammerEntity) {
+          final user = userResponse.data as ProgrammerEntity;
+          final mockUser = user.copyWith(
+            customPrograms: AppConstants.programsMock,
+          );
+          emit(state.copyWith(
+            currentUser: mockUser,
+            userStatus: UserStatus.loggedIn,
+          ));
+          return;
+        }
         emit(state.copyWith(
             currentUser: userResponse.data, userStatus: UserStatus.loggedIn));
       } else {

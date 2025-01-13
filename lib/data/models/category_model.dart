@@ -1,23 +1,24 @@
 import 'package:equatable/equatable.dart';
 
-class Categories {
+class CategoryModel {
   int? id;
   String? name;
   String? description;
   String? image;
-  List<Programs>? programs;
+  List<ProgramModel>? programs;
 
-  Categories({this.id, this.name, this.description, this.image, this.programs});
+  CategoryModel(
+      {this.id, this.name, this.description, this.image, this.programs});
 
-  Categories.fromJson(Map<String, dynamic> json) {
+  CategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'] ?? "Category";
     description = json['description'] ?? "";
     image = json['image'] ?? "";
     if (json['programs'] != null) {
-      programs = <Programs>[];
+      programs = <ProgramModel>[];
       (json['programs'] as List<dynamic>).forEach((v) {
-        programs!.add(new Programs.fromJson(v));
+        programs!.add(new ProgramModel.fromJson(v));
       });
     }
   }
@@ -35,7 +36,7 @@ class Categories {
   }
 }
 
-class Programs extends Equatable {
+class ProgramModel extends Equatable {
   final int? id;
   final String? name;
   final String? description;
@@ -45,7 +46,7 @@ class Programs extends Equatable {
   final int? pulse;
   final int? hertez;
 
-  const Programs(
+  const ProgramModel(
       {this.id,
       this.name,
       this.description,
@@ -55,8 +56,8 @@ class Programs extends Equatable {
       this.pulse,
       this.hertez});
 
-  factory Programs.fromJson(Map<String, dynamic> json) {
-    return Programs(
+  factory ProgramModel.fromJson(Map<String, dynamic> json) {
+    return ProgramModel(
         id: json['id'] ?? 0,
         name: json['name'] ?? "Not Definded",
         description: json['description'] ?? '',
@@ -81,7 +82,6 @@ class Programs extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props =>
       [id, name, description, duration, image, createdById, pulse, hertez];
 }

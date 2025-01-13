@@ -10,8 +10,12 @@ import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/custom_circular_image.dart';
 import 'package:pro_icon/Core/widgets/custom_header.dart';
+import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
 import 'package:pro_icon/Features/Mads/Screens/Mads_screen.dart';
 import 'package:pro_icon/Features/Profile/Screens/profile_screen.dart';
+import 'package:pro_icon/Features/custom_programs/my_programs_screen.dart';
+
+import '../../../Core/constants/app_assets.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -33,6 +37,11 @@ class _SettingsViewState extends State<SettingsView> {
     {
       'title': 'Language',
       'icon': Icons.language,
+    },
+    {
+      "title": "My Programs",
+      'icon':
+          const CustomSvgVisual(assetPath: Assets.assetsImagesMyProgramsIcon),
     },
     {
       'title': 'Logout',
@@ -94,7 +103,13 @@ class _SettingsViewState extends State<SettingsView> {
               itemBuilder: (context, index) {
                 final item = settingsItems[index];
                 return ListTile(
-                  leading: Icon(item['icon'], color: Colors.white),
+                  leading: item['title'] == "My Programs"
+                      ? CustomSvgVisual(
+                          assetPath: Assets.assetsImagesMyProgramsIcon,
+                          width: context.setMinSize(25),
+                          height: context.setMinSize(25),
+                        )
+                      : Icon(item['icon'], color: Colors.white),
                   title: Text(
                     item['title'],
                     style: const TextStyle(
@@ -116,6 +131,10 @@ class _SettingsViewState extends State<SettingsView> {
                             MaterialPageRoute(
                                 builder: (_) => const MadsScreen()));
                         break;
+                      case 'My Programs':
+                        Navigator.pushNamed(
+                            context, MyProgramsScreen.routeName);
+                        break; // Navigator.pushNamed(context, MyProgramsScreen.routeName);
                       case 'Language':
                         // انتقل إلى شاشة اللغة
                         break;

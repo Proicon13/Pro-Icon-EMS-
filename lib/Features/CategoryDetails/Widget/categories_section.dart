@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pro_icon/Core/entities/category_entity.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 
-import '../../../data/models/categories_model.dart';
 import '../../home/widgets/category_card.dart';
 import '../Cubit/category_details_cubit.dart';
 
@@ -12,7 +12,7 @@ class CategoriesListSection extends StatelessWidget {
     required this.categories,
   });
 
-  final List<Categories> categories;
+  final List<CategoryEntity> categories;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class CategoryItem extends StatelessWidget {
     required this.onTap,
   });
 
-  final Categories category;
+  final CategoryEntity category;
   final bool isSelected;
   final VoidCallback onTap;
 

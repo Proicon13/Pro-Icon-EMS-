@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:pro_icon/data/models/categories_model.dart';
+import 'package:pro_icon/Core/entities/category_entity.dart';
 
 import '../../../data/services/categories_services.dart';
 

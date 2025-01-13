@@ -35,14 +35,14 @@ class ProgramsListSection extends StatelessWidget {
           return Padding(
             padding: EdgeInsets.symmetric(
                 vertical: context.setMinSize(10),
-                horizontal: SizeConstants.kScaffoldPadding(context).horizontal),
+                horizontal: context.setMinSize(16)),
             child: SizeConfig(
               baseSize: const Size(398, 175),
               width: context.setMinSize(398),
               height: context.setMinSize(175),
               child: Builder(builder: (context) {
-                return ProgramCard(
-                    key: ValueKey(program.id!), program: program);
+                return ProgramCardWithDescription(
+                    key: ValueKey(program.id), program: program);
               }),
             ),
           );

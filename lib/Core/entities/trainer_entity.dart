@@ -1,7 +1,7 @@
 import 'package:pro_icon/Core/entities/user_entity.dart';
 
 class TrainerEntity extends UserEntity {
-  TrainerEntity({
+  const TrainerEntity({
     id,
     email,
     fullname,
@@ -22,4 +22,7 @@ class TrainerEntity extends UserEntity {
             address: address,
             phone: phone,
             status: status);
+
+  @override
+  List<Object?> get props => [...super.props, role];
 }

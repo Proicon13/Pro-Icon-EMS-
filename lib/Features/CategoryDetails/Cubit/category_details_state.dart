@@ -3,14 +3,14 @@ part of 'category_details_cubit.dart';
 @immutable
 class CategoryDetailsState extends Equatable {
   final int? currentCategoryIndex;
-  final List<Programs>? programs;
+  final List<ProgramEntity>? programs;
 
   const CategoryDetailsState(
       {this.currentCategoryIndex = 0, this.programs = const []});
 
   CategoryDetailsState copyWith({
     int? currentCategoryIndex,
-    List<Programs>? programs,
+    List<ProgramEntity>? programs,
   }) {
     return CategoryDetailsState(
       currentCategoryIndex: currentCategoryIndex ?? this.currentCategoryIndex,

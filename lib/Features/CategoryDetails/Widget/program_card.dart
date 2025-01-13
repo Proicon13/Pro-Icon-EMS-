@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:pro_icon/Core/entities/program_entity.dart';
 import 'package:pro_icon/Core/theme/app_colors.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
-import 'package:pro_icon/data/models/categories_model.dart';
 
 import '../../../Core/constants/app_assets.dart';
 import '../../../Core/widgets/custom_circular_image.dart';
 import '../../../Core/widgets/custom_svg_visual.dart';
 
-class ProgramCard extends StatelessWidget {
-  final Programs program;
+abstract class BaseProgramCard extends StatelessWidget {
+  final ProgramEntity program;
 
-  const ProgramCard({
+  const BaseProgramCard({
     Key? key,
     required this.program,
   }) : super(key: key);
@@ -21,7 +21,7 @@ class ProgramCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: context.setMinSize(175),
+      height: context.sizeConfig.height,
       padding: EdgeInsets.symmetric(
         horizontal: context.setMinSize(20),
       ),
@@ -35,7 +35,7 @@ class ProgramCard extends StatelessWidget {
           context.setMinSize(20).verticalSpace,
           _buildHeader(context),
           context.setMinSize(20).verticalSpace,
-          _buildDescription(context),
+          buildFooter(context), // This will be implemented in child classes
         ],
       ),
     );
@@ -50,7 +50,7 @@ class ProgramCard extends StatelessWidget {
         CustomCircularImage(
           width: context.setMinSize(65),
           height: context.setMinSize(65),
-          imageUrl: program.image!,
+          imageUrl: program.image,
         ),
         context.setMinSize(20).horizontalSpace,
         Column(
@@ -69,10 +69,10 @@ class ProgramCard extends StatelessWidget {
   Widget _buildTitle(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: context.setMinSize(398) * 0.6,
+        maxWidth: context.sizeConfig.width * 0.6,
       ),
       child: Text(
-        program.name!,
+        program.name,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: AppTextStyles.fontSize16(context).copyWith(
@@ -88,20 +88,20 @@ class ProgramCard extends StatelessWidget {
     return Row(
       children: [
         Text(
-          "HZ ${program.hertez!}",
+          "HZ ${program.hertez}",
           style: AppTextStyles.fontSize14(context).copyWith(
             color: Colors.white,
           ),
         ),
         context.setMinSize(5).horizontalSpace,
         CustomSvgVisual(
-          assetPath: Assets.assetsPulseIcon,
+          assetPath: Assets.assetsImagesPulseIcon,
           width: context.setMinSize(20),
           height: context.setMinSize(20),
         ),
         context.setMinSize(5).horizontalSpace,
         Text(
-          "PU ${program.pulse!}",
+          "PU ${program.pulse}",
           style: AppTextStyles.fontSize14(context).copyWith(
             color: Colors.white,
           ),
@@ -110,20 +110,68 @@ class ProgramCard extends StatelessWidget {
     );
   }
 
-  /// Builds the description of the program
-  Widget _buildDescription(BuildContext context) {
+  /// Footer widget to be implemented in child classes
+  Widget buildFooter(BuildContext context);
+}
+
+class ProgramCardWithDescription extends BaseProgramCard {
+  const ProgramCardWithDescription({
+    Key? key,
+    required ProgramEntity program,
+  }) : super(key: key, program: program);
+
+  @override
+  Widget buildFooter(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: context.setMinSize(398) * 0.89,
+        maxWidth: context.sizeConfig.width * 0.89,
       ),
       child: Text(
-        program.description!,
+        program.description,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
         style: AppTextStyles.fontSize12(context).copyWith(
           color: AppColors.white71Color,
         ),
       ),
+    );
+  }
+}
+
+class ProgramCardWithActions extends BaseProgramCard {
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
+
+  const ProgramCardWithActions({
+    Key? key,
+    required ProgramEntity program,
+    required this.onEdit,
+    required this.onDelete,
+  }) : super(key: key, program: program);
+
+  @override
+  Widget buildFooter(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        GestureDetector(
+          child: CustomSvgVisual(
+            assetPath: Assets.assetsImagesEditIcon,
+            width: context.setMinSize(25),
+            height: context.setMinSize(25),
+          ),
+          onTap: onEdit, // Trigger edit callback
+        ),
+        context.setMinSize(20).horizontalSpace,
+        GestureDetector(
+          child: CustomSvgVisual(
+            assetPath: Assets.assetsImagesDeleteIcon,
+            width: context.setMinSize(25),
+            height: context.setMinSize(25),
+          ),
+          onTap: onDelete, // Trigger edit callback
+        ),
+      ],
     );
   }
 }

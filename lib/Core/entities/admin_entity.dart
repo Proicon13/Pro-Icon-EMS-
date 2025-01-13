@@ -3,7 +3,7 @@ import 'package:pro_icon/data/models/programming_request.dart';
 
 class AdminEntity extends UserEntity {
   final ProgrammingRequest? programmingRequest;
-  AdminEntity(
+  const AdminEntity(
       {id,
       email,
       fullname,
@@ -26,4 +26,7 @@ class AdminEntity extends UserEntity {
           phone: phone,
           status: status,
         );
+
+  @override
+  List<Object?> get props => super.props + [programmingRequest, role];
 }

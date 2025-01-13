@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pro_icon/Core/entities/category_entity.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_header.dart';
 import 'package:pro_icon/Features/CategoryDetails/Cubit/category_details_cubit.dart';
-import 'package:pro_icon/data/models/categories_model.dart';
 
 import '../../../Core/dependencies.dart';
 import '../Widget/categories_section.dart';
@@ -15,7 +15,7 @@ class CategoryDetails extends StatefulWidget {
   static const routeName = "/Category-details";
   const CategoryDetails(
       {super.key, required this.categories, required this.currentIndex});
-  final List<Categories> categories;
+  final List<CategoryEntity> categories;
   final int currentIndex;
 
   @override

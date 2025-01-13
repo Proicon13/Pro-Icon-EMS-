@@ -13,6 +13,13 @@ class ApiConstants {
   static const getTrainersEndpoint = "/trainers";
   static const clientsEndPoint = "/clients";
   static const addTrainerEndpoint = "/auth/add-trainer-by-admin";
+  static const addCustomProgramEndpoint = "/programer/add-program";
+  static updateCustomProgramEndpoint(int id) => "/programer/update-program/$id";
+  static deleteCustomProgramEndpoint(int id) => "/programer/delete-program/$id";
+  static updateProgramMuscleEndpoint(int id) =>
+      "/programer/update-program-mucle/$id";
+  static updateProgramCycle(int id) => "/programer/update-program-cycle/$id";
+
   static clientHealthConditionsEndpoint(int clientId) =>
       "/clients/$clientId/injuriesAndDiseases";
   static updateClientInjuryEndpoint(int clientId, int injuryId) =>

@@ -28,6 +28,7 @@ import 'package:pro_icon/data/services/auth_service.dart';
 import 'package:pro_icon/data/services/auth_token_service.dart';
 import 'package:pro_icon/data/services/client_strategy_service.dart';
 import 'package:pro_icon/data/services/clients_service.dart';
+import 'package:pro_icon/data/services/custom_program_service.dart';
 import 'package:pro_icon/data/services/health_condition_service.dart';
 import 'package:pro_icon/data/services/profile_service.dart';
 import 'package:pro_icon/data/services/reset_password_service.dart';
@@ -72,6 +73,9 @@ void setupDependencies() {
 
   getIt.registerLazySingleton(
       () => ClientStrategyService(baseApiProvider: getIt()));
+
+  getIt.registerLazySingleton(
+      () => CustomProgramService(baseApiProvider: getIt()));
 
   getIt.registerLazySingleton(() => ProfileService(apiProvider: getIt()));
   // repos
@@ -130,6 +134,12 @@ void setupDependencies() {
       authRepo: getIt(),
       authTokenService: getIt(),
       userService: getIt(),
+    ),
+  );
+
+  getIt.registerFactory<ProfileCubit>(
+    () => ProfileCubit(
+      profileService: getIt(),
     ),
   );
 

@@ -7,5 +7,6 @@ class AppTheme {
   static final appTheme = ThemeData(
     fontFamily: 'Roboto',
     primaryColor: AppColors.primaryColor,
+    useMaterial3: true,
   );
 }

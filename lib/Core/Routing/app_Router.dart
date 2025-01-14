@@ -18,7 +18,7 @@ import '../../Features/auth/role_selection/screens/role_selection_screen.dart';
 import '../../Features/client_details/client_details_screen.dart';
 import '../../Features/clients/add_client/screens/add_client_screen.dart';
 import '../../Features/clients/add_client/screens/client_additional_data_screen.dart';
-import '../../Features/custom_programs/my_programs_screen.dart';
+import '../../Features/custom_programs/my_programs/my_programs_screen.dart';
 import '../../Features/main/cubit/cubit/main_cubit.dart';
 import '../../Features/main/main_screen.dart';
 import '../../Features/manage_trainer/screens/manage_trainer_screen.dart';

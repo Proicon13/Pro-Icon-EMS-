@@ -4,8 +4,8 @@ import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_header.dart';
 
-import '../../Core/utils/responsive_helper/size_constants.dart';
-import 'my_programs/widgets/custom_program_list_section.dart';
+import '../../../Core/utils/responsive_helper/size_constants.dart';
+import 'widgets/custom_program_list_section.dart';
 
 class MyProgramsScreen extends StatelessWidget {
   static const routeName = '/my-programs';

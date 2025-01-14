@@ -18,6 +18,7 @@ import 'package:pro_icon/Features/client_details/cubit/cubit/client_details_cubi
 import 'package:pro_icon/Features/client_details/medical_report/cubits/cubit/medical_info_cubit.dart';
 import 'package:pro_icon/Features/client_details/strategy/cubits/cubit/strategy_cubit.dart';
 import 'package:pro_icon/Features/clients/add_client/cubits/cubit/client_registration_cubit.dart';
+import 'package:pro_icon/Features/custom_programs/manage_program/cubits/cubit/manage_custom_program_cubit.dart';
 import 'package:pro_icon/Features/home/cubit/home_cubit.dart';
 import 'package:pro_icon/Features/main/cubit/cubit/main_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/manage_trainer_cubit.dart';
@@ -143,9 +144,9 @@ void setupDependencies() {
     ),
   );
 
-  getIt.registerFactory<ProfileCubit>(
-    () => ProfileCubit(
-      profileService: getIt(),
+  getIt.registerFactory<ManageCustomProgramCubit>(
+    () => ManageCustomProgramCubit(
+      customProgramService: getIt(),
     ),
   );
 }

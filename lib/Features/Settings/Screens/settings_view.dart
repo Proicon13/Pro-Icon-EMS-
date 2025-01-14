@@ -13,7 +13,7 @@ import 'package:pro_icon/Core/widgets/custom_header.dart';
 import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
 import 'package:pro_icon/Features/Mads/Screens/Mads_screen.dart';
 import 'package:pro_icon/Features/Profile/Screens/profile_screen.dart';
-import 'package:pro_icon/Features/custom_programs/my_programs_screen.dart';
+import 'package:pro_icon/Features/custom_programs/my_programs/my_programs_screen.dart';
 
 import '../../../Core/constants/app_assets.dart';
 

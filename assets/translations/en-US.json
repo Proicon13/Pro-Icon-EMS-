@@ -110,5 +110,15 @@
     "dynamic.type": "Dynamic",
     "power.type": "Power",
     "training.type": "Training Type",
-    "updateProfile.successMessage": "Profile updated successfully"
+    "updateProfile.successMessage": "Profile updated successfully",
+    "program.info": "Program Info",
+    "chronaxie.title": "Chronaxie",
+    "activeMuscles.title": "Active Muscles",
+    "manageProgram.title": "Manage Program",
+    "manageProgram.addProgram": "Add Program",
+    "manageProgram.updateProgram": "Update Program",
+    "manageProgram.deleteProgram": "Delete Program",
+    "manageProgram.addProgramSuccessMessage": "Program added successfully",
+    "manageProgram.updateProgramSuccessMessage": "Program updated successfully",
+    "manageProgram.deleteProgramSuccessMessage": "Program deleted successfully"
 }

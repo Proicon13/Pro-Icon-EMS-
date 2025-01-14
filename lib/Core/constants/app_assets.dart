@@ -125,4 +125,10 @@ class Assets {
   /// Assets for assetsImagesVector (1)
   /// assets/images/Vector (1).png
   static const String assetsImagesVector1 = "assets/images/Vector (1).png";
+
+    ///Assets For ProgrammingRequest
+
+      static const String assetsImagesProgrammingRequest = "assets/images/ProgrammingRequestImage.png";
+      static const String assetsIconForCard = "assets/images/cardIcon.png";
+
 }

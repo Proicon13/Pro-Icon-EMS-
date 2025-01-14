@@ -10,8 +10,8 @@ import 'package:pro_icon/Core/widgets/custom_header.dart';
 import 'package:pro_icon/Features/custom_programs/manage_program/cubits/cubit/manage_custom_program_cubit.dart';
 
 import '../../../../Core/dependencies.dart';
-import '../../../../Core/theme/app_text_styles.dart';
 import '../widgets/stepper_section.dart';
+import 'program_info_view.dart';
 
 class ManageCustomProgramScreen extends StatefulWidget {
   static const String routeName = '/manage-custom-program-screen';
@@ -25,6 +25,17 @@ class ManageCustomProgramScreen extends StatefulWidget {
 
 class _ManageCustomProgramScreenState extends State<ManageCustomProgramScreen> {
   late PageController _pageController;
+  final pages = {
+    0: const ProgramInfoView(),
+    1: const Center(
+        child: Text(
+      "Choronaxie",
+    )),
+    2: const Center(
+        child: Text(
+      "Active",
+    ))
+  };
 
   @override
   void initState() {
@@ -52,9 +63,9 @@ class _ManageCustomProgramScreenState extends State<ManageCustomProgramScreen> {
         body: Padding(
           padding: SizeConstants.kScaffoldPadding(context),
           child: Column(children: [
-            context.setMinSize(35).verticalSpace,
+            context.setMinSize(20).verticalSpace,
             CustomHeader(titleKey: "manageProgram.title".tr()),
-            context.setMinSize(40).verticalSpace,
+            context.setMinSize(20).verticalSpace,
             SizedBox(
               width: context.sizeConfig.width * 0.7,
               child: StepperSection(
@@ -67,12 +78,7 @@ class _ManageCustomProgramScreenState extends State<ManageCustomProgramScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 controller: _pageController,
                 itemBuilder: (context, index) {
-                  return Center(
-                      child: Text(
-                    "Page :${index + 1}",
-                    style: AppTextStyles.fontSize16(context)
-                        .copyWith(color: Colors.white),
-                  ));
+                  return pages[index]!;
                 },
               ),
             )

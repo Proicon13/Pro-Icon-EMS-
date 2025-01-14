@@ -14,6 +14,10 @@ class Assets {
   /// assets/images/auto_session_icon.svg
   static const String assetsImagesAutoSessionIcon = "assets/images/auto_session_icon.svg";
 
+  /// Assets for assetsImagesCameraIcon
+  /// assets/images/camera_icon.svg
+  static const String assetsImagesCameraIcon = "assets/images/camera_icon.svg";
+
   /// Assets for assetsImagesConfirmationIcon
   /// assets/images/confirmation_icon.svg
   static const String assetsImagesConfirmationIcon = "assets/images/confirmation_icon.svg";

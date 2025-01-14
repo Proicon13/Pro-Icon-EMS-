@@ -7,6 +7,8 @@ extension ManageCustomProgramStatusX on ManageCustomProgramState {
       .customProgramEntity!
       .name
       .isNotEmpty; // if name is not empty so in edit mode
+  List<Cycle> get cycles =>
+      (this.customProgramEntity! as CustomProgramEntity).cycles;
 }
 
 class ManageCustomProgramState extends Equatable {
@@ -16,6 +18,7 @@ class ManageCustomProgramState extends Equatable {
   final RequetsStatus? updateProgramMuscleStatus;
   final String? message;
   final ProgramEntity? customProgramEntity;
+  final Map<int, ProgramMuscle>? programMuscles;
 
   const ManageCustomProgramState({
     this.currentStep = 0,
@@ -23,6 +26,7 @@ class ManageCustomProgramState extends Equatable {
     this.updateCycleStatus = RequetsStatus.intial,
     this.updateProgramMuscleStatus = RequetsStatus.intial,
     this.message = "",
+    this.programMuscles = const {},
     this.customProgramEntity = const CustomProgramEntity(
         id: 0,
         name: "",
@@ -47,6 +51,7 @@ class ManageCustomProgramState extends Equatable {
     RequetsStatus? updateProgramMuscleStatus,
     String? message,
     ProgramEntity? customProgramEntity,
+    Map<int, ProgramMuscle>? programMuscles,
   }) {
     return ManageCustomProgramState(
       currentStep: currentStep ?? this.currentStep,
@@ -56,6 +61,7 @@ class ManageCustomProgramState extends Equatable {
           updateProgramMuscleStatus ?? this.updateProgramMuscleStatus,
       message: message ?? this.message,
       customProgramEntity: customProgramEntity ?? this.customProgramEntity,
+      programMuscles: programMuscles ?? this.programMuscles,
     );
   }
 
@@ -67,5 +73,8 @@ class ManageCustomProgramState extends Equatable {
         updateProgramMuscleStatus!,
         message!,
         customProgramEntity!,
+        programMuscles!,
+        isEditMode,
+        cycles
       ];
 }

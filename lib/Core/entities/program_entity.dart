@@ -71,6 +71,38 @@ class CustomProgramEntity extends ProgramEntity {
           hertez: hertez,
         );
 
+  CustomProgramEntity copyWith({
+    int? id,
+    String? name,
+    String? description,
+    int? duration,
+    String? image,
+    int? createdById,
+    int? pulse,
+    int? hertez,
+    int? categoryId,
+    int? stimulation,
+    int? pauseInterval,
+    int? contraction,
+    List<ProgramMuscle>? programMuscles,
+    List<Cycle>? cycles,
+  }) =>
+      CustomProgramEntity(
+          id: id ?? this.id,
+          name: name ?? this.name,
+          description: description ?? this.description,
+          duration: duration ?? this.duration,
+          image: image ?? this.image,
+          createdById: createdById ?? this.createdById,
+          pulse: pulse ?? this.pulse,
+          hertez: hertez ?? this.hertez,
+          categoryId: categoryId ?? this.categoryId,
+          stimulation: stimulation ?? this.stimulation,
+          pauseInterval: pauseInterval ?? this.pauseInterval,
+          contraction: contraction ?? this.contraction,
+          programMuscles: programMuscles ?? this.programMuscles,
+          cycles: cycles ?? this.cycles);
+
   @override
   List<Object?> get props => [
         ...super.props,

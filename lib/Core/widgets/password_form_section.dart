@@ -15,6 +15,7 @@ class PasswordFormSection extends StatelessWidget {
       name: 'password',
       title: 'setPasswordForm.passwordTitle'.tr(),
       obscureText: true,
+      maxLines: 1,
       hintText: 'setPasswordForm.passwordHint'.tr(),
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(

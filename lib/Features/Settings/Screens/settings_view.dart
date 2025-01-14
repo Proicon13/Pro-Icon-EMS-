@@ -9,7 +9,7 @@ import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/custom_circular_image.dart';
 import 'package:pro_icon/Core/widgets/custom_header.dart';
 import 'package:pro_icon/Features/Mads/Screens/Mads_screen.dart';
-import 'package:pro_icon/Features/ProgrammingRequst/screen/Programming_request.dart';
+import 'package:pro_icon/Features/programming_requst/screen/programming_request_screen.dart';
 
 import '../../../Core/dependencies.dart';
 
@@ -114,10 +114,8 @@ class _SettingsViewState extends State<SettingsView> {
                                 builder: (_) => const MadsScreen()));
                         break;
                       case 'Programming request':
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const ProgrammingRequest()));
+                        Navigator.pushNamed(
+                            context, ProgrammingRequestScreen.routeName);
                       case 'Language':
                         // انتقل إلى شاشة اللغة
                         break;

@@ -26,4 +26,17 @@ class AdminEntity extends UserEntity {
           phone: phone,
           status: status,
         );
+
+  AdminEntity copyWith({ProgrammingRequest? programmingRequest}) => AdminEntity(
+        id: this.id,
+        email: this.email,
+        fullname: this.fullname,
+        image: this.image,
+        city: this.city,
+        postalCode: this.postalCode,
+        address: this.address,
+        phone: this.phone,
+        status: this.status,
+        programmingRequest: programmingRequest ?? this.programmingRequest,
+      );
 }

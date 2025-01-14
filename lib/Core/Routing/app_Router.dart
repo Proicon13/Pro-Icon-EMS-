@@ -17,6 +17,7 @@ import '../../Features/clients/add_client/screens/add_client_screen.dart';
 import '../../Features/clients/add_client/screens/client_additional_data_screen.dart';
 import '../../Features/main/main_screen.dart';
 import '../../Features/manage_trainer/screens/manage_trainer_screen.dart';
+import '../../Features/programming_requst/screen/programming_request_screen.dart';
 import '../../Features/users/screens/users_screen.dart';
 import '../../splash_screen.dart';
 
@@ -134,6 +135,14 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
         settings: const RouteSettings(name: MainScreen.routeName),
         builder: (_) {
           return const MainScreen();
+        },
+      );
+
+    case ProgrammingRequestScreen.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: ProgrammingRequestScreen.routeName),
+        builder: (_) {
+          return const ProgrammingRequestScreen();
         },
       );
 

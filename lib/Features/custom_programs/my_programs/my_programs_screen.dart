@@ -3,6 +3,7 @@ import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_header.dart';
+import 'package:pro_icon/Features/custom_programs/manage_program/screens/manage_custom_program_screen.dart';
 
 import '../../../Core/utils/responsive_helper/size_constants.dart';
 import 'widgets/custom_program_list_section.dart';
@@ -15,7 +16,9 @@ class MyProgramsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseAppScaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, ManageCustomProgramScreen.routeName);
+        },
         child: Icon(
           Icons.add,
           size: context.setMinSize(30),

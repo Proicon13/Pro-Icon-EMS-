@@ -35,6 +35,10 @@ class _SettingsViewState extends State<SettingsView> {
       'icon': Icons.video_library,
     },
     {
+      'title': 'Programming request',
+      'icon': Icons.backup_table_outlined,
+    },
+    {
       'title': 'Language',
       'icon': Icons.language,
     },

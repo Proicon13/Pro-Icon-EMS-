@@ -23,6 +23,7 @@ import 'package:pro_icon/Features/home/cubit/home_cubit.dart';
 import 'package:pro_icon/Features/main/cubit/cubit/main_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/manage_trainer_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/trainer_password_cubit.dart';
+import 'package:pro_icon/Features/programming_requst/cubit/programmer_request_cubit.dart';
 import 'package:pro_icon/Features/users/cubits/user_managment_cubit.dart';
 import 'package:pro_icon/data/repos/auth_repo.dart';
 import 'package:pro_icon/data/services/auth_service.dart';
@@ -61,6 +62,8 @@ void setupDependencies() {
   getIt.registerLazySingleton(
       () => AuthService(apiProvider: getIt(), tokenService: getIt()));
   getIt.registerLazySingleton(() => ResetPasswordService(apiProvider: getIt()));
+  getIt.registerLazySingleton(
+      () => ProgrammerRequestService(baseApiProvider: getIt()));
   getIt.registerLazySingleton(() => CountryService(apiProvider: getIt()));
   getIt.registerLazySingleton(() => UserService(
         apiProvider: getIt(),
@@ -88,6 +91,8 @@ void setupDependencies() {
 
   // cubits
   getIt.registerFactory<SelectRoleCubit>(() => SelectRoleCubit(getIt()));
+  getIt.registerFactory<ProgrammerRequestCubit>(
+      () => ProgrammerRequestCubit(programmerRequestService: getIt()));
   getIt.registerFactory<PhoneRegistrationCubit>(() => PhoneRegistrationCubit());
   getIt.registerFactory<LoginCubit>(() => LoginCubit(authRepo: getIt()));
   getIt

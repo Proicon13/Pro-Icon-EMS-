@@ -23,6 +23,7 @@ import '../../Features/custom_programs/my_programs/my_programs_screen.dart';
 import '../../Features/main/cubit/cubit/main_cubit.dart';
 import '../../Features/main/main_screen.dart';
 import '../../Features/manage_trainer/screens/manage_trainer_screen.dart';
+import '../../Features/programming_requst/screen/programming_request_screen.dart';
 import '../../Features/users/screens/users_screen.dart';
 import '../../splash_screen.dart';
 import '../entities/program_entity.dart';
@@ -185,6 +186,14 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
           return ManageCustomProgramScreen(
             program: program,
           );
+        },
+      );
+
+    case ProgrammingRequestScreen.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: ProgrammingRequestScreen.routeName),
+        builder: (_) {
+          return const ProgrammingRequestScreen();
         },
       );
 

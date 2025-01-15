@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:pro_icon/Core/entities/program_entity.dart';
 import 'package:pro_icon/Core/networking/base_api_provider.dart';
+import 'package:pro_icon/data/mappers/program_entity_mapper.dart';
 import 'package:pro_icon/data/models/add_custom_program_model.dart';
 import 'package:pro_icon/data/models/custom_program_model.dart';
 
@@ -13,19 +15,31 @@ class CustomProgramService {
   CustomProgramService({required BaseApiProvider baseApiProvider})
       : _baseApiProvider = baseApiProvider;
 
-  Future<Either<Failure, CustomProgramModel>> createCustomProgram(
+  Future<Either<Failure, ProgramEntity>> createCustomProgram(
       {required AddCustomProgramModel customProgramRequest}) async {
-    final response = await _baseApiProvider.post<Map<String, dynamic>>(
+    final body = customProgramRequest.toJson();
+    // prepare file path for submission
+    if (body.containsKey("file") && (body["file"] as String).isNotEmpty) {
+      body["file"] = await MultipartFile.fromFile(body["file"],
+          filename: body["file"].split('/').last);
+    }
+    // prepare form data
+    final formData = FormData.fromMap(body);
+    final response = await _baseApiProvider.postMultipart<Map<String, dynamic>>(
         endpoint: ApiConstants.addCustomProgramEndpoint,
-        data: customProgramRequest.toJson());
+        data: formData,
+        options: Options(headers: {
+          "Content-Type": "multipart/form-data",
+        }));
     if (response.isSuccess) {
-      return Right(CustomProgramModel.fromJson(response.data!));
+      return Right(ProgramModelToEntityMapper.mapCustomProgramModelToEntity(
+          CustomProgramModel.fromJson(response.data!)));
     } else {
       return Left(ServerFailure(message: response.error!.message));
     }
   }
 
-  Future<Either<Failure, CustomProgramModel>> updateCustomProgram(
+  Future<Either<Failure, ProgramEntity>> updateCustomProgram(
       {required Map<String, dynamic> body, required int id}) async {
     if (body.containsKey("file")) {
       body["file"] = await MultipartFile.fromFile(body["file"],
@@ -35,7 +49,8 @@ class CustomProgramService {
     final response = await _baseApiProvider.putMultipart<Map<String, dynamic>>(
         endpoint: ApiConstants.updateCustomProgramEndpoint(id), data: formData);
     if (response.isSuccess) {
-      return Right(CustomProgramModel.fromJson(response.data!));
+      return Right(ProgramModelToEntityMapper.mapCustomProgramModelToEntity(
+          CustomProgramModel.fromJson(response.data!)));
     } else {
       return Left(ServerFailure(message: response.error!.message));
     }

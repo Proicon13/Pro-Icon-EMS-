@@ -7,6 +7,7 @@ import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_header.dart';
+import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Features/custom_programs/manage_program/cubits/cubit/manage_custom_program_cubit.dart';
 
 import '../../../../Core/dependencies.dart';
@@ -59,30 +60,39 @@ class _ManageCustomProgramScreenState extends State<ManageCustomProgramScreen> {
           return getIt<ManageCustomProgramCubit>();
         }
       },
-      child: BaseAppScaffold(
-        body: Padding(
-          padding: SizeConstants.kScaffoldPadding(context),
-          child: Column(children: [
-            context.setMinSize(20).verticalSpace,
-            CustomHeader(titleKey: "manageProgram.title".tr()),
-            context.setMinSize(20).verticalSpace,
-            SizedBox(
-              width: context.sizeConfig.width * 0.7,
-              child: StepperSection(
-                pageController: _pageController,
-              ),
+      child: KeyboardDismissable(
+        child: BlocListener<ManageCustomProgramCubit, ManageCustomProgramState>(
+          listenWhen: (previous, current) =>
+              previous.currentStep != current.currentStep,
+          listener: (context, state) {
+            _pageController.jumpToPage(state.currentStep!);
+          },
+          child: BaseAppScaffold(
+            body: Padding(
+              padding: SizeConstants.kScaffoldPadding(context),
+              child: Column(children: [
+                context.setMinSize(20).verticalSpace,
+                CustomHeader(titleKey: "manageProgram.title".tr()),
+                context.setMinSize(20).verticalSpace,
+                SizedBox(
+                  width: context.sizeConfig.width * 0.7,
+                  child: StepperSection(
+                    pageController: _pageController,
+                  ),
+                ),
+                Expanded(
+                  child: PageView.builder(
+                    itemCount: 3,
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: _pageController,
+                    itemBuilder: (context, index) {
+                      return pages[index]!;
+                    },
+                  ),
+                )
+              ]),
             ),
-            Expanded(
-              child: PageView.builder(
-                itemCount: 3,
-                physics: const NeverScrollableScrollPhysics(),
-                controller: _pageController,
-                itemBuilder: (context, index) {
-                  return pages[index]!;
-                },
-              ),
-            )
-          ]),
+          ),
         ),
       ),
     );

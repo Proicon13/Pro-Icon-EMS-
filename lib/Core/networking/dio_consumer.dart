@@ -138,4 +138,13 @@ class DioConsumer implements BaseApiProvider {
       );
     }
   }
+
+  @override
+  Future<ApiResponse<T>> postMultipart<T>(
+      {required String endpoint, FormData? data, Object? options}) {
+    return _handleRequest<T>(
+      () => dio.post(endpoint, data: data, options: options as Options?),
+      (data) => data as T,
+    );
+  }
 }

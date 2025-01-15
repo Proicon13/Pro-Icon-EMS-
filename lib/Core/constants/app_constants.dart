@@ -6,7 +6,6 @@ class AppConstants {
   static const baseUrl = 'https://pro-icon-backend.onrender.com/';
   static const tokenLocalKey = 'token';
 
-  //TODO REMOVE THIS LINE CODE AFTER TESTING
   static const programsMock = [
     CustomProgramEntity(
         id: 0,

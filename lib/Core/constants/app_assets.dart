@@ -22,6 +22,10 @@ class Assets {
   /// assets/images/camera_icon.svg
   static const String assetsImagesCameraIcon = "assets/images/camera_icon.svg";
 
+  /// Assets for assetsImagesCloseIcon
+  /// assets/images/close_icon.svg
+  static const String assetsImagesCloseIcon = "assets/images/close_icon.svg";
+
   /// Assets for assetsImagesConfirmationIcon
   /// assets/images/confirmation_icon.svg
   static const String assetsImagesConfirmationIcon = "assets/images/confirmation_icon.svg";

@@ -32,7 +32,6 @@ class StepperSection extends StatelessWidget {
               currentStep: currentStep,
               onTap: () {
                 context.read<ManageCustomProgramCubit>().setStep(0);
-                pageController.jumpToPage(0);
               },
             ),
             _buildLine(context, isActive: currentStep >= 1),
@@ -43,7 +42,6 @@ class StepperSection extends StatelessWidget {
               currentStep: currentStep,
               onTap: () {
                 context.read<ManageCustomProgramCubit>().setStep(1);
-                pageController.jumpToPage(1);
               },
             ),
             _buildLine(context, isActive: currentStep >= 2),
@@ -54,7 +52,6 @@ class StepperSection extends StatelessWidget {
               currentStep: currentStep,
               onTap: () {
                 context.read<ManageCustomProgramCubit>().setStep(2);
-                pageController.jumpToPage(2);
               },
             ),
           ],

@@ -1,12 +1,17 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
+import 'package:pro_icon/Core/widgets/custom_button.dart';
+import 'package:pro_icon/Core/widgets/custom_loader.dart';
+import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
+import 'package:pro_icon/Features/custom_programs/manage_program/cubits/cubit/manage_custom_program_cubit.dart';
+import 'package:pro_icon/Features/custom_programs/manage_program/widgets/frequency_section.dart';
 
-import '../../../../Core/theme/app_text_styles.dart';
-import '../../../../Core/widgets/custom_dropdown_section.dart';
 import '../../../../Core/widgets/text_form_section.dart';
 
 class ProgramInfoForm extends StatelessWidget {
@@ -25,8 +30,58 @@ class ProgramInfoForm extends StatelessWidget {
           _buildFrequencyFormSection(),
           context.setMinSize(20).verticalSpace,
           _buildContractionFormSection(context),
-          _buildPulseFormSection(context)
+          _buildPulseFormSection(context),
+          context.setMinSize(20).verticalSpace,
+          _buildButton()
         ]));
+  }
+
+  Widget _buildButton() {
+    return BlocConsumer<ManageCustomProgramCubit, ManageCustomProgramState>(
+      buildWhen: (previous, current) =>
+          previous.updateProgramStatus != current.updateProgramStatus ||
+          previous.isEditMode != current.isEditMode ||
+          previous.message != current.message,
+      listener: (context, state) {
+        if (state.updateProgramStatus == RequetsStatus.success) {
+          buildCustomAlert(context, state.message!, Colors.green);
+          Future.delayed(const Duration(seconds: 3), () {
+            context
+                .read<ManageCustomProgramCubit>()
+                .setUpdateProgramStatus(RequetsStatus.intial);
+          });
+        }
+
+        if (state.updateProgramStatus == RequetsStatus.error) {
+          buildCustomAlert(context, state.message!, Colors.red);
+        }
+      },
+      builder: (context, state) {
+        if (state.updateProgramStatus == RequetsStatus.loading)
+          return SizedBox(
+            height: context.setMinSize(60),
+            child: const CustomLoader(),
+          );
+        return CustomButton(
+            onPressed: () {
+              if (formKey.currentState?.saveAndValidate() ?? false) {
+                final cubit = context.read<ManageCustomProgramCubit>();
+                final isEditMode = state.isEditMode;
+                final formData = formKey.currentState!.value;
+                final image = cubit.state.customProgramEntity!.image;
+                if (isEditMode) {
+                  // get changed fields only and update only if there is a change
+                  // update program request
+                } else {
+                  // use builder class to build current fields then move to next page
+
+                  cubit.setStep(1);
+                }
+              }
+            },
+            text: state.isEditMode ? "confirm".tr() : "next".tr());
+      },
+    );
   }
 
   Widget _buildPulseFormSection(BuildContext context) {
@@ -125,22 +180,7 @@ class ProgramInfoForm extends StatelessWidget {
   }
 
   Widget _buildNumberOfCyclesSection(BuildContext context) {
-    return DropdownFormSection<int>(
-      title: "Cycles No.",
-      name: "cycles",
-      items: [1, 2, 3, 4, 5, 6]
-          .map((number) => DropdownMenuItem<int>(
-                value: number,
-                child: Text(
-                  number.toString(),
-                  style: AppTextStyles.fontSize14(context).copyWith(
-                    color: Colors.white,
-                  ),
-                ),
-              ))
-          .toList(),
-      hintText: "Number of Cycles",
-    );
+    return const FrequencyCyclesSection();
   }
 
   Widget _buildProgramNameFieldSection(BuildContext context) {

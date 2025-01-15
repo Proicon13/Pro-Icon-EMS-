@@ -16,6 +16,8 @@ abstract class BaseApiProvider {
 
   Future<ApiResponse<T>> putMultipart<T>(
       {required String endpoint, FormData? data, Object? options});
+  Future<ApiResponse<T>> postMultipart<T>(
+      {required String endpoint, FormData? data, Object? options});
 
   Future<ApiResponse<T>> delete<T>(
       {required String endpoint,

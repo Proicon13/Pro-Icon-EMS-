@@ -44,7 +44,6 @@ class _CardMadsWidgetState extends State<CardMadsWidget> {
                           children: [
                             const Row(
                               children: [
-                                // TODO: USE APPTEXTSTYLES fonts
                                 Text(
                                   "No.",
                                   style: TextStyle(

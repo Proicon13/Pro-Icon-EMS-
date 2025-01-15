@@ -10,7 +10,6 @@ class CardMadsWidget extends StatefulWidget {
 class _CardMadsWidgetState extends State<CardMadsWidget> {
   @override
   Widget build(BuildContext context) {
-    // TODO:recode this screen to use sizeconfig for responsive
     return SizedBox(
       height: 600,
       child: Padding(
@@ -18,7 +17,6 @@ class _CardMadsWidgetState extends State<CardMadsWidget> {
         child: ListView.builder(
           itemCount: 2,
           itemBuilder: (context, index) {
-            // TODO:recode this Mad card to use sizeconfig for responsive
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -35,7 +33,6 @@ class _CardMadsWidgetState extends State<CardMadsWidget> {
                     children: [
                       const Padding(
                         padding: EdgeInsets.only(top: 20),
-                        // TODO:use svg for icons and use CustomSvgVisual widget for all icons
                         child: Image(
                             image: AssetImage("assets/images/layers 1.png")),
                       ),

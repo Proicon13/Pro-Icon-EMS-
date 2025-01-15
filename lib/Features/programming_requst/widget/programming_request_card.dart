@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pro_icon/Core/constants/app_assets.dart';
 import 'package:pro_icon/Core/theme/app_colors.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
@@ -34,11 +33,11 @@ class ProgrammingRequestCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Icon Section
-                const Image(
-                  image: AssetImage(Assets.assetsIconForCard),
-                  width: 40,
-                  height: 40,
-                ),
+                // const Image(
+                //   image: AssetImage(Assets.assetsIconForCard),
+                //   width: 40,
+                //   height: 40,
+                // ),
                 context.setMinSize(12).horizontalSpace,
 
                 // Information Section

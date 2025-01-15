@@ -15,7 +15,6 @@ class MadsScreen extends StatefulWidget {
 class _MadsScreenState extends State<MadsScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: recode this screen to use sizeconfig for responsive
     return BaseAppScaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),

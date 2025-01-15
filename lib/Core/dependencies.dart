@@ -39,6 +39,7 @@ import 'package:pro_icon/data/services/user_service.dart';
 
 import '../data/services/categories_services.dart';
 import '../data/services/country_service.dart';
+import '../data/services/programmer_request.dart';
 import 'cubits/user_state/user_state_cubit.dart';
 import 'local_storage/local_storage_provider.dart';
 import 'local_storage/secure_storage_consumer.dart';
@@ -152,6 +153,12 @@ void setupDependencies() {
   getIt.registerFactory<ManageCustomProgramCubit>(
     () => ManageCustomProgramCubit(
       customProgramService: getIt(),
+    ),
+  );
+
+  getIt.registerFactory<ProgrammerRequestCubit>(
+    () => ProgrammerRequestCubit(
+      programmerRequestService: getIt(),
     ),
   );
 }

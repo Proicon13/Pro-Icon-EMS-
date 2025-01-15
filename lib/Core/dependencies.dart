@@ -155,10 +155,4 @@ void setupDependencies() {
       customProgramService: getIt(),
     ),
   );
-
-  getIt.registerFactory<ProgrammerRequestCubit>(
-    () => ProgrammerRequestCubit(
-      programmerRequestService: getIt(),
-    ),
-  );
 }

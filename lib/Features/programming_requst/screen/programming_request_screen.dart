@@ -5,6 +5,7 @@ import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/entities/admin_entity.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
@@ -63,11 +64,8 @@ class ProgrammingRequestContent extends StatelessWidget {
         if (state.isCheckLoading) {
           return const Expanded(child: CustomLoader());
         }
-        if (state.isCheckSuccess) {
-          return const UserProgrammingRequest();
-        }
 
-        return const SizedBox.shrink();
+        return const UserProgrammingRequest();
       },
       listener: (context, state) {
         if (state.checkStatus == ProgrammerRequestStatus.error) {
@@ -90,7 +88,11 @@ class UserProgrammingRequest extends StatelessWidget {
         if (request == null) {
           return const NoRequestContent();
         }
-        return ProgrammingRequestCard(programmingRequest: request);
+        return SizeConfig(
+            baseSize: const Size(398, 95),
+            width: context.sizeConfig.width,
+            height: context.setMinSize(95),
+            child: ProgrammingRequestCard(programmingRequest: request));
       },
     );
   }

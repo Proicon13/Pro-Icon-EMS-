@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
+import 'package:pro_icon/Features/Mads/session_details/screen/session_activity.dart';
 import 'package:pro_icon/Features/manage_trainer/screens/trainer_password_regestraion_screen.dart';
 
 import '../../Features/auth/login/screens/login_screen.dart';
@@ -145,6 +146,16 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
           return const ProgrammingRequestScreen();
         },
       );
+
+    case SessionActivityScreen.routeName:
+      return MaterialPageRoute(
+        settings: const  RouteSettings(name: SessionActivityScreen.routeName),
+          builder: (_)
+          {
+            return SessionActivityScreen();
+          }
+      );
+
 
     default:
       return MaterialPageRoute(

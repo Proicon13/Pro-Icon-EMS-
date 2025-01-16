@@ -29,9 +29,14 @@ class _MadsScreenState extends State<MadsScreen> {
                     MaterialPageRoute(builder: (_) => const SettingsView()));
               },
             ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: CardMadsWidget(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                onTap: ()
+                  {
+                    Navigator.pushNamed(context, '/session_activity');
+                  },
+                  child: const CardMadsWidget()),
             )
           ],
         ),

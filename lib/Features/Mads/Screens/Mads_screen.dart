@@ -29,11 +29,12 @@ class _MadsScreenState extends State<MadsScreen> {
                     MaterialPageRoute(builder: (_) => const SettingsView()));
               },
             ),
+
+            // remove this padding use padding wisley
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
-                onTap: ()
-                  {
+                  onTap: () {
                     Navigator.pushNamed(context, '/session_activity');
                   },
                   child: const CardMadsWidget()),

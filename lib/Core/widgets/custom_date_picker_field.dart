@@ -42,7 +42,7 @@ class CustomDatePickerField extends StatelessWidget {
       initialValue: initialValue,
       firstDate: firstDate ?? DateTime(1970),
       lastDate: lastDate ?? DateTime.now(),
-      style: AppTextStyles.fontSize16(context).copyWith(color: Colors.white),
+      style: AppTextStyles.fontSize14(context).copyWith(color: Colors.white),
       textAlign: textAlign ?? TextAlign.start,
       inputType: InputType.date,
       format: DateFormat('yyyy-MM-dd'),

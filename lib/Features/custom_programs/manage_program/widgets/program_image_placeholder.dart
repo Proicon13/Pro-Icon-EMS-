@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 
 import '../../../../Core/constants/app_assets.dart';
 import '../../../../Core/theme/app_colors.dart';
 import '../../../../Core/widgets/custom_svg_visual.dart';
+import '../cubits/cubit/manage_custom_program_cubit.dart';
 
 class ProfileImagePlaceholder extends StatelessWidget {
   const ProfileImagePlaceholder({
@@ -14,7 +16,9 @@ class ProfileImagePlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          context.read<ManageCustomProgramCubit>().pickImage();
+        },
         child: Stack(
           children: [
             Container(

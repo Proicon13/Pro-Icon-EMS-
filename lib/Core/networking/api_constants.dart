@@ -9,6 +9,7 @@ class ApiConstants {
   static const lookUpCountriesEndpoint = '/lookups/countries';
   static const lookUpHealthConditions = "/lookups/injuries-and-diseases";
   static const lookUpCitiesEndpoint = "/lookups/cities/";
+  static const lookupMusclesEndpoint = "/lookups/muscles";
   static const currentUserEndpoint = "/auth/me";
   static const getTrainersEndpoint = "/trainers";
   static const clientsEndPoint = "/clients";

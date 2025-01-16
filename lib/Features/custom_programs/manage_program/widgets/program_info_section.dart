@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:pro_icon/Core/entities/program_entity.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
@@ -11,8 +12,10 @@ import 'package:pro_icon/Core/widgets/custom_loader.dart';
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
 import 'package:pro_icon/Features/custom_programs/manage_program/cubits/cubit/manage_custom_program_cubit.dart';
 import 'package:pro_icon/Features/custom_programs/manage_program/widgets/frequency_section.dart';
+import 'package:pro_icon/data/models/add_custom_program_model.dart';
 
 import '../../../../Core/widgets/text_form_section.dart';
+import '../../../../data/models/add_custom_program_builder.dart';
 
 class ProgramInfoForm extends StatelessWidget {
   final GlobalKey<FormBuilderState> formKey;
@@ -32,56 +35,9 @@ class ProgramInfoForm extends StatelessWidget {
           _buildContractionFormSection(context),
           _buildPulseFormSection(context),
           context.setMinSize(20).verticalSpace,
-          _buildButton()
+          _buildButton(),
+          context.setMinSize(20).verticalSpace,
         ]));
-  }
-
-  Widget _buildButton() {
-    return BlocConsumer<ManageCustomProgramCubit, ManageCustomProgramState>(
-      buildWhen: (previous, current) =>
-          previous.updateProgramStatus != current.updateProgramStatus ||
-          previous.isEditMode != current.isEditMode ||
-          previous.message != current.message,
-      listener: (context, state) {
-        if (state.updateProgramStatus == RequetsStatus.success) {
-          buildCustomAlert(context, state.message!, Colors.green);
-          Future.delayed(const Duration(seconds: 3), () {
-            context
-                .read<ManageCustomProgramCubit>()
-                .setUpdateProgramStatus(RequetsStatus.intial);
-          });
-        }
-
-        if (state.updateProgramStatus == RequetsStatus.error) {
-          buildCustomAlert(context, state.message!, Colors.red);
-        }
-      },
-      builder: (context, state) {
-        if (state.updateProgramStatus == RequetsStatus.loading)
-          return SizedBox(
-            height: context.setMinSize(60),
-            child: const CustomLoader(),
-          );
-        return CustomButton(
-            onPressed: () {
-              if (formKey.currentState?.saveAndValidate() ?? false) {
-                final cubit = context.read<ManageCustomProgramCubit>();
-                final isEditMode = state.isEditMode;
-                final formData = formKey.currentState!.value;
-                final image = cubit.state.customProgramEntity!.image;
-                if (isEditMode) {
-                  // get changed fields only and update only if there is a change
-                  // update program request
-                } else {
-                  // use builder class to build current fields then move to next page
-
-                  cubit.setStep(1);
-                }
-              }
-            },
-            text: state.isEditMode ? "confirm".tr() : "next".tr());
-      },
-    );
   }
 
   Widget _buildPulseFormSection(BuildContext context) {
@@ -220,5 +176,128 @@ class ProgramInfoForm extends StatelessWidget {
             ))
       ]),
     );
+  }
+
+  Widget _buildButton() {
+    return BlocConsumer<ManageCustomProgramCubit, ManageCustomProgramState>(
+      buildWhen: (previous, current) =>
+          previous.updateProgramStatus != current.updateProgramStatus ||
+          previous.isEditMode != current.isEditMode ||
+          previous.message != current.message,
+      listener: (context, state) {
+        if (state.updateProgramStatus == RequetsStatus.success) {
+          _showSuccessAlert(context, state.message!);
+        } else if (state.updateProgramStatus == RequetsStatus.error) {
+          _showErrorAlert(context, state.message!);
+        }
+      },
+      builder: (context, state) {
+        if (state.updateProgramStatus == RequetsStatus.loading) {
+          return SizedBox(
+            height: context.setMinSize(60),
+            child: const CustomLoader(),
+          );
+        }
+        return CustomButton(
+          onPressed: () => _handleSubmit(context, state),
+          text: state.isEditMode ? "confirm".tr() : "next".tr(),
+        );
+      },
+    );
+  }
+
+  /// Handles form submission based on the current mode (edit or create).
+  void _handleSubmit(BuildContext context, ManageCustomProgramState state) {
+    if (formKey.currentState?.saveAndValidate() ?? false) {
+      final cubit = context.read<ManageCustomProgramCubit>();
+      final formData = formKey.currentState!.value;
+
+      if (state.isEditMode) {
+        _handleEditMode(cubit, state, formData);
+      } else {
+        _handleCreateMode(cubit, formData);
+      }
+    }
+  }
+
+  /// Handles submission in edit mode by extracting changed fields.
+  void _handleEditMode(ManageCustomProgramCubit cubit,
+      ManageCustomProgramState state, Map<String, dynamic> formData) {
+    final currentProgram =
+        cubit.state.customProgramEntity! as CustomProgramEntity;
+    final updatedFields = _extractChangedFields(currentProgram, formData);
+
+    // Include the image from the current program
+    updatedFields['image'] = currentProgram.image;
+
+    cubit.updateCustomProgram(updatedFields, currentProgram.id);
+  }
+
+  /// Extracts the fields that have changed compared to the current program.
+  Map<String, dynamic> _extractChangedFields(
+      CustomProgramEntity currentProgram, Map<String, dynamic> formData) {
+    final updatedFields = <String, dynamic>{};
+
+    if (formData['name'] != currentProgram.name) {
+      updatedFields['name'] = formData['name'];
+    }
+    if (int.parse(formData['duration']) != currentProgram.duration) {
+      updatedFields['duration'] = int.parse(formData['duration']);
+    }
+    if (int.parse(formData['pulse']) != currentProgram.pulse) {
+      updatedFields['pulse'] = int.parse(formData['pulse']);
+    }
+    if (int.parse(formData['frequency']) != currentProgram.hertez) {
+      updatedFields['hertez'] = int.parse(formData['frequency']);
+    }
+    if (int.parse(formData['stimulation']) != currentProgram.stimulation) {
+      updatedFields['stimulation'] = int.parse(formData['stimulation']);
+    }
+    if (int.parse(formData['pauseInterval']) != currentProgram.pauseInterval) {
+      updatedFields['pauseInterval'] = int.parse(formData['pauseInterval']);
+    }
+    if (int.parse(formData['contraction']) != currentProgram.contraction) {
+      updatedFields['contraction'] = int.parse(formData['contraction']);
+    }
+
+    return updatedFields;
+  }
+
+  /// Handles submission in create mode by building a new program.
+  void _handleCreateMode(
+      ManageCustomProgramCubit cubit, Map<String, dynamic> formData) {
+    final programCycles = List.from(cubit.state.cycles)
+        .map((cycle) => AddCycleModel.fromCycle(cycle))
+        .toList();
+    final builder = AddCustomProgramBuilder()
+      ..reset()
+      ..setName(formData['name'])
+      ..setDuration(int.parse(formData['duration']))
+      ..setPulse(int.parse(formData['pulse']))
+      ..setHertez(int.parse(formData['frequency']))
+      ..setStimulation(int.parse(formData['stimulation']))
+      ..setPauseInterval(int.parse(formData['pauseInterval']))
+      ..setContraction(int.parse(formData['contraction']))
+      ..setImage(cubit.state.customProgramEntity?.image)
+      ..setCycles(programCycles);
+
+    builder.build();
+
+    cubit.setStep(1);
+  }
+
+  /// Shows a success alert message.
+  void _showSuccessAlert(BuildContext context, String message) {
+    buildCustomAlert(context, message, Colors.green);
+    Future.delayed(const Duration(seconds: 3), () {
+      context
+          .read<ManageCustomProgramCubit>()
+          .setUpdateProgramStatus(RequetsStatus.intial);
+    });
+  }
+
+  /// Shows an error alert message.
+  void _showErrorAlert(BuildContext context, String message) {
+    buildCustomAlert(context, message, Colors.red);
   }
 }

@@ -41,6 +41,9 @@ class ManageCustomProgramCubit extends Cubit<ManageCustomProgramState> {
   void setUpdateProgramStatus(RequetsStatus status) =>
       emit(state.copyWith(updateProgramStatus: status));
 
+  void setAddProgramStatus(RequetsStatus status) =>
+      emit(state.copyWith(addProgramStatus: status));
+
   void onCyclesSelected(int numberOfCycles) {
     if (numberOfCycles < 1) return setCycles([]);
     if (numberOfCycles > 6) return;
@@ -106,7 +109,7 @@ class ManageCustomProgramCubit extends Cubit<ManageCustomProgramState> {
             addProgramStatus: RequetsStatus.error, message: failure.message));
       },
       (program) {
-        _updateUserPrograms(program);
+        _updateUserProgram(program);
         emit(state.copyWith(
             addProgramStatus: RequetsStatus.success,
             message: "Program Added Successfully"));
@@ -125,12 +128,29 @@ class ManageCustomProgramCubit extends Cubit<ManageCustomProgramState> {
             message: failure.message));
       },
       (program) {
-        _updateUserPrograms(program);
+        _updateUserProgram(program);
         emit(state.copyWith(
             addProgramStatus: RequetsStatus.success,
             message: "Program Updated Successfully"));
       },
     );
+  }
+
+  void onCycleFrequencyChanged(int cycleId, int frequency) {
+    // Create a mutable copy of the cycles list
+    final updatedCycles = List<Cycle>.from(state.cycles);
+
+    // Find the index of the cycle to update
+    final index = updatedCycles.indexWhere((cycle) => cycle.id == cycleId);
+
+    // Create a new updated cycle
+    final updatedCycle = updatedCycles[index].copyWith(frequency: frequency);
+
+    // Replace the old cycle with the updated one
+    updatedCycles[index] = updatedCycle;
+
+    // Update the state with the new list
+    setCycles(updatedCycles);
   }
 
   void removeCycle(int cycleId) {
@@ -144,10 +164,28 @@ class ManageCustomProgramCubit extends Cubit<ManageCustomProgramState> {
     setCycles(updatedCycles);
   }
 
-  void _updateUserPrograms(ProgramEntity program) {
+  void _updateUserProgram(ProgramEntity program) {
+    // Get the current user as a ProgrammerEntity
     final user = getIt<UserStateCubit>().state.currentUser as ProgrammerEntity;
-    final updatedUserProgram = user.copyWith(
-        customPrograms: List.from(user.customPrograms!)..add(program));
+
+    // Create a copy of the customPrograms list
+    final programs = List<ProgramEntity>.from(user.customPrograms!);
+
+    // Find the index of the program to update
+    final index = programs.indexWhere((p) => p.id == program.id);
+
+    // If the program exists, update it
+    if (index != -1) {
+      programs[index] = program; // Replace the old program with the updated one
+    } else {
+      // If the program doesn't exist, add it
+      programs.add(program);
+    }
+
+    // Create an updated user with the modified programs
+    final updatedUserProgram = user.copyWith(customPrograms: programs);
+
+    // Update the user in the UserStateCubit
     getIt<UserStateCubit>().setUser(updatedUserProgram);
   }
 }

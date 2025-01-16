@@ -19,6 +19,7 @@ import 'package:pro_icon/Features/client_details/medical_report/cubits/cubit/med
 import 'package:pro_icon/Features/client_details/strategy/cubits/cubit/strategy_cubit.dart';
 import 'package:pro_icon/Features/clients/add_client/cubits/cubit/client_registration_cubit.dart';
 import 'package:pro_icon/Features/custom_programs/manage_program/cubits/cubit/manage_custom_program_cubit.dart';
+import 'package:pro_icon/Features/custom_programs/manage_program/cubits/cubit/program_muscles_cubit.dart';
 import 'package:pro_icon/Features/home/cubit/home_cubit.dart';
 import 'package:pro_icon/Features/main/cubit/cubit/main_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/manage_trainer_cubit.dart';
@@ -32,6 +33,7 @@ import 'package:pro_icon/data/services/client_strategy_service.dart';
 import 'package:pro_icon/data/services/clients_service.dart';
 import 'package:pro_icon/data/services/custom_program_service.dart';
 import 'package:pro_icon/data/services/health_condition_service.dart';
+import 'package:pro_icon/data/services/muscles_service.dart';
 import 'package:pro_icon/data/services/profile_service.dart';
 import 'package:pro_icon/data/services/reset_password_service.dart';
 import 'package:pro_icon/data/services/trainer_service.dart';
@@ -83,6 +85,7 @@ void setupDependencies() {
       () => CustomProgramService(baseApiProvider: getIt()));
 
   getIt.registerLazySingleton(() => ProfileService(apiProvider: getIt()));
+  getIt.registerLazySingleton(() => MusclesService(baseApiProvider: getIt()));
   // repos
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(
       authService: getIt(),
@@ -154,5 +157,10 @@ void setupDependencies() {
     () => ManageCustomProgramCubit(
       customProgramService: getIt(),
     ),
+  );
+
+  getIt.registerFactory<ProgramMusclesCubit>(
+    () => ProgramMusclesCubit(
+        customProgramService: getIt(), musclesService: getIt()),
   );
 }

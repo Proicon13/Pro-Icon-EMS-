@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pro_icon/data/models/cycle.dart';
 
 class AddCustomProgramModel {
   final int? id;
@@ -33,19 +34,18 @@ class AddCustomProgramModel {
       this.cycles});
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'description': description,
-        'duration': duration,
-        'image': image,
-        'pulse': pulse,
-        'hertez': hertez,
-        'categoryId': categoryId,
-        'stimulation': stimulation,
-        'pauseInterval': pauseInterval,
-        'contraction': contraction,
-        'programMuscles': programMuscles!.map((item) => item.toJson()).toList(),
-        'cycles': cycles!.map((item) => item.toJson()).toList(),
+        'name': this.name,
+        'description': this.description ?? "",
+        'duration': this.duration,
+        'file': this.image,
+        'pulse': this.pulse,
+        'hertez': this.hertez,
+        'stimulation': this.stimulation,
+        'pauseInterval': this.pauseInterval,
+        'contraction': this.contraction,
+        'programMuscles':
+            this.programMuscles!.map((item) => item.toJson()).toList(),
+        'cycles': this.cycles!.map((item) => item.toJson()).toList(),
       };
 }
 
@@ -63,10 +63,21 @@ class AddProgramMuscleModel extends Equatable {
         isActive: json['isActive'],
       );
 
+  AddProgramMuscleModel copyWith({
+    int? muscleId,
+    num? value,
+    bool? isActive,
+  }) =>
+      AddProgramMuscleModel(
+        muscleId: muscleId ?? this.muscleId,
+        value: value ?? this.value,
+        isActive: isActive ?? this.isActive,
+      );
+
   Map<String, dynamic> toJson() => {
-        'muscleId': muscleId,
-        'value': value,
-        'isActive': isActive,
+        'id': this.muscleId,
+        'value': this.value,
+        'isActive': this.isActive,
       };
 
   @override
@@ -81,6 +92,9 @@ class AddCycleModel extends Equatable {
         frequency: json['frequency'],
         value: json['value'],
       );
+
+  factory AddCycleModel.fromCycle(Cycle cycle) => AddCycleModel(
+      frequency: cycle.frequency!.toInt(), value: cycle.adjustment);
   Map<String, dynamic> toJson() => {'frequency': frequency, 'value': value};
   @override
   List<Object?> get props => [frequency, value];

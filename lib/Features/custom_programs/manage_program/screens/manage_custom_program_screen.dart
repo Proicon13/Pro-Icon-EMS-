@@ -9,6 +9,9 @@ import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_header.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Features/custom_programs/manage_program/cubits/cubit/manage_custom_program_cubit.dart';
+import 'package:pro_icon/Features/custom_programs/manage_program/cubits/cubit/program_muscles_cubit.dart';
+import 'package:pro_icon/Features/custom_programs/manage_program/screens/active_muscles_view.dart';
+import 'package:pro_icon/Features/custom_programs/manage_program/screens/chronaxie_view.dart';
 
 import '../../../../Core/dependencies.dart';
 import '../widgets/stepper_section.dart';
@@ -28,14 +31,8 @@ class _ManageCustomProgramScreenState extends State<ManageCustomProgramScreen> {
   late PageController _pageController;
   final pages = {
     0: const ProgramInfoView(),
-    1: const Center(
-        child: Text(
-      "Choronaxie",
-    )),
-    2: const Center(
-        child: Text(
-      "Active",
-    ))
+    1: const ChronaxieView(),
+    2: const ActiveMusclesView()
   };
 
   @override
@@ -52,14 +49,23 @@ class _ManageCustomProgramScreenState extends State<ManageCustomProgramScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ManageCustomProgramCubit>(
-      create: (context) {
-        if (widget.program != null) {
-          return getIt<ManageCustomProgramCubit>()..setProgram(widget.program!);
-        } else {
-          return getIt<ManageCustomProgramCubit>();
-        }
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ManageCustomProgramCubit>(
+          create: (context) {
+            if (widget.program != null) {
+              return getIt<ManageCustomProgramCubit>()
+                ..setProgram(widget.program!);
+            } else {
+              return getIt<ManageCustomProgramCubit>();
+            }
+          },
+        ),
+        BlocProvider<ProgramMusclesCubit>(
+          create: (context) =>
+              getIt<ProgramMusclesCubit>()..fetchMuscles(widget.program),
+        )
+      ],
       child: KeyboardDismissable(
         child: BlocListener<ManageCustomProgramCubit, ManageCustomProgramState>(
           listenWhen: (previous, current) =>

@@ -126,6 +126,13 @@ class FrequencyCycleCard extends StatelessWidget {
                 child: CustomTextField(
                   name: "cycle-${index + 1}",
                   isDense: true,
+                  onChanged: (value) {
+                    if (value != null && value.isNotEmpty) {
+                      context
+                          .read<ManageCustomProgramCubit>()
+                          .onCycleFrequencyChanged(cycle.id!, int.parse(value));
+                    }
+                  },
                   contentPadding: EdgeInsets.symmetric(
                     vertical: context.sizeConfig.height * 0.15,
                     horizontal: context.sizeConfig.width * 0.02,
@@ -152,7 +159,9 @@ class FrequencyCycleCard extends StatelessWidget {
                 }),
             context.setMinSize(30).horizontalSpace,
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                context.read<ManageCustomProgramCubit>().removeCycle(cycle.id!);
+              },
               child: CustomSvgVisual(
                 assetPath: Assets.assetsImagesCloseIcon,
                 width: context.setMinSize(24),

@@ -21,7 +21,9 @@ class ProgramImageSection extends StatelessWidget {
       },
       builder: (context, state) {
         return GestureDetector(
-          onTap: () {},
+          onTap: () {
+            context.read<ManageCustomProgramCubit>().pickImage();
+          },
           child: Stack(
             children: [
               CustomCircularImage(

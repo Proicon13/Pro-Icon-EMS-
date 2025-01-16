@@ -83,6 +83,7 @@ class ManageCustomProgramState extends Equatable {
         customProgramEntity!,
         programMuscles!,
         isEditMode,
-        cycles
+        cycles,
+        addProgramStatus!
       ];
 }

@@ -108,5 +108,8 @@
     "static.type": "Static",
     "dynamic.type": "Dynamic",
     "power.type": "Power",
-    "training.type": "Training Type"
+    "training.type": "Training Type",
+    "Session activity.title": "Session activity"
+
+
 }

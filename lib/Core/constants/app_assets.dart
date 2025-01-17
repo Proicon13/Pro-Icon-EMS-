@@ -133,5 +133,8 @@ class Assets {
       static const String assetsIconPowerForMads = "assets/images/powerButton.png";
       static const String assetsForMadsUserIcon = "assets/images/user_mads_icon.svg";
       static const String assetsSessionIcon = "assets/images/session_icon.svg";
+      static const String assetsMadsIconSvg = "assets/images/Icons_Mads.svg";
+      static const String assetsForPowerMads = "assets/images/PowerMadsIcon.svg";
+      static const String assetsForMadsarrowIcon = "assets/images/MdasArrowIcon.svg";
 
 }

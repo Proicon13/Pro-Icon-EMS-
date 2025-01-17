@@ -111,7 +111,7 @@ class _SettingsViewState extends State<SettingsView> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => const MadsScreen()));
+                                builder: (_) =>  MadsScreen()));
                         break;
                       case 'Programming request':
                         Navigator.pushNamed(

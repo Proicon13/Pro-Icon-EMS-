@@ -6,6 +6,7 @@ import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/base_app_Scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/custom_date_picker_field.dart';
@@ -20,8 +21,7 @@ class SessionActivityScreen extends StatelessWidget {
     return BaseAppScaffold(
       resizeToAvoidButtomPadding: true,
       body: Padding(
-        padding: const EdgeInsets.all(
-            16.0), // use responsive scaffold padding from sizeConstants
+        padding:  EdgeInsets.all(16), // use responsive scaffold padding from sizeConstants
         child: Column(
           children: [
             const SizedBox(

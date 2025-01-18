@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pro_icon/Core/constants/app_assets.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
 
 import '../../../Core/theme/app_colors.dart';
@@ -38,84 +39,77 @@ class _CardMadsWidgetState extends State<CardMadsWidget> {
               padding: EdgeInsets.symmetric(
                   vertical: context.setMinSize(10),
                   horizontal: context.setMinSize(20)),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 25,
-                      ), // use responsive spacing in all widgets
-                      CustomSvgVisual(
-                        assetPath: Assets.assetsMadsIconSvg,
-                        width: context.setMinSize(35),
-                        height: context.setMinSize(35),
-                      ),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      Text('NO.123456798123',
-                          style: AppTextStyles.fontSize16(context)
-                              .copyWith(color: Colors.white)),
-                      const SizedBox(
-                        width: 70,
-                      ),
-                      SvgPicture.asset(
-                          Assets.assetsForMadsarrowIcon) // use customSvgVisual
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 40,
-                      ),
-                      SvgPicture.asset(
-                        Assets.assetsSessionIcon,
-                        width: 15,
-                        height: 15,
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      Text('5 sessions',
-                          style: AppTextStyles.fontSize14(context)
-                              .copyWith(color: Colors.white)),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
+              child: Row(
+               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children:   [
                   Padding(
-                    padding: const EdgeInsets.only(left: 40, right: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: context.setMinSize(80),
-                          height: context.setMinSize(25),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Active",
-                              style: AppTextStyles.fontSize14(context).copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(width: 10),
-
-                        // الأيقونة SVG
-                        SvgPicture.asset(
-                          Assets.assetsForPowerMads,
-                          height: 24,
-                        ),
-                      ],
+                    padding:  EdgeInsets.only(bottom: context.setMinSize(20)),
+                    child: CustomSvgVisual(
+                      assetPath: Assets.assetsMadsIconSvg,
+                      width: context.setMinSize(35),
+                      height: context.setMinSize(35),
                     ),
                   ),
+                   context.setMinSize(12).horizontalSpace,
+                   Padding(
+                     padding:  EdgeInsets.only(top: context.setMinSize(20)),
+                     child: Expanded(
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("No . 1234567" , style: AppTextStyles.fontSize16(context).copyWith(
+                            color: Colors.white
+                          ),),
+                          context.setMinSize(8).verticalSpace,
+                          Row(
+                            children: [
+                              CustomSvgVisual(assetPath: Assets.assetsForMadsIconSvg , width: 15, height: 15,),
+                              context.setMinSize(8).horizontalSpace,
+                              Text("5 Sessions" , style: AppTextStyles.fontSize16(context).copyWith(
+                                color: Colors.white
+                              ),)
+                            ],
+                          ),
+                        context.setMinSize(3).verticalSpace,
+                        SizeConfig(
+                          baseSize: Size(68, 24),
+                          width: context.setMinSize(68),
+                          height: context.setMinSize(24),
+                          child: Builder(
+                            builder: (context) {
+                              return Container(
+                                width: context.sizeConfig.width ,
+                                  height: context.setMinSize(24),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(context.setMinSize(8))
+                                  ),
+                                  child:    Center(
+                                    child: Text("Active" , style: AppTextStyles.fontSize14(context).copyWith(
+                                      color: Colors.white
+                                    ),),
+                                  )
+                              );
+                            }
+                          ),
+                        )
+                       
+                        ],
+                       ),
+                     ),
+                   ),
+                  context.setMinSize(150).horizontalSpace,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding:  EdgeInsets.only(top: context.setMinSize(20)),
+                        child: CustomSvgVisual(assetPath: Assets.assetsForMadsarrowIcon),
+                      ),
+                      CustomSvgVisual(assetPath: Assets.assetsForPowerMads)
+                    ],
+                  ),
+                  
                 ],
               ),
             ),

@@ -136,5 +136,6 @@ class Assets {
       static const String assetsMadsIconSvg = "assets/images/Icons_Mads.svg";
       static const String assetsForPowerMads = "assets/images/PowerMadsIcon.svg";
       static const String assetsForMadsarrowIcon = "assets/images/MdasArrowIcon.svg";
+      static const String assetsForMadsIconSvg = "assets/images/icon_Mads_Card.svg";
 
 }

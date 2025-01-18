@@ -9,7 +9,6 @@ import 'package:pro_icon/data/services/custom_program_service.dart';
 
 import '../../../../../Core/dependencies.dart';
 import '../../../../../data/models/add_custom_program_model.dart';
-import '../../../../../data/models/program_muscle.dart';
 
 part 'manage_custom_program_state.dart';
 
@@ -130,7 +129,7 @@ class ManageCustomProgramCubit extends Cubit<ManageCustomProgramState> {
       (program) {
         _updateUserProgram(program);
         emit(state.copyWith(
-            addProgramStatus: RequetsStatus.success,
+            updateProgramStatus: RequetsStatus.success,
             message: "Program Updated Successfully"));
       },
     );

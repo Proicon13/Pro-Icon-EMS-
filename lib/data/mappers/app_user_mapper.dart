@@ -46,12 +46,12 @@ class AppUserEntityMapper {
           phone: model.phone,
           status: model.status,
           customPrograms: model.customPrograms != null
-              ? []
-              : model.customPrograms!
+              ? model.customPrograms!
                   .map((element) =>
                       ProgramModelToEntityMapper.mapCustomProgramModelToEntity(
                           element))
-                  .toList(),
+                  .toList()
+              : [],
         );
       default:
         return UserEntity(

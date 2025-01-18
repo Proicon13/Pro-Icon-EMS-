@@ -13,24 +13,20 @@ extension ManageCustomProgramStatusX on ManageCustomProgramState {
 
 class ManageCustomProgramState extends Equatable {
   final int? currentStep;
-  final RequetsStatus? muscleStatus;
+
   final RequetsStatus? updateCycleStatus;
-  final RequetsStatus? updateProgramMuscleStatus;
+
   final RequetsStatus? addProgramStatus;
   final RequetsStatus? updateProgramStatus;
   final String? message;
   final ProgramEntity? customProgramEntity;
-  final Map<int, ProgramMuscle>? programMuscles;
 
   const ManageCustomProgramState({
     this.currentStep = 0,
-    this.muscleStatus = RequetsStatus.intial,
     this.updateCycleStatus = RequetsStatus.intial,
-    this.updateProgramMuscleStatus = RequetsStatus.intial,
     this.addProgramStatus = RequetsStatus.intial,
     this.updateProgramStatus = RequetsStatus.intial,
     this.message = "",
-    this.programMuscles = const {},
     this.customProgramEntity = const CustomProgramEntity(
         id: 0,
         name: "",
@@ -57,17 +53,12 @@ class ManageCustomProgramState extends Equatable {
     RequetsStatus? updateProgramStatus,
     String? message,
     ProgramEntity? customProgramEntity,
-    Map<int, ProgramMuscle>? programMuscles,
   }) {
     return ManageCustomProgramState(
       currentStep: currentStep ?? this.currentStep,
-      muscleStatus: muscleStatus ?? this.muscleStatus,
       updateCycleStatus: updateCycleStatus ?? this.updateCycleStatus,
-      updateProgramMuscleStatus:
-          updateProgramMuscleStatus ?? this.updateProgramMuscleStatus,
       message: message ?? this.message,
       customProgramEntity: customProgramEntity ?? this.customProgramEntity,
-      programMuscles: programMuscles ?? this.programMuscles,
       addProgramStatus: addProgramStatus ?? this.addProgramStatus,
       updateProgramStatus: updateProgramStatus ?? this.updateProgramStatus,
     );
@@ -76,14 +67,12 @@ class ManageCustomProgramState extends Equatable {
   @override
   List<Object> get props => [
         currentStep!,
-        muscleStatus!,
         updateCycleStatus!,
-        updateProgramMuscleStatus!,
         message!,
         customProgramEntity!,
-        programMuscles!,
         isEditMode,
         cycles,
-        addProgramStatus!
+        addProgramStatus!,
+        updateProgramStatus!
       ];
 }

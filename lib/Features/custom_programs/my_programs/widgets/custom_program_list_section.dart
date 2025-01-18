@@ -9,6 +9,7 @@ import '../../../../Core/cubits/user_state/user_state_cubit.dart';
 import '../../../../Core/entities/program_entity.dart';
 import '../../../../Core/entities/programmer_entity.dart';
 import '../../../../Core/widgets/empty_state_widget.dart';
+import '../../manage_program/screens/manage_custom_program_screen.dart';
 
 class CustomProgramSection extends StatelessWidget {
   const CustomProgramSection({
@@ -47,7 +48,11 @@ class CustomProgramSection extends StatelessWidget {
             child: Builder(builder: (context) {
               return ProgramCardWithActions(
                 program: program,
-                onEdit: () {},
+                onEdit: () {
+                  Navigator.pushNamed(
+                      context, ManageCustomProgramScreen.routeName,
+                      arguments: program);
+                },
                 onDelete: () {},
               );
             }),

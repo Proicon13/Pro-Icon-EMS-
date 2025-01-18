@@ -45,36 +45,53 @@ class ProgramInfoForm extends StatelessWidget {
       height: context.setMinSize(140),
       child: Row(children: [
         Expanded(
-          child: TextFormSection(
-            title: "Pulse",
-            name: "pulse",
-            hintText: "50 u.s.",
-            keyboardInputType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              LengthLimitingTextInputFormatter(3)
-            ],
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(errorText: "Pulse is required"),
-            ]),
+          child: BlocSelector<ManageCustomProgramCubit,
+              ManageCustomProgramState, int>(
+            selector: (state) => state.customProgramEntity?.pulse ?? 0,
+            builder: (context, pulse) {
+              return TextFormSection(
+                title: "Pulse",
+                name: "pulse",
+                hintText: "50 u.s.",
+                intialValue: pulse.toString(),
+                keyboardInputType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(3)
+                ],
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: "Pulse is required"),
+                ]),
+              );
+            },
           ),
         ),
         context.setMinSize(30).horizontalSpace,
         Expanded(
-            child: TextFormSection(
-          title: "Stimulation",
-          name: "stimulation",
-          hintText: "s*10",
-          keyboardInputType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(3)
-          ],
-          validator: FormBuilderValidators.compose([
-            FormBuilderValidators.required(
-                errorText: "Stimulation is required"),
-          ]),
-        ))
+          child: BlocSelector<ManageCustomProgramCubit,
+              ManageCustomProgramState, int>(
+            selector: (state) =>
+                (state.customProgramEntity as CustomProgramEntity).stimulation,
+            builder: (context, stimulation) {
+              return TextFormSection(
+                title: "Stimulation",
+                name: "stimulation",
+                hintText: "s*10",
+                intialValue: stimulation.toString(),
+                keyboardInputType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(3)
+                ],
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: "Stimulation is required"),
+                ]),
+              );
+            },
+          ),
+        )
       ]),
     );
   }
@@ -84,54 +101,79 @@ class ProgramInfoForm extends StatelessWidget {
       height: context.setMinSize(140),
       child: Row(children: [
         Expanded(
-          child: TextFormSection(
-            title: "Contraction (sec)",
-            name: "contraction",
-            hintText: "10s",
-            keyboardInputType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              LengthLimitingTextInputFormatter(3)
-            ],
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(
-                  errorText: "Contraction is required"),
-            ]),
+          child: BlocSelector<ManageCustomProgramCubit,
+              ManageCustomProgramState, int>(
+            selector: (state) =>
+                (state.customProgramEntity as CustomProgramEntity).contraction,
+            builder: (context, contraction) {
+              return TextFormSection(
+                title: "Contraction (sec)",
+                name: "contraction",
+                hintText: "10s",
+                intialValue: contraction.toString(),
+                keyboardInputType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(3)
+                ],
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: "Contraction is required"),
+                ]),
+              );
+            },
           ),
         ),
         context.setMinSize(30).horizontalSpace,
         Expanded(
-            child: TextFormSection(
-          title: "Pause interval (sec)",
-          name: "pauseInterval",
-          hintText: "10 mins",
+          child: BlocSelector<ManageCustomProgramCubit,
+              ManageCustomProgramState, int>(
+            selector: (state) =>
+                (state.customProgramEntity as CustomProgramEntity)
+                    .pauseInterval,
+            builder: (context, pauseInterval) {
+              return TextFormSection(
+                title: "Pause interval (sec)",
+                name: "pauseInterval",
+                hintText: "10 mins",
+                intialValue: pauseInterval.toString(),
+                keyboardInputType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(3)
+                ],
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: "Pause interval is required"),
+                ]),
+              );
+            },
+          ),
+        )
+      ]),
+    );
+  }
+
+  Widget _buildFrequencyFormSection() {
+    return BlocSelector<ManageCustomProgramCubit, ManageCustomProgramState,
+        int>(
+      selector: (state) => state.customProgramEntity?.hertez ?? 0,
+      builder: (context, hertez) {
+        return TextFormSection(
+          title: "Frequency (HZ)",
+          name: "frequency",
+          hintText: "500 HZ",
+          intialValue: hertez.toString(),
           keyboardInputType: TextInputType.number,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
             LengthLimitingTextInputFormatter(3)
           ],
           validator: FormBuilderValidators.compose([
-            FormBuilderValidators.required(
-                errorText: "Pause interval is required"),
+            FormBuilderValidators.required(errorText: "Frequency is required"),
           ]),
-        ))
-      ]),
-    );
-  }
-
-  Widget _buildFrequencyFormSection() {
-    return TextFormSection(
-      title: "Frequency (HZ)",
-      name: "frequency",
-      hintText: "500 HZ",
-      keyboardInputType: TextInputType.number,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-        LengthLimitingTextInputFormatter(3)
-      ],
-      validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: "Frequency is required"),
-      ]),
+        );
+      },
     );
   }
 
@@ -145,35 +187,50 @@ class ProgramInfoForm extends StatelessWidget {
       child: Row(children: [
         Expanded(
           flex: 2,
-          child: TextFormSection(
-            title: "Name",
-            name: "name",
-            hintText: "Program Name",
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(
-                  errorText: "Program Name is required"),
-              FormBuilderValidators.maxLength(50,
-                  errorText: "Program Name cannot exceed 50 characters"),
-            ]),
+          child: BlocSelector<ManageCustomProgramCubit,
+              ManageCustomProgramState, String>(
+            selector: (state) => state.customProgramEntity?.name ?? "",
+            builder: (context, name) {
+              return TextFormSection(
+                title: "Name",
+                name: "name",
+                hintText: "Program Name",
+                intialValue: name,
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: "Program Name is required"),
+                  FormBuilderValidators.maxLength(50,
+                      errorText: "Program Name cannot exceed 50 characters"),
+                ]),
+              );
+            },
           ),
         ),
         context.setMinSize(30).horizontalSpace,
         Expanded(
-            flex: 1,
-            child: TextFormSection(
-              title: "Duration (min)",
-              name: "duration",
-              hintText: "10 mins",
-              keyboardInputType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(3)
-              ],
-              validator: FormBuilderValidators.compose([
-                FormBuilderValidators.required(
-                    errorText: "Duration is required"),
-              ]),
-            ))
+          flex: 1,
+          child: BlocSelector<ManageCustomProgramCubit,
+              ManageCustomProgramState, int>(
+            selector: (state) => state.customProgramEntity?.duration ?? 0,
+            builder: (context, duration) {
+              return TextFormSection(
+                title: "Duration (min)",
+                name: "duration",
+                hintText: "10 mins",
+                intialValue: duration.toString(),
+                keyboardInputType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(3)
+                ],
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: "Duration is required"),
+                ]),
+              );
+            },
+          ),
+        )
       ]),
     );
   }
@@ -187,8 +244,10 @@ class ProgramInfoForm extends StatelessWidget {
       listener: (context, state) {
         if (state.updateProgramStatus == RequetsStatus.success) {
           _showSuccessAlert(context, state.message!);
+          _setIntialStatus(context);
         } else if (state.updateProgramStatus == RequetsStatus.error) {
           _showErrorAlert(context, state.message!);
+          _setIntialStatus(context);
         }
       },
       builder: (context, state) {
@@ -206,7 +265,14 @@ class ProgramInfoForm extends StatelessWidget {
     );
   }
 
-  /// Handles form submission based on the current mode (edit or create).
+  Future<Null> _setIntialStatus(BuildContext context) {
+    return Future.delayed(const Duration(seconds: 3), () {
+      context.read<ManageCustomProgramCubit>().setUpdateProgramStatus(
+            RequetsStatus.intial,
+          );
+    });
+  }
+
   void _handleSubmit(BuildContext context, ManageCustomProgramState state) {
     if (formKey.currentState?.saveAndValidate() ?? false) {
       final cubit = context.read<ManageCustomProgramCubit>();
@@ -220,22 +286,23 @@ class ProgramInfoForm extends StatelessWidget {
     }
   }
 
-  /// Handles submission in edit mode by extracting changed fields.
   void _handleEditMode(ManageCustomProgramCubit cubit,
       ManageCustomProgramState state, Map<String, dynamic> formData) {
     final currentProgram =
         cubit.state.customProgramEntity! as CustomProgramEntity;
     final updatedFields = _extractChangedFields(currentProgram, formData);
-
-    // Include the image from the current program
-    updatedFields['image'] = currentProgram.image;
-
+    // if image only is file update it
+    if (currentProgram.image.startsWith('/')) {
+      updatedFields['file'] = currentProgram.image;
+    }
+    if (updatedFields.isEmpty) return;
     cubit.updateCustomProgram(updatedFields, currentProgram.id);
   }
 
-  /// Extracts the fields that have changed compared to the current program.
   Map<String, dynamic> _extractChangedFields(
-      CustomProgramEntity currentProgram, Map<String, dynamic> formData) {
+    CustomProgramEntity currentProgram,
+    Map<String, dynamic> formData,
+  ) {
     final updatedFields = <String, dynamic>{};
 
     if (formData['name'] != currentProgram.name) {
@@ -263,7 +330,6 @@ class ProgramInfoForm extends StatelessWidget {
     return updatedFields;
   }
 
-  /// Handles submission in create mode by building a new program.
   void _handleCreateMode(
       ManageCustomProgramCubit cubit, Map<String, dynamic> formData) {
     final programCycles = List.from(cubit.state.cycles)
@@ -286,7 +352,6 @@ class ProgramInfoForm extends StatelessWidget {
     cubit.setStep(1);
   }
 
-  /// Shows a success alert message.
   void _showSuccessAlert(BuildContext context, String message) {
     buildCustomAlert(context, message, Colors.green);
     Future.delayed(const Duration(seconds: 3), () {
@@ -296,7 +361,6 @@ class ProgramInfoForm extends StatelessWidget {
     });
   }
 
-  /// Shows an error alert message.
   void _showErrorAlert(BuildContext context, String message) {
     buildCustomAlert(context, message, Colors.red);
   }

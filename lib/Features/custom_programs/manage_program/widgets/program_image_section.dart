@@ -6,6 +6,7 @@ import '../../../../Core/constants/app_assets.dart';
 import '../../../../Core/widgets/custom_circular_image.dart';
 import '../../../../Core/widgets/custom_svg_visual.dart';
 import '../cubits/cubit/manage_custom_program_cubit.dart';
+import 'program_image_placeholder.dart';
 
 class ProgramImageSection extends StatelessWidget {
   const ProgramImageSection({
@@ -20,6 +21,7 @@ class ProgramImageSection extends StatelessWidget {
         return state.customProgramEntity!.image;
       },
       builder: (context, state) {
+        if (state.isEmpty) return const ProfileImagePlaceholder();
         return GestureDetector(
           onTap: () {
             context.read<ManageCustomProgramCubit>().pickImage();
@@ -30,6 +32,8 @@ class ProgramImageSection extends StatelessWidget {
                 width: context.setMinSize(90),
                 height: context.setMinSize(90),
                 imageUrl: state,
+                imageType:
+                    state.startsWith('/') ? ImageType.file : ImageType.network,
               ),
               Positioned(
                 bottom: 0,

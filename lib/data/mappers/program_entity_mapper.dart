@@ -31,7 +31,7 @@ class ProgramModelToEntityMapper {
       categoryId: customProgramModel.categoryId ?? 0,
       stimulation: customProgramModel.stimulation ?? 0,
       pauseInterval: customProgramModel.pauseInterval ?? 0,
-      contraction: customProgramModel.contraction ?? 0,
+      contraction: customProgramModel.contraction?.toDouble() ?? 0,
       programMuscles: customProgramModel.programMuscles ?? [],
       cycles: customProgramModel.cycles ?? [],
     );

@@ -57,7 +57,7 @@ class ProgramMusclesGrid extends StatelessWidget {
                     if (!isEditMode) return;
 
                     if (mode == MuscleFormMode.value && isEditMode) {
-                      if (newValue != null) {
+                      if (newValue != null && (newValue as String).isNotEmpty) {
                         context
                             .read<ProgramMusclesCubit>()
                             .updateMuscleValueDebounced(

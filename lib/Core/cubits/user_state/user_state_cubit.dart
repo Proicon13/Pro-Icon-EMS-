@@ -25,19 +25,6 @@ class UserStateCubit extends Cubit<UserStateState> {
     } else {
       final userResponse = await userService.getUserByToken(token: token);
       if (userResponse.isSuccess) {
-        // if user data retrieved
-
-        // if (userResponse.data! is ProgrammerEntity) {
-        //   final user = userResponse.data as ProgrammerEntity;
-        //   final mockUser = user.copyWith(
-        //     customPrograms: AppConstants.programsMock,
-        //   );
-        //   emit(state.copyWith(
-        //     currentUser: mockUser,
-        //     userStatus: UserStatus.loggedIn,
-        //   ));
-        //   return;
-        // }
         emit(state.copyWith(
             currentUser: userResponse.data, userStatus: UserStatus.loggedIn));
       } else {

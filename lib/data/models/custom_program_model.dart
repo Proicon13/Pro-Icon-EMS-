@@ -6,7 +6,7 @@ class CustomProgramModel extends ProgramModel {
   final int? categoryId;
   final int? stimulation;
   final int? pauseInterval;
-  final int? contraction;
+  final num? contraction;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final List<ProgramMuscle>? programMuscles;

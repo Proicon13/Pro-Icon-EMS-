@@ -41,7 +41,7 @@ class CustomProgramEntity extends ProgramEntity {
   final int categoryId;
   final int stimulation;
   final int pauseInterval;
-  final int contraction;
+  final double contraction;
   final List<ProgramMuscle> programMuscles;
   final List<Cycle> cycles;
 
@@ -83,7 +83,7 @@ class CustomProgramEntity extends ProgramEntity {
     int? categoryId,
     int? stimulation,
     int? pauseInterval,
-    int? contraction,
+    double? contraction,
     List<ProgramMuscle>? programMuscles,
     List<Cycle>? cycles,
   }) =>

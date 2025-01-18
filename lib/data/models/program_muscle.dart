@@ -18,14 +18,14 @@ class ProgramMuscle extends Equatable {
         id: json['id'] ?? 0,
         muscle: json['muscle'] == null ? null : Muscle.fromJson(json['muscle']),
         isActive: json['isActive'] ?? true,
-        pulse: json['pulse'] ?? 0,
+        pulse: json['value'] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'muscle': muscle?.toJson(),
         'isActive': isActive,
-        'pulse': pulse
+        'value': pulse
       };
 
   ProgramMuscle copyWith({

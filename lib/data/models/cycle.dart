@@ -10,14 +10,14 @@ class Cycle extends Equatable {
   factory Cycle.fromJson(Map<String, dynamic> json) {
     return Cycle(
       id: json['id'] ?? 0,
-      frequency: json['frequency'] ?? 0,
+      frequency: json['frequancy'] ?? 0,
       adjustment: json['value'] ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'frequency': frequency,
+        'frequancy': frequency,
         'value': adjustment,
       };
 

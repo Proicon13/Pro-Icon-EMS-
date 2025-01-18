@@ -59,6 +59,7 @@ class AddProgramMuscleModel extends Equatable {
 
   factory AddProgramMuscleModel.fromJson(Map<String, dynamic> json) =>
       AddProgramMuscleModel(
+        muscleId: json['id'],
         value: json['value'],
         isActive: json['isActive'],
       );
@@ -89,13 +90,13 @@ class AddCycleModel extends Equatable {
   final num? value;
   AddCycleModel({this.frequency, this.value});
   factory AddCycleModel.fromJson(Map<String, dynamic> json) => AddCycleModel(
-        frequency: json['frequency'],
+        frequency: json['frequancy'],
         value: json['value'],
       );
 
   factory AddCycleModel.fromCycle(Cycle cycle) => AddCycleModel(
       frequency: cycle.frequency!.toInt(), value: cycle.adjustment);
-  Map<String, dynamic> toJson() => {'frequency': frequency, 'value': value};
+  Map<String, dynamic> toJson() => {'frequancy': frequency, 'value': value};
   @override
   List<Object?> get props => [frequency, value];
 }

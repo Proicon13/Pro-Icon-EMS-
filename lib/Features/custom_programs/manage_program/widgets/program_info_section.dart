@@ -102,7 +102,7 @@ class ProgramInfoForm extends StatelessWidget {
       child: Row(children: [
         Expanded(
           child: BlocSelector<ManageCustomProgramCubit,
-              ManageCustomProgramState, int>(
+              ManageCustomProgramState, double>(
             selector: (state) =>
                 (state.customProgramEntity as CustomProgramEntity).contraction,
             builder: (context, contraction) {
@@ -266,7 +266,7 @@ class ProgramInfoForm extends StatelessWidget {
   }
 
   Future<Null> _setIntialStatus(BuildContext context) {
-    return Future.delayed(const Duration(seconds: 3), () {
+    return Future.delayed(const Duration(seconds: 1), () {
       context.read<ManageCustomProgramCubit>().setUpdateProgramStatus(
             RequetsStatus.intial,
           );
@@ -277,32 +277,39 @@ class ProgramInfoForm extends StatelessWidget {
     if (formKey.currentState?.saveAndValidate() ?? false) {
       final cubit = context.read<ManageCustomProgramCubit>();
       final formData = formKey.currentState!.value;
+      final programCycles = List.from(cubit.state.cycles)
+          .map((cycle) => AddCycleModel.fromCycle(cycle))
+          .toList();
 
       if (state.isEditMode) {
-        _handleEditMode(cubit, state, formData);
+        _handleEditMode(cubit, state, formData, programCycles);
       } else {
-        _handleCreateMode(cubit, formData);
+        _handleCreateMode(cubit, formData, programCycles);
       }
     }
   }
 
-  void _handleEditMode(ManageCustomProgramCubit cubit,
-      ManageCustomProgramState state, Map<String, dynamic> formData) {
+  void _handleEditMode(
+      ManageCustomProgramCubit cubit,
+      ManageCustomProgramState state,
+      Map<String, dynamic> formData,
+      List<AddCycleModel> cycles) {
+    final cyclesJson = cycles.map((cycle) => cycle.toJson()).toList();
     final currentProgram =
         cubit.state.customProgramEntity! as CustomProgramEntity;
-    final updatedFields = _extractChangedFields(currentProgram, formData);
+    final updatedFields =
+        _extractChangedFields(currentProgram, formData, cyclesJson);
     // if image only is file update it
     if (currentProgram.image.startsWith('/')) {
       updatedFields['file'] = currentProgram.image;
     }
+
     if (updatedFields.isEmpty) return;
     cubit.updateCustomProgram(updatedFields, currentProgram.id);
   }
 
-  Map<String, dynamic> _extractChangedFields(
-    CustomProgramEntity currentProgram,
-    Map<String, dynamic> formData,
-  ) {
+  Map<String, dynamic> _extractChangedFields(CustomProgramEntity currentProgram,
+      Map<String, dynamic> formData, List<dynamic> cycles) {
     final updatedFields = <String, dynamic>{};
 
     if (formData['name'] != currentProgram.name) {
@@ -323,18 +330,17 @@ class ProgramInfoForm extends StatelessWidget {
     if (int.parse(formData['pauseInterval']) != currentProgram.pauseInterval) {
       updatedFields['pauseInterval'] = int.parse(formData['pauseInterval']);
     }
-    if (int.parse(formData['contraction']) != currentProgram.contraction) {
-      updatedFields['contraction'] = int.parse(formData['contraction']);
+    if (double.parse(formData['contraction']) != currentProgram.contraction) {
+      updatedFields['contraction'] = double.parse(formData['contraction']);
     }
+
+    updatedFields['cycles'] = cycles;
 
     return updatedFields;
   }
 
-  void _handleCreateMode(
-      ManageCustomProgramCubit cubit, Map<String, dynamic> formData) {
-    final programCycles = List.from(cubit.state.cycles)
-        .map((cycle) => AddCycleModel.fromCycle(cycle))
-        .toList();
+  void _handleCreateMode(ManageCustomProgramCubit cubit,
+      Map<String, dynamic> formData, List<AddCycleModel> programCycles) {
     final builder = AddCustomProgramBuilder()
       ..reset()
       ..setName(formData['name'])
@@ -344,11 +350,9 @@ class ProgramInfoForm extends StatelessWidget {
       ..setStimulation(int.parse(formData['stimulation']))
       ..setPauseInterval(int.parse(formData['pauseInterval']))
       ..setContraction(int.parse(formData['contraction']))
-      ..setImage(cubit.state.customProgramEntity?.image)
       ..setCycles(programCycles);
 
     builder.build();
-
     cubit.setStep(1);
   }
 

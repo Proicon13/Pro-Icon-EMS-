@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
 import 'package:pro_icon/Core/widgets/custom_header.dart';
 import 'package:pro_icon/Features/custom_programs/manage_program/screens/manage_custom_program_screen.dart';
+import 'package:pro_icon/Features/custom_programs/my_programs/cubits/cubit/my_programs_cubit.dart';
 
 import '../../../Core/utils/responsive_helper/size_constants.dart';
 import 'widgets/custom_program_list_section.dart';
@@ -14,28 +17,31 @@ class MyProgramsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseAppScaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, ManageCustomProgramScreen.routeName);
-        },
-        child: Icon(
-          Icons.add,
-          size: context.setMinSize(30),
-          color: Colors.black,
+    return BlocProvider<MyProgramsCubit>(
+      create: (context) => getIt<MyProgramsCubit>(),
+      child: BaseAppScaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, ManageCustomProgramScreen.routeName);
+          },
+          child: Icon(
+            Icons.add,
+            size: context.setMinSize(30),
+            color: Colors.black,
+          ),
+          elevation: 1,
+          backgroundColor: Colors.lightGreen,
         ),
-        elevation: 1,
-        backgroundColor: Colors.lightGreen,
-      ),
-      body: Padding(
-        padding: SizeConstants.kScaffoldPadding(context),
-        child: Column(
-          children: [
-            context.setMinSize(30).verticalSpace,
-            const CustomHeader(titleKey: "My Programs"),
-            context.setMinSize(40).verticalSpace,
-            const CustomProgramSection()
-          ],
+        body: Padding(
+          padding: SizeConstants.kScaffoldPadding(context),
+          child: Column(
+            children: [
+              context.setMinSize(30).verticalSpace,
+              const CustomHeader(titleKey: "My Programs"),
+              context.setMinSize(40).verticalSpace,
+              const CustomProgramSection()
+            ],
+          ),
         ),
       ),
     );

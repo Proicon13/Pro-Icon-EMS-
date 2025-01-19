@@ -106,7 +106,7 @@ void buildCustomAlert(BuildContext context, String message, Color color,
   );
 
   // Automatically dismiss the dialog after the specified duration
-  Future.delayed(duration ?? const Duration(seconds: 2), () {
+  Future.delayed(duration ?? const Duration(seconds: 1), () {
     if (Navigator.canPop(context)) {
       Navigator.of(context).pop();
     }

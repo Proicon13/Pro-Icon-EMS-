@@ -11,7 +11,7 @@ class AuthTokenService {
 
   Future<String?> getToken() async {
     try {
-      final token = await _localService.get(AppConstants.tokenLocalKey);
+      final token = await _localService.get<String>(AppConstants.tokenLocalKey);
 
       return token;
     } on CacheException catch (_) {
@@ -21,7 +21,7 @@ class AuthTokenService {
 
   Future<void> saveToken(String token) async {
     try {
-      await _localService.put(AppConstants.tokenLocalKey, token);
+      await _localService.put<String>(AppConstants.tokenLocalKey, token);
     } on CacheException catch (_) {
       rethrow;
     }
@@ -29,7 +29,7 @@ class AuthTokenService {
 
   Future<void> deleteToken() async {
     try {
-      await _localService.delete(AppConstants.tokenLocalKey);
+      await _localService.delete<String>(AppConstants.tokenLocalKey);
     } on CacheException catch (_) {
       rethrow;
     }

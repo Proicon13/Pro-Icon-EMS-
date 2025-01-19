@@ -11,7 +11,7 @@ part 'my_programs_state.dart';
 class MyProgramsCubit extends Cubit<MyProgramsState> {
   final CustomProgramService customProgramService;
   MyProgramsCubit({required this.customProgramService})
-      : super(MyProgramsInitial());
+      : super(const MyProgramsState());
 
   void deleteProgram({required int id, required int programIndex}) async {
     emit(state.copyWith(deleteRequestStatus: MyProgramsStatus.loading));

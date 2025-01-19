@@ -3,8 +3,8 @@ part of 'trainer_password_cubit.dart';
 enum RequestStatus { intial, submitting, success, error }
 
 class TrainerPasswordState extends Equatable {
-  final RequestStatus status;
-  final String message;
+  final RequestStatus? status;
+  final String? message;
 
   const TrainerPasswordState(
       {this.status = RequestStatus.intial, this.message = ""});
@@ -17,7 +17,5 @@ class TrainerPasswordState extends Equatable {
           status: status ?? this.status, message: message ?? this.message);
 
   @override
-  List<Object> get props => [status, message];
+  List<Object> get props => [status!, message!];
 }
-
-final class TrainerPasswordInitial extends TrainerPasswordState {}

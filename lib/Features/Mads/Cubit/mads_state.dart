@@ -1,6 +1,30 @@
 part of 'mads_cubit.dart';
 
+enum MadsRequestStatus { intial, loading, success, error }
 
-sealed class MadsState {}
+class MadsState extends Equatable {
+  final List<Mad>? madsList;
+  final String? message;
+  final MadsRequestStatus? status;
 
-final class MadsInitial extends MadsState {}
+  const MadsState({
+    this.madsList = const [],
+    this.message = "",
+    this.status = MadsRequestStatus.loading,
+  });
+
+  MadsState copyWith({
+    List<Mad>? madsList,
+    String? message,
+    MadsRequestStatus? status,
+  }) {
+    return MadsState(
+      madsList: madsList ?? this.madsList,
+      message: message ?? this.message,
+      status: status ?? this.status,
+    );
+  }
+
+  @override
+  List<Object?> get props => [madsList, message, status];
+}

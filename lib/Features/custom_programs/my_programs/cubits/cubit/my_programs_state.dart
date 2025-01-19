@@ -21,5 +21,3 @@ class MyProgramsState extends Equatable {
   @override
   List<Object> get props => [deleteRequestStatus!, message!];
 }
-
-final class MyProgramsInitial extends MyProgramsState {}

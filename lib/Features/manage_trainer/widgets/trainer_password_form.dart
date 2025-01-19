@@ -52,11 +52,11 @@ class TrainerPasswordForm extends StatelessWidget {
     return BlocConsumer<TrainerPasswordCubit, TrainerPasswordState>(
       listener: (context, state) {
         if (state.status == RequestStatus.error) {
-          buildCustomAlert(context, state.message, Colors.red);
+          buildCustomAlert(context, state.message!, Colors.red);
         }
         if (state.status == RequestStatus.success) {
           SignupRequestBuilder().reset();
-          buildCustomAlert(context, state.message, Colors.green);
+          buildCustomAlert(context, state.message!, Colors.green);
 
           Future.delayed(const Duration(seconds: 3), () {
             // move to main screen with users section view

@@ -10,18 +10,18 @@ class SecureStorageConsumer implements BaseLocalService {
       : _secureStorage = secureStorage;
 
   @override
-  Future<void> put(String key, String value) async {
+  Future<void> put<T>(String key, T value) async {
     try {
-      await _secureStorage.write(key: key, value: value);
+      await _secureStorage.write(key: key, value: value as String);
     } catch (e) {
       throw CacheException('something went wrong saving data');
     }
   }
 
   @override
-  Future<String?> get(String key) async {
+  Future<T?> get<T>(String key) async {
     try {
-      final value = await _secureStorage.read(key: key);
+      final value = await _secureStorage.read(key: key) as T;
 
       return value;
     } catch (e) {
@@ -30,7 +30,7 @@ class SecureStorageConsumer implements BaseLocalService {
   }
 
   @override
-  Future<void> delete(String key) async {
+  Future<void> delete<T>(String key) async {
     try {
       await _secureStorage.delete(key: key);
     } catch (e) {

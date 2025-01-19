@@ -31,9 +31,6 @@ class CustomButton extends StatelessWidget {
           height: context.sizeConfig.height,
           child: MaterialButton(
             onPressed: onPressed,
-            padding: EdgeInsets.symmetric(
-              vertical: context.setMinSize(15),
-            ),
             shape: RoundedRectangleBorder(
                 borderRadius: SizeConstants.kDefaultBorderRadius(context),
                 side: borderSide ?? BorderSide.none),

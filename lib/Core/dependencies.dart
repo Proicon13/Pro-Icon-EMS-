@@ -3,10 +3,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pro_icon/Core/cubits/phone_registration/phone_register_cubit.dart';
 import 'package:pro_icon/Core/cubits/region_cubit/region_cubit.dart';
+import 'package:pro_icon/Core/local_storage/hive_consumer.dart';
 import 'package:pro_icon/Core/networking/base_api_provider.dart';
 import 'package:pro_icon/Core/networking/dio_consumer.dart';
 import 'package:pro_icon/Core/networking/interceptor.dart';
 import 'package:pro_icon/Features/CategoryDetails/Cubit/category_details_cubit.dart';
+import 'package:pro_icon/Features/Mads/Cubit/mads_cubit.dart';
 import 'package:pro_icon/Features/Profile/Cubit/profile_cubit.dart';
 import 'package:pro_icon/Features/auth/login/cubit/login_cubit.dart';
 import 'package:pro_icon/Features/auth/register/cubits/set_password_cubit.dart';
@@ -27,12 +29,14 @@ import 'package:pro_icon/Features/manage_trainer/cubits/cubit/trainer_password_c
 import 'package:pro_icon/Features/programming_requst/cubit/programmer_request_cubit.dart';
 import 'package:pro_icon/Features/users/cubits/user_managment_cubit.dart';
 import 'package:pro_icon/data/repos/auth_repo.dart';
+import 'package:pro_icon/data/repos/mads_repo.dart';
 import 'package:pro_icon/data/services/auth_service.dart';
 import 'package:pro_icon/data/services/auth_token_service.dart';
 import 'package:pro_icon/data/services/client_strategy_service.dart';
 import 'package:pro_icon/data/services/clients_service.dart';
 import 'package:pro_icon/data/services/custom_program_service.dart';
 import 'package:pro_icon/data/services/health_condition_service.dart';
+import 'package:pro_icon/data/services/mads_service.dart';
 import 'package:pro_icon/data/services/muscles_service.dart';
 import 'package:pro_icon/data/services/profile_service.dart';
 import 'package:pro_icon/data/services/reset_password_service.dart';
@@ -55,6 +59,7 @@ void setupDependencies() {
   getIt.registerLazySingleton(() => Dio());
   getIt.registerLazySingleton<BaseLocalService>(
       () => SecureStorageConsumer(secureStorage: getIt()));
+  getIt.registerLazySingleton<BaseLocalService>(() => HiveConsumer());
   getIt.registerLazySingleton<AuthTokenService>(
       () => AuthTokenService(localService: getIt()));
   getIt.registerLazySingleton(() => AppInterceptor(authTokenService: getIt()));
@@ -87,12 +92,17 @@ void setupDependencies() {
 
   getIt.registerLazySingleton(() => ProfileService(apiProvider: getIt()));
   getIt.registerLazySingleton(() => MusclesService(baseApiProvider: getIt()));
+  getIt.registerLazySingleton(() => MadLocalService(localStorage: getIt()));
   // repos
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(
       authService: getIt(),
       resetPasswordService: getIt(),
       authTokenService: getIt(),
       userService: getIt()));
+
+  getIt.registerLazySingleton<MadRepository>(() => MadRepository(
+        madLocalService: getIt(),
+      ));
 
   // cubits
   getIt.registerFactory<SelectRoleCubit>(() => SelectRoleCubit(getIt()));
@@ -168,6 +178,12 @@ void setupDependencies() {
   getIt.registerFactory<MyProgramsCubit>(
     () => MyProgramsCubit(
       customProgramService: getIt(),
+    ),
+  );
+
+  getIt.registerFactory<MadsCubit>(
+    () => MadsCubit(
+      madRepository: getIt(),
     ),
   );
 }

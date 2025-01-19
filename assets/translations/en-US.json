@@ -120,5 +120,6 @@
     "manageProgram.deleteProgram": "Delete Program",
     "manageProgram.addProgramSuccessMessage": "Program added successfully",
     "manageProgram.updateProgramSuccessMessage": "Program updated successfully",
-    "manageProgram.deleteProgramSuccessMessage": "Program deleted successfully"
+    "manageProgram.deleteProgramSuccessMessage": "Program deleted successfully",
+    "madsscreen.title": "Mads"
 }

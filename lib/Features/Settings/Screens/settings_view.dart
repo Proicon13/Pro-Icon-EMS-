@@ -34,9 +34,9 @@ class SettingsView extends StatelessWidget {
       {
         'title': 'Mads',
         'icon': Assets.assetsImagesMadsIcon,
-        'onTap': () => Navigator.pushReplacement(
+        'onTap': () => Navigator.pushNamed(
               context,
-              MaterialPageRoute(builder: (_) => const MadsScreen()),
+              MadsScreen.routeName,
             ),
       },
       {

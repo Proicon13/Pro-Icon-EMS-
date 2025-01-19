@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/entities/category_entity.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
+import 'package:pro_icon/Features/Mads/session_details/screen/session_activity.dart';
 import 'package:pro_icon/Features/manage_trainer/screens/trainer_password_regestraion_screen.dart';
 
 import '../../Features/CategoryDetails/Screens/Category_details.dart';
+import '../../Features/Mads/Screens/Mads_screen.dart';
 import '../../Features/Profile/Screens/profile_screen.dart';
 import '../../Features/auth/login/screens/login_screen.dart';
 import '../../Features/auth/register/screens/admin_address_screen.dart';
@@ -194,6 +196,22 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
         settings: const RouteSettings(name: ProgrammingRequestScreen.routeName),
         builder: (_) {
           return const ProgrammingRequestScreen();
+        },
+      );
+
+    case MadsScreen.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: MadsScreen.routeName),
+        builder: (_) {
+          return const MadsScreen();
+        },
+      );
+
+    case SessionActivityScreen.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: SessionActivityScreen.routeName),
+        builder: (_) {
+          return const SessionActivityScreen();
         },
       );
 

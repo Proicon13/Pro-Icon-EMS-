@@ -22,6 +22,10 @@ class Assets {
   /// assets/images/camera_icon.svg
   static const String assetsImagesCameraIcon = "assets/images/camera_icon.svg";
 
+  /// Assets for assetsImagesCaptainIcon
+  /// assets/images/captain_icon.svg
+  static const String assetsImagesCaptainIcon = "assets/images/captain_icon.svg";
+
   /// Assets for assetsImagesCloseIcon
   /// assets/images/close_icon.svg
   static const String assetsImagesCloseIcon = "assets/images/close_icon.svg";
@@ -33,6 +37,10 @@ class Assets {
   /// Assets for assetsImagesDeleteIcon
   /// assets/images/delete_icon.svg
   static const String assetsImagesDeleteIcon = "assets/images/delete_icon.svg";
+
+  /// Assets for assetsImagesDumbleIcon
+  /// assets/images/dumble_icon.svg
+  static const String assetsImagesDumbleIcon = "assets/images/dumble_icon.svg";
 
   /// Assets for assetsImagesEditIcon
   /// assets/images/edit_icon.svg
@@ -78,6 +86,10 @@ class Assets {
   /// assets/images/logout_icon.svg
   static const String assetsImagesLogoutIcon = "assets/images/logout_icon.svg";
 
+  /// Assets for assetsImagesMadIcon
+  /// assets/images/mad_icon.svg
+  static const String assetsImagesMadIcon = "assets/images/mad_icon.svg";
+
   /// Assets for assetsImagesMadsIcon
   /// assets/images/mads_icon.svg
   static const String assetsImagesMadsIcon = "assets/images/mads_icon.svg";
@@ -93,6 +105,10 @@ class Assets {
   /// Assets for assetsImagesPhoneIcon
   /// assets/images/phone_icon.svg
   static const String assetsImagesPhoneIcon = "assets/images/phone_icon.svg";
+
+  /// Assets for assetsImagesPowerIcon
+  /// assets/images/power_icon.svg
+  static const String assetsImagesPowerIcon = "assets/images/power_icon.svg";
 
   /// Assets for assetsImagesProfileIcon
   /// assets/images/profile_icon.svg

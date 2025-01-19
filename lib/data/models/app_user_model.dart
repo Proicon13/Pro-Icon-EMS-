@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pro_icon/data/models/custom_program_model.dart';
+import 'package:pro_icon/data/models/mad.dart';
 
 import 'city_model.dart';
 import 'programming_request.dart';
@@ -17,6 +18,7 @@ class AppUserModel extends Equatable {
   final String? status;
   final ProgrammingRequest? promotionRequest;
   final List<CustomProgramModel>? customPrograms;
+  final List<Mad>? mads;
 
   const AppUserModel({
     this.id,
@@ -31,6 +33,7 @@ class AppUserModel extends Equatable {
     this.status,
     this.promotionRequest,
     this.customPrograms,
+    this.mads,
   });
 
   factory AppUserModel.fromJson(Map<String, dynamic> json) {
@@ -55,6 +58,9 @@ class AppUserModel extends Equatable {
               .map((e) => CustomProgramModel.fromJson(e))
               .toList()
           : [],
+      mads: json['mads'] != null
+          ? (json['mads'] as List).map((e) => Mad.fromJson(e)).toList()
+          : [],
       promotionRequest: json['promotionRequest'] != null
           ? ProgrammingRequest.fromJson(
               json['promotionRequest'] as Map<String, dynamic>)
@@ -75,6 +81,7 @@ class AppUserModel extends Equatable {
         role,
         status,
         promotionRequest,
-        customPrograms
+        customPrograms,
+        mads
       ];
 }

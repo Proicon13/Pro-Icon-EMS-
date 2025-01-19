@@ -1,17 +1,18 @@
 import 'package:pro_icon/Core/entities/user_entity.dart';
 
 class TrainerEntity extends UserEntity {
-  const TrainerEntity({
-    id,
-    email,
-    fullname,
-    image,
-    city,
-    postalCode,
-    address,
-    status,
-    phone,
-  }) : super(
+  const TrainerEntity(
+      {id,
+      email,
+      fullname,
+      image,
+      city,
+      postalCode,
+      address,
+      status,
+      phone,
+      mads})
+      : super(
             id: id,
             role: "TRAINER",
             email: email,
@@ -21,6 +22,7 @@ class TrainerEntity extends UserEntity {
             postalCode: postalCode,
             address: address,
             phone: phone,
+            mads: mads,
             status: status);
 
   @override

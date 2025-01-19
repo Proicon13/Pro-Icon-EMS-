@@ -14,19 +14,20 @@ class ProgrammerEntity extends UserEntity {
     address,
     status,
     phone,
+    mads,
     this.customPrograms,
   }) : super(
-          id: id,
-          role: "PROGRAMMER",
-          email: email,
-          fullname: fullname,
-          image: image,
-          city: city,
-          postalCode: postalCode,
-          address: address,
-          phone: phone,
-          status: status,
-        );
+            id: id,
+            role: "PROGRAMMER",
+            email: email,
+            fullname: fullname,
+            image: image,
+            city: city,
+            postalCode: postalCode,
+            address: address,
+            phone: phone,
+            status: status,
+            mads: mads);
 
   ProgrammerEntity copyWith({
     List<ProgramEntity>? customPrograms,

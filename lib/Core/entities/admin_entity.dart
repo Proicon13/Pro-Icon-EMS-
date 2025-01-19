@@ -13,19 +13,20 @@ class AdminEntity extends UserEntity {
       address,
       phone,
       status,
+      mads,
       this.programmingRequest})
       : super(
-          id: id,
-          role: "ADMIN",
-          email: email,
-          fullname: fullname,
-          image: image,
-          city: city,
-          postalCode: postalCode,
-          address: address,
-          phone: phone,
-          status: status,
-        );
+            id: id,
+            role: "ADMIN",
+            email: email,
+            fullname: fullname,
+            image: image,
+            city: city,
+            postalCode: postalCode,
+            address: address,
+            phone: phone,
+            status: status,
+            mads: mads);
 
   AdminEntity copyWith({ProgrammingRequest? programmingRequest}) => AdminEntity(
       id: this.id,

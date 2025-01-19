@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../data/models/city_model.dart';
+import '../../data/models/mad.dart';
 
 class UserEntity extends Equatable {
   final int? id;
@@ -13,6 +14,7 @@ class UserEntity extends Equatable {
   final String? phone;
   final String? role;
   final String? status;
+  final List<Mad>? mads;
 
   const UserEntity(
       {this.id,
@@ -24,6 +26,7 @@ class UserEntity extends Equatable {
       this.city,
       this.postalCode,
       this.address,
+      this.mads,
       this.phone});
 
   @override
@@ -37,6 +40,7 @@ class UserEntity extends Equatable {
         postalCode,
         address,
         phone,
-        status
+        status,
+        mads
       ];
 }

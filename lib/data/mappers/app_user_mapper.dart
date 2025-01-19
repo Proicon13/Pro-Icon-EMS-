@@ -21,6 +21,7 @@ class AppUserEntityMapper {
           phone: model.phone,
           status: model.status,
           programmingRequest: model.promotionRequest,
+          mads: model.mads,
         );
       case 'TRAINER':
         return TrainerEntity(
@@ -33,6 +34,7 @@ class AppUserEntityMapper {
           address: model.address,
           phone: model.phone,
           status: model.status,
+          mads: model.mads,
         );
       case 'PROGRAMER':
         return ProgrammerEntity(
@@ -45,6 +47,7 @@ class AppUserEntityMapper {
           address: model.address,
           phone: model.phone,
           status: model.status,
+          mads: model.mads,
           customPrograms: model.customPrograms != null
               ? model.customPrograms!
                   .map((element) =>
@@ -65,6 +68,7 @@ class AppUserEntityMapper {
           phone: model.phone,
           role: model.role,
           status: model.status,
+          mads: model.mads,
         );
     }
   }

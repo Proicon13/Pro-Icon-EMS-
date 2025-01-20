@@ -19,7 +19,7 @@ class MadsScreen extends StatelessWidget {
         child: Column(
           children: [
             context.setMinSize(30).verticalSpace,
-            CustomHeader(titleKey: "madsscreen.title".tr()),
+            CustomHeader(titleKey: "MaDs".tr()),
             context.setMinSize(10).verticalSpace,
             Expanded(
               child: ListView.builder(

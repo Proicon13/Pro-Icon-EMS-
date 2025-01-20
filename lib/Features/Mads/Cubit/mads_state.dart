@@ -1,4 +1,4 @@
-part of 'mads_cubit.dart';
+
 
 
 sealed class MadsState {}

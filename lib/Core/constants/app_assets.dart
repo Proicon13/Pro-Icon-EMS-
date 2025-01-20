@@ -145,5 +145,15 @@ class Assets {
   /// Assets for assetsImagesUsersIcon
   /// assets/images/users_icon.svg
   static const String assetsImagesUsersIcon = "assets/images/users_icon.svg";
+
+  static const String assetsBrazilFlag = "assets/images/brazil.svg";
+  static const String assetsGermanyFlag = 'assets/images/Germany_flag.svg';
+  static const String assetsFranchFlag = "assets/images/franch_flag.svg";
+  static const String assetsUkFlag = "assets/images/uk_flag.svg";
+  static const String assetsSpainFlag = "assets/images/span_flag.svg";
+  static const String assetsSelectedIcon = "assets/images/selected icon.svg";
+  static const String assetsItalySvg = "assets/images/italySvg.svg";
+
+
 }
 

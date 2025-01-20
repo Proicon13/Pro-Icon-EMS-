@@ -1,9 +1,12 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pro_icon/Core/entities/category_entity.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/Features/Mads/session_details/screen/session_activity.dart';
+import 'package:pro_icon/Features/languges_screen/cubit/languges_cubit.dart';
+import 'package:pro_icon/Features/languges_screen/screen/languges_screen.dart';
 import 'package:pro_icon/Features/manage_trainer/screens/trainer_password_regestraion_screen.dart';
 
 import '../../Features/CategoryDetails/Screens/Category_details.dart';
@@ -214,6 +217,19 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
           return const SessionActivityScreen();
         },
       );
+
+    case LangugesScreen.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: LangugesScreen.routeName),
+        builder: (_) {
+          return  BlocProvider(
+            create:  (context) => LanguageCubit(),
+              child: LangugesScreen()
+          );
+        },
+      );
+
+
 
     default:
       return MaterialPageRoute(

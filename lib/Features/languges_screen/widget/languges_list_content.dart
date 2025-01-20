@@ -48,7 +48,7 @@ class LangugesListContent extends StatelessWidget {
                   return ListTile(
                     leading: CustomSvgVisual(
                         assetPath:
-                            "${flagSvg}") //TODO: add width and height to the svg(responsive)
+                            "${flagSvg}" , width: context.setMinSize(30), height: context.setMinSize(30),) //TODO: add width and height to the svg(responsive)
                     ,
                     title: Text(
                       language,
@@ -57,9 +57,9 @@ class LangugesListContent extends StatelessWidget {
                       ),
                     ),
                     trailing: state.selectedLanguage == language
-                        ? const CustomSvgVisual(
+                        ?  CustomSvgVisual(
                             assetPath: Assets
-                                .assetsSelectedIcon) //TODO: add width and height to the svg(responsive)
+                                .assetsSelectedIcon , width: context.setMinSize(25), height: context.setMinSize(25),) //TODO: add width and height to the svg(responsive)
                         : null,
                     onTap: () {
                       context.read<LanguageCubit>().selectLanguage(language);

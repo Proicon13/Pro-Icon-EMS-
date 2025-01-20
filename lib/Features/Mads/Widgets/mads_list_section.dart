@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
+import 'package:pro_icon/Features/Mads/session_details/screen/session_activity.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Core/utils/responsive_helper/size_config.dart';
@@ -67,6 +68,9 @@ ListView _buildMadsList(MadsState state, BuildContext context) {
               return MadCard(
                 key: ValueKey(mad.id),
                 mad: mad,
+                onTap: () => Navigator.pushNamed(
+                    context, SessionActivityScreen.routeName,
+                    arguments: mad.id),
                 onDeactivate: () {
                   showDialog(
                       context: context,

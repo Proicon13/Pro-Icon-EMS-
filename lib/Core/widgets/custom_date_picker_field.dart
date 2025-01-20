@@ -19,6 +19,7 @@ class CustomDatePickerField extends StatelessWidget {
   final bool isDense;
   final EdgeInsets? contentPadding;
   final TextAlign? textAlign;
+  final TextEditingController? controller;
 
   const CustomDatePickerField({
     super.key,
@@ -33,12 +34,14 @@ class CustomDatePickerField extends StatelessWidget {
     this.isDense = true,
     this.contentPadding,
     this.textAlign,
+    this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
     return FormBuilderDateTimePicker(
       name: name,
+      controller: controller,
       initialValue: initialValue,
       firstDate: firstDate ?? DateTime(1970),
       lastDate: lastDate ?? DateTime.now(),

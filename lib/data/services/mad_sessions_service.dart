@@ -19,14 +19,16 @@ class MadSessionsService {
       getMadsSession(
           {required int madId,
           int? page,
+          int? perPage,
           String? fromDate,
           String? toDate}) async {
     final response = await _apiProvider.get<Map<String, dynamic>>(
       endpoint: ApiConstants.getMadSessionsEndpoints(madId),
       queryParameters: {
         'page': page ?? 1,
-        "fromDate": fromDate,
-        "toDate": toDate
+        "from": fromDate,
+        "to": toDate,
+        "perPage": perPage ?? ApiConstants.defaultPerPage
       },
     );
 

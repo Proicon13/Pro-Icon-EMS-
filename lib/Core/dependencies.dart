@@ -8,6 +8,7 @@ import 'package:pro_icon/Core/networking/base_api_provider.dart';
 import 'package:pro_icon/Core/networking/dio_consumer.dart';
 import 'package:pro_icon/Core/networking/interceptor.dart';
 import 'package:pro_icon/Features/CategoryDetails/Cubit/category_details_cubit.dart';
+import 'package:pro_icon/Features/Mads/Cubit/cubit/session_details_cubit.dart';
 import 'package:pro_icon/Features/Mads/Cubit/mads_cubit.dart';
 import 'package:pro_icon/Features/Profile/Cubit/profile_cubit.dart';
 import 'package:pro_icon/Features/auth/login/cubit/login_cubit.dart';
@@ -36,6 +37,7 @@ import 'package:pro_icon/data/services/client_strategy_service.dart';
 import 'package:pro_icon/data/services/clients_service.dart';
 import 'package:pro_icon/data/services/custom_program_service.dart';
 import 'package:pro_icon/data/services/health_condition_service.dart';
+import 'package:pro_icon/data/services/mad_sessions_service.dart';
 import 'package:pro_icon/data/services/mads_service.dart';
 import 'package:pro_icon/data/services/muscles_service.dart';
 import 'package:pro_icon/data/services/profile_service.dart';
@@ -98,6 +100,8 @@ void setupDependencies() {
           localStorage: getIt<ExtendedLocalService>(
         instanceName: "hiveStorage",
       )));
+  getIt.registerLazySingleton(() => MadSessionsService(apiProvider: getIt()));
+
   // repos
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(
       authService: getIt(),
@@ -189,6 +193,12 @@ void setupDependencies() {
   getIt.registerFactory<MadsCubit>(
     () => MadsCubit(
       madRepository: getIt(),
+    ),
+  );
+
+  getIt.registerFactory<SessionDetailsCubit>(
+    () => SessionDetailsCubit(
+      service: getIt(),
     ),
   );
 }

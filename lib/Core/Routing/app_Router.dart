@@ -211,7 +211,10 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
       return MaterialPageRoute(
         settings: const RouteSettings(name: SessionActivityScreen.routeName),
         builder: (_) {
-          return const SessionActivityScreen();
+          final madId = settings.arguments as int;
+          return SessionActivityScreen(
+            madId: madId,
+          );
         },
       );
 

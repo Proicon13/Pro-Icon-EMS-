@@ -222,14 +222,11 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
       return MaterialPageRoute(
         settings: const RouteSettings(name: LangugesScreen.routeName),
         builder: (_) {
-          return  BlocProvider(
-            create:  (context) => LanguageCubit(),
-              child: LangugesScreen()
-          );
+          return BlocProvider(
+              create: (context) => LanguageCubit(),
+              child: const LangugesScreen());
         },
       );
-
-
 
     default:
       return MaterialPageRoute(

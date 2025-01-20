@@ -39,6 +39,7 @@ import 'package:pro_icon/data/services/reset_password_service.dart';
 import 'package:pro_icon/data/services/trainer_service.dart';
 import 'package:pro_icon/data/services/user_service.dart';
 
+import '../Features/custom_programs/my_programs/cubits/cubit/my_programs_cubit.dart';
 import '../data/services/categories_services.dart';
 import '../data/services/country_service.dart';
 import '../data/services/programmer_request.dart';
@@ -162,5 +163,11 @@ void setupDependencies() {
   getIt.registerFactory<ProgramMusclesCubit>(
     () => ProgramMusclesCubit(
         customProgramService: getIt(), musclesService: getIt()),
+  );
+
+  getIt.registerFactory<MyProgramsCubit>(
+    () => MyProgramsCubit(
+      customProgramService: getIt(),
+    ),
   );
 }

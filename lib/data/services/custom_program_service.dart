@@ -56,7 +56,7 @@ class CustomProgramService {
     }
   }
 
-  Future<Either<Failure, String>> delete({required int id}) async {
+  Future<Either<Failure, String>> deleteCustomProgram({required int id}) async {
     final response = await _baseApiProvider.delete<Map<String, dynamic>>(
       endpoint: ApiConstants.deleteCustomProgramEndpoint(id),
     );

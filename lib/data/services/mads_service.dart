@@ -5,25 +5,32 @@ import '../../Core/local_storage/local_storage_provider.dart';
 import '../models/mad.dart';
 
 class MadLocalService {
-  final BaseLocalService localStorage;
+  final ExtendedLocalService localStorage;
 
   MadLocalService({required this.localStorage});
 
   /// Retrieve the list of MADs from local storage
   Future<List<Mad>> getLocalMads() async {
     try {
-      final madList =
-          await localStorage.get<List<Mad>>(AppConstants.madListKey);
-      return madList ?? []; // Return an empty list if no data exists
+      final madList = await localStorage.getList<Mad>(AppConstants.madListKey);
+      return madList;
+    } on CacheException catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> addMadToLocal(Mad mad) async {
+    try {
+      await localStorage.add<Mad>(AppConstants.madListKey, mad);
     } on CacheException catch (_) {
       rethrow;
     }
   }
 
   /// Update the local storage with a new list of MADs
-  Future<void> updateLocalMadsList(List<Mad> mads) async {
+  Future<void> updateLocalMad(Mad updatedMad, int index) async {
     try {
-      await localStorage.put<List<Mad>>(AppConstants.madListKey, mads);
+      await localStorage.putAt<Mad>(AppConstants.madListKey, index, updatedMad);
     } on CacheException catch (_) {
       rethrow;
     }

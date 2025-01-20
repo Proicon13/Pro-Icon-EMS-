@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:pro_icon/Core/constants/app_constants.dart';
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/pro_icon_app.dart';
 
@@ -25,7 +26,7 @@ void main() async {
   Hive.registerAdapter(MadAdapter());
 
   // Open the boxes you plan to use
-  await Hive.openBox<Mad>('madBox');
+  await Hive.openBox<Mad>(AppConstants.madListKey);
   runApp(EasyLocalization(
       path: 'assets/translations',
       supportedLocales: supportedLocales,

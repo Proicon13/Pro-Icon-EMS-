@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
 import 'package:pro_icon/Core/dependencies.dart';
@@ -12,6 +13,10 @@ class MadsCubit extends Cubit<MadsState> {
   final MadRepository madRepository;
   MadsCubit({required this.madRepository}) : super(const MadsState());
 
+  void setChangeStatus(MadsRequestStatus status) =>
+      emit(state.copyWith(changeStatus: status));
+  void setStatus(MadsRequestStatus status) =>
+      emit(state.copyWith(status: status));
   void processMads() async {
     emit(state.copyWith(status: MadsRequestStatus.loading));
     final currentUserMads = getIt<UserStateCubit>().state.currentUser!.mads!;
@@ -26,25 +31,25 @@ class MadsCubit extends Cubit<MadsState> {
     );
   }
 
-  void changeMadStatus({required int id, required bool status}) async {
-    emit(state.copyWith(status: MadsRequestStatus.loading));
-    final result = await madRepository.changeMadStatus(id: id, status: status);
+  void changeMadStatus({required int index, required bool status}) async {
+    final result =
+        await madRepository.changeMadStatus(index: index, status: status);
     result.fold(
         (failure) => emit(state.copyWith(
-            status: MadsRequestStatus.error, message: failure.message)), (_) {
-      List<Mad> mads = _updateMadsList(id, status);
+            changeStatus: MadsRequestStatus.error,
+            message: failure.message)), (_) {
+      List<Mad> mads = _updateMadsList(index, status);
 
       emit(state.copyWith(
           madsList: mads,
           status: MadsRequestStatus.success,
-          message: "changed status successfully"));
+          changeStatus: MadsRequestStatus.success,
+          message: "change.status.message".tr()));
     });
   }
 
-  List<Mad> _updateMadsList(int id, bool status) {
+  List<Mad> _updateMadsList(int index, bool status) {
     final mads = [...state.madsList!];
-
-    final index = mads.indexWhere((element) => element.id == id);
 
     mads[index] = mads[index].copyWith(isActive: status);
     return mads;

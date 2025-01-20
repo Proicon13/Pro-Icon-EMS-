@@ -1,16 +1,17 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 part 'mad.g.dart';
 
 @HiveType(typeId: 1)
-class Mad {
-  @HiveField(0)
+class Mad extends Equatable {
+  @HiveField(1)
   final int id;
 
-  @HiveField(1)
+  @HiveField(2)
   final int serialNo;
 
-  @HiveField(2)
+  @HiveField(3)
   final bool isActive;
 
   Mad({
@@ -22,7 +23,7 @@ class Mad {
   factory Mad.fromJson(Map<String, dynamic> json) {
     return Mad(
       id: json['id'],
-      serialNo: json['serialNo'],
+      serialNo: json['sNo'],
       isActive: json['isActive'],
     );
   }
@@ -46,4 +47,7 @@ class Mad {
       'isActive': isActive,
     };
   }
+
+  @override
+  List<Object?> get props => [id, serialNo, isActive];
 }

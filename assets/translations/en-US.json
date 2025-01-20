@@ -121,5 +121,6 @@
     "manageProgram.addProgramSuccessMessage": "Program added successfully",
     "manageProgram.updateProgramSuccessMessage": "Program updated successfully",
     "manageProgram.deleteProgramSuccessMessage": "Program deleted successfully",
-    "madsscreen.title": "Mads"
+    "madsscreen.title": "Mads",
+    "change.status.message": "changed status successfully"
 }

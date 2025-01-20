@@ -17,9 +17,9 @@ class MadAdapter extends TypeAdapter<Mad> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Mad(
-      id: fields[0] as int,
-      serialNo: fields[1] as int,
-      isActive: fields[2] as bool,
+      id: fields[1] as int,
+      serialNo: fields[2] as int,
+      isActive: fields[3] as bool,
     );
   }
 
@@ -27,11 +27,11 @@ class MadAdapter extends TypeAdapter<Mad> {
   void write(BinaryWriter writer, Mad obj) {
     writer
       ..writeByte(3)
-      ..writeByte(0)
-      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.serialNo)
+      ..write(obj.id)
       ..writeByte(2)
+      ..write(obj.serialNo)
+      ..writeByte(3)
       ..write(obj.isActive);
   }
 

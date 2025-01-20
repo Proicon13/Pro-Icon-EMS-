@@ -17,7 +17,7 @@ class MadsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<MadsCubit>(
-      create: (context) => getIt<MadsCubit>(),
+      create: (context) => getIt<MadsCubit>()..processMads(),
       child: BaseAppScaffold(
         body: Padding(
           padding: SizeConstants.kScaffoldPadding(context),

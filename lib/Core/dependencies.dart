@@ -58,10 +58,12 @@ void setupDependencies() {
   getIt.registerLazySingleton(() => const FlutterSecureStorage());
   getIt.registerLazySingleton(() => Dio());
   getIt.registerLazySingleton<BaseLocalService>(
+      instanceName: "secureStorage",
       () => SecureStorageConsumer(secureStorage: getIt()));
-  getIt.registerLazySingleton<BaseLocalService>(() => HiveConsumer());
-  getIt.registerLazySingleton<AuthTokenService>(
-      () => AuthTokenService(localService: getIt()));
+  getIt.registerLazySingleton<ExtendedLocalService>(
+      instanceName: "hiveStorage", () => HiveConsumer());
+  getIt.registerLazySingleton<AuthTokenService>(() => AuthTokenService(
+      localService: getIt<BaseLocalService>(instanceName: "secureStorage")));
   getIt.registerLazySingleton(() => AppInterceptor(authTokenService: getIt()));
   getIt.registerLazySingleton(() => LogInterceptor());
   getIt.registerLazySingleton<BaseApiProvider>(() => DioConsumer(dio: getIt()));
@@ -92,7 +94,10 @@ void setupDependencies() {
 
   getIt.registerLazySingleton(() => ProfileService(apiProvider: getIt()));
   getIt.registerLazySingleton(() => MusclesService(baseApiProvider: getIt()));
-  getIt.registerLazySingleton(() => MadLocalService(localStorage: getIt()));
+  getIt.registerLazySingleton(() => MadLocalService(
+          localStorage: getIt<ExtendedLocalService>(
+        instanceName: "hiveStorage",
+      )));
   // repos
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(
       authService: getIt(),

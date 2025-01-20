@@ -26,8 +26,10 @@ class MadRepository {
             : serverMad;
       }).toList();
 
-      // Step 4: Update local storage with the processed MADs list
-      await _updateLocalMadsList(processedMads);
+      // Step 4: add elemnts to local storage
+      for (var mad in processedMads) {
+        await _addLocalMad(mad);
+      }
 
       return Right(processedMads);
     } catch (e) {
@@ -38,23 +40,16 @@ class MadRepository {
 
   /// Change the status of a specific MAD in local storage
   Future<Either<Failure, void>> changeMadStatus({
-    required int id,
+    required int index,
     required bool status,
   }) async {
     try {
       // Retrieve the current list of MADs
       final localMads = await _getLocalMads();
+      final updatedMad = localMads[index].copyWith(isActive: status);
 
-      // Find the MAD and update its status
-      final updatedMads = localMads.map((mad) {
-        if (mad.id == id) {
-          return mad.copyWith(isActive: status);
-        }
-        return mad;
-      }).toList();
-
-      // Update the local storage
-      await _updateLocalMadsList(updatedMads);
+      // Update the MAD status in local storage
+      await _updateMadToLocal(updatedMad, index);
 
       return const Right(null);
     } catch (e) {
@@ -69,7 +64,11 @@ class MadRepository {
   }
 
   /// Helper to update MADs in local storage
-  Future<void> _updateLocalMadsList(List<Mad> mads) async {
-    await madLocalService.updateLocalMadsList(mads);
+  Future<void> _addLocalMad(Mad mad) async {
+    await madLocalService.addMadToLocal(mad);
+  }
+
+  Future<void> _updateMadToLocal(Mad mad, int index) async {
+    await madLocalService.updateLocalMad(mad, index);
   }
 }

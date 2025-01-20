@@ -20,6 +20,7 @@ class ApiConstants {
   static updateProgramMuscleEndpoint(int id) =>
       "/programer/update-program-mucle/$id";
   static updateProgramCycle(int id) => "/programer/update-program-cycle/$id";
+  static getMadSessionsEndpoints(int madId) => "/mads/madSessions/$madId";
 
   static clientHealthConditionsEndpoint(int clientId) =>
       "/clients/$clientId/injuriesAndDiseases";

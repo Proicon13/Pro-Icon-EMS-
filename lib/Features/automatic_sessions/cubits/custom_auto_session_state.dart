@@ -10,7 +10,7 @@ extension CustomAutoSessionStateExtension on CustomAutoSessionState {
 
 class CustomAutoSessionState extends Equatable {
   final AutoSessionsRequestStatus? status;
-  final List<CustomAutomaticSessionEntity>? sessions;
+  final List<AutomaticSessionEntity>? sessions;
   final int? currentPage;
   final int? totalPages;
   final String? message;
@@ -25,7 +25,7 @@ class CustomAutoSessionState extends Equatable {
 
   CustomAutoSessionState copyWith({
     AutoSessionsRequestStatus? status,
-    List<CustomAutomaticSessionEntity>? sessions,
+    List<AutomaticSessionEntity>? sessions,
     int? currentPage,
     int? totalPages,
     String? message,

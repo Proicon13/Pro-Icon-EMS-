@@ -16,12 +16,12 @@ class LangugesListContent extends StatelessWidget {
   LangugesListContent({super.key});
 
   final Map<String, String> languagesWithFlags = {
-    'Germany': '${Assets.assetsGermanyFlag}',
-    'English': '${Assets.assetsUkFlag}',
-    'Spanish': '${Assets.assetsSpainFlag}',
-    'French': '${Assets.assetsFranchFlag}',
-    'Brazil': '${Assets.assetsBrazilFlag}',
-    'Italy': '${Assets.assetsItalySvg}',
+    'Germany': '${Assets.assetsImagesGermanyFlag}',
+    'English': '${Assets.assetsImagesUkFlag}',
+    'Spanish': '${Assets.assetsImagesSpanFlag}',
+    'French': '${Assets.assetsImagesFranchFlag}',
+    'Brazil': '${Assets.assetsImagesBrazil}',
+    'Italy': '${Assets.assetsImagesItalySvg}',
   };
   @override
   Widget build(BuildContext context) {

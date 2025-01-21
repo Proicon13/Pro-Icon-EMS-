@@ -12,7 +12,7 @@ class AutoSessionsCubit extends Cubit<AutoSessionsState> {
     emit(state.copyWith(currentSessionSection: session));
   }
 
-  void changeCanChangeSection(Bool canChange) {
-    emit(state.copyWith(canChangeSection: canChange));
-  }
+  // void changeCanChangeSection(Bool canChange) {
+  //   emit(state.copyWith(canChangeSection: canChange));
+  // }
 }

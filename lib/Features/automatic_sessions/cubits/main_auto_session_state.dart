@@ -12,7 +12,7 @@ extension MainAutoSessionStateExtension on MainAutoSessionState {
 
 class MainAutoSessionState extends Equatable {
   final AutoSessionsRequestStatus? status;
-  final List<MainAutomaticSessionEntity>? sessions;
+  final List<AutomaticSessionEntity>? sessions;
   final int? currentPage;
   final int? totalPages;
   final String? message;
@@ -27,7 +27,7 @@ class MainAutoSessionState extends Equatable {
 
   MainAutoSessionState copyWith({
     AutoSessionsRequestStatus? status,
-    List<MainAutomaticSessionEntity>? sessions,
+    List<AutomaticSessionEntity>? sessions,
     int? currentPage,
     int? totalPages,
     String? message,

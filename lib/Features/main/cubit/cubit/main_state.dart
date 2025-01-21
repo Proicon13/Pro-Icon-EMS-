@@ -8,12 +8,7 @@ extension MainSectionsX on MainSections {
       case MainSections.programs:
         return const HomeView();
       case MainSections.autoSessions:
-        return const Center(
-          child: Text(
-            "auto sessions",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-        );
+        return const AutoSessionsView();
       case MainSections.users:
         return const UsersView();
       case MainSections.settings:

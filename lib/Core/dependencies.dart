@@ -17,6 +17,9 @@ import 'package:pro_icon/Features/auth/reset_password/cubits/forget_password/for
 import 'package:pro_icon/Features/auth/reset_password/cubits/otp/otp_cubit.dart';
 import 'package:pro_icon/Features/auth/reset_password/cubits/set_new_password/set_new_password_cubit.dart';
 import 'package:pro_icon/Features/auth/role_selection/cubit/cubit/select_role_cubit.dart';
+import 'package:pro_icon/Features/automatic_sessions/cubits/auto_sessions_cubit.dart';
+import 'package:pro_icon/Features/automatic_sessions/cubits/custom_auto_session_cubit.dart';
+import 'package:pro_icon/Features/automatic_sessions/cubits/main_auto_session_cubit.dart';
 import 'package:pro_icon/Features/client_details/cubit/cubit/client_details_cubit.dart';
 import 'package:pro_icon/Features/client_details/medical_report/cubits/cubit/medical_info_cubit.dart';
 import 'package:pro_icon/Features/client_details/strategy/cubits/cubit/strategy_cubit.dart';
@@ -33,6 +36,7 @@ import 'package:pro_icon/data/repos/auth_repo.dart';
 import 'package:pro_icon/data/repos/mads_repo.dart';
 import 'package:pro_icon/data/services/auth_service.dart';
 import 'package:pro_icon/data/services/auth_token_service.dart';
+import 'package:pro_icon/data/services/auto_session_service.dart';
 import 'package:pro_icon/data/services/client_strategy_service.dart';
 import 'package:pro_icon/data/services/clients_service.dart';
 import 'package:pro_icon/data/services/custom_program_service.dart';
@@ -101,6 +105,7 @@ void setupDependencies() {
         instanceName: "hiveStorage",
       )));
   getIt.registerLazySingleton(() => MadSessionsService(apiProvider: getIt()));
+  getIt.registerLazySingleton(() => AutoSessionService(apiProvider: getIt()));
 
   // repos
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(
@@ -199,6 +204,19 @@ void setupDependencies() {
   getIt.registerFactory<SessionDetailsCubit>(
     () => SessionDetailsCubit(
       service: getIt(),
+    ),
+  );
+  getIt.registerFactory<AutoSessionsCubit>(
+    () => AutoSessionsCubit(),
+  );
+  getIt.registerFactory<MainAutoSessionCubit>(
+    () => MainAutoSessionCubit(
+      autoSessionService: getIt(),
+    ),
+  );
+  getIt.registerFactory<CustomAutoSessionCubit>(
+    () => CustomAutoSessionCubit(
+      autoSessionService: getIt(),
     ),
   );
 }

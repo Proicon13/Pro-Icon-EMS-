@@ -4,8 +4,10 @@ enum AutoSession { main, custom }
 
 class AutoSessionsState extends Equatable {
   final AutoSession? currentSessionSection;
-  final Bool? canChangeSection;
-  const AutoSessionsState({this.currentSessionSection, this.canChangeSection});
+
+  const AutoSessionsState({
+    this.currentSessionSection = AutoSession.main,
+  });
 
   AutoSessionsState copyWith({
     AutoSession? currentSessionSection,
@@ -14,13 +16,11 @@ class AutoSessionsState extends Equatable {
     return AutoSessionsState(
       currentSessionSection:
           currentSessionSection ?? this.currentSessionSection,
-      canChangeSection: canChangeSection ?? this.canChangeSection,
     );
   }
 
   @override
   List<Object> get props => [
         currentSessionSection!,
-        canChangeSection!,
       ];
 }

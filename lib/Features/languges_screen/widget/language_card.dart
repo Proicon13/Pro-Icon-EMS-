@@ -35,7 +35,7 @@ class LanguageCard extends StatelessWidget {
       ),
       trailing: isSelected
           ? CustomSvgVisual(
-              assetPath: Assets.assetsSelectedIcon,
+              assetPath: Assets.assetsImagesSelectedIcon,
               width: context.setMinSize(25),
               height: context.setMinSize(25),
             )

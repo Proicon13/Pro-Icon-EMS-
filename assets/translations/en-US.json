@@ -122,5 +122,8 @@
     "manageProgram.updateProgramSuccessMessage": "Program updated successfully",
     "manageProgram.deleteProgramSuccessMessage": "Program deleted successfully",
     "madsscreen.title": "Mads",
-    "change.status.message": "changed status successfully"
+    "change.status.message": "changed status successfully",
+    "automaticSession.title": "Automatic Session",
+    "mainAuto.title": "Main",
+    "customAuto.title": "Custom"
 }

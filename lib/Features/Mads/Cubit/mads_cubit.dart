@@ -1,15 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:equatable/equatable.dart';
 import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
 import 'package:pro_icon/Core/dependencies.dart';
 import 'package:pro_icon/data/repos/mads_repo.dart';
 
 import '../../../data/models/mad.dart';
-
 import 'mads_state.dart';
-
-
 
 class MadsCubit extends Cubit<MadsState> {
   final MadRepository madRepository;

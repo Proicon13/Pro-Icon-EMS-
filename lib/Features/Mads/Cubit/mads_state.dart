@@ -1,4 +1,6 @@
+import 'package:equatable/equatable.dart';
 
+import '../../../data/models/mad.dart';
 
 enum MadsRequestStatus { intial, loading, success, error }
 

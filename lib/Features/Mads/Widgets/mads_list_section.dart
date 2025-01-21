@@ -11,6 +11,7 @@ import '../../../Core/widgets/custom_snack_bar.dart';
 import '../../../Core/widgets/empty_state_widget.dart';
 import '../../../data/models/mad.dart';
 import '../Cubit/mads_cubit.dart';
+import '../Cubit/mads_state.dart';
 import 'mad_card.dart';
 
 class MadsListSection extends StatelessWidget {

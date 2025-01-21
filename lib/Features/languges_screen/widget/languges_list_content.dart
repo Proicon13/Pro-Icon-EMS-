@@ -43,13 +43,13 @@ class LangugesListContent extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final language = languagesWithFlags.keys.elementAt(index);
                   final flagSvg = languagesWithFlags[language];
-                  //TODO: REFACTOR THE LIST TILE TO A SEPARATE WIDGET (lANGUAGECARD)
-                  //TODO: add required parameters to the widget constructor (icon,title,onTap)
+
                   return ListTile(
                     leading: CustomSvgVisual(
-                        assetPath:
-                            "${flagSvg}" , width: context.setMinSize(30), height: context.setMinSize(30),) //TODO: add width and height to the svg(responsive)
-                    ,
+                      assetPath: "${flagSvg}",
+                      width: context.setMinSize(30),
+                      height: context.setMinSize(30),
+                    ),
                     title: Text(
                       language,
                       style: AppTextStyles.fontSize16(context).copyWith(
@@ -57,9 +57,11 @@ class LangugesListContent extends StatelessWidget {
                       ),
                     ),
                     trailing: state.selectedLanguage == language
-                        ?  CustomSvgVisual(
-                            assetPath: Assets
-                                .assetsSelectedIcon , width: context.setMinSize(25), height: context.setMinSize(25),) //TODO: add width and height to the svg(responsive)
+                        ? CustomSvgVisual(
+                            assetPath: Assets.assetsSelectedIcon,
+                            width: context.setMinSize(25),
+                            height: context.setMinSize(25),
+                          )
                         : null,
                     onTap: () {
                       context.read<LanguageCubit>().selectLanguage(language);

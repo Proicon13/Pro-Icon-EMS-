@@ -16,6 +16,7 @@ import 'package:pro_icon/Features/Mads/Screens/Mads_screen.dart';
 import 'package:pro_icon/Features/Profile/Screens/profile_screen.dart';
 import 'package:pro_icon/Features/auth/role_selection/screens/role_selection_screen.dart';
 import 'package:pro_icon/Features/custom_programs/my_programs/my_programs_screen.dart';
+import 'package:pro_icon/Features/languges_screen/screen/languges_screen.dart';
 import 'package:pro_icon/Features/programming_requst/screen/programming_request_screen.dart';
 
 import '../../../Core/constants/app_assets.dart';
@@ -28,7 +29,8 @@ class SettingsView extends StatelessWidget {
     final settingsItems = [
       {
         'title': 'Edit Profile',
-        'icon': Assets.assetsImagesProfileIcon,
+        'icon': Assets.assetsImagesProfileIcon
+        ,
         'onTap': () => Navigator.pushNamed(context, ProfileScreen.routeName),
       },
       {
@@ -56,7 +58,7 @@ class SettingsView extends StatelessWidget {
         'title': 'Language',
         'icon': Assets.assetsImagesLanguagesIcon,
         'onTap': () {
-          // Navigate to language settings
+          Navigator.pushNamed(context, LangugesScreen.routeName);
         },
       },
       {

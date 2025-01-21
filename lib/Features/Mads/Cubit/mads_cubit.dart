@@ -7,7 +7,9 @@ import 'package:pro_icon/data/repos/mads_repo.dart';
 
 import '../../../data/models/mad.dart';
 
-part 'mads_state.dart';
+import 'mads_state.dart';
+
+
 
 class MadsCubit extends Cubit<MadsState> {
   final MadRepository madRepository;

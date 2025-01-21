@@ -1,0 +1,53 @@
+part of 'custom_auto_session_cubit.dart';
+
+extension CustomAutoSessionStateExtension on CustomAutoSessionState {
+  bool get canLoadMore => currentPage! < totalPages!;
+  bool get isLoading => status == AutoSessionsRequestStatus.loading;
+  bool get isInitial => status == AutoSessionsRequestStatus.initial;
+  bool get isLoaded => status == AutoSessionsRequestStatus.loaded;
+  bool get isError => status == AutoSessionsRequestStatus.error;
+}
+
+class CustomAutoSessionState extends Equatable {
+  final AutoSessionsRequestStatus? status;
+  final List<CustomAutomaticSessionEntity>? sessions;
+  final int? currentPage;
+  final int? totalPages;
+  final String? message;
+  final bool? firstTimeFetch;
+  const CustomAutoSessionState(
+      {this.status = AutoSessionsRequestStatus.initial,
+      this.sessions = const [],
+      this.currentPage = 1,
+      this.totalPages = 1,
+      this.message = "",
+      this.firstTimeFetch = true});
+
+  CustomAutoSessionState copyWith({
+    AutoSessionsRequestStatus? status,
+    List<CustomAutomaticSessionEntity>? sessions,
+    int? currentPage,
+    int? totalPages,
+    String? message,
+    bool? firstTimeFetch,
+  }) {
+    return CustomAutoSessionState(
+      status: status ?? this.status,
+      sessions: sessions ?? this.sessions,
+      currentPage: currentPage ?? this.currentPage,
+      totalPages: totalPages ?? this.totalPages,
+      message: message ?? this.message,
+      firstTimeFetch: firstTimeFetch ?? this.firstTimeFetch,
+    );
+  }
+
+  @override
+  List<Object> get props => [
+        status!,
+        sessions!,
+        currentPage!,
+        totalPages!,
+        message!,
+        firstTimeFetch!
+      ];
+}

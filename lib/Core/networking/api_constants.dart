@@ -29,4 +29,7 @@ class ApiConstants {
   static updateClientDiseaseEndpoint(int clientId, int diseaseId) =>
       "/clients/$clientId/diseases/$diseaseId";
   static clientStrategyEndpoint(int clientId) => "/clients/$clientId/strategy";
+  static const automaticSessionEndpoint = "/sessions";
+  static automaticSessionUpdateEndpoint(int sessionId) =>
+      "/sessions/$sessionId";
 }

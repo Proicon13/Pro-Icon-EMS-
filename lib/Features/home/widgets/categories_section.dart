@@ -40,7 +40,7 @@ class CategoriesSection extends StatelessWidget {
       itemCount: state.categories.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
-        crossAxisSpacing: context.setMinSize(10),
+        crossAxisSpacing: context.setMinSize(5),
         mainAxisSpacing: context.setMinSize(10),
       ),
       itemBuilder: (context, index) {

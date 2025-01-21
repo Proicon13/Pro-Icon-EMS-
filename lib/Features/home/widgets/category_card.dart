@@ -21,7 +21,7 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, size) {
       return SizeConfig(
-        baseSize: const Size(101, 135),
+        baseSize: const Size(110, 135),
         width: size.maxWidth,
         height: size.maxHeight,
         child: Builder(builder: (context) {
@@ -35,12 +35,20 @@ class CategoryCard extends StatelessWidget {
                     width: context.setMinSize(101),
                     imageUrl: currentCategory.image!),
                 context.setMinSize(5).verticalSpace,
-                Text(
-                  "${currentCategory.name}",
-                  style: AppTextStyles.fontSize16(context).copyWith(
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: context.sizeConfig.width,
+                  ),
+                  child: Text(
+                    "${currentCategory.name}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.fontSize14(context).copyWith(
                       color: Colors.white,
+                      fontSize: context.setMinSize(14),
                       fontWeight: FontWeight.bold,
-                      fontSize: context.setMinSize(16)),
+                    ),
+                  ),
                 ),
               ],
             ),

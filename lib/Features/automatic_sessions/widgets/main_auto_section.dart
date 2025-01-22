@@ -74,6 +74,7 @@ class MainAutoSection extends StatelessWidget {
                     duration: 0,
                     id: 1,
                     sessionPrograms: const []),
+                onTap: () {},
               );
             }),
           );

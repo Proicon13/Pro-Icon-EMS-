@@ -57,14 +57,14 @@ class _SessionsListSectionState extends State<SessionsListSection> {
   void initState() {
     _autoSessionsCubit = context.read<AutoSessionsCubit>();
     _scrollController = ScrollController();
-    _scrollController.addListener(listener);
+    _scrollController.addListener(scrollListener);
     _pageController = PageController(initialPage: 0);
     super.initState();
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(listener);
+    _scrollController.removeListener(scrollListener);
     _scrollController.dispose();
 
     _pageController.dispose();
@@ -99,15 +99,15 @@ class _SessionsListSectionState extends State<SessionsListSection> {
     );
   }
 
-  void listener() {
-    // when reach max scroll do something
+  void scrollListener() {
     final scrollPosition = _scrollController.position.pixels;
     final maxScrollExtent = _scrollController.position.maxScrollExtent;
     if (scrollPosition == maxScrollExtent) {
-      // do something
       if (_autoSessionsCubit.state.currentSessionSection == AutoSession.main) {
+        //load more main sessions
         context.read<MainAutoSessionCubit>().fetchMainSessions();
       } else {
+        // load more custom sessions
         context.read<CustomAutoSessionCubit>().fetchCustomSessions();
       }
     }

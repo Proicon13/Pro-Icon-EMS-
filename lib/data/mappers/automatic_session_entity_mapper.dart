@@ -11,7 +11,7 @@ class AutomaticSessionEntityMapper {
             duration: model.duration,
             createdById: model.createdById,
             sessionPrograms: model.sessionPrograms);
-      case 'MAIN':
+      case 'AUTOMATIC':
         return MainAutomaticSessionEntity(
             id: model.id,
             name: model.name,

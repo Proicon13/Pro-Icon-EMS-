@@ -3,6 +3,7 @@ import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Features/automatic_sessions/cubits/auto_sessions_cubit.dart';
+import 'package:pro_icon/Features/automatic_sessions/screens/auto_session_details_screen.dart';
 import 'package:pro_icon/Features/automatic_sessions/widgets/auto_session_card.dart';
 
 import '../../../Core/entities/automatic_session_entity.dart';
@@ -43,7 +44,11 @@ class SessionsListView extends StatelessWidget {
             height: context.setMinSize(88),
             child: Builder(builder: (context) {
               return MainSessionCard(
-                  session: session as MainAutomaticSessionEntity);
+                session: session as MainAutomaticSessionEntity,
+                onTap: () {
+                  _onCardTap(context, session);
+                },
+              );
             }));
 
       case AutoSession.custom:
@@ -56,9 +61,17 @@ class SessionsListView extends StatelessWidget {
               session: session as CustomAutomaticSessionEntity,
               onDelete: () {},
               onEdit: () {},
+              onTap: () {
+                _onCardTap(context, session);
+              },
             );
           }),
         );
     }
+  }
+
+  void _onCardTap(BuildContext context, AutomaticSessionEntity session) {
+    Navigator.pushNamed(context, AutoSessionDetailsScreen.routeName,
+        arguments: session);
   }
 }

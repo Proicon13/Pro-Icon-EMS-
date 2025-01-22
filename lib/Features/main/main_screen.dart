@@ -47,6 +47,7 @@ class _MainScreenState extends State<MainScreen> {
         child: BaseAppScaffold(
           body: PageView.builder(
               itemCount: MainSections.values.length,
+              physics: const NeverScrollableScrollPhysics(),
               controller: _pageController,
               itemBuilder: (context, index) {
                 return MainSections.values[index].view;

@@ -69,14 +69,16 @@ class CustomAutoSection extends StatelessWidget {
             height: context.setMinSize(88),
             child: Builder(builder: (context) {
               return CustomSessionCard(
-                  session: CustomAutomaticSessionEntity(
-                      name: "Loading",
-                      createdById: 1,
-                      duration: 0,
-                      id: 1,
-                      sessionPrograms: const []),
-                  onDelete: () {},
-                  onEdit: () {});
+                session: CustomAutomaticSessionEntity(
+                    name: "Loading",
+                    createdById: 1,
+                    duration: 0,
+                    id: 1,
+                    sessionPrograms: const []),
+                onDelete: () {},
+                onEdit: () {},
+                onTap: () {},
+              );
             }),
           );
         },

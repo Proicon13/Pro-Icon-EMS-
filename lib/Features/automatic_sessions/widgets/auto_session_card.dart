@@ -3,7 +3,7 @@ import 'package:pro_icon/Core/theme/app_colors.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
-import 'package:pro_icon/Core/widgets/custom_circular_image.dart';
+import 'package:pro_icon/Core/widgets/custom_rectaungular_image.dart';
 import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
 
 import '../../../Core/constants/app_assets.dart';
@@ -13,34 +13,42 @@ enum SessionMode { main, custom }
 
 class BaseSessionCard extends StatelessWidget {
   final Widget content;
+  final void Function() onTap;
 
   const BaseSessionCard({
     Key? key,
     required this.content,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: context.sizeConfig.height,
-      width: context.sizeConfig.width,
-      padding: EdgeInsets.symmetric(
-          vertical: context.setMinSize(6), horizontal: context.setMinSize(12)),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(context.setMinSize(8)),
-        color: AppColors.darkGreyColor,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: context.sizeConfig.height,
+        width: context.sizeConfig.width,
+        padding: EdgeInsets.symmetric(
+            vertical: context.setMinSize(6),
+            horizontal: context.setMinSize(12)),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(context.setMinSize(8)),
+          color: AppColors.darkGreyColor,
+        ),
+        child: content,
       ),
-      child: content,
     );
   }
 }
 
 class MainSessionCard extends StatelessWidget {
   final MainAutomaticSessionEntity session;
+  final void Function() onTap;
 
   const MainSessionCard({
     Key? key,
     required this.session,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -49,7 +57,7 @@ class MainSessionCard extends StatelessWidget {
       content: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CustomCircularImage(
+          CustomRectangularImage(
               width: context.setMinSize(50),
               height: context.setMinSize(50),
               imageUrl: session.image ?? ""),
@@ -92,6 +100,7 @@ class MainSessionCard extends StatelessWidget {
           ),
         ],
       ),
+      onTap: onTap,
     );
   }
 }
@@ -100,17 +109,20 @@ class CustomSessionCard extends StatelessWidget {
   final CustomAutomaticSessionEntity session;
   final VoidCallback onDelete;
   final VoidCallback onEdit;
+  final void Function() onTap;
 
   const CustomSessionCard({
     Key? key,
     required this.session,
     required this.onDelete,
     required this.onEdit,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BaseSessionCard(
+      onTap: onTap,
       content: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

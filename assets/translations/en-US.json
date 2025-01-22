@@ -125,5 +125,7 @@
     "change.status.message": "changed status successfully",
     "automaticSession.title": "Automatic Session",
     "mainAuto.title": "Main",
-    "customAuto.title": "Custom"
+    "customAuto.title": "Custom",
+    "noPrograms.title": "No programs yet",
+    "programsPackage.title": "Programs Package"
 }

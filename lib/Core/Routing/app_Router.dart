@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pro_icon/Core/entities/automatic_session_entity.dart';
 import 'package:pro_icon/Core/entities/category_entity.dart';
 import 'package:pro_icon/Core/entities/user_entity.dart';
 import 'package:pro_icon/Features/Mads/session_details/screen/session_activity.dart';
@@ -20,6 +21,7 @@ import '../../Features/auth/reset_password/screens/forget_password_screen.dart';
 import '../../Features/auth/reset_password/screens/otp_screen.dart';
 import '../../Features/auth/reset_password/screens/set_new_password_screen.dart';
 import '../../Features/auth/role_selection/screens/role_selection_screen.dart';
+import '../../Features/automatic_sessions/screens/auto_session_details_screen.dart';
 import '../../Features/client_details/client_details_screen.dart';
 import '../../Features/clients/add_client/screens/add_client_screen.dart';
 import '../../Features/clients/add_client/screens/client_additional_data_screen.dart';
@@ -228,6 +230,15 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
           return BlocProvider(
               create: (context) => LanguageCubit(),
               child: const LangugesScreen());
+        },
+      );
+
+    case AutoSessionDetailsScreen.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: AutoSessionDetailsScreen.routeName),
+        builder: (_) {
+          final autoSession = settings.arguments as AutomaticSessionEntity;
+          return AutoSessionDetailsScreen(session: autoSession);
         },
       );
 

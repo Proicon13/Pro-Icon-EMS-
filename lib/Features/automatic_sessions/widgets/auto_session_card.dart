@@ -165,17 +165,17 @@ class CustomSessionCard extends StatelessWidget {
                 onTap: onEdit,
                 child: CustomSvgVisual(
                   assetPath: Assets.assetsImagesEditIcon,
-                  width: context.setMinSize(25),
-                  height: context.setMinSize(25),
+                  width: context.setMinSize(20),
+                  height: context.setMinSize(20),
                 ),
               ),
-              context.setMinSize(10).horizontalSpace,
+              context.setMinSize(20).horizontalSpace,
               GestureDetector(
                 onTap: onDelete,
                 child: CustomSvgVisual(
                   assetPath: Assets.assetsImagesDeleteIcon,
-                  width: context.setMinSize(25),
-                  height: context.setMinSize(25),
+                  width: context.setMinSize(20),
+                  height: context.setMinSize(20),
                 ),
               ),
             ],

@@ -39,7 +39,7 @@ class ManageSessionForm extends StatelessWidget {
             child: TextFormSection(
               title: "Name",
               name: "name",
-              hintText: "Program Name",
+              hintText: "Session Name",
               intialValue: session?.name ?? null,
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(

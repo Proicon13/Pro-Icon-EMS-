@@ -8,6 +8,7 @@ import 'package:pro_icon/Features/automatic_sessions/widgets/auto_session_card.d
 
 import '../../../Core/entities/automatic_session_entity.dart';
 import '../../../Core/utils/responsive_helper/size_constants.dart';
+import '../manage_session/screens/manage_auto_session_screen.dart';
 
 class SessionsListView extends StatelessWidget {
   final ScrollController controller;
@@ -60,7 +61,10 @@ class SessionsListView extends StatelessWidget {
             return CustomSessionCard(
               session: session as CustomAutomaticSessionEntity,
               onDelete: () {},
-              onEdit: () {},
+              onEdit: () {
+                Navigator.pushNamed(context, ManageAutoSessionScreen.routeName,
+                    arguments: session);
+              },
               onTap: () {
                 _onCardTap(context, session);
               },

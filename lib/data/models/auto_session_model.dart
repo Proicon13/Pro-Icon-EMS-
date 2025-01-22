@@ -39,7 +39,6 @@ class AutoSessionModel extends Equatable {
     return {
       'name': name,
       'duration': duration,
-      'type': type,
       'sessionPrograms': sessionPrograms?.map((e) => e.toJson()).toList(),
     };
   }

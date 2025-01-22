@@ -121,10 +121,10 @@ class ManageCustomSessionCubit extends Cubit<ManageCustomSessionState> {
     emit(state.copyWith(sessionPrograms: newPrograms));
   }
 
-  void editSession(AutoSessionModel session) async {
+  void editSession(AutoSessionModel session, int id) async {
     emit(state.copyWith(editSessionStatus: ManageCustomSessionStatus.loading));
-    final response = await autoSessionService.updateAutomaticSession(
-        data: session, id: session.id!);
+    final response =
+        await autoSessionService.updateAutomaticSession(data: session, id: id);
     response.fold((l) {
       emit(state.copyWith(editSessionStatus: ManageCustomSessionStatus.error));
     }, (r) {

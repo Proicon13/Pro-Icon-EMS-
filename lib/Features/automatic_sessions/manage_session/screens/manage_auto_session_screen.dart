@@ -1,15 +1,13 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:pro_icon/Core/entities/automatic_session_entity.dart';
-import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/widgets/base_app_scaffold.dart';
-import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
 import 'package:pro_icon/Features/automatic_sessions/manage_session/cubits/cubit/manage_custom_session_cubit.dart';
 
 import '../../../../Core/dependencies.dart';
+import '../widgets/manage_auto_session_bottom.dart';
 import '../widgets/manage_session_body.dart';
 
 class ManageAutoSessionScreen extends StatefulWidget {
@@ -48,11 +46,10 @@ class _ManageAutoSessionScreenState extends State<ManageAutoSessionScreen> {
             formKey: _formKey,
             session: widget.session,
           ),
-          bottomNavigationBar: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: context.setMinSize(16),
-                  vertical: context.setMinSize(15)),
-              child: CustomButton(onPressed: () {}, text: "confirm".tr())),
+          bottomNavigationBar: ManageSessionBottomNav(
+            formKey: _formKey,
+            session: widget.session,
+          ),
         ),
       ),
     );

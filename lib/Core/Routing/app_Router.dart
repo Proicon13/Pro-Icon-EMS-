@@ -21,6 +21,7 @@ import '../../Features/auth/reset_password/screens/forget_password_screen.dart';
 import '../../Features/auth/reset_password/screens/otp_screen.dart';
 import '../../Features/auth/reset_password/screens/set_new_password_screen.dart';
 import '../../Features/auth/role_selection/screens/role_selection_screen.dart';
+import '../../Features/automatic_sessions/manage_session/screens/manage_auto_session_screen.dart';
 import '../../Features/automatic_sessions/screens/auto_session_details_screen.dart';
 import '../../Features/client_details/client_details_screen.dart';
 import '../../Features/clients/add_client/screens/add_client_screen.dart';
@@ -239,6 +240,16 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
         builder: (_) {
           final autoSession = settings.arguments as AutomaticSessionEntity;
           return AutoSessionDetailsScreen(session: autoSession);
+        },
+      );
+
+    case ManageAutoSessionScreen.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: ManageAutoSessionScreen.routeName),
+        builder: (_) {
+          final autoSession = settings.arguments as AutomaticSessionEntity?;
+          if (autoSession == null) return const ManageAutoSessionScreen();
+          return ManageAutoSessionScreen(session: autoSession);
         },
       );
 

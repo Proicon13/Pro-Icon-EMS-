@@ -20,6 +20,7 @@ import 'package:pro_icon/Features/auth/role_selection/cubit/cubit/select_role_cu
 import 'package:pro_icon/Features/automatic_sessions/cubits/auto_sessions_cubit.dart';
 import 'package:pro_icon/Features/automatic_sessions/cubits/custom_auto_session_cubit.dart';
 import 'package:pro_icon/Features/automatic_sessions/cubits/main_auto_session_cubit.dart';
+import 'package:pro_icon/Features/automatic_sessions/manage_session/cubits/cubit/manage_custom_session_cubit.dart';
 import 'package:pro_icon/Features/client_details/cubit/cubit/client_details_cubit.dart';
 import 'package:pro_icon/Features/client_details/medical_report/cubits/cubit/medical_info_cubit.dart';
 import 'package:pro_icon/Features/client_details/strategy/cubits/cubit/strategy_cubit.dart';
@@ -217,6 +218,12 @@ void setupDependencies() {
   getIt.registerFactory<CustomAutoSessionCubit>(
     () => CustomAutoSessionCubit(
       autoSessionService: getIt(),
+    ),
+  );
+  getIt.registerFactory<ManageCustomSessionCubit>(
+    () => ManageCustomSessionCubit(
+      autoSessionService: getIt(),
+      categoriesService: getIt(),
     ),
   );
 }

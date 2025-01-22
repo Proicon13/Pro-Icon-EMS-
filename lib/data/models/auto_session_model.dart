@@ -50,22 +50,20 @@ class AutoSessionModel extends Equatable {
 }
 
 class SessionProgram extends Equatable {
+  final int? id;
   final int? duration;
   final int? pulse;
   final int? order;
   final ProgramModel? program;
 
-  const SessionProgram({
-    this.duration,
-    this.pulse,
-    this.order,
-    this.program,
-  });
+  const SessionProgram(
+      {this.duration, this.pulse, this.order, this.program, this.id});
 
   factory SessionProgram.fromJson(Map<String, dynamic>? json) {
     if (json == null) return const SessionProgram();
 
     return SessionProgram(
+      id: json['order'] as int?,
       duration: json['duration'] as int?,
       pulse: json['pulse'] as int?,
       order: json['order'] as int?,
@@ -77,11 +75,27 @@ class SessionProgram extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'duration': duration,
-      'pulse': pulse,
-      'order': order,
-      'program': program?.toJson(),
+      "programId": program?.id,
+      "duration": duration,
+      "pulse": pulse,
+      "order": order
     };
+  }
+
+  SessionProgram copyWith({
+    int? id,
+    int? duration,
+    int? pulse,
+    int? order,
+    ProgramModel? program,
+  }) {
+    return SessionProgram(
+      id: id ?? this.id,
+      duration: duration ?? this.duration,
+      pulse: pulse ?? this.pulse,
+      order: order ?? this.order,
+      program: program ?? this.program,
+    );
   }
 
   @override

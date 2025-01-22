@@ -127,5 +127,7 @@
     "mainAuto.title": "Main",
     "customAuto.title": "Custom",
     "noPrograms.title": "No programs yet",
-    "programsPackage.title": "Programs Package"
+    "programsPackage.title": "Programs Package",
+    "newSession.title": "New Session",
+    "editSession.title": "Edit Session"
 }

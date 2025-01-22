@@ -17,6 +17,19 @@ class ProgramModelToEntityMapper {
     );
   }
 
+  static ProgramModel toModel(ProgramEntity programEntity) {
+    return ProgramModel(
+      id: programEntity.id,
+      name: programEntity.name,
+      description: programEntity.description,
+      duration: programEntity.duration,
+      image: programEntity.image,
+      createdById: programEntity.createdById,
+      pulse: programEntity.pulse,
+      hertez: programEntity.hertez,
+    );
+  }
+
   static ProgramEntity mapCustomProgramModelToEntity(
       CustomProgramModel customProgramModel) {
     return CustomProgramEntity(

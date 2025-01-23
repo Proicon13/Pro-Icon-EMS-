@@ -9,7 +9,6 @@ import 'package:pro_icon/Features/automatic_sessions/widgets/main_auto_section.d
 import '../../../Core/widgets/custom_header.dart';
 import '../cubits/auto_sessions_cubit.dart';
 import '../cubits/custom_auto_session_cubit.dart';
-import '../cubits/main_auto_session_cubit.dart';
 import '../manage_session/screens/manage_auto_session_screen.dart';
 import 'auto_session_variation_section.dart';
 import 'custom_auto_section.dart';
@@ -47,9 +46,15 @@ class AutoSessionsViewBody extends StatelessWidget {
             right: context.setMinSize(20),
             child: FloatingActionButton(
                 backgroundColor: AppColors.primaryColor,
-                onPressed: () {
-                  Navigator.pushNamed(
+                onPressed: () async {
+                  final result = await Navigator.pushNamed(
                       context, ManageAutoSessionScreen.routeName);
+
+                  if (result != null) {
+                    context
+                        .read<CustomAutoSessionCubit>()
+                        .handleCustomSessionsOnPop();
+                  }
                 },
                 child: Icon(
                   Icons.add,
@@ -71,20 +76,17 @@ class SessionsListSection extends StatefulWidget {
 class _SessionsListSectionState extends State<SessionsListSection> {
   late ScrollController _scrollController;
   late PageController _pageController;
-  late AutoSessionsCubit _autoSessionsCubit;
 
   @override
   void initState() {
-    _autoSessionsCubit = context.read<AutoSessionsCubit>();
     _scrollController = ScrollController();
-    _scrollController.addListener(scrollListener);
+
     _pageController = PageController(initialPage: 0);
     super.initState();
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(scrollListener);
     _scrollController.dispose();
 
     _pageController.dispose();
@@ -117,19 +119,5 @@ class _SessionsListSectionState extends State<SessionsListSection> {
             }),
       ),
     );
-  }
-
-  void scrollListener() {
-    final scrollPosition = _scrollController.position.pixels;
-    final maxScrollExtent = _scrollController.position.maxScrollExtent;
-    if (scrollPosition == maxScrollExtent) {
-      if (_autoSessionsCubit.state.currentSessionSection == AutoSession.main) {
-        //load more main sessions
-        context.read<MainAutoSessionCubit>().fetchMainSessions();
-      } else {
-        // load more custom sessions
-        context.read<CustomAutoSessionCubit>().fetchCustomSessions();
-      }
-    }
   }
 }

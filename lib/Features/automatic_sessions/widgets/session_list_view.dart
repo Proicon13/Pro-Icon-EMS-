@@ -1,13 +1,17 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
+import 'package:pro_icon/Core/widgets/custom_confirmation_dialog.dart';
 import 'package:pro_icon/Features/automatic_sessions/cubits/auto_sessions_cubit.dart';
 import 'package:pro_icon/Features/automatic_sessions/screens/auto_session_details_screen.dart';
 import 'package:pro_icon/Features/automatic_sessions/widgets/auto_session_card.dart';
 
 import '../../../Core/entities/automatic_session_entity.dart';
 import '../../../Core/utils/responsive_helper/size_constants.dart';
+import '../cubits/custom_auto_session_cubit.dart';
 import '../manage_session/screens/manage_auto_session_screen.dart';
 
 class SessionsListView extends StatelessWidget {
@@ -35,14 +39,13 @@ class SessionsListView extends StatelessWidget {
     );
   }
 
-  Widget _buildSessionCard(
-      BuildContext context, AutomaticSessionEntity session) {
+  Widget _buildSessionCard(BuildContext ctx, AutomaticSessionEntity session) {
     switch (mode) {
       case AutoSession.main:
         return SizeConfig(
             baseSize: const Size(398, 88),
-            width: context.setMinSize(398),
-            height: context.setMinSize(88),
+            width: ctx.setMinSize(398),
+            height: ctx.setMinSize(88),
             child: Builder(builder: (context) {
               return MainSessionCard(
                 session: session as MainAutomaticSessionEntity,
@@ -55,15 +58,37 @@ class SessionsListView extends StatelessWidget {
       case AutoSession.custom:
         return SizeConfig(
           baseSize: const Size(398, 88),
-          width: context.setMinSize(398),
-          height: context.setMinSize(88),
+          width: ctx.setMinSize(398),
+          height: ctx.setMinSize(88),
           child: Builder(builder: (context) {
             return CustomSessionCard(
               session: session as CustomAutomaticSessionEntity,
-              onDelete: () {},
-              onEdit: () {
-                Navigator.pushNamed(context, ManageAutoSessionScreen.routeName,
+              onDelete: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return CustomConfirmationDialog(
+                          title: "deleteSession.confirmation".tr(),
+                          confirmationTitle: "deleteSession.message".tr(),
+                          onConfirm: () {
+                            Navigator.pop(context);
+                            ctx
+                                .read<CustomAutoSessionCubit>()
+                                .deleteSession(session);
+                          });
+                    });
+              },
+              onEdit: () async {
+                final result = await Navigator.pushNamed(
+                    context, ManageAutoSessionScreen.routeName,
                     arguments: session);
+
+                if (result != null) {
+                  print("poped");
+                  ctx
+                      .read<CustomAutoSessionCubit>()
+                      .handleCustomSessionsOnPop();
+                }
               },
               onTap: () {
                 _onCardTap(context, session);
@@ -74,7 +99,7 @@ class SessionsListView extends StatelessWidget {
     }
   }
 
-  void _onCardTap(BuildContext context, AutomaticSessionEntity session) {
+  void _onCardTap(BuildContext context, AutomaticSessionEntity session) async {
     Navigator.pushNamed(context, AutoSessionDetailsScreen.routeName,
         arguments: session);
   }

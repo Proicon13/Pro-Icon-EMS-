@@ -15,12 +15,14 @@ class CustomAutoSessionState extends Equatable {
   final int? totalPages;
   final String? message;
   final bool? firstTimeFetch;
+  final bool? isPaginating;
   const CustomAutoSessionState(
       {this.status = AutoSessionsRequestStatus.initial,
       this.sessions = const [],
       this.currentPage = 1,
       this.totalPages = 1,
       this.message = "",
+      this.isPaginating = false,
       this.firstTimeFetch = true});
 
   CustomAutoSessionState copyWith({
@@ -30,6 +32,7 @@ class CustomAutoSessionState extends Equatable {
     int? totalPages,
     String? message,
     bool? firstTimeFetch,
+    bool? isPaginating,
   }) {
     return CustomAutoSessionState(
       status: status ?? this.status,
@@ -38,6 +41,7 @@ class CustomAutoSessionState extends Equatable {
       totalPages: totalPages ?? this.totalPages,
       message: message ?? this.message,
       firstTimeFetch: firstTimeFetch ?? this.firstTimeFetch,
+      isPaginating: isPaginating ?? this.isPaginating,
     );
   }
 
@@ -48,6 +52,7 @@ class CustomAutoSessionState extends Equatable {
         currentPage!,
         totalPages!,
         message!,
-        firstTimeFetch!
+        firstTimeFetch!,
+        isPaginating!,
       ];
 }

@@ -49,7 +49,7 @@ class MainAutoSessionCubit extends Cubit<MainAutoSessionState> {
   Future<void> _fetchNextPage() async {
     if (!state.canLoadMore) return;
 
-    emit(state.copyWith(status: AutoSessionsRequestStatus.loading));
+    emit(state.copyWith(isPaginating: true));
 
     final result = await autoSessionService.getAutomaticSessions(
       type: "AUTOMATIC",
@@ -59,9 +59,9 @@ class MainAutoSessionCubit extends Cubit<MainAutoSessionState> {
     result.fold(
       (failure) => _emitError(failure.message),
       (sessions) => emit(state.copyWith(
-        status: AutoSessionsRequestStatus.loaded,
         sessions: [...state.sessions ?? [], ...sessions.data],
         currentPage: state.currentPage! + 1,
+        isPaginating: false,
         totalPages: sessions.totalPages,
         message: "",
       )),

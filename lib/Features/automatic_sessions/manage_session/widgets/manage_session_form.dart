@@ -42,10 +42,9 @@ class ManageSessionForm extends StatelessWidget {
               hintText: "Session Name",
               intialValue: session?.name ?? null,
               validator: FormBuilderValidators.compose([
-                FormBuilderValidators.required(
-                    errorText: "Program Name is required"),
+                FormBuilderValidators.required(errorText: "Name is required"),
                 FormBuilderValidators.maxLength(50,
-                    errorText: "Program Name cannot exceed 50 characters"),
+                    errorText: "Name cannot exceed 50 characters"),
               ]),
             )),
         context.setMinSize(30).horizontalSpace,
@@ -62,8 +61,7 @@ class ManageSessionForm extends StatelessWidget {
                 LengthLimitingTextInputFormatter(3)
               ],
               validator: FormBuilderValidators.compose([
-                FormBuilderValidators.required(
-                    errorText: "Duration is required"),
+                FormBuilderValidators.required(errorText: "Required field"),
               ]),
             ))
       ]),

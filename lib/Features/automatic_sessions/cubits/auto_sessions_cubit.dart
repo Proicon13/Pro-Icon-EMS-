@@ -12,6 +12,10 @@ class AutoSessionsCubit extends Cubit<AutoSessionsState> {
     emit(state.copyWith(currentSessionSection: session));
   }
 
+  void handleOnPop() {
+    emit(state.copyWith(currentSessionSection: AutoSession.main));
+  }
+
   // void changeCanChangeSection(Bool canChange) {
   //   emit(state.copyWith(canChangeSection: canChange));
   // }

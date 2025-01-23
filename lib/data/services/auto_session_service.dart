@@ -83,7 +83,7 @@ class AutoSessionService {
   Future<Either<Failure, String>> deleteAutomaticSession(
       {required int id}) async {
     final response = await _apiProvider.delete<Map<String, dynamic>>(
-      endpoint: ApiConstants.automaticSessionEndpoint,
+      endpoint: ApiConstants.automaticSessionUpdateEndpoint(id),
     );
 
     if (response.isSuccess) {

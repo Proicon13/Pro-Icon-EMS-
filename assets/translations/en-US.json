@@ -129,5 +129,16 @@
     "noPrograms.title": "No programs yet",
     "programsPackage.title": "Programs Package",
     "newSession.title": "New Session",
-    "editSession.title": "Edit Session"
+    "editSession.title": "Edit Session",
+    "madDeactivate.confirmation": "Are you sure you want to deactivate this MAD?",
+    "madDeactivate.message": "Yes,deactivate MAD",
+    "madActivate.confirmation": "Are you sure you want to activate this MAD?",
+    "madActivate.message": "Yes,activate MAD",
+    "deleteSession.confirmation": "Are you sure you want to delete this session?",
+    "deleteSession.message": "Yes,Delete",
+    "deleteSession.successMessage": "Session deleted successfully",
+    "createSession.successMessage": "Session created successfully",
+    "updateSession.successMessage": "Session updated successfully",
+    "createProgram.successMessage": "Program created successfully",
+    "updateProgram.successMessage": "Program updated successfully"
 }

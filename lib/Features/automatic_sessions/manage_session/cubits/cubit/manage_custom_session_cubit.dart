@@ -57,7 +57,7 @@ class ManageCustomSessionCubit extends Cubit<ManageCustomSessionState> {
   void onProgramSelected(ProgramEntity program) {
     final sessionProgram = SessionProgram(
         id: state.sessionPrograms.length + 1,
-        duration: 10,
+        duration: 30,
         pulse: 0,
         program: ProgramModelToEntityMapper.toModel(program),
         order: state.sessionPrograms.length + 1);
@@ -101,7 +101,7 @@ class ManageCustomSessionCubit extends Cubit<ManageCustomSessionState> {
         final currentDuration = program.duration ?? 0;
         final newDuration = isIncrease
             ? currentDuration + 5
-            : (currentDuration - 5).clamp(10, double.infinity).toInt();
+            : (currentDuration - 5).clamp(30, double.infinity).toInt();
         return program.copyWith(duration: newDuration);
       }
       return program;

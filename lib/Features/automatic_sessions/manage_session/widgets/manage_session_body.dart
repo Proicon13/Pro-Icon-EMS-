@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
-import 'package:pro_icon/Features/main/cubit/cubit/main_cubit.dart';
-import 'package:pro_icon/Features/main/main_screen.dart';
 
 import '../../../../Core/entities/automatic_session_entity.dart';
 import '../../../../Core/utils/responsive_helper/size_constants.dart';
@@ -29,9 +27,7 @@ class ManageAutoSessionBody extends StatelessWidget {
           children: [
             context.setMinSize(20).verticalSpace,
             CustomHeader(
-                onBack: () => Navigator.pushReplacementNamed(
-                    context, MainScreen.routeName,
-                    arguments: MainSections.autoSessions),
+                onBack: () => Navigator.pop(context, "POPED"),
                 titleKey: session == null
                     ? "newSession.title".tr()
                     : "editSession.title".tr()),

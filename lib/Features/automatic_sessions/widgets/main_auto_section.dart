@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pro_icon/Core/entities/automatic_session_entity.dart';
+import 'package:pro_icon/Core/networking/api_constants.dart';
+import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
+import 'package:pro_icon/Core/widgets/custom_loader.dart';
 import 'package:pro_icon/Core/widgets/empty_state_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../Core/theme/app_colors.dart';
 import '../../../Core/widgets/custom_snack_bar.dart';
 import '../cubits/auto_sessions_cubit.dart';
 import '../cubits/main_auto_session_cubit.dart';
@@ -28,7 +32,9 @@ class MainAutoSection extends StatelessWidget {
       child: BlocConsumer<MainAutoSessionCubit, MainAutoSessionState>(
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) => _handleStateListener(context, state),
-        buildWhen: (previous, current) => previous.status != current.status,
+        buildWhen: (previous, current) =>
+            previous.status != current.status ||
+            previous.sessions != current.sessions,
         builder: (context, state) => _buildStateContent(context, state),
       ),
     );
@@ -84,10 +90,50 @@ class MainAutoSection extends StatelessWidget {
   }
 
   Widget _buildSessionList(BuildContext context, MainAutoSessionState state) {
-    return SessionsListView(
-      controller: scrollController,
-      sessions: state.sessions!,
-      mode: AutoSession.main,
+    return Column(
+      children: [
+        Expanded(
+          child: SessionsListView(
+            controller: scrollController,
+            sessions: state.sessions!,
+            mode: AutoSession.main,
+          ),
+        ),
+        context.setMinSize(10).verticalSpace,
+        state.sessions!.length < ApiConstants.defaultPerPage &&
+                state.canLoadMore
+            ?
+            // build load more text here
+            _buildLoadMore(context)
+            : const SizedBox.shrink()
+      ],
+    );
+  }
+
+  Widget _buildLoadMore(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: context.setMinSize(70)),
+      child: BlocSelector<MainAutoSessionCubit, MainAutoSessionState, bool>(
+        selector: (state) {
+          return state.isPaginating!;
+        },
+        builder: (context, isPaginating) {
+          if (isPaginating) {
+            return const CustomLoader();
+          }
+          return GestureDetector(
+            onTap: () {
+              context.read<MainAutoSessionCubit>().fetchMainSessions();
+            },
+            child: Center(
+                child: Text(
+              "Load More...",
+              style: AppTextStyles.fontSize16(context).copyWith(
+                  color: AppColors.primaryColor, fontWeight: FontWeight.w500),
+            )),
+          );
+        },
+      ),
     );
   }
 }

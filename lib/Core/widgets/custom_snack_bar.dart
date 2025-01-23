@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/constants/app_assets.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
 
 import '../theme/app_colors.dart';
@@ -27,66 +29,79 @@ class CustomSnackBar extends StatelessWidget {
     final Color statusColor =
         status == AlertStatus.success ? Colors.green : AppColors.primaryColor;
 
-    return Padding(
-      padding: EdgeInsets.only(bottom: 0.03.sh),
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Stack(
-          children: [
-            // Parent container for the snackbar
-            Container(
-              width: 0.9.sw, // 90% of the screen width
-              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
-              decoration: BoxDecoration(
-                color:
-                    AppColors.backgroundColor, // Your custom background color
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  20.w.horizontalSpace, // Space to align text and icon correctly
-                  // Status Icon
-                  CustomSvgVisual(
-                    assetPath: assetPath,
-                    width: 32.w,
-                    height: 32.w,
+    return SizeConfig(
+      baseSize: const Size(398, 75),
+      width: context.setMinSize(398),
+      height: context.setMinSize(75),
+      child: Builder(builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: 0.03.sh),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Stack(
+              children: [
+                // Parent container for the snackbar
+                Container(
+                  width: context.sizeConfig.width, // 90% of the screen width
+                  padding: EdgeInsets.symmetric(
+                      vertical: context.setMinSize(15),
+                      horizontal: context.setMinSize(5)),
+                  decoration: BoxDecoration(
+                    color: AppColors
+                        .backgroundColor, // Your custom background color
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
-                  12.w.horizontalSpace, // Space between icon and text
-                  // Message Text
-                  Expanded(
-                    child: Text(
-                      message,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.fontSize14(context).copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      context
+                          .setMinSize(30)
+                          .horizontalSpace, // Space to align text and icon correctly
+                      // Status Icon
+                      CustomSvgVisual(
+                        assetPath: assetPath,
+                        width: context.setMinSize(32),
+                        height: context.setMinSize(32),
+                      ),
+                      context
+                          .setMinSize(12)
+                          .horizontalSpace, // Space between icon and text
+                      // Message Text
+                      Expanded(
+                        child: Text(
+                          message,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.fontSize14(context).copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Vertical Colored Bar
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: Container(
+                    width: context.setMinSize(20),
+                    decoration: BoxDecoration(
+                      color: statusColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8.r),
+                        bottomLeft: Radius.circular(8.r),
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
-            // Vertical Colored Bar
-            Positioned(
-              left: 0,
-              top: 0,
-              bottom: 0,
-              child: Container(
-                width: 15.w,
-                decoration: BoxDecoration(
-                  color: statusColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8.r),
-                    bottomLeft: Radius.circular(8.r),
-                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }),
     );
   }
 }

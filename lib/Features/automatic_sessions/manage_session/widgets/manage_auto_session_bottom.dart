@@ -89,6 +89,22 @@ class ManageSessionBottomNav extends StatelessWidget {
       final formData = formKey.currentState!.value;
       final name = formData['name'] as String;
       final duration = int.parse(formData['duration'] as String);
+      final durationDifference = cubit.getTimeDifference(duration);
+
+      if (durationDifference < 0) {
+        buildCustomAlert(
+            context,
+            "programs` duration excceds session time by ${durationDifference.abs()} seconds",
+            Colors.red);
+        return;
+      }
+      if (durationDifference > 0) {
+        buildCustomAlert(
+            context,
+            "programs` duration is less than session time by ${durationDifference} seconds",
+            Colors.red);
+        return;
+      }
 
       final request = AutoSessionModel(
         name: name,

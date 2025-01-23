@@ -10,12 +10,14 @@ class ManageCustomSessionState extends Equatable {
   final List<SessionProgram> sessionPrograms;
   final bool? isEditMode;
   final String? message;
+  final int? totalDuration;
   const ManageCustomSessionState(
       {this.getProgramsStatus = ManageCustomSessionStatus.loading,
       this.addSessionStatus = ManageCustomSessionStatus.intial,
       this.editSessionStatus = ManageCustomSessionStatus.intial,
       this.isEditMode = false,
       this.programs = const [],
+      this.totalDuration = 0,
       this.sessionPrograms = const [],
       this.message = ""});
 
@@ -27,6 +29,7 @@ class ManageCustomSessionState extends Equatable {
     List<ProgramEntity>? programs,
     List<SessionProgram>? sessionPrograms,
     String? message,
+    int? totalDuration,
   }) =>
       ManageCustomSessionState(
           getProgramsStatus: getProgramsStatus ?? this.getProgramsStatus,
@@ -35,6 +38,7 @@ class ManageCustomSessionState extends Equatable {
           isEditMode: isEditMode ?? this.isEditMode,
           programs: programs ?? this.programs,
           sessionPrograms: sessionPrograms ?? this.sessionPrograms,
+          totalDuration: totalDuration ?? this.totalDuration,
           message: message ?? this.message);
 
   @override
@@ -45,6 +49,7 @@ class ManageCustomSessionState extends Equatable {
         isEditMode!,
         message!,
         getProgramsStatus!,
-        sessionPrograms
+        sessionPrograms,
+        totalDuration!,
       ];
 }

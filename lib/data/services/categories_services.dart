@@ -25,4 +25,21 @@ class CategoriesServices {
       return Left(ServerFailure(message: response.error!.message));
     }
   }
+
+
+  Future<Either<Failure , List<CategoryEntity>>> getSessionManagmentCategory () async
+  {
+    final response = await baseApiProvider.get<List<dynamic>>(endpoint: "/session-management/categories");
+    if (response.isSuccess) {
+      return Right(response.data!
+          .map((element) => CategoryModelToEntityMapper.toEntity(
+          CategoryModel.fromJson(element)))
+          .toList());
+    } else {
+      return Left(ServerFailure(message: response.error!.message));
+    }
+
+
+  }
+
 }

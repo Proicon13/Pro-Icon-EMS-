@@ -155,5 +155,10 @@ class Assets {
   static const String assetsItalySvg = "assets/images/italySvg.svg";
 
 
+  static const String assetsForProgramIcon = "assets/images/Session_mnagement_Icon.svg";
+  static const String assetsForautoSessionIcon = "assets/images/auto_sesson_svg_icon.svg";
+
+
+
 }
 

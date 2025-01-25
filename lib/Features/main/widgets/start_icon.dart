@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Features/session_managment/session_setup/Screen/session_setup_screen.dart';
 
 import '../../../Core/constants/app_assets.dart';
 import '../../../Core/theme/app_text_styles.dart';
@@ -14,7 +15,7 @@ class StartIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // navigate to sessions setup screen
+        Navigator.pushNamed(context, SessionSetupScreen.routeName);
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,42 +15,42 @@ class SelectCategoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return   BlocBuilder<SessionCubit, SessionState>(
-      buildWhen: (previous, current) => previous.categriesMangement != current.categriesMangement || previous.programs != current.programs ,
+    return BlocBuilder<SessionCubit, SessionState>(
+      buildWhen: (previous, current) =>
+          previous.categriesMangement != current.categriesMangement,
       builder: (context, state) {
-        if (state.selectedSessionMode == 'Program' ) {
+        if (state.selectedSessionMode == 'Program') {
           return DropdownFormSection<CategoryEntity>(
               title: "Select Category",
-              name: 'Category' ,
+              name: 'Category',
               hintText: "Select",
-              onChanged: ( value) => context.read<SessionCubit>().selectCategory(value!),
-              items: state.categriesMangement.map(( category) =>
-                  DropdownMenuItem<CategoryEntity>(
-                    value: category ,
-                    child: Row(
-                      children: [
-                        CustomCircularImage(
-                            width: context.setMinSize(20),
-                            height: context.setMinSize(20),
-                            imageUrl: "${category.image}"
+              onChanged: (value) =>
+                  context.read<SessionCubit>().selectCategory(value!),
+              items: state.categriesMangement
+                  .map((category) => DropdownMenuItem<CategoryEntity>(
+                        value: category,
+                        child: Row(
+                          children: [
+                            CustomCircularImage(
+                                width: context.setMinSize(20),
+                                height: context.setMinSize(20),
+                                imageUrl: "${category.image}"),
+                            context.setMinSize(10).horizontalSpace,
+                            Text("${category.name}")
+                          ],
                         ),
-                        context.setMinSize(10).horizontalSpace,
-                        Text("${category.name}")
-                      ],
-                    ),
-                  )
-              ).toList()
-          );
+                      ))
+                  .toList());
         }
-        if (state.errorMessage.isNotEmpty ) {
+        if (state.errorMessage!.isNotEmpty) {
           return Text(
-            state.errorMessage,
+            state.errorMessage!,
             style: AppTextStyles.fontSize14(context).copyWith(
               color: Colors.red,
             ),
           );
         } else {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
       },
     );

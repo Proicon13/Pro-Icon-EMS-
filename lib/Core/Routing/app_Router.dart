@@ -8,7 +8,6 @@ import 'package:pro_icon/Features/Mads/session_details/screen/session_activity.d
 import 'package:pro_icon/Features/languges_screen/cubit/languges_cubit.dart';
 import 'package:pro_icon/Features/languges_screen/screen/languges_screen.dart';
 import 'package:pro_icon/Features/manage_trainer/screens/trainer_password_regestraion_screen.dart';
-import 'package:pro_icon/Features/session_managment/session_setup/Screen/session_setup_screen.dart';
 
 import '../../Features/CategoryDetails/Screens/Category_details.dart';
 import '../../Features/Mads/Screens/Mads_screen.dart';
@@ -30,6 +29,7 @@ import '../../Features/main/cubit/cubit/main_cubit.dart';
 import '../../Features/main/main_screen.dart';
 import '../../Features/manage_trainer/screens/manage_trainer_screen.dart';
 import '../../Features/programming_requst/screen/programming_request_screen.dart';
+import '../../Features/session_managment/session_setup/screens/session_setup_screen.dart';
 import '../../Features/users/screens/users_screen.dart';
 import '../../splash_screen.dart';
 import '../entities/program_entity.dart';
@@ -236,9 +236,7 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
       return MaterialPageRoute(
         settings: const RouteSettings(name: SessionSetupScreen.routeName),
         builder: (_) {
-          return BlocProvider(
-              create: (context) => LanguageCubit(),
-              child: const SessionSetupScreen());
+          return const SessionSetupScreen();
         },
       );
 

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,33 +14,31 @@ class SelectProgramWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  BlocBuilder<SessionCubit, SessionState>(
+    return BlocBuilder<SessionCubit, SessionState>(
       buildWhen: (previous, current) => current.programs != previous.programs,
       builder: (context, state) {
         if (state.selectedSessionMode == 'Program') {
           return DropdownFormSection<ProgramEntity>(
               title: "Select Program",
-              name: 'program' ,
+              name: 'program',
               hintText: "Select",
-              items: state.programs.map(( program) =>
-                  DropdownMenuItem<ProgramEntity>(
-                    value: program ,
-                    child: Row(
-                      children: [
-                        CustomCircularImage(
-                            width: context.setMinSize(20),
-                            height: context.setMinSize(20),
-                            imageUrl: "${program.image}"
+              items: state.programs
+                  .map((program) => DropdownMenuItem<ProgramEntity>(
+                        value: program,
+                        child: Row(
+                          children: [
+                            CustomCircularImage(
+                                width: context.setMinSize(20),
+                                height: context.setMinSize(20),
+                                imageUrl: "${program.image}"),
+                            context.setMinSize(10).horizontalSpace,
+                            Text("${program.name}")
+                          ],
                         ),
-                        context.setMinSize(10).horizontalSpace,
-                        Text("${program.name}")
-                      ],
-                    ),
-                  )
-              ).toList()
-          );
+                      ))
+                  .toList());
         } else {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
       },
     );

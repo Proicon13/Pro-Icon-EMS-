@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +20,8 @@ class SessionSetupContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SessionCubit>(
-      create: (context) => getIt<SessionCubit>()..getSessionManagementCategories(),
+      create: (context) =>
+          getIt<SessionCubit>()..getSessionManagementCategories(),
       child: BaseAppScaffold(
         body: Padding(
           padding: SizeConstants.kScaffoldPadding(context),
@@ -33,7 +33,6 @@ class SessionSetupContent extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   Text(
                     'Set session mode',
                     style: AppTextStyles.fontSize16(context).copyWith(
@@ -43,15 +42,9 @@ class SessionSetupContent extends StatelessWidget {
                   context.setMinSize(10).verticalSpace,
                   ModeCards(),
                   context.setMinSize(40).verticalSpace,
-
-
-                  const  SelectCategoryWidget(),
-
+                  const SelectCategoryWidget(),
                   context.setMinSize(20).verticalSpace,
-
-
                   const SelectProgramWidget(),
-
                   context.setMinSize(30).verticalSpace,
                   CustomButton(onPressed: () {}, text: "Next"),
                 ],

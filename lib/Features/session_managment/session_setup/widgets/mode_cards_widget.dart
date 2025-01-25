@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +11,6 @@ import '../../../../Core/widgets/custom_svg_visual.dart';
 import '../cubits/cubit/session_setup_cubit.dart';
 
 class ModeCardsWidget extends StatelessWidget {
-
   final List<Map<String, dynamic>> modes = const [
     {
       'mode': 'Program',
@@ -36,22 +34,28 @@ class ModeCardsWidget extends StatelessWidget {
             context.read<SessionCubit>().selectSessionMode(mode['mode']);
           },
           child: SizeConfig(
-            baseSize: Size(170, 165),
+            baseSize: const Size(170, 165),
             width: context.setMinSize(170),
             height: context.setMinSize(165),
             child: Builder(
               builder: (context) {
+                // TODO: refactor this to a separate widget SessionModeCard and pass the required parameters
                 return Container(
                   width: context.sizeConfig.width,
                   height: context.sizeConfig.height,
-                  margin: EdgeInsets.only(right: context.setMinSize(30)), // مسافة بين الـ modes
+                  margin: EdgeInsets.only(
+                      right: context.setMinSize(30)), // مسافة بين الـ modes
                   decoration: BoxDecoration(
                     color: AppColors.darkGreyColor,
-                    border: context.watch<SessionCubit>().state.selectedSessionMode == mode['mode']
+                    border: context
+                                .watch<SessionCubit>()
+                                .state
+                                .selectedSessionMode ==
+                            mode['mode']
                         ? Border.all(
-                      color: Colors.red,
-                      width: 2,
-                    )
+                            color: Colors.red,
+                            width: 2,
+                          )
                         : null,
                   ),
                   child: Stack(
@@ -75,7 +79,11 @@ class ModeCardsWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      if (context.watch<SessionCubit>().state.selectedSessionMode == mode['mode']) // علامة "Selected"
+                      if (context
+                              .watch<SessionCubit>()
+                              .state
+                              .selectedSessionMode ==
+                          mode['mode']) // علامة "Selected"
                         Positioned(
                           top: 0, // توضع العلامة من فوق
                           right: 0, // توضع العلامة على اليمين

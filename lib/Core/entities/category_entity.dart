@@ -13,5 +13,5 @@ class CategoryEntity extends Equatable {
       {this.id, this.name, this.description, this.image, this.programs});
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [id, name, description, image, programs];
 }

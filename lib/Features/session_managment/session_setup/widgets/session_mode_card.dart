@@ -40,6 +40,7 @@ class SessionModeCard extends StatelessWidget {
                   right: context.setMinSize(30)),
               decoration: BoxDecoration(
                 color: AppColors.darkGreyColor,
+
                 border: context
                     .watch<SessionCubit>()
                     .state

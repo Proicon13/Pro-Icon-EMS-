@@ -8,16 +8,21 @@ class ControlPanelMad extends Equatable {
   final int? heartRate;
   final bool? isBluetoothConnected;
   final bool? isHeartRateSensorConnected;
+  final Map<String, int> musclesPercentage; // Added muscles map with int values
 
-  ControlPanelMad(
-      {required this.madNo,
-      this.client,
-      this.heartRate = 0,
-      this.isBluetoothConnected = false,
-      this.isHeartRateSensorConnected = false});
+  ControlPanelMad({
+    required this.madNo,
+    this.client,
+    this.heartRate = 0,
+    this.isBluetoothConnected = false,
+    this.isHeartRateSensorConnected = false,
+    this.musclesPercentage = const {}, // Default empty map
+  });
 
   factory ControlPanelMad.fromMad(Mad mad) {
-    return ControlPanelMad(madNo: mad.serialNo);
+    return ControlPanelMad(
+      madNo: mad.serialNo,
+    );
   }
 
   ControlPanelMad copyWith({
@@ -26,6 +31,7 @@ class ControlPanelMad extends Equatable {
     int? heartRate,
     bool? isBluetoothConnected,
     bool? isHeartRateSensorConnected,
+    Map<String, int>? musclesPercentage,
   }) {
     return ControlPanelMad(
       madNo: madNo ?? this.madNo,
@@ -34,6 +40,7 @@ class ControlPanelMad extends Equatable {
       isBluetoothConnected: isBluetoothConnected ?? this.isBluetoothConnected,
       isHeartRateSensorConnected:
           isHeartRateSensorConnected ?? this.isHeartRateSensorConnected,
+      musclesPercentage: musclesPercentage ?? this.musclesPercentage,
     );
   }
 
@@ -43,6 +50,7 @@ class ControlPanelMad extends Equatable {
         client,
         heartRate,
         isBluetoothConnected,
-        isHeartRateSensorConnected
+        isHeartRateSensorConnected,
+        musclesPercentage
       ];
 }

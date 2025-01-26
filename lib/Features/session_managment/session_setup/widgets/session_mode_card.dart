@@ -35,7 +35,6 @@ class SessionModeCard extends StatelessWidget {
             return Container(
               width: context.sizeConfig.width,
               height: context.sizeConfig.height,
-              margin: EdgeInsets.only(right: context.setMinSize(30)),
               decoration: BoxDecoration(
                 color: AppColors.darkGreyColor,
                 borderRadius: BorderRadius.circular(context.setMinSize(10)),

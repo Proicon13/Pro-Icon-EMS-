@@ -14,38 +14,45 @@ class SelectProgramWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SessionCubit, SessionState>(
-      buildWhen: (previous, current) => current.programs != previous.programs,
-      builder: (context, state) {
-        if (state.selectedSessionMode == 'Program') {
-          return DropdownFormSection<ProgramEntity>(
-              title: "Select Program",
-              name: 'program',
-              hintText: "Select",
-              onChanged: (value) {
-                if (value != null) {
-                  context.read<SessionCubit>().selectProgram(value);
-                }
-              },
-              items: state.programs
-                  .map((program) => DropdownMenuItem<ProgramEntity>(
-                        value: program,
-                        child: Row(
-                          children: [
-                            CustomCircularImage(
-                                width: context.setMinSize(20),
-                                height: context.setMinSize(20),
-                                imageUrl: "${program.image}"),
-                            context.setMinSize(10).horizontalSpace,
-                            Text("${program.name}")
-                          ],
-                        ),
-                      ))
-                  .toList());
-        } else {
-          return const SizedBox.shrink();
-        }
-      },
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 500),
+      switchInCurve: Curves.easeIn,
+      switchOutCurve: Curves.easeOut,
+      child: BlocBuilder<SessionCubit, SessionState>(
+        buildWhen: (previous, current) =>
+            current.programs != previous.programs ||
+            current.selectedSessionMode != previous.selectedSessionMode,
+        builder: (context, state) {
+          if (state.selectedSessionMode == SessionControlMode.program) {
+            return DropdownFormSection<ProgramEntity>(
+                title: "Select Program",
+                name: 'program',
+                hintText: "Select",
+                onChanged: (value) {
+                  if (value != null) {
+                    context.read<SessionCubit>().selectProgram(value);
+                  }
+                },
+                items: state.programs
+                    .map((program) => DropdownMenuItem<ProgramEntity>(
+                          value: program,
+                          child: Row(
+                            children: [
+                              CustomCircularImage(
+                                  width: context.setMinSize(20),
+                                  height: context.setMinSize(20),
+                                  imageUrl: "${program.image}"),
+                              context.setMinSize(10).horizontalSpace,
+                              Text("${program.name}")
+                            ],
+                          ),
+                        ))
+                    .toList());
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
     );
   }
 }

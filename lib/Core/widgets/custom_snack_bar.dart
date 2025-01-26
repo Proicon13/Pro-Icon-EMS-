@@ -68,13 +68,15 @@ class CustomSnackBar extends StatelessWidget {
                           .horizontalSpace, // Space between icon and text
                       // Message Text
                       Expanded(
-                        child: Text(
-                          message,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTextStyles.fontSize14(context).copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Text(
+                            message,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTextStyles.fontSize14(context).copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),

@@ -4,16 +4,17 @@ import 'package:pro_icon/Features/session_managment/session_setup/widgets/sessio
 
 import '../../../../Core/constants/app_assets.dart';
 import '../cubits/cubit/session_setup_cubit.dart';
+import '../cubits/cubit/session_setup_state.dart';
 
 class ModeCardsWidget extends StatelessWidget {
   final List<Map<String, dynamic>> modes = const [
     {
-      'mode': 'Program',
+      'mode': SessionControlMode.program,
       'icon': Assets.assetsImagesProgramsIcon,
       'label': 'Program',
     },
     {
-      'mode': 'Auto session',
+      'mode': SessionControlMode.auto,
       'icon': Assets.assetsImagesAutoSessionIcon,
       'label': 'Auto session',
     },
@@ -27,6 +28,8 @@ class ModeCardsWidget extends StatelessWidget {
       children: modes.map((mode) {
         return SessionModeCard(
           mode: mode,
+          onTap: () =>
+              context.read<SessionCubit>().selectSessionMode(mode['mode']),
           isSelected: context.watch<SessionCubit>().state.selectedSessionMode ==
               mode['mode'],
         );

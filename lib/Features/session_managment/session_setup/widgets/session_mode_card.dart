@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 
@@ -8,24 +7,23 @@ import '../../../../Core/theme/app_colors.dart';
 import '../../../../Core/theme/app_text_styles.dart';
 import '../../../../Core/utils/responsive_helper/size_config.dart';
 import '../../../../Core/widgets/custom_svg_visual.dart';
-import '../cubits/cubit/session_setup_cubit.dart';
 
 class SessionModeCard extends StatelessWidget {
   final Map<String, dynamic> mode;
   final bool isSelected;
+  final void Function()? onTap;
 
   const SessionModeCard({
     Key? key,
     required this.mode,
     required this.isSelected,
+    this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        context.read<SessionCubit>().selectSessionMode(mode['mode']);
-      },
+      onTap: onTap,
       child: SizeConfig(
         baseSize: const Size(170, 165),
         width: context.setMinSize(170),

@@ -163,7 +163,8 @@ void setupDependencies() {
         categoriesServices: getIt(),
       ));
 
-  getIt.registerFactory<SessionCubit>( () => SessionCubit(categoriesServices: getIt()) );
+  getIt.registerFactory<SessionCubit>(() =>
+      SessionCubit(categoriesServices: getIt(), autoSessionService: getIt()));
 
   getIt.registerFactory<CategoryDetailsCubit>(() => CategoryDetailsCubit());
 

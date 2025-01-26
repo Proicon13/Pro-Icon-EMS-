@@ -11,7 +11,7 @@ class AutomaticSessionEntity extends Equatable {
   final String? type;
   final List<SessionProgram>? sessionPrograms;
 
-  AutomaticSessionEntity(
+  const AutomaticSessionEntity(
       {this.id,
       this.name,
       this.duration,

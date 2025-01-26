@@ -51,7 +51,8 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
         (failure) => Left(CacheFailure(
             message: "Failed to process MADs: ${failure.message}")), (rawMads) {
       // Map processed Mads to ControlPanelMad objects with muscles
-      final controlPanelMads = rawMads.map((mad) {
+      final activeMads = rawMads.where((mad) => mad.isActive).toList();
+      final controlPanelMads = activeMads.map((mad) {
         final muscleMap = {
           for (var muscle in musclesList)
             muscle.name!: 0 // Initialize muscle values to 0

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
+import 'package:pro_icon/Features/session_managment/control_panel/screens/control_panel_screen.dart';
 import 'package:pro_icon/Features/session_managment/session_setup/widgets/select_category_widget.dart';
 import 'package:pro_icon/Features/session_managment/session_setup/widgets/select_program_widget.dart';
 
@@ -22,13 +23,28 @@ class SessionSetupContent extends StatelessWidget {
     final cubit = context.read<SessionCubit>();
     if (cubit.state.selectedSessionMode == SessionControlMode.program &&
         (cubit.state.selectedProgram?.name.isEmpty ?? true)) {
-      buildCustomAlert(context, "Please select a program", Colors.red);
+      return buildCustomAlert(context, "Please select a program", Colors.red);
     } else if (cubit.state.selectedSessionMode == SessionControlMode.auto &&
         (cubit.state.selectedAutomaticSession?.name == null)) {
-      buildCustomAlert(context, "Please select a session", Colors.red);
+      return buildCustomAlert(context, "Please select a session", Colors.red);
+    }
+
+    if (cubit.state.selectedSessionMode == SessionControlMode.auto) {
+      Navigator.pushReplacementNamed(context, ControlPanelScreen.routeName,
+          arguments: [
+            SessionControlMode.auto,
+            null,
+            cubit.state.selectedAutomaticSession,
+            null
+          ]);
     } else {
-      // Proceed with the next step logic here
-      print("Proceeding to the next step...");
+      Navigator.pushReplacementNamed(context, ControlPanelScreen.routeName,
+          arguments: [
+            SessionControlMode.program,
+            cubit.state.selectedProgram,
+            null,
+            cubit.state.allPrograms
+          ]);
     }
   }
 

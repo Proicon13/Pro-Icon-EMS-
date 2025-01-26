@@ -19,10 +19,23 @@ class SessionCubit extends Cubit<SessionState> {
   void getSessionManagementCategories() async {
     final result = await categoriesServices.getSessionManagmentCategory();
 
-    result.fold(
-        (error) => emit(state.copyWith(errorMessage: error.message)),
-        (categories) => emit(
-            state.copyWith(categriesMangement: categories, errorMessage: "")));
+    result.fold((error) => emit(state.copyWith(errorMessage: error.message)),
+        (categories) {
+      final allPrograms = _populateAllPrograms(categories);
+      emit(state.copyWith(
+          categriesMangement: categories,
+          allPrograms: allPrograms,
+          errorMessage: ""));
+    });
+  }
+
+  List<ProgramEntity> _populateAllPrograms(List<CategoryEntity> categories) {
+    List<ProgramEntity> programs = [];
+
+    for (final category in categories) {
+      programs = [...programs, ...category.programs!];
+    }
+    return programs;
   }
 
   void selectSessionMode(SessionControlMode mode) {

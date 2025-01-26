@@ -3,6 +3,7 @@ part of 'control_panel_cubit.dart';
 enum SessionStatus {
   initial,
   intializing,
+  ready,
   running,
   paused,
   stopped,
@@ -16,10 +17,12 @@ extension SessionStatusExtension on ControlPanelState {
   bool get isPaused => this.status == SessionStatus.paused;
   bool get isStopped => this.status == SessionStatus.stopped;
   bool get isError => this.status == SessionStatus.error;
+  bool get isReady => this.status == SessionStatus.ready;
 }
 
 class ControlPanelState extends Equatable {
   final SessionStatus status;
+  final SessionControlMode? selectedSessionMode;
   final List<ControlPanelMad> controlPanelMads;
   final Map<String, int> sharedMuscles; // Shared muscle map for group mode
   final List<ControlPanelMad>?
@@ -32,14 +35,17 @@ class ControlPanelState extends Equatable {
   final double ramp; // Ramp acceleration value
   final ProgramEntity?
       selectedProgram; // selected program for manual mode (Program mode)
-  final List<ProgramEntity>?
+  final List<SessionProgram>?
       automaticSessionprograms; // List of programs> IF AUTOMATIC SESSION MODE APPLIED
 
+  final List<ProgramEntity> allPrograms; // List of all programs in program mode
   const ControlPanelState({
     this.status = SessionStatus.initial,
+    this.selectedSessionMode = SessionControlMode.program,
     this.controlPanelMads = const [],
     this.sharedMuscles = const {},
     this.selectedMads = const [],
+    this.allPrograms = const [],
     this.errorMessage = "",
     this.isGroupMode = false,
     this.totalDuration = const Duration(minutes: 25),
@@ -52,6 +58,7 @@ class ControlPanelState extends Equatable {
 
   ControlPanelState copyWith({
     SessionStatus? status,
+    SessionControlMode? selectedSessionMode,
     List<ControlPanelMad>? controlPanelMads,
     Map<String, int>? sharedMuscles,
     List<ControlPanelMad>? selectedMads,
@@ -61,6 +68,9 @@ class ControlPanelState extends Equatable {
     int? onTime,
     int? offTime,
     double? ramp,
+    ProgramEntity? selectedProgram,
+    List<SessionProgram>? automaticSessionprograms,
+    List<ProgramEntity>? allPrograms,
   }) {
     return ControlPanelState(
       status: status ?? this.status,
@@ -73,6 +83,11 @@ class ControlPanelState extends Equatable {
       onTime: onTime ?? this.onTime,
       offTime: offTime ?? this.offTime,
       ramp: ramp ?? this.ramp,
+      selectedProgram: selectedProgram ?? this.selectedProgram,
+      automaticSessionprograms:
+          automaticSessionprograms ?? this.automaticSessionprograms,
+      allPrograms: allPrograms ?? this.allPrograms,
+      selectedSessionMode: selectedSessionMode ?? this.selectedSessionMode,
     );
   }
 
@@ -88,5 +103,9 @@ class ControlPanelState extends Equatable {
         onTime,
         offTime,
         ramp,
+        selectedProgram,
+        automaticSessionprograms,
+        allPrograms,
+        selectedSessionMode
       ];
 }

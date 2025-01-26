@@ -6,6 +6,9 @@ class ControlPanelMad extends Equatable {
   final int madNo;
   final ClientEntity? client;
   final int? heartRate;
+  final int? caloriesBurnt;
+  final int? minHeartRate;
+  final int? maxHeartRate;
   final bool? isBluetoothConnected;
   final bool? isHeartRateSensorConnected;
   final Map<String, int> musclesPercentage; // Added muscles map with int values
@@ -13,6 +16,9 @@ class ControlPanelMad extends Equatable {
   ControlPanelMad({
     required this.madNo,
     this.client,
+    this.caloriesBurnt = 0,
+    this.minHeartRate = 0,
+    this.maxHeartRate = 0,
     this.heartRate = 0,
     this.isBluetoothConnected = false,
     this.isHeartRateSensorConnected = false,
@@ -32,6 +38,9 @@ class ControlPanelMad extends Equatable {
     bool? isBluetoothConnected,
     bool? isHeartRateSensorConnected,
     Map<String, int>? musclesPercentage,
+    int? caloriesBurnt,
+    int? minHeartRate,
+    int? maxHeartRate,
   }) {
     return ControlPanelMad(
       madNo: madNo ?? this.madNo,
@@ -41,6 +50,9 @@ class ControlPanelMad extends Equatable {
       isHeartRateSensorConnected:
           isHeartRateSensorConnected ?? this.isHeartRateSensorConnected,
       musclesPercentage: musclesPercentage ?? this.musclesPercentage,
+      caloriesBurnt: caloriesBurnt ?? this.caloriesBurnt,
+      minHeartRate: minHeartRate ?? this.minHeartRate,
+      maxHeartRate: maxHeartRate ?? this.maxHeartRate,
     );
   }
 
@@ -51,6 +63,9 @@ class ControlPanelMad extends Equatable {
         heartRate,
         isBluetoothConnected,
         isHeartRateSensorConnected,
-        musclesPercentage
+        musclesPercentage,
+        caloriesBurnt,
+        minHeartRate,
+        maxHeartRate
       ];
 }

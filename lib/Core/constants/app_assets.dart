@@ -10,9 +10,21 @@ class Assets {
   /// assets/images/admin.png
   static const String assetsImagesAdmin = "assets/images/admin.png";
 
+  /// Assets for assetsImagesAssignUserIcon
+  /// assets/images/assign_user_icon.svg
+  static const String assetsImagesAssignUserIcon = "assets/images/assign_user_icon.svg";
+
   /// Assets for assetsImagesAutoSessionIcon
   /// assets/images/auto_session_icon.svg
   static const String assetsImagesAutoSessionIcon = "assets/images/auto_session_icon.svg";
+
+  /// Assets for assetsImagesBluetoothDisconnectedIcon
+  /// assets/images/bluetooth_disconnected_icon.svg
+  static const String assetsImagesBluetoothDisconnectedIcon = "assets/images/bluetooth_disconnected_icon.svg";
+
+  /// Assets for assetsImagesBlutoothConnectedIcon
+  /// assets/images/blutooth_connected_icon.svg
+  static const String assetsImagesBlutoothConnectedIcon = "assets/images/blutooth_connected_icon.svg";
 
   /// Assets for assetsImagesBrazil
   /// assets/images/brazil.svg
@@ -21,6 +33,10 @@ class Assets {
   /// Assets for assetsImagesCalendarIcon
   /// assets/images/calendar_icon.svg
   static const String assetsImagesCalendarIcon = "assets/images/calendar_icon.svg";
+
+  /// Assets for assetsImagesCaloriesIcon
+  /// assets/images/calories_icon.svg
+  static const String assetsImagesCaloriesIcon = "assets/images/calories_icon.svg";
 
   /// Assets for assetsImagesCameraIcon
   /// assets/images/camera_icon.svg
@@ -89,6 +105,10 @@ class Assets {
   /// Assets for assetsImagesGermanyFlag
   /// assets/images/Germany_flag.svg
   static const String assetsImagesGermanyFlag = "assets/images/Germany_flag.svg";
+
+  /// Assets for assetsImagesHeartRateIcon
+  /// assets/images/heart_rate_icon.svg
+  static const String assetsImagesHeartRateIcon = "assets/images/heart_rate_icon.svg";
 
   /// Assets for assetsImagesItalySvg
   /// assets/images/italySvg.svg

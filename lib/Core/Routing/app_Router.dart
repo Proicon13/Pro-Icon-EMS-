@@ -254,6 +254,14 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
         },
       );
 
+    case SessionSetupScreen.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: SessionSetupScreen.routeName),
+        builder: (_) {
+          return const SessionSetupScreen();
+        },
+      );
+
     default:
       return MaterialPageRoute(
         settings: const RouteSettings(name: '/unknown'),

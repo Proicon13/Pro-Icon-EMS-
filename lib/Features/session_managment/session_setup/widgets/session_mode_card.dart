@@ -55,6 +55,7 @@ class SessionModeCard extends StatelessWidget {
                           assetPath: mode['icon'],
                           width: context.setMinSize(65),
                           height: context.setMinSize(65),
+                          color: Colors.white,
                         ),
                       ),
                       context.setMinSize(15).verticalSpace,
@@ -71,7 +72,7 @@ class SessionModeCard extends StatelessWidget {
                       top: context.setMinSize(10),
                       right: context.setMinSize(10), // توضع العلامة على اليمين
                       child: CustomSvgVisual(
-                        assetPath: Assets.assetsSelectedIcon,
+                        assetPath: Assets.assetsImagesSelectedIcon,
                         width: context.setMinSize(24), // حجم الأيقونة
                         height: context.setMinSize(24),
                       ),

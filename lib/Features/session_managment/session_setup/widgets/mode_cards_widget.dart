@@ -9,12 +9,12 @@ class ModeCardsWidget extends StatelessWidget {
   final List<Map<String, dynamic>> modes = const [
     {
       'mode': 'Program',
-      'icon': Assets.assetsForProgramIcon,
+      'icon': Assets.assetsImagesProgramsIcon,
       'label': 'Program',
     },
     {
       'mode': 'Auto session',
-      'icon': Assets.assetsForautoSessionIcon,
+      'icon': Assets.assetsImagesAutoSessionIcon,
       'label': 'Auto session',
     },
   ];

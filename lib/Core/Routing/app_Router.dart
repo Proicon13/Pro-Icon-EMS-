@@ -32,6 +32,7 @@ import '../../Features/main/cubit/cubit/main_cubit.dart';
 import '../../Features/main/main_screen.dart';
 import '../../Features/manage_trainer/screens/manage_trainer_screen.dart';
 import '../../Features/programming_requst/screen/programming_request_screen.dart';
+import '../../Features/session_managment/session_setup/screens/session_setup_screen.dart';
 import '../../Features/users/screens/users_screen.dart';
 import '../../splash_screen.dart';
 import '../entities/program_entity.dart';

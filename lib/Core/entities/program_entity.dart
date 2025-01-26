@@ -14,14 +14,14 @@ class ProgramEntity extends Equatable {
   final int hertez;
 
   const ProgramEntity({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.duration,
-    required this.image,
-    required this.createdById,
-    required this.pulse,
-    required this.hertez,
+    this.id = -1,
+    this.name = "",
+    this.description = "",
+    this.duration = 0,
+    this.image = "",
+    this.createdById = 0,
+    this.pulse = 0,
+    this.hertez = 0,
   });
 
   @override

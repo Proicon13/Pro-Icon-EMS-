@@ -26,8 +26,6 @@ class SessionCubit extends Cubit<SessionState> {
   }
 
   void selectProgram(ProgramEntity program) {
-    // TODO: Implement this to set selected program to the state
-    // call it in onChange of programs dropdown
     emit(state.copyWith(selectedProgram: program));
   }
 }

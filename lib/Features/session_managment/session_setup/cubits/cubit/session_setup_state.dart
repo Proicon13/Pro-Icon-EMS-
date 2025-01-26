@@ -9,12 +9,16 @@ class SessionState {
   final List<CategoryEntity> categriesMangement;
   final List<ProgramEntity> programs;
   final String? errorMessage;
+  final ProgramEntity? selectedProgram;
+
   // TODO: ADD selected Program to the state  (ProgramEntity selectedProgram) and add it to copyWith also to update it and give it a default value ProgramEntity()
   //
 
   SessionState(
       {this.selectedSessionMode = 'Program',
       this.categriesMangement = const [],
+        this.selectedProgram,
+
       this.programs = const [],
       this.errorMessage = ""});
 
@@ -22,12 +26,21 @@ class SessionState {
       {String? selectedSessionMode,
       String? errorMessage,
       List<CategoryEntity>? categriesMangement,
-      List<ProgramEntity>? programs}) {
+      List<ProgramEntity>? programs,
+        ProgramEntity? selectedProgram,}) {
     return SessionState(
       selectedSessionMode: selectedSessionMode ?? this.selectedSessionMode,
       categriesMangement: categriesMangement ?? this.categriesMangement,
       programs: programs ?? this.programs,
+      selectedProgram: selectedProgram ?? this.selectedProgram,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
+  List<Object?> get props => [
+    selectedSessionMode,
+    categriesMangement,
+    programs,
+    selectedProgram,
+    errorMessage,
+  ];
 }

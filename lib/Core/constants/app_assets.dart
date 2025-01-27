@@ -30,6 +30,10 @@ class Assets {
   /// assets/images/blutooth_connected_icon.svg
   static const String assetsImagesBlutoothConnectedIcon = "assets/images/blutooth_connected_icon.svg";
 
+  /// Assets for assetsImagesBodyImage
+  /// assets/images/body_image.png
+  static const String assetsImagesBodyImage = "assets/images/body_image.png";
+
   /// Assets for assetsImagesBrazil
   /// assets/images/brazil.svg
   static const String assetsImagesBrazil = "assets/images/brazil.svg";
@@ -173,6 +177,10 @@ class Assets {
   /// Assets for assetsImagesPulseIcon
   /// assets/images/pulse_icon.svg
   static const String assetsImagesPulseIcon = "assets/images/pulse_icon.svg";
+
+  /// Assets for assetsImagesResetIcon
+  /// assets/images/reset_icon.svg
+  static const String assetsImagesResetIcon = "assets/images/reset_icon.svg";
 
   /// Assets for assetsImagesSelectedIcon
   /// assets/images/selected_icon.svg

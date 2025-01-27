@@ -66,6 +66,11 @@ class TimersControlSection extends StatelessWidget {
                     ),
                   ],
                 ),
+                context.setMinSize(10).verticalSpace,
+                Divider(
+                  color: AppColors.white71Color,
+                  thickness: context.setMinSize(1),
+                )
               ],
             ),
           ),

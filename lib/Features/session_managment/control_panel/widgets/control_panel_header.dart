@@ -35,9 +35,11 @@ class ControlPanelHeader extends StatelessWidget {
             //new context to get parent size
             return SizedBox(
               width: context.sizeConfig.width, // take full scaled width
-              child: const AspectRatio(
-                aspectRatio: 3.6,
-                child: CustomAssetImage(
+              height: context.sizeConfig.height,
+              child: AspectRatio(
+                aspectRatio:
+                    context.sizeConfig.width / context.sizeConfig.height,
+                child: const CustomAssetImage(
                   path: Assets.assetsImagesLogo,
                   fit: BoxFit.contain,
                 ),

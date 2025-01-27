@@ -28,7 +28,7 @@ class SessionSetupContent extends StatelessWidget {
         (cubit.state.selectedAutomaticSession?.name == null)) {
       return buildCustomAlert(context, "Please select a session", Colors.red);
     }
-
+    // if program mode is selected navigate to control panel with data
     if (cubit.state.selectedSessionMode == SessionControlMode.auto) {
       Navigator.pushReplacementNamed(context, ControlPanelScreen.routeName,
           arguments: [
@@ -38,6 +38,7 @@ class SessionSetupContent extends StatelessWidget {
             null
           ]);
     } else {
+      // if program mode is selected navigate to control panel with data
       Navigator.pushReplacementNamed(context, ControlPanelScreen.routeName,
           arguments: [
             SessionControlMode.program,

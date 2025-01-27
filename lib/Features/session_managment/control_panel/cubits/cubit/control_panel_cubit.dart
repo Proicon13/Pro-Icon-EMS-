@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
+import 'package:pro_icon/Core/entities/client_entity.dart';
 import 'package:pro_icon/Core/entities/program_entity.dart';
 import 'package:pro_icon/Features/session_managment/session_setup/cubits/cubit/session_setup_state.dart';
 import 'package:pro_icon/data/models/auto_session_model.dart';
@@ -23,15 +24,21 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
       AutomaticSessionEntity? automaticSession,
       List<ProgramEntity>? allPrograms}) {
     // intializing session
-    emit(state.copyWith(status: SessionStatus.intializing));
-    setSessionMode(mode);
-    if (mode == SessionControlMode.program) {
-      // if mode is program set current program and all programs available
-      setCurrentProgram(program!);
-      setAllPrograms(allPrograms!);
-    } else if (mode == SessionControlMode.auto) {
-      // if mode is auto set automatic session programs
-      setAutomaticSessionPrograms(automaticSession!.sessionPrograms!);
+    try {
+      emit(state.copyWith(status: SessionStatus.intializing));
+      setSessionMode(mode);
+      if (mode == SessionControlMode.program) {
+        // if mode is program set current program and all programs available
+        setCurrentProgram(program!);
+        setAllPrograms(allPrograms!);
+      } else if (mode == SessionControlMode.auto) {
+        // if mode is auto set automatic session programs
+        setAutomaticSessionPrograms(automaticSession!.sessionPrograms!);
+      }
+    } catch (_) {
+      emit(state.copyWith(
+          status: SessionStatus.error,
+          errorMessage: "failed to fetch session mode and data"));
     }
   }
 
@@ -51,6 +58,15 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     emit(state.copyWith(allPrograms: programs));
   }
 
+  void onControlPanelMadTap(ControlPanelMad mad, int index) {
+    final mads = [...state.controlPanelMads];
+    if (mad.client == null) {
+      mads[index] = mads[index].copyWith(
+          client: const ClientEntity(id: 0, fullname: 'Moaid Mohamed'));
+    }
+    emit(state.copyWith(selectedMads: [mads[index]], controlPanelMads: mads));
+  }
+
   void fetchControlPanelMads() async {
     final currentUserMads = getIt<UserStateCubit>().state.currentUser!.mads!;
     final result = await sessionManagementRepository.getControlPanelMads(
@@ -58,11 +74,18 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     result.fold(
       (failure) => emit(state.copyWith(
           status: SessionStatus.error, errorMessage: failure.message)),
-      (mads) => emit(state.copyWith(
-          selectedMads: [mads[0]], //first mad is selected
-          controlPanelMads: mads,
-          status: SessionStatus.ready,
-          errorMessage: "")),
+      (mads) {
+        if (mads.isEmpty) {
+          return emit(state.copyWith(
+              status: SessionStatus.error,
+              errorMessage: "No mads found to start session"));
+        }
+        emit(state.copyWith(
+            selectedMads: [mads[0]], //first mad is selected
+            controlPanelMads: mads,
+            status: SessionStatus.ready,
+            errorMessage: ""));
+      },
     );
   }
 }

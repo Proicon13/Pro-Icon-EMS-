@@ -32,10 +32,12 @@ import 'package:pro_icon/Features/main/cubit/cubit/main_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/manage_trainer_cubit.dart';
 import 'package:pro_icon/Features/manage_trainer/cubits/cubit/trainer_password_cubit.dart';
 import 'package:pro_icon/Features/programming_requst/cubit/programmer_request_cubit.dart';
+import 'package:pro_icon/Features/session_managment/control_panel/cubits/cubit/control_panel_cubit.dart';
 import 'package:pro_icon/Features/session_managment/session_setup/cubits/cubit/session_setup_cubit.dart';
 import 'package:pro_icon/Features/users/cubits/user_managment_cubit.dart';
 import 'package:pro_icon/data/repos/auth_repo.dart';
 import 'package:pro_icon/data/repos/mads_repo.dart';
+import 'package:pro_icon/data/repos/session_control_panel_repo.dart';
 import 'package:pro_icon/data/services/auth_service.dart';
 import 'package:pro_icon/data/services/auth_token_service.dart';
 import 'package:pro_icon/data/services/auto_session_service.dart';
@@ -119,6 +121,12 @@ void setupDependencies() {
   getIt.registerLazySingleton<MadRepository>(() => MadRepository(
         madLocalService: getIt(),
       ));
+
+  getIt.registerLazySingleton<SessionManagementRepository>(
+      () => SessionManagementRepositoryImpl(
+            madRepository: getIt(),
+            musclesService: getIt(),
+          ));
 
   // cubits
   getIt.registerFactory<SelectRoleCubit>(() => SelectRoleCubit(getIt()));
@@ -228,6 +236,12 @@ void setupDependencies() {
     () => ManageCustomSessionCubit(
       autoSessionService: getIt(),
       categoriesService: getIt(),
+    ),
+  );
+
+  getIt.registerFactory<ControlPanelCubit>(
+    () => ControlPanelCubit(
+      sessionManagementRepository: getIt(),
     ),
   );
 }

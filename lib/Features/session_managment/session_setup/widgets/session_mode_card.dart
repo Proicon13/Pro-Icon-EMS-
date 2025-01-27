@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,12 +12,12 @@ import '../cubits/cubit/session_setup_cubit.dart';
 
 class SessionModeCard extends StatelessWidget {
   final Map<String, dynamic> mode;
-  final BuildContext context;
+  final bool isSelected;
 
   const SessionModeCard({
     Key? key,
     required this.mode,
-    required this.context,
+    required this.isSelected,
   }) : super(key: key);
 
   @override
@@ -36,20 +35,23 @@ class SessionModeCard extends StatelessWidget {
             return Container(
               width: context.sizeConfig.width,
               height: context.sizeConfig.height,
-              margin: EdgeInsets.only(
-                  right: context.setMinSize(30)),
               decoration: BoxDecoration(
                 color: AppColors.darkGreyColor,
+<<<<<<< HEAD
 
                 border: context
                     .watch<SessionCubit>()
                     .state
                     .selectedSessionMode ==
                     mode['mode']
+=======
+                borderRadius: BorderRadius.circular(context.setMinSize(10)),
+                border: isSelected
+>>>>>>> 20ad48c50e7d5c36217610d536c9f624bb57cb7b
                     ? Border.all(
-                  color: Colors.red,
-                  width: 2,
-                )
+                        color: Colors.red,
+                        width: 2,
+                      )
                     : null,
               ),
               child: Stack(
@@ -73,14 +75,10 @@ class SessionModeCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (context
-                      .watch<SessionCubit>()
-                      .state
-                      .selectedSessionMode ==
-                      mode['mode']) // علامة "Selected"
+                  if (isSelected) // علامة "Selected"
                     Positioned(
-                      top: 0, // توضع العلامة من فوق
-                      right: 0, // توضع العلامة على اليمين
+                      top: context.setMinSize(10),
+                      right: context.setMinSize(10), // توضع العلامة على اليمين
                       child: CustomSvgVisual(
                         assetPath: Assets.assetsSelectedIcon,
                         width: context.setMinSize(24), // حجم الأيقونة

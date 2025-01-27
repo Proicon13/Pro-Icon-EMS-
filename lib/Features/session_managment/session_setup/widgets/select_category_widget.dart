@@ -24,8 +24,11 @@ class SelectCategoryWidget extends StatelessWidget {
               title: "Select Category",
               name: 'Category',
               hintText: "Select",
-              onChanged: (value) =>
-                  context.read<SessionCubit>().selectCategory(value!),
+              onChanged: (value) {
+                if (value != null) {
+                  context.read<SessionCubit>().selectCategory(value);
+                }
+              },
               items: state.categriesMangement
                   .map((category) => DropdownMenuItem<CategoryEntity>(
                         value: category,

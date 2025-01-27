@@ -22,9 +22,10 @@ class SelectProgramWidget extends StatelessWidget {
               title: "Select Program",
               name: 'program',
               hintText: "Select",
-              onChanged: (value)
-              {
-                context.read<SessionCubit>().selectProgram(value!);
+              onChanged: (value) {
+                if (value != null) {
+                  context.read<SessionCubit>().selectProgram(value);
+                }
               },
               items: state.programs
                   .map((program) => DropdownMenuItem<ProgramEntity>(

@@ -29,13 +29,12 @@ class ControlPanelMadsSection extends StatelessWidget {
           return _buildLoadingContent(context);
         }
 
-        if (state.isReady) {
-          // if list is loaded and no error
-          return _buildLoadedContent(context, state, cubit);
+        if (state.isError) {
+          // if error
+          return const SizedBox.shrink();
         }
-        // otherwise show nothing
-
-        return const SizedBox.shrink();
+        // otherwise show loaded content
+        return _buildLoadedContent(context, state, cubit);
       },
     );
   }
@@ -62,9 +61,14 @@ class ControlPanelMadsSection extends StatelessWidget {
                       mad: controlPanelMad,
                       isSelected: state.selectedMads!.contains(controlPanelMad),
                       onTap: () {
+                        //TODO: if client is null change selected and open client dialog
+
                         cubit.onControlPanelMadTap(controlPanelMad, index);
                       },
-                      onLongPress: () {});
+                      onLongPress: () {
+                        // TODO: open BLUETOOTH dialog TO SELECT DEVICE TO CONNECT
+                        //if blutooth is connected connect to heart rate sensor
+                      });
                 },
               ),
             );

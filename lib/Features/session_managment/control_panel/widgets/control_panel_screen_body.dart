@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
+import 'package:pro_icon/Features/session_managment/control_panel/widgets/timers_control_section.dart';
 
 import '../cubits/cubit/control_panel_cubit.dart';
 import 'control_panel_header.dart';
@@ -35,6 +36,9 @@ class ControlPanelScreenBody extends StatelessWidget {
           ),
           const SliverToBoxAdapter(
             child: ControlPanelMadsSection(),
+          ),
+          const SliverToBoxAdapter(
+            child: TimersControlSection(),
           )
         ],
       ),

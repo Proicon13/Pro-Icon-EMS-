@@ -62,6 +62,9 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     final mads = [...state.controlPanelMads];
     if (mad.client == null) {
       mads[index] = mads[index].copyWith(
+          heartRate: 80,
+          isBluetoothConnected: true,
+          isHeartRateSensorConnected: true,
           client: const ClientEntity(id: 0, fullname: 'Moaid Mohamed'));
     }
     emit(state.copyWith(selectedMads: [mads[index]], controlPanelMads: mads));
@@ -87,5 +90,40 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
             errorMessage: ""));
       },
     );
+  }
+
+  void onControlChanged(String key, num value) {
+    switch (key) {
+      case 'On':
+        adjustOnTime(value);
+        break;
+      case 'Off':
+        adjustOffTime(value);
+        break;
+      case 'Ramp':
+        adjustRamp(value);
+        break;
+    }
+  }
+
+  void adjustOnTime(num value) {
+    if (value < 0) {
+      return;
+    }
+    emit(state.copyWith(onTime: value.toInt()));
+  }
+
+  void adjustOffTime(num value) {
+    if (value < 0) {
+      return;
+    }
+    emit(state.copyWith(offTime: value.toInt()));
+  }
+
+  void adjustRamp(num value) {
+    if (value < 0) {
+      return;
+    }
+    emit(state.copyWith(ramp: value.toDouble()));
   }
 }

@@ -73,12 +73,16 @@ class SessionControlRow extends StatelessWidget {
             BlocSelector<ControlPanelCubit, ControlPanelState, bool>(
               selector: (state) => state.isRunning,
               builder: (context, isRunning) {
-                return CustomSvgVisual(
-                  assetPath: isRunning
-                      ? Assets.assetsImagesPauseIcon
-                      : Assets.assetsImagesStartIcon,
-                  width: context.setMinSize(60),
-                  height: context.setMinSize(60),
+                return GestureDetector(
+                  onTap: () =>
+                      isRunning ? cubit.pauseSession() : cubit.startSession(),
+                  child: CustomSvgVisual(
+                    assetPath: isRunning
+                        ? Assets.assetsImagesPauseIcon
+                        : Assets.assetsImagesStartIcon,
+                    width: context.setMinSize(60),
+                    height: context.setMinSize(60),
+                  ),
                 );
               },
             ),

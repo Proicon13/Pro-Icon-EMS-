@@ -91,7 +91,7 @@ class ProgramInfoSection extends StatelessWidget {
                         Navigator.pop(context);
                         ctx
                             .read<ControlPanelCubit>()
-                            .setCurrentProgram(program);
+                            .onProgramSelected(program);
                       },
                     );
                   },

@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
-import 'package:pro_icon/Core/entities/client_entity.dart';
 import 'package:pro_icon/Core/entities/program_entity.dart';
 import 'package:pro_icon/Features/session_managment/session_setup/cubits/cubit/session_setup_state.dart';
 import 'package:pro_icon/data/models/auto_session_model.dart';
@@ -9,6 +10,7 @@ import 'package:pro_icon/data/repos/session_control_panel_repo.dart';
 
 import '../../../../../Core/dependencies.dart';
 import '../../../../../Core/entities/automatic_session_entity.dart';
+import '../../../../../Core/entities/client_entity.dart';
 import '../../../../../Core/entities/control_panel_mad.dart';
 
 part 'control_panel_state.dart';
@@ -17,6 +19,9 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   final SessionManagementRepository sessionManagementRepository;
   ControlPanelCubit({required this.sessionManagementRepository})
       : super(const ControlPanelState());
+
+  Timer? _sessionTimer;
+  Timer? _onOffTimer;
 
   void onInit(
       {required SessionControlMode mode,
@@ -33,7 +38,8 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
         setAllPrograms(allPrograms!);
       } else if (mode == SessionControlMode.auto) {
         // if mode is auto set automatic session programs
-        setAutomaticSessionPrograms(automaticSession!.sessionPrograms!);
+        setSessionDuration(Duration(minutes: automaticSession!.duration!));
+        setAutomaticSessionPrograms(automaticSession.sessionPrograms!);
       }
     } catch (_) {
       emit(state.copyWith(
@@ -46,8 +52,14 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     emit(state.copyWith(selectedSessionMode: sessionControlMode));
   }
 
+  void setSessionDuration(Duration duration) {
+    emit(state.copyWith(totalDuration: duration, currentDuration: duration));
+  }
+
   void setCurrentProgram(ProgramEntity program) {
-    emit(state.copyWith(selectedProgram: program));
+    emit(state.copyWith(
+        selectedProgram: program,
+        programsUsedInSession: [...state.programsUsedInSession, program]));
   }
 
   void setAutomaticSessionPrograms(List<SessionProgram> programs) {
@@ -69,6 +81,11 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
           client: const ClientEntity(id: 0, fullname: 'Moaid Mohamed'));
     }
     emit(state.copyWith(selectedMads: [mads[index]], controlPanelMads: mads));
+  }
+
+  void onProgramSelected(ProgramEntity program) {
+    pauseSession();
+    setCurrentProgram(program);
   }
 
   void fetchControlPanelMads() async {
@@ -108,17 +125,39 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   }
 
   void adjustOnTime(num value) {
-    if (value < 0) {
-      return;
+    if (value < 0) return;
+
+    final int newOnTime = value.toInt();
+
+    emit(state.copyWith(
+      onTime: newOnTime,
+      currentOnTime: state.isOnCycle
+          ? (state.currentOnTime >= newOnTime ? newOnTime : state.currentOnTime)
+          : state.currentOnTime, // Update current timer if in On cycle
+    ));
+
+    if (state.status == SessionStatus.running && state.isOnCycle) {
+      _startOnOffTimer(state.currentOnTime); // Restart timer dynamically
     }
-    emit(state.copyWith(onTime: value.toInt()));
   }
 
   void adjustOffTime(num value) {
-    if (value < 0) {
-      return;
+    if (value < 0) return;
+
+    final int newOffTime = value.toInt();
+
+    emit(state.copyWith(
+      offTime: newOffTime,
+      currentOffTime: !state.isOnCycle
+          ? (state.currentOffTime >= newOffTime
+              ? newOffTime
+              : state.currentOffTime)
+          : state.currentOffTime, // Update current timer if in Off cycle
+    ));
+
+    if (state.status == SessionStatus.running && !state.isOnCycle) {
+      _startOnOffTimer(state.currentOffTime); // Restart timer dynamically
     }
-    emit(state.copyWith(offTime: value.toInt()));
   }
 
   void adjustRamp(num value) {
@@ -130,6 +169,9 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
 
   /// Adjusts a specific muscle value for the first selected Mad
   void adjustMuscleValue(String muscleKey, bool isIncrement) {
+    // Block increment if the session is not running
+    if (isIncrement && !state.isRunning) return;
+
     final updatedMuscles = _validateAndFetchMuscles();
     if (updatedMuscles == null) return;
 
@@ -151,6 +193,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
 
   /// Increases all muscle values for the first selected Mad
   void increaseAllMuscles() {
+    if (!state.isRunning) return;
     final updatedMuscles = _validateAndFetchMuscles();
     if (updatedMuscles == null) return;
 
@@ -217,5 +260,141 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
       selectedMads:
           isGroupMode ? state.controlPanelMads : [state.controlPanelMads.first],
     ));
+  }
+
+  @override
+  Future<void> close() {
+    // Dispose timers to free resources
+    _sessionTimer?.cancel();
+    _onOffTimer?.cancel();
+
+    // Call super.close to ensure proper Cubit closure
+    return super.close();
+  }
+
+  bool _canStartSession() {
+    // Ensure there is at least one selected Mad
+    if (state.selectedMads == null || state.selectedMads!.isEmpty) {
+      emit(state.copyWith(
+        status: SessionStatus.notReady,
+        errorMessage:
+            "No Mad selected. Please select a Mad to start the session.",
+      ));
+      return false;
+    }
+
+    // Validate the first selected Mad
+    final selectedMad = state.selectedMads!.first;
+
+    // Check if the Mad has a client assigned
+    if (selectedMad.client == null) {
+      emit(state.copyWith(
+        status: SessionStatus.notReady,
+        errorMessage: "Selected Mad has no client assigned",
+      ));
+      return false;
+    }
+
+    // Check if Bluetooth and Heart Rate sensors are connected
+    if (!selectedMad.isBluetoothConnected! ||
+        !selectedMad.isHeartRateSensorConnected!) {
+      emit(state.copyWith(
+        status: SessionStatus.notReady,
+        errorMessage:
+            "Ensure Bluetooth and Heart Rate sensors are connected for the selected Mad.",
+      ));
+      return false;
+    }
+
+    // Prevent starting a session with zero duration
+    if (state.totalDuration.inSeconds == 0) {
+      emit(state.copyWith(
+        status: SessionStatus.notReady,
+        errorMessage:
+            "Session duration cannot be zero. Please adjust the duration.",
+      ));
+      return false;
+    }
+
+    // All conditions are satisfied
+    return true;
+  }
+
+  void startSession() {
+    // Prevent starting a session with zero duration
+    if (!_canStartSession()) return;
+
+    emit(state.copyWith(status: SessionStatus.running));
+
+    // Main session timer
+    _sessionTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (state.currentDuration.inSeconds <= 0) {
+        timer.cancel();
+        stopSession();
+      } else {
+        // Update current session duration
+        emit(state.copyWith(
+          currentDuration: state.currentDuration - const Duration(seconds: 1),
+        ));
+      }
+    });
+
+    // Start on/off timer
+    _startOnOffTimer();
+  }
+
+  void pauseSession() {
+    // Stop all active timers
+    _sessionTimer?.cancel();
+    _onOffTimer?.cancel();
+
+    // Reset on/off timers and cycle state
+    emit(state.copyWith(
+      isOnCycle: true, // Reset cycle to "On"
+      currentOnTime: 0, // Reset current "On" time
+      currentOffTime: 0, // Reset current "Off" time
+      status: SessionStatus.paused, // Update session status
+    ));
+  }
+
+  void stopSession() {
+    _sessionTimer?.cancel();
+    _onOffTimer?.cancel();
+    emit(state.copyWith(
+      status: SessionStatus.stopped,
+      totalDuration: const Duration(minutes: 25),
+      onTime: 0,
+      offTime: 0,
+      isOnCycle: true, // Reset cycle to On
+    ));
+  }
+
+  void _startOnOffTimer([int? overrideCycleTime]) {
+    _onOffTimer?.cancel();
+
+    int currentCycleTime = overrideCycleTime ??
+        (state.isOnCycle ? state.currentOnTime : state.currentOffTime);
+
+    final int fullCycleValue = state.isOnCycle ? state.onTime : state.offTime;
+
+    _onOffTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (currentCycleTime >= fullCycleValue) {
+        emit(state.copyWith(
+          isOnCycle: !state.isOnCycle, // Switch cycle
+          currentOnTime: 0, // Reset On cycle
+          currentOffTime: 0, // Reset Off cycle
+        ));
+        _startOnOffTimer(); // Restart with new cycle
+      } else {
+        currentCycleTime += 1;
+
+        emit(state.copyWith(
+          currentOnTime:
+              state.isOnCycle ? currentCycleTime : state.currentOnTime,
+          currentOffTime:
+              !state.isOnCycle ? currentCycleTime : state.currentOffTime,
+        ));
+      }
+    });
   }
 }

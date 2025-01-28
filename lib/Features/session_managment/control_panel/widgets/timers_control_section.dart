@@ -8,6 +8,7 @@ import 'package:pro_icon/Features/session_managment/control_panel/cubits/cubit/c
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Core/theme/app_colors.dart';
+import '../../../../Core/utils/format_duration.dart';
 import 'timer_card.dart';
 import 'timers_control_panel.dart';
 
@@ -19,6 +20,7 @@ class TimersControlSection extends StatelessWidget {
     return BlocBuilder<ControlPanelCubit, ControlPanelState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
+        final totalDuration = state.totalDuration;
         if (state.isError) {
           return const SizedBox.shrink();
         }
@@ -32,33 +34,63 @@ class TimersControlSection extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TimerCard(
-                      size: context.setMinSize(70),
-                      isRed: false,
-                      value: "8",
-                      textStyle: AppTextStyles.fontSize16(context).copyWith(
-                        color: Colors.green,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      currentValue: 9,
-                      fullValue: 10,
+                    // On/Off Timer
+                    BlocBuilder<ControlPanelCubit, ControlPanelState>(
+                      buildWhen: (previous, current) =>
+                          previous.isOnCycle != current.isOnCycle ||
+                          previous.onTime != current.onTime ||
+                          previous.offTime != current.offTime ||
+                          previous.currentOnTime != current.currentOnTime ||
+                          previous.currentOffTime != current.currentOffTime,
+                      builder: (context, state) {
+                        final isOnCycle = state.isOnCycle;
+                        final currentCycleValue = isOnCycle
+                            ? state.currentOnTime
+                            : state.currentOffTime;
+                        final fullCycleValue =
+                            isOnCycle ? state.onTime : state.offTime;
+
+                        return TimerCard(
+                          size: context.setMinSize(70),
+                          isRed: !isOnCycle,
+                          value: currentCycleValue.toString(),
+                          textStyle: AppTextStyles.fontSize16(context).copyWith(
+                            color: isOnCycle ? Colors.green : Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          currentValue: currentCycleValue,
+                          fullValue: fullCycleValue == 0
+                              ? 1
+                              : fullCycleValue, // Avoid division by 0
+                        );
+                      },
                     ),
+
                     const Spacer(),
-                    TimerCard(
-                      size: context.setMinSize(120),
-                      isRed: true,
-                      value: "04:40",
-                      textStyle: AppTextStyles.fontSize20(context).copyWith(
-                        color: AppColors.primaryColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      currentValue: 8,
-                      fullValue: 10,
+
+                    // Session Duration Timer
+                    BlocSelector<ControlPanelCubit, ControlPanelState,
+                        Duration>(
+                      selector: (state) => state.currentDuration,
+                      builder: (context, currentDuration) {
+                        return TimerCard(
+                          size: context.setMinSize(120),
+                          isRed: false,
+                          value: formatDuration(currentDuration),
+                          textStyle: AppTextStyles.fontSize24(context).copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          currentValue: currentDuration.inSeconds,
+                          fullValue: totalDuration.inSeconds,
+                        );
+                      },
                     ),
                     context.setMinSize(20).horizontalSpace,
+
+                    // Timers Control Panel
                     TimersControlPanel(
                       onChanged: (key, value) {
-                        // Implement changes to timer values here
                         context
                             .read<ControlPanelCubit>()
                             .onControlChanged(key, value);
@@ -70,7 +102,7 @@ class TimersControlSection extends StatelessWidget {
                 Divider(
                   color: AppColors.white71Color,
                   thickness: context.setMinSize(1),
-                )
+                ),
               ],
             ),
           ),

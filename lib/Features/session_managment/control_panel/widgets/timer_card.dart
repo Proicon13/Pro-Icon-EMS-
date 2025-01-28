@@ -5,8 +5,8 @@ class TimerCard extends StatelessWidget {
   final double size;
   final String value;
   final TextStyle textStyle;
-  final double currentValue;
-  final double fullValue;
+  final num currentValue;
+  final num fullValue;
   final bool isRed;
 
   const TimerCard({
@@ -21,7 +21,8 @@ class TimerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double percentage = currentValue / fullValue;
+    // Ensure fullValue is not zero to avoid division by zero
+    final double percentage = fullValue > 0 ? (currentValue / fullValue) : 0;
 
     return Stack(
       alignment: Alignment.center,
@@ -29,7 +30,7 @@ class TimerCard extends StatelessWidget {
         CircularSeekBar(
           width: size,
           height: size,
-          progress: percentage * 100,
+          progress: percentage * 100, // Safely calculated percentage
           barWidth: size * 0.06,
           startAngle: 0, // Start from top (12 o'clock position)
           sweepAngle: 360, // Full circle

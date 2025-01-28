@@ -21,7 +21,11 @@ class ControlPanelScreenBody extends StatelessWidget {
     return BlocListener<ControlPanelCubit, ControlPanelState>(
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
-        if (state.isError || state.isNotReady) {
+        if (state.isNotReady) {
+          buildCustomAlert(context, state.errorMessage!, Colors.red);
+          context.read<ControlPanelCubit>().pauseSession();
+        }
+        if (state.isError) {
           buildCustomAlert(context, state.errorMessage!, Colors.red);
         }
       },

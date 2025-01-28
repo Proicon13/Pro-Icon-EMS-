@@ -31,18 +31,26 @@ class ControlPanelState extends Equatable {
       selectedMads; // Selected Mads for individual mode
   final String? errorMessage;
   final bool isGroupMode; // True if group mode is active
-  final Duration totalDuration; // Total session duration
-  final int onTime; // On timer duration
-  final int offTime; // Off timer duration
-  final double ramp; // Ramp acceleration value
+  final Duration totalDuration; // Full duration of the session
+  final Duration currentDuration; // Dynamic countdown for the session
+  final int onTime; // Full On value
+  final int offTime; // Full Off value
+  final int currentOnTime; // Dynamic On countdown
+  final int currentOffTime; // Dynamic Off countdown
+  final double ramp; // ramp
   final ProgramEntity?
       selectedProgram; // selected program for manual mode (Program mode)
   final List<SessionProgram>?
       automaticSessionprograms; // List of programs> IF AUTOMATIC SESSION MODE APPLIED
-
+  final bool isOnCycle;
   final List<ProgramEntity> allPrograms; // List of all programs in program mode
+  final List<ProgramEntity> programsUsedInSession;
   const ControlPanelState({
     this.status = SessionStatus.initial,
+    this.programsUsedInSession = const [],
+    this.currentDuration = const Duration(minutes: 25),
+    this.currentOnTime = 0,
+    this.currentOffTime = 0,
     this.selectedSessionMode = SessionControlMode.program,
     this.controlPanelMads = const [],
     this.sharedMuscles = const {},
@@ -50,9 +58,10 @@ class ControlPanelState extends Equatable {
     this.allPrograms = const [],
     this.errorMessage = "",
     this.isGroupMode = false,
+    this.isOnCycle = true,
     this.totalDuration = const Duration(minutes: 25),
-    this.onTime = 0,
-    this.offTime = 0,
+    this.onTime = 8,
+    this.offTime = 8,
     this.ramp = 0,
     this.selectedProgram,
     this.automaticSessionprograms = const [],
@@ -67,9 +76,14 @@ class ControlPanelState extends Equatable {
     String? errorMessage,
     bool? isGroupMode,
     Duration? totalDuration,
+    Duration? currentDuration,
+    int? currentOnTime,
+    int? currentOffTime,
+    List<ProgramEntity>? programsUsedInSession,
     int? onTime,
     int? offTime,
     double? ramp,
+    bool? isOnCycle,
     ProgramEntity? selectedProgram,
     List<SessionProgram>? automaticSessionprograms,
     List<ProgramEntity>? allPrograms,
@@ -85,11 +99,17 @@ class ControlPanelState extends Equatable {
       onTime: onTime ?? this.onTime,
       offTime: offTime ?? this.offTime,
       ramp: ramp ?? this.ramp,
+      isOnCycle: isOnCycle ?? this.isOnCycle,
       selectedProgram: selectedProgram ?? this.selectedProgram,
       automaticSessionprograms:
           automaticSessionprograms ?? this.automaticSessionprograms,
       allPrograms: allPrograms ?? this.allPrograms,
       selectedSessionMode: selectedSessionMode ?? this.selectedSessionMode,
+      currentDuration: currentDuration ?? this.currentDuration,
+      currentOnTime: currentOnTime ?? this.currentOnTime,
+      currentOffTime: currentOffTime ?? this.currentOffTime,
+      programsUsedInSession:
+          programsUsedInSession ?? this.programsUsedInSession,
     );
   }
 
@@ -104,10 +124,15 @@ class ControlPanelState extends Equatable {
         totalDuration,
         onTime,
         offTime,
+        currentDuration,
+        currentOnTime,
+        currentOffTime,
         ramp,
         selectedProgram,
         automaticSessionprograms,
         allPrograms,
-        selectedSessionMode
+        selectedSessionMode,
+        isOnCycle,
+        programsUsedInSession
       ];
 }

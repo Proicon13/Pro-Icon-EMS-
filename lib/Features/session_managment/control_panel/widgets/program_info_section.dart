@@ -19,6 +19,7 @@ class ProgramInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ControlPanelCubit>();
     return Padding(
       padding: SizeConstants.kScaffoldPadding(context),
       child: BlocBuilder<ControlPanelCubit, ControlPanelState>(
@@ -52,7 +53,8 @@ class ProgramInfoSection extends StatelessWidget {
                       width: context.setMinSize(90),
                       child: CustomButton(
                         onPressed: () {
-                          //TODO: handle group mads functionality
+                          final isGroupMode = cubit.state.isGroupMode;
+                          cubit.onGroupModeToggle(!isGroupMode);
                         },
                         text: "Group",
                       ),
@@ -80,7 +82,6 @@ class ProgramInfoSection extends StatelessWidget {
           child: Builder(builder: (context) {
             return ControlPanelProgramCard(
               onTap: () {
-                print("Tapped");
                 showDialog(
                   context: context,
                   builder: (context) {

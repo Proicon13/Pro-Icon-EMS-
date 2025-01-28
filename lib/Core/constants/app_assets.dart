@@ -22,6 +22,10 @@ class Assets {
   /// assets/images/auto_sesson_svg_icon.svg
   static const String assetsImagesAutoSessonSvgIcon = "assets/images/auto_sesson_svg_icon.svg";
 
+  /// Assets for assetsImagesBateryIcon
+  /// assets/images/batery_icon.svg
+  static const String assetsImagesBateryIcon = "assets/images/batery_icon.svg";
+
   /// Assets for assetsImagesBluetoothDisconnectedIcon
   /// assets/images/bluetooth_disconnected_icon.svg
   static const String assetsImagesBluetoothDisconnectedIcon = "assets/images/bluetooth_disconnected_icon.svg";
@@ -66,6 +70,10 @@ class Assets {
   /// assets/images/confirmation_icon.svg
   static const String assetsImagesConfirmationIcon = "assets/images/confirmation_icon.svg";
 
+  /// Assets for assetsImagesDecreaseIcon
+  /// assets/images/decrease_icon.svg
+  static const String assetsImagesDecreaseIcon = "assets/images/decrease_icon.svg";
+
   /// Assets for assetsImagesDeleteIcon
   /// assets/images/delete_icon.svg
   static const String assetsImagesDeleteIcon = "assets/images/delete_icon.svg";
@@ -94,6 +102,10 @@ class Assets {
   /// assets/images/empty_state_icon.svg
   static const String assetsImagesEmptyStateIcon = "assets/images/empty_state_icon.svg";
 
+  /// Assets for assetsImagesErrorIcon
+  /// assets/images/error_icon.svg
+  static const String assetsImagesErrorIcon = "assets/images/error_icon.svg";
+
   /// Assets for assetsImagesFailure
   /// assets/images/failure.svg
   static const String assetsImagesFailure = "assets/images/failure.svg";
@@ -117,6 +129,10 @@ class Assets {
   /// Assets for assetsImagesHeartRateIcon
   /// assets/images/heart_rate_icon.svg
   static const String assetsImagesHeartRateIcon = "assets/images/heart_rate_icon.svg";
+
+  /// Assets for assetsImagesIncreaseIcon
+  /// assets/images/increase_icon.svg
+  static const String assetsImagesIncreaseIcon = "assets/images/increase_icon.svg";
 
   /// Assets for assetsImagesItalySvg
   /// assets/images/italySvg.svg
@@ -157,6 +173,10 @@ class Assets {
   /// Assets for assetsImagesMyProgramsIcon
   /// assets/images/my_programs_icon.svg
   static const String assetsImagesMyProgramsIcon = "assets/images/my_programs_icon.svg";
+
+  /// Assets for assetsImagesPauseIcon
+  /// assets/images/pause_icon.svg
+  static const String assetsImagesPauseIcon = "assets/images/pause_icon.svg";
 
   /// Assets for assetsImagesPhoneIcon
   /// assets/images/phone_icon.svg

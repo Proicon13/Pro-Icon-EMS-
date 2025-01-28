@@ -59,6 +59,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   }
 
   void onControlPanelMadTap(ControlPanelMad mad, int index) {
+    if (state.isGroupMode) return; // ignore if group mode
     final mads = [...state.controlPanelMads];
     if (mad.client == null) {
       mads[index] = mads[index].copyWith(
@@ -125,5 +126,96 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
       return;
     }
     emit(state.copyWith(ramp: value.toDouble()));
+  }
+
+  /// Adjusts a specific muscle value for the first selected Mad
+  void adjustMuscleValue(String muscleKey, bool isIncrement) {
+    final updatedMuscles = _validateAndFetchMuscles();
+    if (updatedMuscles == null) return;
+
+    if (!updatedMuscles.containsKey(muscleKey)) {
+      emit(state.copyWith(
+          status: SessionStatus.error,
+          errorMessage: "Invalid muscle selection."));
+      return;
+    }
+
+    // Adjust value with prevention for negative numbers
+    final int newValue = isIncrement
+        ? updatedMuscles[muscleKey]! + 1
+        : (updatedMuscles[muscleKey]! - 1).clamp(0, double.infinity).toInt();
+    updatedMuscles[muscleKey] = newValue;
+
+    _updateSelectedMad(updatedMuscles);
+  }
+
+  /// Increases all muscle values for the first selected Mad
+  void increaseAllMuscles() {
+    final updatedMuscles = _validateAndFetchMuscles();
+    if (updatedMuscles == null) return;
+
+    updatedMuscles.updateAll((key, value) => value + 1);
+    _updateSelectedMad(updatedMuscles);
+  }
+
+  /// Decreases all muscle values for the first selected Mad
+  void decreaseAllMuscles() {
+    final updatedMuscles = _validateAndFetchMuscles();
+    if (updatedMuscles == null) return;
+
+    updatedMuscles.updateAll(
+        (key, value) => (value - 1).clamp(0, double.infinity).toInt());
+    _updateSelectedMad(updatedMuscles);
+  }
+
+  /// ✅ **Extracted Function: Validates & Fetches Muscle Map**
+  Map<String, int>? _validateAndFetchMuscles() {
+    if (state.selectedMads!.isEmpty) return null;
+
+    final selectedMad = state.selectedMads!.first;
+
+    // Ensure the Mad has a client assigned
+    if (selectedMad.client == null) {
+      emit(state.copyWith(
+          status: SessionStatus.notReady,
+          errorMessage: "Client not assigned."));
+      return null;
+    }
+
+    // Ensure Bluetooth and Heart Rate sensors are connected
+    if (!selectedMad.isBluetoothConnected! ||
+        !selectedMad.isHeartRateSensorConnected!) {
+      emit(state.copyWith(
+          status: SessionStatus.notReady,
+          errorMessage:
+              "Ensure Bluetooth and Heart Rate sensors are connected."));
+      return null;
+    }
+
+    return Map<String, int>.from(selectedMad.musclesPercentage);
+  }
+
+  void _updateSelectedMad(Map<String, int> updatedMuscles) {
+    final updatedMad =
+        state.selectedMads!.first.copyWith(musclesPercentage: updatedMuscles);
+    final updatedMads = [...state.selectedMads!];
+    updatedMads[0] = updatedMad;
+
+    final updatedControlPanelMads = state.controlPanelMads.map((mad) {
+      return mad.madNo == updatedMad.madNo ? updatedMad : mad;
+    }).toList();
+
+    emit(state.copyWith(
+        selectedMads: updatedMads, controlPanelMads: updatedControlPanelMads));
+  }
+
+  void onGroupModeToggle(bool isGroupMode) {
+    if (state.controlPanelMads.isEmpty) return;
+
+    emit(state.copyWith(
+      isGroupMode: isGroupMode,
+      selectedMads:
+          isGroupMode ? state.controlPanelMads : [state.controlPanelMads.first],
+    ));
   }
 }

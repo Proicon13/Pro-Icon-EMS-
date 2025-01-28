@@ -3,6 +3,7 @@ part of 'control_panel_cubit.dart';
 enum SessionStatus {
   initial,
   intializing,
+  notReady,
   ready,
   running,
   paused,
@@ -18,6 +19,7 @@ extension SessionStatusExtension on ControlPanelState {
   bool get isStopped => this.status == SessionStatus.stopped;
   bool get isError => this.status == SessionStatus.error;
   bool get isReady => this.status == SessionStatus.ready;
+  bool get isNotReady => this.status == SessionStatus.notReady;
 }
 
 class ControlPanelState extends Equatable {

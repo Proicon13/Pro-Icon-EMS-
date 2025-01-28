@@ -22,6 +22,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
 
   Timer? _sessionTimer;
   Timer? _onOffTimer;
+  Timer? _programTimer;
 
   void onInit(
       {required SessionControlMode mode,
@@ -62,8 +63,54 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
         programsUsedInSession: [...state.programsUsedInSession, program]));
   }
 
+  void _startProgramTimer() {
+    _programTimer?.cancel();
+
+    if (state.automaticSessionprograms == null ||
+        state.automaticSessionprograms!.isEmpty) return;
+
+    final currentProgram =
+        state.automaticSessionprograms![state.currentProgramIndex];
+
+    emit(state.copyWith(
+        currentProgramDuration: Duration(seconds: currentProgram.duration!)));
+
+    _programTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (state.currentProgramDuration.inSeconds == 15) {
+        emit(state.copyWith(isProgramTransitioning: true));
+      }
+
+      if (state.currentProgramDuration.inSeconds <= 0) {
+        timer.cancel();
+        _transitionToNextProgram();
+      } else {
+        emit(state.copyWith(
+          currentProgramDuration:
+              state.currentProgramDuration - const Duration(seconds: 1),
+        ));
+      }
+    });
+  }
+
+  void _transitionToNextProgram() {
+    final nextIndex = state.currentProgramIndex + 1;
+
+    if (nextIndex >= state.automaticSessionprograms!.length) {
+      stopSession(); // End session when all programs are done
+      return;
+    }
+    // pause session and set next program index
+    pauseSession();
+    emit(state.copyWith(
+      currentProgramIndex: nextIndex,
+      isProgramTransitioning: false, // Reset UI flag
+    ));
+  }
+
   void setAutomaticSessionPrograms(List<SessionProgram> programs) {
-    emit(state.copyWith(automaticSessionprograms: programs));
+    emit(state.copyWith(
+        currentProgramDuration: Duration(seconds: programs[0].duration ?? 15),
+        automaticSessionprograms: programs));
   }
 
   void setAllPrograms(List<ProgramEntity> programs) {
@@ -267,6 +314,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     // Dispose timers to free resources
     _sessionTimer?.cancel();
     _onOffTimer?.cancel();
+    _programTimer?.cancel();
 
     // Call super.close to ensure proper Cubit closure
     return super.close();
@@ -339,33 +387,42 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
       }
     });
 
+    if (state.selectedSessionMode == SessionControlMode.auto) {
+      // start program timer if in auto mode
+      _startProgramTimer();
+    }
     // Start on/off timer
     _startOnOffTimer();
   }
 
   void pauseSession() {
-    // Stop all active timers
     _sessionTimer?.cancel();
     _onOffTimer?.cancel();
+    _programTimer?.cancel();
 
-    // Reset on/off timers and cycle state
     emit(state.copyWith(
-      isOnCycle: true, // Reset cycle to "On"
-      currentOnTime: 0, // Reset current "On" time
-      currentOffTime: 0, // Reset current "Off" time
-      status: SessionStatus.paused, // Update session status
+      isOnCycle: true,
+      currentOnTime: 0,
+      currentOffTime: 0,
+      isProgramTransitioning: false, // Hide transition UI
+      status: SessionStatus.paused,
     ));
   }
 
   void stopSession() {
     _sessionTimer?.cancel();
     _onOffTimer?.cancel();
+    _programTimer?.cancel();
+
     emit(state.copyWith(
       status: SessionStatus.stopped,
-      totalDuration: const Duration(minutes: 25),
-      onTime: 0,
-      offTime: 0,
-      isOnCycle: true, // Reset cycle to On
+      currentDuration: state.totalDuration,
+      onTime: state.onTime,
+      offTime: state.offTime,
+      isOnCycle: true,
+      isProgramTransitioning: false,
+      currentProgramIndex: 0,
+      currentProgramDuration: Duration.zero,
     ));
   }
 

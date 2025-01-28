@@ -18,7 +18,8 @@ class SelectCategoryWidget extends StatelessWidget {
     return BlocBuilder<SessionCubit, SessionState>(
       buildWhen: (previous, current) =>
           previous.categriesMangement != current.categriesMangement ||
-          previous.selectedSessionMode != current.selectedSessionMode,
+          previous.selectedSessionMode != current.selectedSessionMode ||
+          previous.automaticSessions != current.automaticSessions,
       builder: (context, state) {
         if (state.selectedSessionMode == SessionControlMode.program) {
           return DropdownFormSection<CategoryEntity>(

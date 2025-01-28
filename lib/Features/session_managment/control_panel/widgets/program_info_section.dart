@@ -10,9 +10,12 @@ import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/cubits/cubit/control_panel_cubit.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/select_program_dialog.dart';
 import 'package:pro_icon/Features/session_managment/session_setup/cubits/cubit/session_setup_state.dart';
+import 'package:pro_icon/data/mappers/program_entity_mapper.dart';
 
 import '../../../../Core/constants/app_assets.dart';
+import '../../../../Core/theme/app_text_styles.dart';
 import 'control_panel_program_card.dart';
+import 'timer_card.dart';
 
 class ProgramInfoSection extends StatelessWidget {
   const ProgramInfoSection({super.key});
@@ -27,45 +30,131 @@ class ProgramInfoSection extends StatelessWidget {
           if (state.isError) {
             return const SizedBox.shrink();
           }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: context.sizeConfig.width,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        //TODO: handle reset session event
-                      },
-                      child: CustomSvgVisual(
-                        assetPath: Assets.assetsImagesResetIcon,
-                        width: context.setMinSize(40),
-                        height: context.setMinSize(40),
-                      ),
-                    ),
-                    const Spacer(),
-                    if (state.selectedSessionMode != SessionControlMode.auto)
-                      _buildProgramModeView(state),
-                    (context.screenWidth * 0.15).horizontalSpace,
-                    SizedBox(
-                      width: context.setMinSize(90),
-                      child: CustomButton(
-                        onPressed: () {
-                          final isGroupMode = cubit.state.isGroupMode;
-                          cubit.onGroupModeToggle(!isGroupMode);
-                        },
-                        text: "Group",
-                      ),
-                    ),
-                  ],
+          return SizedBox(
+            width: context.sizeConfig.width,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    //TODO: handle reset session event
+                  },
+                  child: CustomSvgVisual(
+                    assetPath: Assets.assetsImagesResetIcon,
+                    width: context.setMinSize(40),
+                    height: context.setMinSize(40),
+                  ),
                 ),
-              ),
-            ],
+                state.selectedSessionMode == SessionControlMode.auto
+                    ? const SizedBox.shrink()
+                    : const Spacer(),
+                state.selectedSessionMode == SessionControlMode.auto
+                    ? _buildAutoModeView()
+                    : _buildProgramModeView(state),
+                state.selectedSessionMode == SessionControlMode.auto
+                    ? const Spacer()
+                    : (context.screenWidth * 0.15).horizontalSpace,
+                SizedBox(
+                  width: context.setMinSize(90),
+                  child: CustomButton(
+                    onPressed: () {
+                      final isGroupMode = cubit.state.isGroupMode;
+                      cubit.onGroupModeToggle(!isGroupMode);
+                    },
+                    text: "Group",
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),
+    );
+  }
+
+  Widget _buildAutoModeView() {
+    return BlocBuilder<ControlPanelCubit, ControlPanelState>(
+      buildWhen: (previous, current) =>
+          previous.currentProgramIndex != current.currentProgramIndex ||
+          previous.isProgramTransitioning != current.isProgramTransitioning ||
+          previous.currentProgramDuration != current.currentProgramDuration,
+      builder: (context, state) {
+        if (state.automaticSessionprograms == null ||
+            state.automaticSessionprograms!.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        final currentProgram =
+            state.automaticSessionprograms![state.currentProgramIndex];
+        final nextProgramIndex = state.currentProgramIndex + 1;
+        final nextProgram =
+            nextProgramIndex < state.automaticSessionprograms!.length
+                ? state.automaticSessionprograms![nextProgramIndex]
+                : null;
+
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (nextProgram != null) // Show next program only if available
+              Column(
+                children: [
+                  Container(
+                    child: Opacity(
+                      opacity: 0.7,
+                      child: SizeConfig(
+                        baseSize: const Size(100, 115),
+                        width: context.setMinSize(100),
+                        height: context.setMinSize(115),
+                        child: ControlPanelProgramCard(
+                            program: ProgramModelToEntityMapper
+                                .mapProgramModelToEntity(nextProgram.program!)),
+                      ),
+                    ),
+                  ),
+                  state.isProgramTransitioning
+                      ? TimerCard(
+                          size: context.setMinSize(30), // Small timer size
+                          isRed: true,
+                          value:
+                              state.currentProgramDuration.inSeconds.toString(),
+                          textStyle: AppTextStyles.fontSize12(context).copyWith(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          currentValue: state.currentProgramDuration.inSeconds,
+                          fullValue: 15,
+                        )
+                      : const SizedBox.shrink(),
+                ],
+              ),
+            nextProgram != null
+                ? context.setMinSize(10).horizontalSpace
+                : context
+                    .setMinSize(110)
+                    .horizontalSpace, // Spacing between cards
+            if (nextProgram != null)
+              Container(
+                margin: EdgeInsets.only(top: context.setMinSize(10)),
+                child: Icon(Icons.arrow_forward,
+                    color: Colors.white, size: context.setMinSize(24)),
+              ),
+            nextProgram != null
+                ? context.setMinSize(10).horizontalSpace
+                : const SizedBox.shrink(),
+            SizeConfig(
+              baseSize: const Size(120, 140),
+              width: context.setMinSize(120),
+              height: context.setMinSize(140),
+              child: Builder(builder: (context) {
+                return ControlPanelProgramCard(
+                    program: ProgramModelToEntityMapper.mapProgramModelToEntity(
+                        currentProgram.program!));
+              }),
+            ), // Current program card
+          ],
+        );
+      },
     );
   }
 

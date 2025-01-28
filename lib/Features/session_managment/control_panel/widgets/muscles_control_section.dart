@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
-import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/cubits/cubit/control_panel_cubit.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/session_control_row.dart';
@@ -28,7 +27,6 @@ class MusclesControlSection extends StatelessWidget {
             enabled: state.isInitializing,
             child: Column(
               children: [
-                context.setMinSize(10).verticalSpace,
                 BlocSelector<ControlPanelCubit, ControlPanelState,
                     Map<String, int>>(
                   selector: (state) {

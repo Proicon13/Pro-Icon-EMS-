@@ -24,6 +24,10 @@ extension SessionStatusExtension on ControlPanelState {
 
 class ControlPanelState extends Equatable {
   final SessionStatus status;
+  final int currentProgramIndex; // Which program is active
+  final Duration
+      currentProgramDuration; // Remaining time for the current program
+  final bool isProgramTransitioning;
   final SessionControlMode? selectedSessionMode;
   final List<ControlPanelMad> controlPanelMads;
   final Map<String, int> sharedMuscles; // Shared muscle map for group mode
@@ -47,6 +51,9 @@ class ControlPanelState extends Equatable {
   final List<ProgramEntity> programsUsedInSession;
   const ControlPanelState({
     this.status = SessionStatus.initial,
+    this.currentProgramIndex = 0,
+    this.currentProgramDuration = Duration.zero,
+    this.isProgramTransitioning = false,
     this.programsUsedInSession = const [],
     this.currentDuration = const Duration(minutes: 25),
     this.currentOnTime = 0,
@@ -69,6 +76,9 @@ class ControlPanelState extends Equatable {
 
   ControlPanelState copyWith({
     SessionStatus? status,
+    int? currentProgramIndex,
+    Duration? currentProgramDuration,
+    bool? isProgramTransitioning,
     SessionControlMode? selectedSessionMode,
     List<ControlPanelMad>? controlPanelMads,
     Map<String, int>? sharedMuscles,
@@ -110,6 +120,11 @@ class ControlPanelState extends Equatable {
       currentOffTime: currentOffTime ?? this.currentOffTime,
       programsUsedInSession:
           programsUsedInSession ?? this.programsUsedInSession,
+      currentProgramIndex: currentProgramIndex ?? this.currentProgramIndex,
+      currentProgramDuration:
+          currentProgramDuration ?? this.currentProgramDuration,
+      isProgramTransitioning:
+          isProgramTransitioning ?? this.isProgramTransitioning,
     );
   }
 
@@ -133,6 +148,9 @@ class ControlPanelState extends Equatable {
         allPrograms,
         selectedSessionMode,
         isOnCycle,
-        programsUsedInSession
+        programsUsedInSession,
+        currentProgramIndex,
+        currentProgramDuration,
+        isProgramTransitioning
       ];
 }

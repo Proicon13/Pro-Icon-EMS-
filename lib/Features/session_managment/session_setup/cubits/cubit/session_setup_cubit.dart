@@ -61,7 +61,7 @@ class SessionCubit extends Cubit<SessionState> {
     if (state.automaticSessions.isNotEmpty) return;
 
     final response = await autoSessionService.getAutomaticSessions(
-      type: "AUTOMATIC",
+      type: "CUSTOM",
       perPage: 2 * ApiConstants.defaultPerPage,
     );
 

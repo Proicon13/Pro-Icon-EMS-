@@ -4,6 +4,7 @@ import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/cubits/cubit/control_panel_cubit.dart';
+import 'package:pro_icon/Features/session_managment/control_panel/widgets/assign_client_dialog.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/control_panel_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -40,13 +41,13 @@ class ControlPanelMadsSection extends StatelessWidget {
   }
 
   Widget _buildLoadedContent(
-      BuildContext context, ControlPanelState state, ControlPanelCubit cubit) {
+      BuildContext ctx, ControlPanelState state, ControlPanelCubit cubit) {
     return Column(
       children: [
         SizeConfig(
           baseSize: const Size(125, 140),
-          width: context.setMinSize(125),
-          height: context.setMinSize(140),
+          width: ctx.setMinSize(125),
+          height: ctx.setMinSize(140),
           child: Builder(builder: (context) {
             return SizedBox(
               height: context.sizeConfig.height,
@@ -61,9 +62,21 @@ class ControlPanelMadsSection extends StatelessWidget {
                       mad: controlPanelMad,
                       isSelected: state.selectedMads!.contains(controlPanelMad),
                       onTap: () {
-                        //TODO: if client is null change selected and open client dialog
-
                         cubit.onControlPanelMadTap(controlPanelMad, index);
+                        if (controlPanelMad.client == null) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AssignClientDialog(
+                                  onClientSelect: (client) {
+                                    Navigator.pop(context);
+                                    ctx
+                                        .read<ControlPanelCubit>()
+                                        .onClientMadAssign(client, index);
+                                  },
+                                );
+                              });
+                        }
                       },
                       onLongPress: () {
                         // TODO: open BLUETOOTH dialog TO SELECT DEVICE TO CONNECT
@@ -74,12 +87,12 @@ class ControlPanelMadsSection extends StatelessWidget {
             );
           }),
         ),
-        context.setMinSize(10).verticalSpace,
+        ctx.setMinSize(10).verticalSpace,
         Padding(
-          padding: SizeConstants.kScaffoldPadding(context),
+          padding: SizeConstants.kScaffoldPadding(ctx),
           child: Divider(
             color: AppColors.lightGreyColor,
-            thickness: context.setMinSize(1),
+            thickness: ctx.setMinSize(1),
           ),
         )
       ],

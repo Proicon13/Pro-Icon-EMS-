@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
+import 'package:pro_icon/Core/entities/client_entity.dart';
 import 'package:pro_icon/Core/entities/program_entity.dart';
 import 'package:pro_icon/Features/session_managment/session_setup/cubits/cubit/session_setup_state.dart';
 import 'package:pro_icon/data/models/auto_session_model.dart';
@@ -10,8 +11,8 @@ import 'package:pro_icon/data/repos/session_control_panel_repo.dart';
 
 import '../../../../../Core/dependencies.dart';
 import '../../../../../Core/entities/automatic_session_entity.dart';
-import '../../../../../Core/entities/client_entity.dart';
 import '../../../../../Core/entities/control_panel_mad.dart';
+import '../../../../../Core/entities/user_entity.dart';
 
 part 'control_panel_state.dart';
 
@@ -117,16 +118,17 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     emit(state.copyWith(allPrograms: programs));
   }
 
+  void onClientMadAssign(UserEntity client, int index) {
+    final mads = [...state.controlPanelMads];
+    final updatedMad = mads[index].copyWith(client: client as ClientEntity);
+    mads[index] = updatedMad;
+    emit(state.copyWith(controlPanelMads: mads, selectedMads: [updatedMad]));
+  }
+
   void onControlPanelMadTap(ControlPanelMad mad, int index) {
     if (state.isGroupMode) return; // ignore if group mode
     final mads = [...state.controlPanelMads];
-    if (mad.client == null) {
-      mads[index] = mads[index].copyWith(
-          heartRate: 80,
-          isBluetoothConnected: true,
-          isHeartRateSensorConnected: true,
-          client: const ClientEntity(id: 0, fullname: 'Moaid Mohamed'));
-    }
+
     emit(state.copyWith(selectedMads: [mads[index]], controlPanelMads: mads));
   }
 

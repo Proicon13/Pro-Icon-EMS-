@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pro_icon/Core/cubits/client_managment/client_managment_cubit.dart';
 import 'package:pro_icon/Core/cubits/phone_registration/phone_register_cubit.dart';
 import 'package:pro_icon/Core/cubits/region_cubit/region_cubit.dart';
 import 'package:pro_icon/Core/local_storage/hive_consumer.dart';
@@ -242,6 +243,12 @@ void setupDependencies() {
   getIt.registerFactory<ControlPanelCubit>(
     () => ControlPanelCubit(
       sessionManagementRepository: getIt(),
+    ),
+  );
+
+  getIt.registerFactory<ClientManagementCubit>(
+    () => ClientManagementCubit(
+      clientsService: getIt(),
     ),
   );
 }

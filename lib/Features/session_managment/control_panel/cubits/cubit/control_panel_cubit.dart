@@ -67,27 +67,29 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   void _startProgramTimer() {
     _programTimer?.cancel();
 
-    if (state.automaticSessionprograms == null ||
-        state.automaticSessionprograms!.isEmpty) return;
+    if (state.currentProgramDuration.inSeconds <= 0) return;
 
-    final currentProgram =
-        state.automaticSessionprograms![state.currentProgramIndex];
+    // ✅ Fix: Force UI update *immediately* to prevent the 1-sec delay
+    final remainingSessionTime = state.currentDuration.inSeconds;
+    final isTransitioning = (state.currentProgramDuration.inSeconds <= 15) &&
+        (remainingSessionTime > 15);
 
     emit(state.copyWith(
-        currentProgramDuration: Duration(seconds: currentProgram.duration!)));
+      isProgramTransitioning: isTransitioning,
+    ));
 
     _programTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (state.currentProgramDuration.inSeconds == 15) {
-        emit(state.copyWith(isProgramTransitioning: true));
-      }
+      final newDuration =
+          state.currentProgramDuration - const Duration(seconds: 1);
 
-      if (state.currentProgramDuration.inSeconds <= 0) {
+      if (newDuration.inSeconds <= 0) {
         timer.cancel();
         _transitionToNextProgram();
       } else {
         emit(state.copyWith(
-          currentProgramDuration:
-              state.currentProgramDuration - const Duration(seconds: 1),
+          currentProgramDuration: newDuration,
+          isProgramTransitioning:
+              (newDuration.inSeconds <= 15) && (remainingSessionTime > 15),
         ));
       }
     });
@@ -97,14 +99,50 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     final nextIndex = state.currentProgramIndex + 1;
 
     if (nextIndex >= state.automaticSessionprograms!.length) {
-      stopSession(); // End session when all programs are done
+      stopSession(); // End session if all programs are completed
       return;
     }
-    // pause session and set next program index
+
+    // Pause session before switching programs
     pauseSession();
+
+    // Fetch next program
+    final nextProgram = state.automaticSessionprograms![nextIndex];
+
+    // ✅ Update muscle values for the new program
+    _updateAllMuscleValues(nextProgram.pulse ?? 0);
+
+    // ✅ Fix: Update `currentProgramDuration` to new program duration
     emit(state.copyWith(
       currentProgramIndex: nextIndex,
-      isProgramTransitioning: false, // Reset UI flag
+      currentProgramDuration: Duration(seconds: nextProgram.duration!),
+      isProgramTransitioning: false, // Reset transition state
+    ));
+  }
+
+  void _updateAllMuscleValues(int adjustment) {
+    final updatedMads = state.controlPanelMads.map((mad) {
+      final updatedMuscles = mad.musclesPercentage.map((muscle, value) {
+        return MapEntry(
+            muscle, (value + adjustment).clamp(0, double.infinity).toInt());
+      });
+
+      return mad.copyWith(musclesPercentage: updatedMuscles);
+    }).toList();
+
+    // Update selectedMads as well (first Mad is always selected in non-group mode)
+    final updatedSelectedMads = state.selectedMads!.map((mad) {
+      final updatedMuscles = mad.musclesPercentage.map((muscle, value) {
+        return MapEntry(
+            muscle, (value + adjustment).clamp(0, double.infinity).toInt());
+      });
+
+      return mad.copyWith(musclesPercentage: updatedMuscles);
+    }).toList();
+
+    emit(state.copyWith(
+      controlPanelMads: updatedMads,
+      selectedMads: updatedSelectedMads,
     ));
   }
 
@@ -128,7 +166,10 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   void onControlPanelMadTap(ControlPanelMad mad, int index) {
     if (state.isGroupMode) return; // ignore if group mode
     final mads = [...state.controlPanelMads];
-
+    if (!mad.isBluetoothConnected! && !mad.isHeartRateSensorConnected!) {
+      mads[index] = mads[index].copyWith(
+          isBluetoothConnected: true, isHeartRateSensorConnected: true);
+    }
     emit(state.copyWith(selectedMads: [mads[index]], controlPanelMads: mads));
   }
 

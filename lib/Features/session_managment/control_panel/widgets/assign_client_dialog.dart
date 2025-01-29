@@ -9,6 +9,8 @@ import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/custom_circular_image.dart';
 import 'package:pro_icon/Core/widgets/custom_loader.dart';
 import 'package:pro_icon/Core/widgets/keyboard_dismissable.dart';
+import 'package:pro_icon/Features/clients/add_client/screens/add_client_screen.dart';
+import 'package:pro_icon/Features/session_managment/control_panel/screens/control_panel_screen.dart';
 
 import '../../../../Core/cubits/client_managment/client_managment_cubit.dart';
 import '../../../../Core/dependencies.dart';
@@ -64,6 +66,9 @@ class AssignClientDialog extends StatelessWidget {
                           .read<ClientManagementCubit>()
                           .handleSearch(query),
                       onAddPressed: () {
+                        Navigator.popAndPushNamed(
+                            context, AddClientScreen.routeName,
+                            arguments: ControlPanelScreen.routeName);
                         // Handle add client action
                       },
                     ),
@@ -81,7 +86,8 @@ class AssignClientDialog extends StatelessWidget {
                             previous.searchList != current.searchList ||
                             previous.isSearching != current.isSearching ||
                             previous.isPaginationLoading !=
-                                current.isPaginationLoading,
+                                current.isPaginationLoading ||
+                            previous.canFetchMore != current.canFetchMore,
                         builder: (context, state) {
                           final clientList = state.isSearching
                               ? state.searchList

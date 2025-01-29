@@ -18,6 +18,7 @@ import 'package:pro_icon/data/models/client_regestraion_request_builder.dart';
 
 import '../../../../Core/dependencies.dart';
 import '../../../main/cubit/cubit/main_cubit.dart';
+import '../../../session_managment/control_panel/screens/control_panel_screen.dart';
 
 class ClientAdditionalDataScreen extends StatefulWidget {
   static const routeName = '/client-additional-data';
@@ -75,7 +76,8 @@ class _ClientAdditionalDataScreenState
                           arguments: MainSections.users,
                         );
                       } else {
-                        Navigator.pushReplacementNamed(context, widget.toRoute);
+                        Navigator.popUntil(context,
+                            ModalRoute.withName(ControlPanelScreen.routeName));
                       }
                     }
                   });

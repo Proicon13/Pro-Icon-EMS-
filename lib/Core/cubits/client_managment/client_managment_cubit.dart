@@ -43,12 +43,10 @@ class ClientManagementCubit extends Cubit<ClientManagementState> {
         isPaginationLoading: false,
       )),
       (clientsResponse) {
-        final List<UserEntity> updatedClients = List<UserEntity>.from(
-            state.clients)
-          ..addAll(
-              clientsResponse.data); // Create a new list before adding new data
+        final updatedClients = List<UserEntity>.from(state.clients)
+          ..addAll(clientsResponse.data);
         emit(state.copyWith(
-          clients: page == 1 ? clientsResponse.data : updatedClients,
+          clients: updatedClients,
           message: "",
           totalPages: clientsResponse.totalPages,
           currentPage: page + 1,

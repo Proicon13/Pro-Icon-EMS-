@@ -3,7 +3,7 @@ part of 'client_managment_cubit.dart';
 enum RequestStatus { loading, loaded, error }
 
 extension ClientManagementStateX on ClientManagementState {
-  bool get canFetchMore => currentPage < totalPages;
+  bool get canFetchMore => currentPage <= totalPages;
 }
 
 class ClientManagementState extends Equatable {

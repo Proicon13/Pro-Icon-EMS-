@@ -5,7 +5,6 @@ import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
-import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/cubits/cubit/control_panel_cubit.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/select_program_dialog.dart';
@@ -13,6 +12,7 @@ import 'package:pro_icon/Features/session_managment/session_setup/cubits/cubit/s
 import 'package:pro_icon/data/mappers/program_entity_mapper.dart';
 
 import '../../../../Core/constants/app_assets.dart';
+import '../../../../Core/theme/app_colors.dart';
 import '../../../../Core/theme/app_text_styles.dart';
 import 'control_panel_program_card.dart';
 import 'timer_card.dart';
@@ -30,42 +30,63 @@ class ProgramInfoSection extends StatelessWidget {
           if (state.isError) {
             return const SizedBox.shrink();
           }
-          return SizedBox(
-            width: context.sizeConfig.width,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    //TODO: handle reset session event
-                  },
-                  child: CustomSvgVisual(
-                    assetPath: Assets.assetsImagesResetIcon,
-                    width: context.setMinSize(40),
-                    height: context.setMinSize(40),
-                  ),
+          return SizeConfig(
+            baseSize: const Size(398, 150),
+            width: context.setMinSize(398),
+            height: context.setMinSize(150),
+            child: Builder(builder: (context) {
+              return Container(
+                width: context.sizeConfig.width,
+                height: context.sizeConfig.height,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        //TODO: handle reset session event
+                      },
+                      child: CustomSvgVisual(
+                        assetPath: Assets.assetsImagesResetIcon,
+                        width: context.setMinSize(40),
+                        height: context.setMinSize(40),
+                      ),
+                    ),
+                    const Spacer(),
+                    state.selectedSessionMode == SessionControlMode.auto
+                        ? _buildAutoModeView()
+                        : _buildProgramModeView(state),
+                    const Spacer(),
+                    SizeConfig(
+                      baseSize: const Size(85, 50),
+                      width: context.setMinSize(85),
+                      height: context.setMinSize(50),
+                      child: Builder(builder: (context) {
+                        return SizedBox(
+                          width: context.sizeConfig.width,
+                          child: MaterialButton(
+                            height: context.sizeConfig.height,
+                            onPressed: () {
+                              cubit.onGroupModeToggle(!state.isGroupMode);
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  SizeConstants.kDefaultBorderRadius(context),
+                            ),
+                            color: AppColors.primaryColor,
+                            child: Text("Group",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: context.setSp(15),
+                                )),
+                          ),
+                        );
+                      }),
+                    ),
+                  ],
                 ),
-                state.selectedSessionMode == SessionControlMode.auto
-                    ? const SizedBox.shrink()
-                    : const Spacer(),
-                state.selectedSessionMode == SessionControlMode.auto
-                    ? _buildAutoModeView()
-                    : _buildProgramModeView(state),
-                state.selectedSessionMode == SessionControlMode.auto
-                    ? const Spacer()
-                    : (context.screenWidth * 0.15).horizontalSpace,
-                SizedBox(
-                  width: context.setMinSize(90),
-                  child: CustomButton(
-                    onPressed: () {
-                      final isGroupMode = cubit.state.isGroupMode;
-                      cubit.onGroupModeToggle(!isGroupMode);
-                    },
-                    text: "Group",
-                  ),
-                ),
-              ],
-            ),
+              );
+            }),
           );
         },
       ),

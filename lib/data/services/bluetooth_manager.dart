@@ -5,15 +5,13 @@ import 'package:permission_handler/permission_handler.dart';
 
 class BluetoothManager {
   Future<bool> _ensurePermissionsAndServices() async {
-    // 🔹 Check Bluetooth
     final bool isBluetoothOn = await _checkBluetooth();
     if (!isBluetoothOn) return false;
 
-    // 🔹 Check Location Permissions
     final bool isLocationEnabled = await _checkLocationPermissions();
     if (!isLocationEnabled) return false;
 
-    return true; // ✅ Ready to scan
+    return true;
   }
 
   Future<bool> _checkBluetooth() async {
@@ -95,22 +93,22 @@ class BluetoothManager {
   }
 
   /// **🔗 Connect to a Bluetooth Device**
-  Future<void> connectToDevice(BluetoothDevice device) async {
+  Future<bool> connectToDevice(BluetoothDevice device) async {
     try {
       await device.connect();
+      return true;
     } catch (e) {
-      print("Connection Error: $e");
-      rethrow;
+      return false;
     }
   }
 
   /// **🔌 Disconnect from a Bluetooth Device**
-  Future<void> disconnectFromDevice(BluetoothDevice device) async {
+  Future<bool> disconnectFromDevice(BluetoothDevice device) async {
     try {
       await device.disconnect();
+      return true;
     } catch (e) {
-      print("Disconnection Error: $e");
-      rethrow;
+      return false;
     }
   }
 

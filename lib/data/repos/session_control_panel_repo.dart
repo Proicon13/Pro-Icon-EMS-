@@ -64,15 +64,20 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
       ControlPanelMad mad, BluetoothDevice device, bool isHeartRate) async {
     try {
       late ControlPanelMad updatedMad;
-      await bluetoothManager.connectToDevice(device);
-      if (isHeartRate) {
-        updatedMad = mad.updateBluetoothStatus(
-            newHeartRateDevice: device, heartRateConnected: true);
+      final result = await bluetoothManager.connectToDevice(device);
+      if (result) {
+        if (isHeartRate) {
+          updatedMad = mad.updateBluetoothStatus(
+              newHeartRateDevice: device, heartRateConnected: true);
+        } else {
+          updatedMad = mad.updateBluetoothStatus(
+              newMadDevice: device, madConnected: true);
+        }
+        return Right(updatedMad);
       } else {
-        updatedMad =
-            mad.updateBluetoothStatus(newMadDevice: device, madConnected: true);
+        return const Left(
+            BluetoothFailure(message: "Failed to connect to device"));
       }
-      return Right(updatedMad);
     } catch (e) {
       return Left(BluetoothFailure(message: "Failed to connect: $e"));
     }

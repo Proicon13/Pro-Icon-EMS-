@@ -5,6 +5,7 @@ import 'package:pro_icon/Core/entities/automatic_session_entity.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 
 import '../../../../Core/entities/category_entity.dart';
+import '../../../../Core/utils/responsive_helper/size_config.dart';
 import '../../../../Core/widgets/custom_circular_image.dart';
 import '../../../../Core/widgets/custom_dropdown_section.dart';
 import '../cubits/cubit/session_setup_cubit.dart';
@@ -34,15 +35,26 @@ class SelectCategoryWidget extends StatelessWidget {
               items: state.categriesMangement
                   .map((category) => DropdownMenuItem<CategoryEntity>(
                         value: category,
-                        child: Row(
-                          children: [
-                            CustomCircularImage(
-                                width: context.setMinSize(20),
-                                height: context.setMinSize(20),
-                                imageUrl: "${category.image}"),
-                            context.setMinSize(10).horizontalSpace,
-                            Text("${category.name}")
-                          ],
+                        child: SizeConfig(
+                          baseSize: const Size(398, 65),
+                          width: context.setMinSize(398),
+                          height: context.setMinSize(65),
+                          child: Builder(builder: (context) {
+                            return SizedBox(
+                              width: double.infinity,
+                              height: context.sizeConfig.height,
+                              child: Row(
+                                children: [
+                                  CustomCircularImage(
+                                      width: context.setMinSize(40),
+                                      height: context.setMinSize(40),
+                                      imageUrl: "${category.image}"),
+                                  context.setMinSize(20).horizontalSpace,
+                                  Text("${category.name}")
+                                ],
+                              ),
+                            );
+                          }),
                         ),
                       ))
                   .toList());
@@ -60,15 +72,26 @@ class SelectCategoryWidget extends StatelessWidget {
             items: state.automaticSessions
                 .map((session) => DropdownMenuItem<AutomaticSessionEntity>(
                       value: session,
-                      child: Row(
-                        children: [
-                          CustomCircularImage(
-                              width: context.setMinSize(20),
-                              height: context.setMinSize(20),
-                              imageUrl: ""),
-                          context.setMinSize(10).horizontalSpace,
-                          Text("${session.name}")
-                        ],
+                      child: SizeConfig(
+                        baseSize: const Size(398, 65),
+                        width: context.setMinSize(398),
+                        height: context.setMinSize(65),
+                        child: Builder(builder: (context) {
+                          return SizedBox(
+                            width: double.infinity,
+                            height: context.sizeConfig.height,
+                            child: Row(
+                              children: [
+                                CustomCircularImage(
+                                    width: context.setMinSize(40),
+                                    height: context.setMinSize(40),
+                                    imageUrl: ""),
+                                context.setMinSize(30).horizontalSpace,
+                                Text("${session.name}")
+                              ],
+                            ),
+                          );
+                        }),
                       ),
                     ))
                 .toList());

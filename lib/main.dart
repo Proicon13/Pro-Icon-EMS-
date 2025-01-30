@@ -1,5 +1,7 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -30,9 +32,12 @@ void main() async {
 
   // Open the boxes you plan to use
   await Hive.openBox<Mad>(AppConstants.madListKey);
-  runApp(EasyLocalization(
-      path: 'assets/translations',
-      supportedLocales: supportedLocales,
-      fallbackLocale: supportedLocales.first, // en
-      child: const Proicon()));
+  runApp(DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) => EasyLocalization(
+        path: 'assets/translations',
+        supportedLocales: supportedLocales,
+        fallbackLocale: supportedLocales.first, // en
+        child: const Proicon()),
+  ));
 }

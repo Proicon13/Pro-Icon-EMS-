@@ -4,12 +4,14 @@ import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/muscles_control_section.dart';
-import 'package:pro_icon/Features/session_managment/control_panel/widgets/program_info_section.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/timers_control_section.dart';
 
+import '../../../../Core/theme/app_colors.dart';
+import '../../../../Core/utils/responsive_helper/size_constants.dart';
 import '../cubits/cubit/control_panel_cubit.dart';
 import 'control_panel_header.dart';
 import 'control_panel_mads_section.dart';
+import 'program_info_section.dart';
 
 class ControlPanelScreenBody extends StatelessWidget {
   const ControlPanelScreenBody({
@@ -45,6 +47,21 @@ class ControlPanelScreenBody extends StatelessWidget {
           ),
           const SliverToBoxAdapter(
             child: TimersControlSection(),
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                context.setMinSize(5).verticalSpace,
+                Padding(
+                  padding: SizeConstants.kScaffoldPadding(context),
+                  child: Divider(
+                    color: AppColors.lightGreyColor,
+                    thickness: context.setMinSize(1),
+                  ),
+                ),
+                context.setMinSize(5).verticalSpace
+              ],
+            ),
           ),
           const SliverToBoxAdapter(
             child: ProgramInfoSection(),

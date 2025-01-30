@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 
 import '../../../../Core/entities/program_entity.dart';
 import '../../../../Core/widgets/custom_circular_image.dart';
@@ -36,15 +37,26 @@ class SelectProgramWidget extends StatelessWidget {
                 items: state.programs
                     .map((program) => DropdownMenuItem<ProgramEntity>(
                           value: program,
-                          child: Row(
-                            children: [
-                              CustomCircularImage(
-                                  width: context.setMinSize(20),
-                                  height: context.setMinSize(20),
-                                  imageUrl: "${program.image}"),
-                              context.setMinSize(10).horizontalSpace,
-                              Text("${program.name}")
-                            ],
+                          child: SizeConfig(
+                            baseSize: const Size(398, 65),
+                            width: context.setMinSize(398),
+                            height: context.setMinSize(65),
+                            child: Builder(builder: (context) {
+                              return SizedBox(
+                                width: double.infinity,
+                                height: context.sizeConfig.height,
+                                child: Row(
+                                  children: [
+                                    CustomCircularImage(
+                                        width: context.setMinSize(40),
+                                        height: context.setMinSize(40),
+                                        imageUrl: "${program.image}"),
+                                    context.setMinSize(20).horizontalSpace,
+                                    Text("${program.name}")
+                                  ],
+                                ),
+                              );
+                            }),
                           ),
                         ))
                     .toList());

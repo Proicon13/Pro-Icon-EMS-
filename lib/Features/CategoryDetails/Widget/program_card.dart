@@ -122,15 +122,12 @@ class ProgramCardWithDescription extends BaseProgramCard {
 
   @override
   Widget buildFooter(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth: context.sizeConfig.width * 0.89,
-      ),
+    return Expanded(
       child: Text(
         program.description,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
-        style: AppTextStyles.fontSize12(context).copyWith(
+        style: AppTextStyles.fontSize14(context).copyWith(
           color: AppColors.white71Color,
         ),
       ),

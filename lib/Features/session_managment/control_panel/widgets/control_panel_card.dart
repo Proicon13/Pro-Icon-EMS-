@@ -95,8 +95,10 @@ class ControlPanelCard extends StatelessWidget {
               ),
             ),
             isSelected
-                ? const CustomSvgVisual(
+                ? CustomSvgVisual(
                     assetPath: Assets.assetsImagesMadSelectedIcon,
+                    width: context.setMinSize(15),
+                    height: context.setMinSize(15),
                   )
                 : const SizedBox.shrink(),
           ],

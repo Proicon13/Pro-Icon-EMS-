@@ -73,6 +73,7 @@ class CustomSnackBar extends StatelessWidget {
                           child: Text(
                             message,
                             overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
                             style: AppTextStyles.fontSize14(context).copyWith(
                               fontWeight: FontWeight.w500,
                               color: Colors.white,

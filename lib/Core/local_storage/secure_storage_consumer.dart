@@ -21,9 +21,9 @@ class SecureStorageConsumer implements BaseLocalService {
   @override
   Future<T?> get<T>(String key) async {
     try {
-      final value = await _secureStorage.read(key: key) as T;
+      final value = await _secureStorage.read(key: key);
 
-      return value;
+      return value != null ? value as T : null;
     } catch (e) {
       throw CacheException('something went wrong getting data');
     }

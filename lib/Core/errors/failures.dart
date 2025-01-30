@@ -26,3 +26,10 @@ class ImagePickerFailure extends Failure {
   @override
   List<Object?> get props => [message];
 }
+
+class BluetoothFailure extends Failure {
+  const BluetoothFailure({required super.message});
+
+  @override
+  List<Object?> get props => [message];
+}

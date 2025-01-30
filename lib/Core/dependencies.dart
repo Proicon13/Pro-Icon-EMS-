@@ -42,6 +42,7 @@ import 'package:pro_icon/data/repos/session_control_panel_repo.dart';
 import 'package:pro_icon/data/services/auth_service.dart';
 import 'package:pro_icon/data/services/auth_token_service.dart';
 import 'package:pro_icon/data/services/auto_session_service.dart';
+import 'package:pro_icon/data/services/bluetooth_manager.dart';
 import 'package:pro_icon/data/services/client_strategy_service.dart';
 import 'package:pro_icon/data/services/clients_service.dart';
 import 'package:pro_icon/data/services/custom_program_service.dart';
@@ -78,6 +79,7 @@ void setupDependencies() {
   getIt.registerLazySingleton(() => AppInterceptor(authTokenService: getIt()));
   getIt.registerLazySingleton(() => LogInterceptor());
   getIt.registerLazySingleton<BaseApiProvider>(() => DioConsumer(dio: getIt()));
+  getIt.registerLazySingleton<BluetoothManager>(() => BluetoothManager());
 
   //services
   getIt.registerLazySingleton(() => RoleSelectionHelper());
@@ -127,6 +129,7 @@ void setupDependencies() {
       () => SessionManagementRepositoryImpl(
             madRepository: getIt(),
             musclesService: getIt(),
+            bluetoothManager: getIt(),
           ));
 
   // cubits

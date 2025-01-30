@@ -46,7 +46,7 @@ class TimerCard extends StatelessWidget {
           outerThumbColor:
               isRed ? const Color(0xFFDA393B) : const Color(0xFF1BC871),
           outerThumbStrokeWidth: size * 0.01, // Slight border effect
-          animation: true,
+          // animation: true,
         ),
         Text(
           value,

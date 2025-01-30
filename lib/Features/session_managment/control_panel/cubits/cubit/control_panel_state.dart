@@ -24,13 +24,16 @@ extension SessionStatusExtension on ControlPanelState {
 
 class ControlPanelState extends Equatable {
   final SessionStatus status;
+  final List<BluetoothDevice> availableDevices; // List of paired devices>
   final int currentProgramIndex; // Which program is active
   final Duration
       currentProgramDuration; // Remaining time for the current program
-  final bool isProgramTransitioning;
+  final bool
+      isProgramTransitioning; // show transition timer or not for next program
+  final bool isScanning;
   final SessionControlMode? selectedSessionMode;
   final List<ControlPanelMad> controlPanelMads;
-  final Map<String, int> sharedMuscles; // Shared muscle map for group mode
+
   final List<ControlPanelMad>?
       selectedMads; // Selected Mads for individual mode
   final String? errorMessage;
@@ -51,6 +54,7 @@ class ControlPanelState extends Equatable {
   final List<ProgramEntity> programsUsedInSession;
   const ControlPanelState({
     this.status = SessionStatus.initial,
+    this.isScanning = false,
     this.currentProgramIndex = 0,
     this.currentProgramDuration = Duration.zero,
     this.isProgramTransitioning = false,
@@ -60,7 +64,7 @@ class ControlPanelState extends Equatable {
     this.currentOffTime = 0,
     this.selectedSessionMode = SessionControlMode.program,
     this.controlPanelMads = const [],
-    this.sharedMuscles = const {},
+    this.availableDevices = const [],
     this.selectedMads = const [],
     this.allPrograms = const [],
     this.errorMessage = "",
@@ -76,6 +80,7 @@ class ControlPanelState extends Equatable {
 
   ControlPanelState copyWith({
     SessionStatus? status,
+    bool? isScanning,
     int? currentProgramIndex,
     Duration? currentProgramDuration,
     bool? isProgramTransitioning,
@@ -97,11 +102,13 @@ class ControlPanelState extends Equatable {
     ProgramEntity? selectedProgram,
     List<SessionProgram>? automaticSessionprograms,
     List<ProgramEntity>? allPrograms,
+    List<BluetoothDevice>? availableDevices,
   }) {
     return ControlPanelState(
       status: status ?? this.status,
+      isScanning: isScanning ?? this.isScanning,
       controlPanelMads: controlPanelMads ?? this.controlPanelMads,
-      sharedMuscles: sharedMuscles ?? this.sharedMuscles,
+      availableDevices: availableDevices ?? this.availableDevices,
       selectedMads: selectedMads ?? this.selectedMads,
       errorMessage: errorMessage ?? this.errorMessage,
       isGroupMode: isGroupMode ?? this.isGroupMode,
@@ -131,8 +138,9 @@ class ControlPanelState extends Equatable {
   @override
   List<Object?> get props => [
         status,
+        isScanning,
         controlPanelMads,
-        sharedMuscles,
+        availableDevices,
         selectedMads,
         errorMessage,
         isGroupMode,

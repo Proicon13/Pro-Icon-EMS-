@@ -5,6 +5,7 @@ import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/cubits/cubit/control_panel_cubit.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/assign_client_dialog.dart';
+import 'package:pro_icon/Features/session_managment/control_panel/widgets/bluetooth_devices_dialog.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/control_panel_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -23,18 +24,16 @@ class ControlPanelMadsSection extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.controlPanelMads != current.controlPanelMads ||
           previous.status != current.status ||
-          previous.selectedMads != current.selectedMads,
+          previous.selectedMads != current.selectedMads ||
+          previous.availableDevices != current.availableDevices,
       builder: (context, state) {
         if (state.isInitializing) {
-          // loading
           return _buildLoadingContent(context);
         }
 
         if (state.isError) {
-          // if error
           return const SizedBox.shrink();
         }
-        // otherwise show loaded content
         return _buildLoadedContent(context, state, cubit);
       },
     );
@@ -58,30 +57,38 @@ class ControlPanelMadsSection extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final controlPanelMad = state.controlPanelMads[index];
                   return ControlPanelCard(
-                      key: ValueKey(controlPanelMad.madNo),
-                      mad: controlPanelMad,
-                      isSelected: state.selectedMads!.contains(controlPanelMad),
-                      onTap: () {
-                        cubit.onControlPanelMadTap(controlPanelMad, index);
-                        if (controlPanelMad.client == null) {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AssignClientDialog(
-                                  onClientSelect: (client) {
-                                    Navigator.pop(context);
-                                    ctx
-                                        .read<ControlPanelCubit>()
-                                        .onClientMadAssign(client, index);
-                                  },
-                                );
-                              });
-                        }
-                      },
-                      onLongPress: () {
-                        // TODO: open BLUETOOTH dialog TO SELECT DEVICE TO CONNECT
-                        //if blutooth is connected connect to heart rate sensor
-                      });
+                    key: ValueKey(controlPanelMad.madNo),
+                    mad: controlPanelMad,
+                    isSelected: state.selectedMads!.contains(controlPanelMad),
+                    onTap: () {
+                      cubit.onControlPanelMadTap(controlPanelMad, index);
+                      if (controlPanelMad.client == null) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AssignClientDialog(
+                              onClientSelect: (client) {
+                                Navigator.pop(context);
+                                ctx
+                                    .read<ControlPanelCubit>()
+                                    .onClientMadAssign(client, index);
+                              },
+                            );
+                          },
+                        );
+                      }
+                    },
+                    onLongPress: () {
+                      // Show Bluetooth Dialog if MAD Device isnot connected**
+                      if (controlPanelMad.madDevice == null) {
+                        _showBluetoothDialog(ctx, cubit, isHeartRate: false);
+                      }
+                      // Show Bluetooth Dialog if Heart Rate Sensor is not connected
+                      else if (controlPanelMad.heartRateDevice == null) {
+                        _showBluetoothDialog(ctx, cubit, isHeartRate: true);
+                      }
+                    },
+                  );
                 },
               ),
             );
@@ -96,6 +103,27 @@ class ControlPanelMadsSection extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+
+  /// **🔍 Show Bluetooth Devices Dialog**
+  void _showBluetoothDialog(BuildContext context, ControlPanelCubit cubit,
+      {required bool isHeartRate}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return BlocProvider.value(
+          value: cubit..scanForDevices(),
+          child: BluetoothDevicesDialog(
+            availableDevices: cubit.state.availableDevices,
+            isHeartRate: isHeartRate,
+            onDeviceSelected: (device) {
+              Navigator.pop(context);
+              cubit.connectToDevice(device, isHeartRate);
+            },
+          ),
+        );
+      },
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pro_icon/Core/constants/app_constants.dart';
 import 'package:pro_icon/Core/dependencies.dart';
@@ -19,6 +20,8 @@ void main() async {
   );
   setupDependencies();
   await EasyLocalization.ensureInitialized();
+  // Set FlutterBluePlus log level to verbose for debugging
+  FlutterBluePlus.setLogLevel(LogLevel.verbose, color: false);
   Bloc.observer = AppBlocObserver();
   await Hive.initFlutter();
 

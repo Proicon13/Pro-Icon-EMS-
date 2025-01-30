@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
 import 'package:pro_icon/Core/entities/client_entity.dart';
 import 'package:pro_icon/Core/entities/program_entity.dart';
@@ -48,6 +49,86 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
           status: SessionStatus.error,
           errorMessage: "failed to fetch session mode and data"));
     }
+  }
+
+  void scanForDevices() async {
+    emit(state.copyWith(isScanning: true));
+    final scanResponse = await sessionManagementRepository.scanForDevices();
+    scanResponse.fold((_) {
+      emit(state.copyWith(isScanning: false));
+    }, (devices) {
+      emit(state.copyWith(availableDevices: devices, isScanning: false));
+    });
+  }
+
+  Future<void> connectToDevice(
+      BluetoothDevice device, bool isHeartRateDevice) async {
+    if (state.controlPanelMads.isEmpty) return;
+
+    final mad = state.selectedMads!.isNotEmpty
+        ? state.selectedMads!.first
+        : state.controlPanelMads.first;
+
+    final result = await sessionManagementRepository.connectToDevice(
+        mad, device, isHeartRateDevice);
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(
+            status: SessionStatus.notReady, errorMessage: failure.message));
+      },
+      (updatedMad) {
+        // update selected mads
+        final updatedMads = state.controlPanelMads
+            .map((m) => m.madNo == updatedMad.madNo ? updatedMad : m)
+            .toList();
+        emit(state.copyWith(
+          controlPanelMads: updatedMads,
+          selectedMads: [updatedMad],
+        ));
+      },
+    );
+  }
+
+  Future<void> disconnectFromDevice(BluetoothDevice device) async {
+    final result =
+        await sessionManagementRepository.disconnectFromDevice(device);
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(
+            status: SessionStatus.notReady, errorMessage: failure.message));
+      },
+      (_) {
+        // Update MAD state to reflect the disconnection
+        final updatedMads = state.controlPanelMads.map((mad) {
+          if (mad.madDevice == device || mad.heartRateDevice == device) {
+            return mad.updateBluetoothStatus(
+                madConnected: false, heartRateConnected: false);
+          }
+          return mad;
+        }).toList();
+
+        emit(state.copyWith(controlPanelMads: updatedMads));
+      },
+    );
+  }
+
+  Future<void> sendDataToMad(ControlPanelMad mad, String data) async {
+    if (mad.madDevice == null) return;
+
+    final result = await sessionManagementRepository.sendDataToDevice(
+      device: mad.madDevice!,
+      data: data,
+    );
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(
+            status: SessionStatus.notReady, errorMessage: failure.message));
+      },
+      (_) => print("✅ Data sent successfully to MAD ${mad.madNo}"),
+    );
   }
 
   void setSessionMode(SessionControlMode sessionControlMode) {
@@ -166,10 +247,12 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   void onControlPanelMadTap(ControlPanelMad mad, int index) {
     if (state.isGroupMode) return; // ignore if group mode
     final mads = [...state.controlPanelMads];
-    if (!mad.isBluetoothConnected! && !mad.isHeartRateSensorConnected!) {
+    if (!mad.isBluetoothConnected! || !mad.isHeartRateSensorConnected!) {
       mads[index] = mads[index].copyWith(
           isBluetoothConnected: true, isHeartRateSensorConnected: true);
     }
+    ;
+
     emit(state.copyWith(selectedMads: [mads[index]], controlPanelMads: mads));
   }
 

@@ -11,6 +11,7 @@ import '../../../../Core/utils/responsive_helper/size_constants.dart';
 import '../../../../Core/widgets/base_app_Scaffold.dart';
 import '../../../../Core/widgets/custom_button.dart';
 import '../../../../Core/widgets/custom_header.dart';
+import '../../session_summary/screen/session_summary.dart';
 import '../cubits/cubit/session_setup_cubit.dart';
 import 'mode_cards.dart';
 
@@ -46,7 +47,9 @@ class SessionSetupContent extends StatelessWidget {
                   context.setMinSize(20).verticalSpace,
                   const SelectProgramWidget(),
                   context.setMinSize(30).verticalSpace,
-                  CustomButton(onPressed: () {}, text: "Next"),
+                  CustomButton(onPressed: () {
+                    Navigator.pushNamed(context, SessionSummary.routeName);
+                  }, text: "Next"),
                 ],
               ),
             ],

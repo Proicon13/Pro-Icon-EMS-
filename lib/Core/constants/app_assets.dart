@@ -210,4 +210,13 @@ class Assets {
   /// Assets for assetsImagesUsersIcon
   /// assets/images/users_icon.svg
   static const String assetsImagesUsersIcon = "assets/images/users_icon.svg";
+  static const String assetsSessionSummaryImage = "assets/images/Summary_session_image.svg";
+  static const String assetsSessionSummaryUsereImage = "assets/images/SessionUserImage.svg";
+  static const String assetsSessionSummaryHeartIcon = "assets/images/HeartIcon.svg";
+  static const String assetsSessionSummaryKalIcon = "assets/images/KalSvgIcon.svg";
+  static const String assetsSessionSummaryChampion = "assets/images/ChampionIcon.svg";
+  static const String assetsSessionSummaryCharts = "assets/images/charts.svg";
+  static const String assetsSessionUserAgeIcon = "assets/images/userAgeIcon.svg";
+  static const String assetsSessionUserHeightIcon = "assets/images/HeightIcon.svg";
+  static const String assetsSessionUserweightIcon = "assets/images/wehightIcon.svg";
 }

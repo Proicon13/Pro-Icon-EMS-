@@ -9,6 +9,7 @@ import 'package:pro_icon/Features/Mads/session_details/screen/session_activity.d
 import 'package:pro_icon/Features/languges_screen/cubit/languges_cubit.dart';
 import 'package:pro_icon/Features/languges_screen/screen/languges_screen.dart';
 import 'package:pro_icon/Features/manage_trainer/screens/trainer_password_regestraion_screen.dart';
+import 'package:pro_icon/Features/session_managment/session_summary/screen/session_summary.dart';
 
 import '../../Features/CategoryDetails/Screens/Category_details.dart';
 import '../../Features/Mads/Screens/Mads_screen.dart';
@@ -259,6 +260,14 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
         settings: const RouteSettings(name: SessionSetupScreen.routeName),
         builder: (_) {
           return const SessionSetupScreen();
+        },
+      );
+
+    case SessionSummary.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: SessionSummary.routeName),
+        builder: (_) {
+          return const SessionSummary();
         },
       );
 

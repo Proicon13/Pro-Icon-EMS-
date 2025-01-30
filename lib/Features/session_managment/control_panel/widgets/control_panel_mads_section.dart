@@ -4,13 +4,13 @@ import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/cubits/cubit/control_panel_cubit.dart';
-import 'package:pro_icon/Features/session_managment/control_panel/widgets/assign_client_dialog.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/bluetooth_devices_dialog.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/control_panel_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Core/theme/app_colors.dart';
 import '../../../../Core/utils/responsive_helper/size_constants.dart';
+import 'assign_client_dialog.dart';
 
 class ControlPanelMadsSection extends StatelessWidget {
   const ControlPanelMadsSection({

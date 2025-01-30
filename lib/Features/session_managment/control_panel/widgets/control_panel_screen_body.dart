@@ -12,6 +12,7 @@ import '../cubits/cubit/control_panel_cubit.dart';
 import 'control_panel_header.dart';
 import 'control_panel_mads_section.dart';
 import 'program_info_section.dart';
+import 'session_control_row.dart';
 
 class ControlPanelScreenBody extends StatelessWidget {
   const ControlPanelScreenBody({
@@ -68,6 +69,9 @@ class ControlPanelScreenBody extends StatelessWidget {
           ),
           const SliverToBoxAdapter(
             child: MusclesControlSection(),
+          ),
+          const SliverToBoxAdapter(
+            child: SessionControlRow(),
           )
         ],
       ),

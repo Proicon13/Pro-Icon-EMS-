@@ -57,8 +57,8 @@ class ProgramInfoSection extends StatelessWidget {
                         : _buildProgramModeView(state),
                     const Spacer(),
                     SizeConfig(
-                      baseSize: const Size(85, 50),
-                      width: context.setMinSize(85),
+                      baseSize: const Size(90, 50),
+                      width: context.setMinSize(90),
                       height: context.setMinSize(50),
                       child: Builder(builder: (context) {
                         return SizedBox(

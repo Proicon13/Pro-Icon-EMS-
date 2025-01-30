@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 
 extension SizeHelperExtension on BuildContext {
-  double get screenHeight => MediaQuery.sizeOf(this).height;
-  double get screenWidth => MediaQuery.sizeOf(this).width;
+  double get screenHeight => isLandscape
+      ? MediaQuery.sizeOf(this).width
+      : MediaQuery.sizeOf(this).height;
+  double get screenWidth => isLandscape
+      ? MediaQuery.sizeOf(this).height
+      : MediaQuery.sizeOf(this).width;
   bool get isLandscape =>
       MediaQuery.orientationOf(this) == Orientation.landscape;
   SizeConfig get sizeConfig => SizeConfig.of(this);

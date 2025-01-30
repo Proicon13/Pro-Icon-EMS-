@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 
 import '../../../../Core/constants/app_assets.dart';
 import '../../../../Core/widgets/custom_asset_image.dart';
@@ -22,18 +23,29 @@ class MusclesValueGrid extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: SizedBox(
-              height: context.sizeConfig.height,
-              child: MuscleColumn(
-                muscleEntries: musclesMap.entries
-                    .where((entry) =>
-                        musclesMap.entries.toList().indexOf(entry) % 2 == 0)
-                    .toList(),
-              ),
-            ),
+            child: LayoutBuilder(builder: (context, constraints) {
+              return SizeConfig(
+                baseSize: const Size(150, 290),
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: Builder(builder: (context) {
+                  return SizedBox(
+                    height: context.sizeConfig.height,
+                    width: context.sizeConfig.width,
+                    child: MuscleColumn(
+                      muscleEntries: musclesMap.entries
+                          .where((entry) =>
+                              musclesMap.entries.toList().indexOf(entry) % 2 ==
+                              0)
+                          .toList(),
+                    ),
+                  );
+                }),
+              );
+            }),
           ),
           SizedBox(
-            width: context.sizeConfig.width * 0.28,
+            width: context.sizeConfig.width * 0.4,
             height: context.sizeConfig.height,
             child: const CustomAssetImage(
               path: Assets.assetsImagesBodyImage,
@@ -41,15 +53,26 @@ class MusclesValueGrid extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: SizedBox(
-              height: context.sizeConfig.height,
-              child: MuscleColumn(
-                muscleEntries: musclesMap.entries
-                    .where((entry) =>
-                        musclesMap.entries.toList().indexOf(entry) % 2 != 0)
-                    .toList(),
-              ),
-            ),
+            child: LayoutBuilder(builder: (context, constarints) {
+              return SizeConfig(
+                baseSize: const Size(150, 290),
+                width: constarints.maxWidth,
+                height: constarints.maxHeight,
+                child: Builder(builder: (context) {
+                  return SizedBox(
+                    height: context.sizeConfig.height,
+                    width: context.sizeConfig.width,
+                    child: MuscleColumn(
+                      muscleEntries: musclesMap.entries
+                          .where((entry) =>
+                              musclesMap.entries.toList().indexOf(entry) % 2 !=
+                              0)
+                          .toList(),
+                    ),
+                  );
+                }),
+              );
+            }),
           ),
         ],
       ),

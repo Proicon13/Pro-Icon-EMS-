@@ -40,7 +40,7 @@ class CounterRow extends StatelessWidget {
 
         // Count Display
         SizedBox(
-          width: context.setMinSize(45),
+          width: context.setMinSize(50),
           child: Center(
             child: Text(
               count is double ? count.toStringAsFixed(1) : count.toString(),
@@ -49,7 +49,7 @@ class CounterRow extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
-                fontSize: context.setMinSize(14),
+                fontSize: context.setSp(15),
               ),
             ),
           ),

@@ -34,7 +34,7 @@ class MuscleRow extends StatelessWidget {
           const Spacer(),
           CounterRow(
             count: value,
-            size: context.setMinSize(24),
+            size: context.setMinSize(28),
             onIncrement: onIncrement,
             onDecrement: onDecrement,
           ),

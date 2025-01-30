@@ -124,33 +124,43 @@ class AssignClientDialog extends StatelessWidget {
                                 itemCount: clientList.length,
                                 itemBuilder: (context, index) {
                                   final client = clientList[index];
-                                  return SizeConfig(
-                                    baseSize: const Size(398, 50),
-                                    width: context.setMinSize(398),
-                                    height: context.setMinSize(50),
-                                    child: Builder(builder: (context) {
-                                      return SizedBox(
-                                        child: ListTile(
-                                          contentPadding: EdgeInsets.zero,
-                                          leading: CustomCircularImage(
-                                              width: context.setMinSize(50),
-                                              height: context.setMinSize(50),
-                                              imageUrl: client.image!),
-                                          title: Text(
-                                            client.fullname!,
-                                            style: AppTextStyles.fontSize18(
-                                                    context)
-                                                .copyWith(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.white),
-                                          ),
-                                          onTap: () {
-                                            // Handle client selection
-                                            onClientSelect(client);
-                                          },
-                                        ),
-                                      );
-                                    }),
+                                  return GestureDetector(
+                                    onTap: () {
+                                      // Handle client selection
+                                      onClientSelect(client);
+                                    },
+                                    child: SizeConfig(
+                                      baseSize: const Size(398, 60),
+                                      width: context.setMinSize(398),
+                                      height: context.setMinSize(60),
+                                      child: Builder(builder: (context) {
+                                        return SizedBox(
+                                            width: context.sizeConfig.width,
+                                            height: context.sizeConfig.height,
+                                            child: Row(
+                                              children: [
+                                                CustomCircularImage(
+                                                    width:
+                                                        context.setMinSize(50),
+                                                    height:
+                                                        context.setMinSize(50),
+                                                    imageUrl: client.image!),
+                                                context
+                                                    .setMinSize(20)
+                                                    .horizontalSpace,
+                                                Text(
+                                                  client.fullname!,
+                                                  style: AppTextStyles
+                                                          .fontSize18(context)
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Colors.white),
+                                                ),
+                                              ],
+                                            ));
+                                      }),
+                                    ),
                                   );
                                 },
                               ),
@@ -158,7 +168,7 @@ class AssignClientDialog extends StatelessWidget {
                               // Load More Button (Stacked at the Bottom)
                               if (state.canFetchMore)
                                 Positioned(
-                                  bottom: context.setMinSize(50),
+                                  bottom: 0,
                                   child: state.isPaginationLoading
                                       ? const CustomLoader() // Show Loader if paginating
                                       : TextButton(
@@ -204,8 +214,8 @@ class AssignClientSearchSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double searchBarHeight =
-        context.setMinSize(50); // Height for search bar
+    // Uncomment these to maintain consistent sizing
+    final double searchBarHeight = context.setMinSize(50);
     final double iconSize = context.setMinSize(24);
 
     return Row(
@@ -213,24 +223,23 @@ class AssignClientSearchSection extends StatelessWidget {
         // Search Bar
         Expanded(
           child: SizedBox(
-            height: searchBarHeight,
+            height: searchBarHeight, // Fixed height for text field
             child: CustomTextField(
               name: 'searchBar',
               hintText: "userManagment.screen.searchHint".tr(),
               onChanged: (value) => onSearch(value ?? ''),
               keyboardInputType: TextInputType.emailAddress,
+              textAlign: TextAlign.start,
               prefixIcon: Padding(
-                padding: EdgeInsets.only(left: context.setMinSize(5)),
+                padding: EdgeInsets.only(left: context.setMinSize(20)),
                 child: Icon(
                   Icons.search,
                   color: AppColors.white71Color,
                   size: iconSize,
                 ),
               ),
-              isDense: true,
               contentPadding: EdgeInsets.symmetric(
-                vertical: (searchBarHeight - iconSize) / 2, // Center vertically
-              ),
+                  vertical: (searchBarHeight - iconSize) / 2),
             ),
           ),
         ),
@@ -241,12 +250,13 @@ class AssignClientSearchSection extends StatelessWidget {
         InkWell(
           onTap: onAddPressed,
           child: Container(
-            height: searchBarHeight,
+            height: searchBarHeight, // Match text field height
             width: context.setMinSize(60),
             decoration: BoxDecoration(
               color: Colors.green,
               borderRadius: SizeConstants.kDefaultBorderRadius(context),
             ),
+            alignment: Alignment.center, // Center the icon vertically
             child: Icon(
               Icons.add,
               color: Colors.white,

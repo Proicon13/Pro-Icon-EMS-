@@ -15,13 +15,15 @@ class SessionState extends Equatable {
   final ProgramEntity? selectedProgram;
   final List<AutomaticSessionEntity> automaticSessions;
   final AutomaticSessionEntity? selectedAutomaticSession;
+  final bool isLoading;
 
   SessionState(
       {this.selectedSessionMode = SessionControlMode.program,
       this.categriesMangement = const [],
-      this.selectedProgram = const ProgramEntity(),
+      this.selectedProgram = const ProgramEntity(id: 0),
       this.programs = const [],
       this.allPrograms = const [],
+      this.isLoading = true,
       this.automaticSessions = const [],
       this.selectedAutomaticSession = const AutomaticSessionEntity(),
       this.errorMessage = ""});
@@ -35,12 +37,14 @@ class SessionState extends Equatable {
     List<AutomaticSessionEntity>? automaticSessions,
     ProgramEntity? selectedProgram,
     AutomaticSessionEntity? selectedAutomaticSession,
+    bool? isLoading,
   }) {
     return SessionState(
       automaticSessions: automaticSessions ?? this.automaticSessions,
       selectedSessionMode: selectedSessionMode ?? this.selectedSessionMode,
       categriesMangement: categriesMangement ?? this.categriesMangement,
       programs: programs ?? this.programs,
+      isLoading: isLoading ?? this.isLoading,
       selectedProgram: selectedProgram ?? this.selectedProgram,
       errorMessage: errorMessage ?? this.errorMessage,
       allPrograms: allPrograms ?? this.allPrograms,
@@ -58,6 +62,7 @@ class SessionState extends Equatable {
         errorMessage,
         automaticSessions,
         selectedAutomaticSession,
-        allPrograms
+        allPrograms,
+        isLoading
       ];
 }

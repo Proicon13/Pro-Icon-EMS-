@@ -166,7 +166,7 @@ class AssignClientDialog extends StatelessWidget {
                               ),
 
                               // Load More Button (Stacked at the Bottom)
-                              if (state.canFetchMore)
+                              if (state.canFetchMore && !state.isSearching)
                                 Positioned(
                                   bottom: 0,
                                   child: state.isPaginationLoading

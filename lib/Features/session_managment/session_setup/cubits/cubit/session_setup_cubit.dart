@@ -17,14 +17,18 @@ class SessionCubit extends Cubit<SessionState> {
       : super(SessionState());
 
   void getSessionManagementCategories() async {
+    emit(state.copyWith(isLoading: true));
     final result = await categoriesServices.getSessionManagmentCategory();
 
-    result.fold((error) => emit(state.copyWith(errorMessage: error.message)),
+    result.fold(
+        (error) =>
+            emit(state.copyWith(errorMessage: error.message, isLoading: false)),
         (categories) {
       final allPrograms = _populateAllPrograms(categories);
       emit(state.copyWith(
           categriesMangement: categories,
           allPrograms: allPrograms,
+          isLoading: false,
           errorMessage: ""));
     });
   }
@@ -59,15 +63,30 @@ class SessionCubit extends Cubit<SessionState> {
 
   void getAutomaticSessions() async {
     if (state.automaticSessions.isNotEmpty) return;
+    emit(state.copyWith(isLoading: true));
 
     final response = await autoSessionService.getAutomaticSessions(
-      type: "CUSTOM",
+      type: "AUTOMATIC",
       perPage: 2 * ApiConstants.defaultPerPage,
     );
 
     response.fold(
-        (error) => emit(state.copyWith(errorMessage: error.message)),
-        (sessions) => emit(state.copyWith(
-            automaticSessions: sessions.data, errorMessage: "")));
+        (error) =>
+            emit(state.copyWith(errorMessage: error.message, isLoading: false)),
+        (sessions) async {
+      final customSessions = await getCustomAutomaticSessions();
+      final allSessions = [...sessions.data, ...customSessions];
+      emit(state.copyWith(
+          isLoading: false, automaticSessions: allSessions, errorMessage: ""));
+    });
+  }
+
+  Future<List<AutomaticSessionEntity>> getCustomAutomaticSessions() async {
+    final response = await autoSessionService.getAutomaticSessions(
+      type: "CUSTOM",
+      perPage: 5 * ApiConstants.defaultPerPage,
+    );
+
+    return response.fold((error) => [], (sessions) => sessions.data);
   }
 }

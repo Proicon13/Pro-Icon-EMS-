@@ -8,6 +8,7 @@ import '../../../../Core/entities/category_entity.dart';
 import '../../../../Core/utils/responsive_helper/size_config.dart';
 import '../../../../Core/widgets/custom_circular_image.dart';
 import '../../../../Core/widgets/custom_dropdown_section.dart';
+import '../../../../Core/widgets/custom_loader.dart';
 import '../cubits/cubit/session_setup_cubit.dart';
 import '../cubits/cubit/session_setup_state.dart';
 
@@ -20,8 +21,13 @@ class SelectCategoryWidget extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.categriesMangement != current.categriesMangement ||
           previous.selectedSessionMode != current.selectedSessionMode ||
-          previous.automaticSessions != current.automaticSessions,
+          previous.automaticSessions != current.automaticSessions ||
+          previous.isLoading != current.isLoading,
       builder: (context, state) {
+        if (state.isLoading) {
+          return SizedBox(
+              height: context.screenHeight * 0.3, child: const CustomLoader());
+        }
         if (state.selectedSessionMode == SessionControlMode.program) {
           return DropdownFormSection<CategoryEntity>(
               title: "Select Category",

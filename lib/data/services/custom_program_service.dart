@@ -4,7 +4,7 @@ import 'package:pro_icon/Core/entities/program_entity.dart';
 import 'package:pro_icon/Core/networking/base_api_provider.dart';
 import 'package:pro_icon/data/mappers/program_entity_mapper.dart';
 import 'package:pro_icon/data/models/add_custom_program_model.dart';
-import 'package:pro_icon/data/models/custom_program_model.dart';
+import 'package:pro_icon/data/models/category_model.dart';
 
 import '../../Core/errors/failures.dart';
 import '../../Core/networking/api_constants.dart';
@@ -32,8 +32,8 @@ class CustomProgramService {
           "Content-Type": "multipart/form-data",
         }));
     if (response.isSuccess) {
-      return Right(ProgramModelToEntityMapper.mapCustomProgramModelToEntity(
-          CustomProgramModel.fromJson(response.data!)));
+      return Right(ProgramModelToEntityMapper.mapFromProgramModel(
+          ProgramModel.fromJson(response.data!)));
     } else {
       return Left(ServerFailure(message: response.error!.message));
     }
@@ -49,8 +49,8 @@ class CustomProgramService {
     final response = await _baseApiProvider.putMultipart<Map<String, dynamic>>(
         endpoint: ApiConstants.updateCustomProgramEndpoint(id), data: formData);
     if (response.isSuccess) {
-      return Right(ProgramModelToEntityMapper.mapCustomProgramModelToEntity(
-          CustomProgramModel.fromJson(response.data!)));
+      return Right(ProgramModelToEntityMapper.mapFromProgramModel(
+          ProgramModel.fromJson(response.data!)));
     } else {
       return Left(ServerFailure(message: response.error!.message));
     }

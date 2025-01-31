@@ -11,7 +11,7 @@ class CategoryModelToEntityMapper {
       image: model.image,
       programs: model.programs!
           .map((element) =>
-              ProgramModelToEntityMapper.mapProgramModelToEntity(element))
+              ProgramModelToEntityMapper.mapFromProgramModel(element))
           .toList(),
     );
   }

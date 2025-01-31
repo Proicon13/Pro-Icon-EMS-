@@ -51,8 +51,7 @@ class AppUserEntityMapper {
           customPrograms: model.customPrograms != null
               ? model.customPrograms!
                   .map((element) =>
-                      ProgramModelToEntityMapper.mapCustomProgramModelToEntity(
-                          element))
+                      ProgramModelToEntityMapper.mapFromProgramModel(element))
                   .toList()
               : [],
         );

@@ -22,8 +22,12 @@ class SelectProgramWidget extends StatelessWidget {
       child: BlocBuilder<SessionCubit, SessionState>(
         buildWhen: (previous, current) =>
             current.programs != previous.programs ||
-            current.selectedSessionMode != previous.selectedSessionMode,
+            current.selectedSessionMode != previous.selectedSessionMode ||
+            previous.isLoading != current.isLoading,
         builder: (context, state) {
+          if (state.isLoading) {
+            return const SizedBox.shrink();
+          }
           if (state.selectedSessionMode == SessionControlMode.program) {
             return DropdownFormSection<ProgramEntity>(
                 title: "Select Program",

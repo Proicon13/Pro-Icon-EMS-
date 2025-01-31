@@ -6,6 +6,7 @@ import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
+import 'package:pro_icon/Core/widgets/error_widget.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/cubits/cubit/control_panel_cubit.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/select_program_dialog.dart';
 import 'package:pro_icon/Features/session_managment/session_setup/cubits/cubit/session_setup_state.dart';
@@ -26,9 +27,15 @@ class ProgramInfoSection extends StatelessWidget {
     return Padding(
       padding: SizeConstants.kScaffoldPadding(context),
       child: BlocBuilder<ControlPanelCubit, ControlPanelState>(
+        buildWhen: (previous, current) =>
+            previous.status != current.status ||
+            previous.errorMessage != current.errorMessage,
         builder: (context, state) {
           if (state.isError) {
-            return const SizedBox.shrink();
+            return Expanded(
+                child: CustomErrorWidget(
+              message: state.errorMessage!,
+            ));
           }
           return SizeConfig(
             baseSize: const Size(398, 150),
@@ -128,8 +135,9 @@ class ProgramInfoSection extends StatelessWidget {
                         width: context.setMinSize(100),
                         height: context.setMinSize(115),
                         child: ControlPanelProgramCard(
-                            program: ProgramModelToEntityMapper
-                                .mapProgramModelToEntity(nextProgram.program!)),
+                            program:
+                                ProgramModelToEntityMapper.mapFromProgramModel(
+                                    nextProgram.program!)),
                       ),
                     ),
                   ),
@@ -169,7 +177,7 @@ class ProgramInfoSection extends StatelessWidget {
               height: context.setMinSize(140),
               child: Builder(builder: (context) {
                 return ControlPanelProgramCard(
-                    program: ProgramModelToEntityMapper.mapProgramModelToEntity(
+                    program: ProgramModelToEntityMapper.mapFromProgramModel(
                         currentProgram.program!));
               }),
             ), // Current program card

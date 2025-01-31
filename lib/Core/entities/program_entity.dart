@@ -12,9 +12,12 @@ class ProgramEntity extends Equatable {
   final int createdById;
   final int pulse;
   final int hertez;
+  final int stimulation;
+  final int pauseInterval;
+  final num contraction;
 
   const ProgramEntity({
-    this.id = -1,
+    required this.id,
     this.name = "",
     this.description = "",
     this.duration = 0,
@@ -22,6 +25,9 @@ class ProgramEntity extends Equatable {
     this.createdById = 0,
     this.pulse = 0,
     this.hertez = 0,
+    this.stimulation = 0,
+    this.pauseInterval = 0,
+    this.contraction = 0,
   });
 
   @override
@@ -34,14 +40,14 @@ class ProgramEntity extends Equatable {
         createdById,
         pulse,
         hertez,
+        stimulation,
+        pauseInterval,
+        contraction,
       ];
 }
 
 class CustomProgramEntity extends ProgramEntity {
   final int categoryId;
-  final int stimulation;
-  final int pauseInterval;
-  final double contraction;
   final List<ProgramMuscle> programMuscles;
   final List<Cycle> cycles;
 
@@ -54,10 +60,10 @@ class CustomProgramEntity extends ProgramEntity {
     required int createdById,
     required int pulse,
     required int hertez,
+    required int stimulation,
+    required int pauseInterval,
+    required num contraction,
     required this.categoryId,
-    required this.stimulation,
-    required this.pauseInterval,
-    required this.contraction,
     required this.programMuscles,
     required this.cycles,
   }) : super(
@@ -69,6 +75,9 @@ class CustomProgramEntity extends ProgramEntity {
           createdById: createdById,
           pulse: pulse,
           hertez: hertez,
+          stimulation: stimulation,
+          pauseInterval: pauseInterval,
+          contraction: contraction,
         );
 
   CustomProgramEntity copyWith({
@@ -80,36 +89,35 @@ class CustomProgramEntity extends ProgramEntity {
     int? createdById,
     int? pulse,
     int? hertez,
-    int? categoryId,
     int? stimulation,
     int? pauseInterval,
-    double? contraction,
+    num? contraction,
+    int? categoryId,
     List<ProgramMuscle>? programMuscles,
     List<Cycle>? cycles,
-  }) =>
-      CustomProgramEntity(
-          id: id ?? this.id,
-          name: name ?? this.name,
-          description: description ?? this.description,
-          duration: duration ?? this.duration,
-          image: image ?? this.image,
-          createdById: createdById ?? this.createdById,
-          pulse: pulse ?? this.pulse,
-          hertez: hertez ?? this.hertez,
-          categoryId: categoryId ?? this.categoryId,
-          stimulation: stimulation ?? this.stimulation,
-          pauseInterval: pauseInterval ?? this.pauseInterval,
-          contraction: contraction ?? this.contraction,
-          programMuscles: programMuscles ?? this.programMuscles,
-          cycles: cycles ?? this.cycles);
+  }) {
+    return CustomProgramEntity(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      duration: duration ?? this.duration,
+      image: image ?? this.image,
+      createdById: createdById ?? this.createdById,
+      pulse: pulse ?? this.pulse,
+      hertez: hertez ?? this.hertez,
+      stimulation: stimulation ?? this.stimulation,
+      pauseInterval: pauseInterval ?? this.pauseInterval,
+      contraction: contraction ?? this.contraction,
+      categoryId: categoryId ?? this.categoryId,
+      programMuscles: programMuscles ?? this.programMuscles,
+      cycles: cycles ?? this.cycles,
+    );
+  }
 
   @override
   List<Object?> get props => [
         ...super.props,
         categoryId,
-        stimulation,
-        pauseInterval,
-        contraction,
         programMuscles,
         cycles,
       ];

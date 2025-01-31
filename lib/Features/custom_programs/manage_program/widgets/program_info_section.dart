@@ -102,7 +102,7 @@ class ProgramInfoForm extends StatelessWidget {
       child: Row(children: [
         Expanded(
           child: BlocSelector<ManageCustomProgramCubit,
-              ManageCustomProgramState, double>(
+              ManageCustomProgramState, num>(
             selector: (state) =>
                 (state.customProgramEntity as CustomProgramEntity).contraction,
             builder: (context, contraction) {

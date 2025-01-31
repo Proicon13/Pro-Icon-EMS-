@@ -10,10 +10,12 @@ class UserNumberSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    return Row(
       children: [
-        // TODO: EXTRACT TO SEPERATE WIDGET (ICONPATH,TITLE )
-        MinandmaxSection(minNumber: '20', maxNumber: '20', ),
+        MinandmaxSection(
+          minNumber: '20',
+          maxNumber: '20',
+        ),
         context.setMinSize(40).horizontalSpace,
         KalAndPrizeSecion(kalNumber: '100', prizeNumber: '80')
       ],

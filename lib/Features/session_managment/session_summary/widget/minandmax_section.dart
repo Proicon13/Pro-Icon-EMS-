@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
@@ -8,22 +7,21 @@ import '../../../../Core/theme/app_text_styles.dart';
 import '../../../../Core/widgets/custom_svg_visual.dart';
 
 class MinandmaxSection extends StatelessWidget {
-
   final String minNumber;
   final String maxNumber;
 
-   MinandmaxSection({super.key, required this.minNumber, required this.maxNumber});
+  MinandmaxSection(
+      {super.key, required this.minNumber, required this.maxNumber});
 
   @override
   Widget build(BuildContext context) {
-    return   Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             CustomSvgVisual(
-              assetPath:
-              Assets.assetsSessionSummaryHeartIcon,
+              assetPath: Assets.assetsSessionSummaryHeartIcon,
               width: context.setMinSize(20),
               height: context.setMinSize(20),
             ),
@@ -39,8 +37,7 @@ class MinandmaxSection extends StatelessWidget {
         Row(
           children: [
             CustomSvgVisual(
-              assetPath:
-              Assets.assetsSessionSummaryHeartIcon,
+              assetPath: Assets.assetsSessionSummaryHeartIcon,
               width: context.setMinSize(20),
               height: context.setMinSize(20),
             ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
@@ -10,8 +9,6 @@ import '../../../../Core/widgets/custom_rectaungular_image.dart';
 import '../../../../Core/widgets/custom_svg_visual.dart';
 
 class AutoSessionCard extends StatelessWidget {
-
-
   final String title;
   final String hzValue;
   final String puValue;
@@ -19,24 +16,24 @@ class AutoSessionCard extends StatelessWidget {
   final String duration;
   final String imageUrl;
 
-   AutoSessionCard({super.key,
-     required this.title,
-     required this.hzValue,
-     required this.puValue,
-     required this.madsCount,
-     required this.duration,
-     required this.imageUrl});
+  AutoSessionCard(
+      {super.key,
+      required this.title,
+      required this.hzValue,
+      required this.puValue,
+      required this.madsCount,
+      required this.duration,
+      required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: context.sizeConfig.width,
+      width: double.infinity,
       height: context.sizeConfig.height,
       padding: EdgeInsets.all(context.setMinSize(12)),
       decoration: BoxDecoration(
         color: AppColors.darkGreyColor,
-        borderRadius:
-        BorderRadius.circular(context.setMinSize(16)),
+        borderRadius: BorderRadius.circular(context.setMinSize(16)),
       ),
       child: Row(
         children: [
@@ -50,9 +47,8 @@ class AutoSessionCard extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: AppTextStyles.fontSize16(context).copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
+                style: AppTextStyles.fontSize16(context)
+                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               context.setMinSize(7).verticalSpace,
               Row(
@@ -95,8 +91,7 @@ class AutoSessionCard extends StatelessWidget {
                   Row(
                     children: [
                       const CustomSvgVisual(
-                          assetPath:
-                          Assets.assetsImagesDurationIcon),
+                          assetPath: Assets.assetsImagesDurationIcon),
                       context.setMinSize(10).horizontalSpace,
                       Text(duration,
                           style: AppTextStyles.fontSize14(context)

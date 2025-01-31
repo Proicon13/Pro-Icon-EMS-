@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Features/session_managment/session_summary/widget/session_card_widget.dart';
 
 import '../../../../Core/constants/app_assets.dart';
@@ -10,21 +10,14 @@ class ParticipantsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
+        separatorBuilder: (context, index) =>
+            context.setMinSize(15).verticalSpace,
         itemCount: 4,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.all(context.setMinSize(8)),
-            child:  const SessionCardSummary(
-              imageUrl: Assets.assetsSessionSummaryUsereImage,
-
-              duration: "90",
-
-
-
-
-
-            ),
+          return const SessionCardSummary(
+            imageUrl: Assets.assetsSessionSummaryUsereImage,
+            duration: "90",
           );
         });
   }

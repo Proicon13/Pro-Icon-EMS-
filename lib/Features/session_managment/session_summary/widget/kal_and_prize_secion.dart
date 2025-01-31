@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
@@ -8,23 +7,21 @@ import '../../../../Core/theme/app_text_styles.dart';
 import '../../../../Core/widgets/custom_svg_visual.dart';
 
 class KalAndPrizeSecion extends StatelessWidget {
-
   final String kalNumber;
   final String prizeNumber;
 
-
-   KalAndPrizeSecion({super.key, required this.kalNumber, required this.prizeNumber});
+  KalAndPrizeSecion(
+      {super.key, required this.kalNumber, required this.prizeNumber});
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             CustomSvgVisual(
-              assetPath:
-              Assets.assetsSessionSummaryKalIcon,
+              assetPath: Assets.assetsSessionSummaryKalIcon,
               width: context.setMinSize(20),
               height: context.setMinSize(20),
             ),
@@ -40,8 +37,7 @@ class KalAndPrizeSecion extends StatelessWidget {
         Row(
           children: [
             CustomSvgVisual(
-              assetPath:
-              Assets.assetsSessionSummaryChampion,
+              assetPath: Assets.assetsSessionSummaryChampion,
               width: context.setMinSize(20),
               height: context.setMinSize(20),
             ),

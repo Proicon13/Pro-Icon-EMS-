@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:pro_icon/Core/utils/enums/gender.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 
 import '../../../../Core/constants/app_assets.dart';
@@ -12,17 +11,17 @@ class AutoCardSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  SizeConfig(
+    return SizeConfig(
       baseSize: const Size(400, 120),
       width: context.setMinSize(400),
       height: context.setMinSize(120),
       child: Builder(builder: (context) {
-        return  AutoSessionCard(
-          title: 'Automatic session'.tr(),
+        return AutoSessionCard(
+          title: 'Automatic_session.session_type'.tr(),
           hzValue: '80 HZ',
           puValue: 'Pu 550',
           madsCount: '3 mads',
-          duration: '15 min'.tr(),
+          duration: 'min.session_duration'.tr(namedArgs: {'minutes': '15'}),
           imageUrl: '${Assets.assetsSessionSummaryImage}',
         );
       }),

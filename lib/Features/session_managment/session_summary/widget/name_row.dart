@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
@@ -8,12 +7,10 @@ import '../../../../Core/theme/app_text_styles.dart';
 import '../../../../Core/widgets/custom_svg_visual.dart';
 
 class NameRow extends StatelessWidget {
-
   final String userName;
   final String madsCount;
 
-
-   NameRow({super.key, required this.userName, required this.madsCount});
+  NameRow({super.key, required this.userName, required this.madsCount});
 
   @override
   Widget build(BuildContext context) {

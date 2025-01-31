@@ -11,14 +11,21 @@ class HeightAndWeightRow extends StatelessWidget {
   final String userAge;
   final String userHight;
   final String userWeight;
-   HeightAndWeightRow({super.key, required this.userAge, required this.userHight, required this.userWeight});
+  HeightAndWeightRow(
+      {super.key,
+      required this.userAge,
+      required this.userHight,
+      required this.userWeight});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        //TODO: put sizes for icons
-        CustomSvgVisual(assetPath: Assets.assetsSessionUserAgeIcon , width: context.setMinSize(15) , height: context.setMinSize(15) ,),
+        CustomSvgVisual(
+          assetPath: Assets.assetsSessionUserAgeIcon,
+          width: context.setMinSize(15),
+          height: context.setMinSize(15),
+        ),
         context.setMinSize(10).horizontalSpace,
         Text(
           "${userAge} y.o",
@@ -30,7 +37,6 @@ class HeightAndWeightRow extends StatelessWidget {
           assetPath: Assets.assetsSessionUserHeightIcon,
           width: context.setMinSize(15),
           height: context.setMinSize(15),
-
         ),
         context.setMinSize(10).horizontalSpace,
         Text("${userHight} ",
@@ -50,4 +56,3 @@ class HeightAndWeightRow extends StatelessWidget {
     );
   }
 }
-

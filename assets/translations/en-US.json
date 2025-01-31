@@ -140,5 +140,12 @@
     "createSession.successMessage": "Session created successfully",
     "updateSession.successMessage": "Session updated successfully",
     "createProgram.successMessage": "Program created successfully",
-    "updateProgram.successMessage": "Program updated successfully"
+    "updateProgram.successMessage": "Program updated successfully",
+    "Participants.title" : "Participants",
+    "Statistics.title" : "Statistics",
+    "Session Summary.title" : "Session Summary",
+    "Session details.title" : "Session details",
+    "Automatic session.session_type" : "Automatic session",
+    "min.session_duration" : "min",
+    "omar Sabry.userName" : "omar Sabry"
 }

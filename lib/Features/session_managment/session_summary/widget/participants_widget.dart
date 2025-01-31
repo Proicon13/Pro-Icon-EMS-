@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Features/session_managment/session_summary/widget/session_card_widget.dart';
@@ -14,19 +15,15 @@ class ParticipantsWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.all(context.setMinSize(8)),
-            child: const SessionCardSummary(
+            child:  const SessionCardSummary(
               imageUrl: Assets.assetsSessionSummaryUsereImage,
-              userName: "omar Sabry",
-              madsCount: "8",
-              userAge: "26",
-              userHeight: "173",
-              userWeight: "70",
+
               duration: "90",
-              MinNumber: '70',
-              MaxNumber: '100',
-              KalNumber: "100",
-              SvgPath: "${Assets.assetsSessionSummaryHeartIcon}",
-              PrizeNumber: '100',
+
+
+
+
+
             ),
           );
         });

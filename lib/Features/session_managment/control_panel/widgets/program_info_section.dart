@@ -32,10 +32,13 @@ class ProgramInfoSection extends StatelessWidget {
             previous.errorMessage != current.errorMessage,
         builder: (context, state) {
           if (state.isError) {
-            return Expanded(
-                child: CustomErrorWidget(
-              message: state.errorMessage!,
-            ));
+            return SizedBox(
+                height: context.sizeConfig.height * 0.7,
+                child: Center(
+                  child: CustomErrorWidget(
+                    message: state.errorMessage!,
+                  ),
+                ));
           }
           return SizeConfig(
             baseSize: const Size(398, 150),

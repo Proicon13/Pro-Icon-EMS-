@@ -10,11 +10,11 @@ class DropdownFormSection<T> extends StatelessWidget {
   final String title;
   final String name;
   final String hintText;
-  final List<DropdownMenuItem<T>> items; // List of generic items
-
+  final List<DropdownMenuItem<T>> items;
   final String? Function(T?)? validator;
-  final T? initialValue; // Initial value as a string (e.g., name)
+  final T? initialValue;
   final void Function(T?)? onChanged;
+  final Widget Function(BuildContext, T?)? selectedItemBuilder;
 
   const DropdownFormSection({
     super.key,
@@ -25,6 +25,7 @@ class DropdownFormSection<T> extends StatelessWidget {
     this.validator,
     this.initialValue,
     this.onChanged,
+    this.selectedItemBuilder,
   });
 
   @override
@@ -32,7 +33,6 @@ class DropdownFormSection<T> extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Title Text
         Text(
           title,
           style: AppTextStyles.fontSize16(context).copyWith(
@@ -40,16 +40,13 @@ class DropdownFormSection<T> extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        context
-            .setMinSize(10)
-            .verticalSpace, // Space between title and dropdown
-        // Dropdown Field
+        context.setMinSize(20).verticalSpace,
         FormBuilderDropdown<T>(
           name: name,
           key: ValueKey(name),
           onChanged: onChanged,
           isDense: true,
-          initialValue: initialValue ?? null,
+          initialValue: initialValue,
           decoration: InputDecoration(
             errorStyle:
                 AppTextStyles.fontSize14(context).copyWith(color: Colors.red),
@@ -65,10 +62,13 @@ class DropdownFormSection<T> extends StatelessWidget {
           ),
           items: items,
           dropdownColor: AppColors.backgroundColor,
-          icon: Icon(
-            Icons.keyboard_arrow_down,
-            color: AppColors.lightGreyColor,
-            size: context.setMinSize(25),
+          icon: Padding(
+            padding: EdgeInsets.only(right: context.setMinSize(10)),
+            child: Icon(
+              Icons.keyboard_arrow_down,
+              color: AppColors.lightGreyColor,
+              size: context.setMinSize(22),
+            ),
           ),
           style:
               AppTextStyles.fontSize16(context).copyWith(color: Colors.white),
@@ -79,12 +79,31 @@ class DropdownFormSection<T> extends StatelessWidget {
             ),
           ),
           validator: (value) => validator?.call(value),
+          selectedItemBuilder: selectedItemBuilder != null
+              ? (context) {
+                  return items.map((item) {
+                    return selectedItemBuilder!(context, item.value); // ✅ Fixed
+                  }).toList();
+                }
+              : (context) => items.map((item) {
+                    // Default case
+                    return DefaultTextStyle(
+                      style: AppTextStyles.fontSize16(context).copyWith(
+                        color: Colors.white,
+                      ),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: item.child,
+                      ),
+                    );
+                  }).toList(),
         ),
       ],
     );
   }
 }
 
+// Border helper functions remain the same
 OutlineInputBorder buildErrorBorder(BuildContext context) {
   return OutlineInputBorder(
     borderSide: BorderSide(
@@ -98,7 +117,9 @@ OutlineInputBorder buildErrorBorder(BuildContext context) {
 OutlineInputBorder buildEnabledBorder(BuildContext context) {
   return OutlineInputBorder(
     borderSide: BorderSide(
-        color: AppColors.lightGreyColor, width: context.setMinSize(1.6)),
+      color: AppColors.lightGreyColor,
+      width: context.setMinSize(1.6),
+    ),
     borderRadius: SizeConstants.kDefaultBorderRadius(context),
   );
 }
@@ -106,7 +127,9 @@ OutlineInputBorder buildEnabledBorder(BuildContext context) {
 OutlineInputBorder buildFocusedBorder(BuildContext context) {
   return OutlineInputBorder(
     borderSide: BorderSide(
-        color: AppColors.primaryColor, width: context.setMinSize(1.6)),
+      color: AppColors.primaryColor,
+      width: context.setMinSize(1.6),
+    ),
     borderRadius: SizeConstants.kDefaultBorderRadius(context),
   );
 }

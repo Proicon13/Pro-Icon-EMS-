@@ -39,7 +39,7 @@ class SessionModeCard extends StatelessWidget {
                 border: isSelected
                     ? Border.all(
                         color: Colors.red,
-                        width: 2,
+                        width: context.setMinSize(2),
                       )
                     : null,
               ),

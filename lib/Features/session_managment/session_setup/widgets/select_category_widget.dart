@@ -28,80 +28,95 @@ class SelectCategoryWidget extends StatelessWidget {
           return SizedBox(
               height: context.screenHeight * 0.3, child: const CustomLoader());
         }
+
         if (state.selectedSessionMode == SessionControlMode.program) {
           return DropdownFormSection<CategoryEntity>(
-              title: "Select Category",
-              name: 'Category',
-              hintText: "Select",
-              onChanged: (value) {
-                if (value != null) {
-                  context.read<SessionCubit>().selectCategory(value);
-                }
-              },
-              items: state.categriesMangement
-                  .map((category) => DropdownMenuItem<CategoryEntity>(
-                        value: category,
-                        child: SizeConfig(
-                          baseSize: const Size(398, 65),
-                          width: context.setMinSize(398),
-                          height: context.setMinSize(65),
-                          child: Builder(builder: (context) {
-                            return SizedBox(
-                              width: double.infinity,
-                              height: context.sizeConfig.height,
-                              child: Row(
-                                children: [
-                                  CustomCircularImage(
-                                      width: context.setMinSize(40),
-                                      height: context.setMinSize(40),
-                                      imageUrl: "${category.image}"),
-                                  context.setMinSize(20).horizontalSpace,
-                                  Text("${category.name}")
-                                ],
-                              ),
-                            );
-                          }),
-                        ),
-                      ))
-                  .toList());
+            title: "Select Category",
+            name: 'Category',
+            hintText: "Select",
+            onChanged: (value) {
+              if (value != null) {
+                context.read<SessionCubit>().selectCategory(value);
+              }
+            },
+            items: state.categriesMangement
+                .map((category) => DropdownMenuItem<CategoryEntity>(
+                      value: category,
+                      child: _buildDropdownItem(
+                          context, category.image!, category.name!),
+                    ))
+                .toList(),
+            selectedItemBuilder: (context, selectedValue) {
+              final category = state.categriesMangement.firstWhere(
+                  (cat) => cat == selectedValue,
+                  orElse: () =>
+                      CategoryEntity(id: 0, name: "Unknown", image: ""));
+              return Text(category.name!);
+            },
+          );
         }
 
         return DropdownFormSection<AutomaticSessionEntity>(
-            title: "Select Automatic Session",
-            name: 'session',
-            hintText: "Select Auto Session",
-            onChanged: (value) {
-              if (value != null) {
-                context.read<SessionCubit>().selectAutomaticSession(value);
-              }
-            },
-            items: state.automaticSessions
-                .map((session) => DropdownMenuItem<AutomaticSessionEntity>(
-                      value: session,
-                      child: SizeConfig(
-                        baseSize: const Size(398, 65),
-                        width: context.setMinSize(398),
-                        height: context.setMinSize(65),
-                        child: Builder(builder: (context) {
-                          return SizedBox(
-                            width: double.infinity,
-                            height: context.sizeConfig.height,
-                            child: Row(
-                              children: [
-                                CustomCircularImage(
-                                    width: context.setMinSize(40),
-                                    height: context.setMinSize(40),
-                                    imageUrl: ""),
-                                context.setMinSize(30).horizontalSpace,
-                                Text("${session.name}")
-                              ],
-                            ),
-                          );
-                        }),
-                      ),
-                    ))
-                .toList());
+          title: "Select Automatic Session",
+          name: 'session',
+          hintText: "Select Auto Session",
+          onChanged: (value) {
+            if (value != null) {
+              context.read<SessionCubit>().selectAutomaticSession(value);
+            }
+          },
+          items: state.automaticSessions
+              .map((session) => DropdownMenuItem<AutomaticSessionEntity>(
+                    value: session,
+                    child: _buildDropdownItem(
+                        context,
+                        session is MainAutomaticSessionEntity
+                            ? (session).image ?? ""
+                            : "",
+                        session.name!),
+                  ))
+              .toList(),
+          selectedItemBuilder: (context, selectedValue) {
+            final session = state.automaticSessions.firstWhere(
+                (sess) => sess == selectedValue,
+                orElse: () =>
+                    const AutomaticSessionEntity(id: 0, name: "Unknown"));
+            return Text(session.name!);
+          },
+        );
       },
+    );
+  }
+
+  /// Reusable widget for dropdown items
+  Widget _buildDropdownItem(
+      BuildContext context, String imageUrl, String title) {
+    return SizeConfig(
+      baseSize: const Size(398, 65),
+      width: context.setMinSize(398),
+      height: context.setMinSize(65),
+      child: Builder(builder: (context) {
+        return SizedBox(
+          width: double.infinity,
+          height: context.sizeConfig.height,
+          child: Row(
+            children: [
+              SizedBox(
+                child: CustomCircularImage(
+                  width: context.setMinSize(50),
+                  height: context.setMinSize(50),
+                  imageUrl: imageUrl,
+                ),
+              ),
+              context.setMinSize(20).horizontalSpace,
+              Text(
+                title,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }

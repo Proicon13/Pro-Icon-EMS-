@@ -5,6 +5,7 @@ import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/cubits/cubit/control_panel_cubit.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Core/constants/app_assets.dart';
 import '../../../../Core/theme/app_colors.dart';
@@ -17,110 +18,122 @@ class SessionControlRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ControlPanelCubit>();
-    return SizeConfig(
-      baseSize: const Size(398, 90),
-      width: context.setMinSize(398),
-      height: context.setMinSize(90),
-      child: Builder(builder: (context) {
-        return Padding(
-          padding: SizeConstants.kScaffoldPadding(context),
-          child: SizedBox(
-            width: context.sizeConfig.width,
-            height: context.sizeConfig.height,
-            child: Stack(
-              children: [
-                // Battery Indicator on the left
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: SizeConfig(
-                    baseSize: const Size(90, 30),
-                    width: context.setMinSize(90),
-                    height: context.setMinSize(30),
-                    child: Builder(builder: (context) {
-                      return Container(
-                        width: context.sizeConfig.width,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(context.setMinSize(10)),
-                          color: AppColors.darkGreyColor,
+    return BlocBuilder<ControlPanelCubit, ControlPanelState>(
+      buildWhen: (previous, current) => previous.status != current.status,
+      builder: (context, state) {
+        if (state.isError) {
+          return const SizedBox.shrink();
+        }
+        return Skeletonizer(
+          enabled: state.isInitializing,
+          child: SizeConfig(
+            baseSize: const Size(398, 90),
+            width: context.setMinSize(398),
+            height: context.setMinSize(90),
+            child: Builder(builder: (context) {
+              return Padding(
+                padding: SizeConstants.kScaffoldPadding(context),
+                child: SizedBox(
+                  width: context.sizeConfig.width,
+                  height: context.sizeConfig.height,
+                  child: Stack(
+                    children: [
+                      // Battery Indicator on the left
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: SizeConfig(
+                          baseSize: const Size(90, 30),
+                          width: context.setMinSize(90),
+                          height: context.setMinSize(30),
+                          child: Builder(builder: (context) {
+                            return Container(
+                              width: context.sizeConfig.width,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    context.setMinSize(10)),
+                                color: AppColors.darkGreyColor,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: context.setMinSize(8),
+                                vertical: context.setMinSize(5),
+                              ),
+                              child: Row(
+                                children: [
+                                  CustomSvgVisual(
+                                    assetPath: Assets.assetsImagesBateryIcon,
+                                    width: context.setMinSize(20),
+                                    height: context.setMinSize(15),
+                                  ),
+                                  context.setMinSize(8).horizontalSpace,
+                                  Text(
+                                    "70%",
+                                    style: AppTextStyles.fontSize14(context)
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
                         ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: context.setMinSize(8),
-                          vertical: context.setMinSize(5),
-                        ),
+                      ),
+
+                      // Centered Controls
+                      Container(
+                        height: context.sizeConfig.height,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CustomSvgVisual(
-                              assetPath: Assets.assetsImagesBateryIcon,
-                              width: context.setMinSize(20),
-                              height: context.setMinSize(15),
+                            GestureDetector(
+                              onTap: () => cubit.decreaseAllMuscles(),
+                              child: CustomSvgVisual(
+                                assetPath: Assets.assetsImagesDecreaseIcon,
+                                width: context.setMinSize(40),
+                                height: context.setMinSize(40),
+                              ),
                             ),
-                            context.setMinSize(8).horizontalSpace,
-                            Text(
-                              "70%",
-                              style: AppTextStyles.fontSize14(context)
-                                  .copyWith(color: Colors.white),
+                            context.setMinSize(10).horizontalSpace,
+
+                            // Start/Pause Button
+                            BlocSelector<ControlPanelCubit, ControlPanelState,
+                                bool>(
+                              selector: (state) => state.isRunning,
+                              builder: (context, isRunning) {
+                                return GestureDetector(
+                                  onTap: () => isRunning
+                                      ? cubit.pauseSession()
+                                      : cubit.startSession(),
+                                  child: CustomSvgVisual(
+                                    assetPath: isRunning
+                                        ? Assets.assetsImagesPauseIcon
+                                        : Assets.assetsImagesStartIcon,
+                                    width: context.setMinSize(70),
+                                    height: context.setMinSize(70),
+                                  ),
+                                );
+                              },
+                            ),
+                            context.setMinSize(10).horizontalSpace,
+
+                            // Increase Button
+                            GestureDetector(
+                              onTap: () => cubit.increaseAllMuscles(),
+                              child: CustomSvgVisual(
+                                assetPath: Assets.assetsImagesIncreaseIcon,
+                                width: context.setMinSize(40),
+                                height: context.setMinSize(40),
+                              ),
                             ),
                           ],
-                        ),
-                      );
-                    }),
-                  ),
-                ),
-
-                // Centered Controls
-                Container(
-                  height: context.sizeConfig.height,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () => cubit.decreaseAllMuscles(),
-                        child: CustomSvgVisual(
-                          assetPath: Assets.assetsImagesDecreaseIcon,
-                          width: context.setMinSize(40),
-                          height: context.setMinSize(40),
-                        ),
-                      ),
-                      context.setMinSize(10).horizontalSpace,
-
-                      // Start/Pause Button
-                      BlocSelector<ControlPanelCubit, ControlPanelState, bool>(
-                        selector: (state) => state.isRunning,
-                        builder: (context, isRunning) {
-                          return GestureDetector(
-                            onTap: () => isRunning
-                                ? cubit.pauseSession()
-                                : cubit.startSession(),
-                            child: CustomSvgVisual(
-                              assetPath: isRunning
-                                  ? Assets.assetsImagesPauseIcon
-                                  : Assets.assetsImagesStartIcon,
-                              width: context.setMinSize(70),
-                              height: context.setMinSize(70),
-                            ),
-                          );
-                        },
-                      ),
-                      context.setMinSize(10).horizontalSpace,
-
-                      // Increase Button
-                      GestureDetector(
-                        onTap: () => cubit.increaseAllMuscles(),
-                        child: CustomSvgVisual(
-                          assetPath: Assets.assetsImagesIncreaseIcon,
-                          width: context.setMinSize(40),
-                          height: context.setMinSize(40),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              );
+            }),
           ),
         );
-      }),
+      },
     );
   }
 }

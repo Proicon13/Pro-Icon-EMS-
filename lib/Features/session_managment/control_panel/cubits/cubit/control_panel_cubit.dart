@@ -13,6 +13,7 @@ import 'package:pro_icon/data/repos/session_control_panel_repo.dart';
 import '../../../../../Core/dependencies.dart';
 import '../../../../../Core/entities/automatic_session_entity.dart';
 import '../../../../../Core/entities/control_panel_mad.dart';
+import '../../../../../Core/entities/mad_bluetooth_model.dart';
 import '../../../../../Core/entities/user_entity.dart';
 
 part 'control_panel_state.dart';
@@ -61,6 +62,35 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     });
   }
 
+  Future<void> listenToHeartRate(ControlPanelMad mad) async {
+    if (mad.heartRateDevice == null) return;
+
+    final result =
+        await sessionManagementRepository.listenToHeartRate(mad: mad);
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(
+            status: SessionStatus.notReady, errorMessage: failure.message));
+      },
+      (updatedMad) {
+        // ✅ Update MADs list with new heart rate data
+        final updatedMads = state.controlPanelMads
+            .map((m) => m.madNo == updatedMad.madNo ? updatedMad : m)
+            .toList();
+
+        final updatedSelectedMads = state.selectedMads!.map((m) {
+          return m.madNo == updatedMad.madNo ? updatedMad : m;
+        }).toList();
+
+        emit(state.copyWith(
+          controlPanelMads: updatedMads,
+          selectedMads: updatedSelectedMads,
+        ));
+      },
+    );
+  }
+
   Future<void> connectToDevice(
       BluetoothDevice device, bool isHeartRateDevice) async {
     if (state.controlPanelMads.isEmpty) return;
@@ -90,9 +120,10 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     );
   }
 
-  Future<void> disconnectFromDevice(BluetoothDevice device) async {
-    final result =
-        await sessionManagementRepository.disconnectFromDevice(device);
+  Future<void> disconnectFromDevice(
+      ControlPanelMad mad, BluetoothDevice device, bool isHeartRate) async {
+    final result = await sessionManagementRepository.disconnectFromDevice(
+        mad, device, isHeartRate);
 
     result.fold(
       (failure) {
@@ -114,21 +145,50 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     );
   }
 
-  Future<void> sendDataToMad(ControlPanelMad mad, String data) async {
+  Future<void> sendDataToMad(ControlPanelMad mad) async {
     if (mad.madDevice == null) return;
+    if (state.selectedProgram == null) return;
 
-    final result = await sessionManagementRepository.sendDataToDevice(
+    final onTime = state.onTime;
+    final offTime = state.offTime;
+    final ramp = state.ramp;
+    final muscles = mad.musclesPercentage;
+    final pulse = state.selectedProgram!.pulse;
+    final frequency = state.selectedProgram!.hertez;
+
+    // ✅ Create `MadBluetoothModel` Object
+    final madBluetoothData = MadBluetoothModel(
+      onTime: onTime,
+      offTime: offTime,
+      ramp: int.parse(ramp.toString()),
+      mode: int.parse(ramp.toString()),
+      pulseWidthValues: {},
+      muscleValues: muscles,
+      frequency: frequency,
+    );
+
+    // ✅ Send data to BL1 (Muscles & Pulse)
+    final bl1Data = madBluetoothData.formatDataForCharacteristic1();
+    final result1 = await sessionManagementRepository.sendDataToBluetooth1(
       device: mad.madDevice!,
-      data: data,
+      data: bl1Data,
     );
 
-    result.fold(
-      (failure) {
-        emit(state.copyWith(
-            status: SessionStatus.notReady, errorMessage: failure.message));
-      },
-      (_) => print("✅ Data sent successfully to MAD ${mad.madNo}"),
+    // ✅ Send data to BL2 (On-Time, Off-Time, Ramp)
+    final bl2Data = madBluetoothData.formatDataForCharacteristic2();
+    final result2 = await sessionManagementRepository.sendDataToBluetooth2(
+      device: mad.madDevice!,
+      data: bl2Data,
     );
+
+    if (result1.isLeft() || result2.isLeft()) {
+      emit(state.copyWith(
+        status: SessionStatus.notReady,
+        errorMessage: "Failed to send data to MAD",
+      ));
+    } else {
+      print("✅ Data sent successfully to MAD ${mad.madNo}");
+    }
   }
 
   void setSessionMode(SessionControlMode sessionControlMode) {
@@ -247,11 +307,11 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   void onControlPanelMadTap(ControlPanelMad mad, int index) {
     if (state.isGroupMode) return; // ignore if group mode
     final mads = [...state.controlPanelMads];
-    if (!mad.isBluetoothConnected! || !mad.isHeartRateSensorConnected!) {
-      mads[index] = mads[index].copyWith(
-          isBluetoothConnected: true, isHeartRateSensorConnected: true);
-    }
-    ;
+    // if (!mad.isBluetoothConnected! || !mad.isHeartRateSensorConnected!) {
+    //   mads[index] = mads[index].copyWith(
+    //       isBluetoothConnected: true, isHeartRateSensorConnected: true);
+    // }
+    // ;
 
     emit(state.copyWith(selectedMads: [mads[index]], controlPanelMads: mads));
   }

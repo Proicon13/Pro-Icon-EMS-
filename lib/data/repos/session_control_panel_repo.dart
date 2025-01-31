@@ -12,24 +12,29 @@ abstract class SessionManagementRepository {
   /// 🔍 **Scan for Available Bluetooth Devices**
   Future<Either<Failure, List<BluetoothDevice>>> scanForDevices();
 
-  /// 🔗 **Connect to a Bluetooth Device**
+  /// 🔗 **Connect to a MAD or Heart Rate Sensor**
   Future<Either<Failure, ControlPanelMad>> connectToDevice(
       ControlPanelMad mad, BluetoothDevice device, bool isHeartRate);
 
-  /// 🔌 **Disconnect from a Bluetooth Device**
-  Future<Either<Failure, void>> disconnectFromDevice(BluetoothDevice device);
+  /// 🔌 **Disconnect from a Device (MAD or Heart Rate)**
+  Future<Either<Failure, ControlPanelMad>> disconnectFromDevice(
+      ControlPanelMad mad, BluetoothDevice device, bool isHeartRate);
 
-  /// 🩺 **Read Heart Rate from Device**
+  /// 🩺 **Read Heart Rate from Heart Rate Sensor**
   Future<Either<Failure, ControlPanelMad>> listenToHeartRate(
       {required ControlPanelMad mad});
 
-  /// 📡 **Send Data to a Single Device**
-  Future<Either<Failure, void>> sendDataToDevice(
+  /// 📡 **Send Data to Bluetooth 1 (Muscle Power & Pulse Width)**
+  Future<Either<Failure, void>> sendDataToBluetooth1(
       {required BluetoothDevice device, required String data});
 
-  /// 📡 **Send Data to Multiple Devices**
-  Future<Either<Failure, void>> sendDataToDevices(
-      {required List<BluetoothDevice> devices, required String data});
+  /// 📡 **Send Data to Bluetooth 2 (On-Time, Off-Time, Ramp, Mode)**
+  Future<Either<Failure, void>> sendDataToBluetooth2(
+      {required BluetoothDevice device, required String data});
+
+  /// 📥 **Read Data from a Bluetooth Device**
+  Future<Either<Failure, String>> readDataFromDevice(
+      {required BluetoothDevice device, required String characteristicUuid});
 
   /// ⚙️ **Fetch and Process Mads for Control Panel**
   Future<Either<Failure, List<ControlPanelMad>>> getControlPanelMads(
@@ -58,7 +63,7 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
     }
   }
 
-  /// 🔗 **Connect to a Bluetooth Device**
+  /// 🔗 **Connect to a MAD or Heart Rate Sensor**
   @override
   Future<Either<Failure, ControlPanelMad>> connectToDevice(
       ControlPanelMad mad, BluetoothDevice device, bool isHeartRate) async {
@@ -66,13 +71,11 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
       late ControlPanelMad updatedMad;
       final result = await bluetoothManager.connectToDevice(device);
       if (result) {
-        if (isHeartRate) {
-          updatedMad = mad.updateBluetoothStatus(
-              newHeartRateDevice: device, heartRateConnected: true);
-        } else {
-          updatedMad = mad.updateBluetoothStatus(
-              newMadDevice: device, madConnected: true);
-        }
+        updatedMad = isHeartRate
+            ? mad.updateBluetoothStatus(
+                newHeartRateDevice: device, heartRateConnected: true)
+            : mad.updateBluetoothStatus(
+                newMadDevice: device, madConnected: true);
         return Right(updatedMad);
       } else {
         return const Left(
@@ -83,19 +86,22 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
     }
   }
 
-  /// 🔌 **Disconnect from a Bluetooth Device**
+  /// 🔌 **Disconnect from a MAD or Heart Rate Sensor**
   @override
-  Future<Either<Failure, void>> disconnectFromDevice(
-      BluetoothDevice device) async {
+  Future<Either<Failure, ControlPanelMad>> disconnectFromDevice(
+      ControlPanelMad mad, BluetoothDevice device, bool isHeartRate) async {
     try {
       await bluetoothManager.disconnectFromDevice(device);
-      return const Right(null);
+      final updatedMad = isHeartRate
+          ? mad.updateBluetoothStatus(heartRateConnected: false)
+          : mad.updateBluetoothStatus(madConnected: false);
+      return Right(updatedMad);
     } catch (e) {
       return Left(BluetoothFailure(message: "Failed to disconnect: $e"));
     }
   }
 
-  /// 🩺 **Read Heart Rate from Device**
+  /// 🩺 **Read Heart Rate from Heart Rate Sensor**
   @override
   Future<Either<Failure, ControlPanelMad>> listenToHeartRate(
       {required ControlPanelMad mad}) async {
@@ -105,8 +111,14 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
     }
 
     try {
-      final int heartRate =
-          await bluetoothManager.readData(mad.heartRateDevice!);
+      final int? heartRate = await bluetoothManager.readDataFromDevice(
+          mad.heartRateDevice!, "heart_rate_characteristic_uuid");
+
+      if (heartRate == null) {
+        return const Left(
+            BluetoothFailure(message: "Failed to read heart rate"));
+      }
+
       final updatedMad = mad.updateHeartRate(heartRate);
       return Right(updatedMad);
     } catch (e) {
@@ -114,29 +126,48 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
     }
   }
 
-  /// 📡 **Send Data to a Single Device**
+  /// 📡 **Send Data to Bluetooth 1 (Muscle Power & Pulse Width)**
   @override
-  Future<Either<Failure, void>> sendDataToDevice(
+  Future<Either<Failure, void>> sendDataToBluetooth1(
       {required BluetoothDevice device, required String data}) async {
     try {
-      await bluetoothManager.sendDataToDevice(device, data);
+      await bluetoothManager.sendDataToDevice(
+          device, data, "87654321-4321-4321-4321-210987654321");
       return const Right(null);
     } catch (e) {
       return Left(
-          BluetoothFailure(message: "Failed to send data to device: $e"));
+          BluetoothFailure(message: "Failed to send data to Bluetooth 1: $e"));
     }
   }
 
-  /// 📡 **Send Data to Multiple Devices**
+  /// 📡 **Send Data to Bluetooth 2 (On-Time, Off-Time, Ramp, Mode)**
   @override
-  Future<Either<Failure, void>> sendDataToDevices(
-      {required List<BluetoothDevice> devices, required String data}) async {
+  Future<Either<Failure, void>> sendDataToBluetooth2(
+      {required BluetoothDevice device, required String data}) async {
     try {
-      await bluetoothManager.sendDataToDevices(devices, data);
+      await bluetoothManager.sendDataToDevice(
+          device, data, "87654321-4321-4321-4321-210987654322");
       return const Right(null);
     } catch (e) {
       return Left(
-          BluetoothFailure(message: "Failed to send data to devices: $e"));
+          BluetoothFailure(message: "Failed to send data to Bluetooth 2: $e"));
+    }
+  }
+
+  /// 📥 **Read Data from a Bluetooth Device**
+  @override
+  Future<Either<Failure, String>> readDataFromDevice(
+      {required BluetoothDevice device,
+      required String characteristicUuid}) async {
+    try {
+      final result =
+          await bluetoothManager.readDataFromDevice(device, characteristicUuid);
+      if (result == null) {
+        return const Left(BluetoothFailure(message: "No data received"));
+      }
+      return Right(result.toString());
+    } catch (e) {
+      return Left(BluetoothFailure(message: "Failed to read data: $e"));
     }
   }
 
@@ -144,18 +175,15 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
   @override
   Future<Either<Failure, List<ControlPanelMad>>> getControlPanelMads(
       {required List<Mad> rawMads}) async {
-    if (rawMads.isEmpty) {
-      return const Right([]);
-    }
+    if (rawMads.isEmpty) return const Right([]);
 
     final musclesResult = await musclesService.getMuscles();
     if (musclesResult.isLeft()) {
       return const Left(ServerFailure(message: "Failed to fetch muscles."));
     }
+
     final musclesList = musclesResult.getOrElse(() => []);
-    if (musclesList.isEmpty) {
-      return const Right([]);
-    }
+    if (musclesList.isEmpty) return const Right([]);
 
     final rawMadsResult = await madRepository.processMads(rawMads);
     return rawMadsResult.fold(
@@ -167,9 +195,7 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
           final muscleMap = {for (var muscle in musclesList) muscle.name!: 0};
 
           return ControlPanelMad(
-            madNo: mad.serialNo,
-            musclesPercentage: muscleMap,
-          );
+              madNo: mad.serialNo, musclesPercentage: muscleMap);
         }).toList();
 
         return Right(controlPanelMads);

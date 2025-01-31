@@ -50,18 +50,27 @@ class ControlPanelScreenBody extends StatelessWidget {
             child: TimersControlSection(),
           ),
           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                context.setMinSize(5).verticalSpace,
-                Padding(
-                  padding: SizeConstants.kScaffoldPadding(context),
-                  child: Divider(
-                    color: AppColors.lightGreyColor,
-                    thickness: context.setMinSize(1),
-                  ),
-                ),
-                context.setMinSize(5).verticalSpace
-              ],
+            child: BlocBuilder<ControlPanelCubit, ControlPanelState>(
+              buildWhen: (previous, current) =>
+                  previous.status != current.status,
+              builder: (context, state) {
+                if (state.isError) {
+                  return const SizedBox.shrink();
+                }
+                return Column(
+                  children: [
+                    context.setMinSize(5).verticalSpace,
+                    Padding(
+                      padding: SizeConstants.kScaffoldPadding(context),
+                      child: Divider(
+                        color: AppColors.lightGreyColor,
+                        thickness: context.setMinSize(1),
+                      ),
+                    ),
+                    context.setMinSize(5).verticalSpace
+                  ],
+                );
+              },
             ),
           ),
           const SliverToBoxAdapter(

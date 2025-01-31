@@ -4,6 +4,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class BluetoothManager {
+  /// **✅ Ensure Bluetooth & Location Permissions Before Use**
   Future<bool> _ensurePermissionsAndServices() async {
     final bool isBluetoothOn = await _checkBluetooth();
     if (!isBluetoothOn) return false;
@@ -14,12 +15,14 @@ class BluetoothManager {
     return true;
   }
 
+  /// **🔵 Check & Enable Bluetooth if Needed**
   Future<bool> _checkBluetooth() async {
     final BluetoothAdapterState adapterState =
         await FlutterBluePlus.adapterState.first;
     if (adapterState != BluetoothAdapterState.on) {
       await FlutterBluePlus.turnOn();
-      await Future.delayed(const Duration(seconds: 2)); // Wait for activation
+      await Future.delayed(
+          const Duration(seconds: 2)); // Allow time for activation
 
       final BluetoothAdapterState newState =
           await FlutterBluePlus.adapterState.first;
@@ -30,6 +33,7 @@ class BluetoothManager {
     return true;
   }
 
+  /// **📍 Ensure Location Permissions & Services Are Enabled**
   Future<bool> _checkLocationPermissions() async {
     if (!(await Permission.location.isGranted)) {
       await Permission.location.request();
@@ -38,7 +42,6 @@ class BluetoothManager {
       }
     }
 
-    // 🔹 Check if Location Services are enabled
     if (!(await Permission.location.serviceStatus.isEnabled)) {
       return false;
     }
@@ -46,11 +49,9 @@ class BluetoothManager {
     return true;
   }
 
-  /// **🔍 Scan for Available Bluetooth Devices**
-
-  Future<List<BluetoothDevice>> scanDevices() async {
-    final Set<BluetoothDevice> discoveredDevices =
-        {}; // Use a Set to avoid duplicates
+  /// **🔍 Scan for Available Bluetooth Devices (Updated API)**
+  Future<List<BluetoothDevice>> scanDevices({int scanDuration = 5}) async {
+    final Set<BluetoothDevice> discoveredDevices = {};
     final Completer<List<BluetoothDevice>> scanCompleter = Completer();
 
     try {
@@ -59,30 +60,28 @@ class BluetoothManager {
         scanCompleter.complete([]);
         return scanCompleter.future;
       }
+
       // Start BLE Scan
-      FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
+      await FlutterBluePlus.startScan(timeout: Duration(seconds: scanDuration));
 
       // Subscribe to scan results
       StreamSubscription<List<ScanResult>>? subscription;
       subscription = FlutterBluePlus.scanResults.listen((results) {
         for (var result in results) {
           if (result.device.remoteId.str.isNotEmpty) {
-            discoveredDevices
-                .add(result.device); // Automatically filters duplicates
+            discoveredDevices.add(result.device);
           }
         }
       });
 
       // Wait for scan to complete
-      await Future.delayed(const Duration(seconds: 5));
+      await Future.delayed(Duration(seconds: scanDuration));
 
-      // Stop scanning
+      // Stop scanning and cancel the subscription
       await FlutterBluePlus.stopScan();
-
-      // Cancel subscription to avoid memory leaks
       await subscription.cancel();
 
-      // Complete with final device list
+      // Return list of found devices
       scanCompleter.complete(discoveredDevices.toList());
     } catch (e) {
       print("❌ Scan Error: $e");
@@ -92,12 +91,19 @@ class BluetoothManager {
     return scanCompleter.future;
   }
 
-  /// **🔗 Connect to a Bluetooth Device**
+  /// **🔗 Connect to a Bluetooth Device (Updated API)**
   Future<bool> connectToDevice(BluetoothDevice device) async {
     try {
+      if (device.isConnected) {
+        print("⚠️ Already connected to: ${device.platformName}");
+        return true;
+      }
+
       await device.connect();
+      print("✅ Connected to: ${device.platformName}");
       return true;
     } catch (e) {
+      print("❌ Connection Failed: $e");
       return false;
     }
   }
@@ -105,56 +111,94 @@ class BluetoothManager {
   /// **🔌 Disconnect from a Bluetooth Device**
   Future<bool> disconnectFromDevice(BluetoothDevice device) async {
     try {
+      if (!device.isConnected) {
+        print("⚠️ Device already disconnected: ${device.platformName}");
+        return true;
+      }
+
       await device.disconnect();
+      print("✅ Disconnected from: ${device.platformName}");
       return true;
     } catch (e) {
+      print("❌ Disconnection Error: $e");
       return false;
     }
   }
 
-  /// **📡 Send Data to a Single Device**
-  Future<void> sendDataToDevice(BluetoothDevice device, String data) async {
+  /// **📡 Send Data to a Single Device via Writable Characteristic**
+  Future<void> sendDataToDevice(
+      BluetoothDevice device, String data, String characteristicUuid) async {
     try {
       List<BluetoothService> services = await device.discoverServices();
       for (var service in services) {
         for (var characteristic in service.characteristics) {
-          if (characteristic.properties.write) {
+          if (characteristic.uuid.str == characteristicUuid &&
+              characteristic.properties.write) {
             await characteristic.write(data.codeUnits);
-            print("Data Sent to Device ${device.platformName}: $data");
+            print("📤 Data Sent to ${device.platformName}: $data");
             return;
           }
         }
       }
+      print(
+          "❌ No writable characteristic found on device: ${device.platformName}");
     } catch (e) {
-      print("Data Sending Error: $e");
+      print("❌ Data Sending Error: $e");
       rethrow;
     }
   }
 
   /// **📡 Send Data to Multiple Devices**
-  Future<void> sendDataToDevices(
-      List<BluetoothDevice> devices, String data) async {
+  Future<void> sendDataToDevices(List<BluetoothDevice> devices, String data,
+      String characteristicUuid) async {
     for (var device in devices) {
-      await sendDataToDevice(device, data);
+      await sendDataToDevice(device, data, characteristicUuid);
     }
   }
 
-  /// **🩺 Read Data from Device**
-  Future<int> readData(BluetoothDevice device) async {
+  /// **🩺 Read Data from Device via Readable Characteristic**
+  Future<int?> readDataFromDevice(
+      BluetoothDevice device, String characteristicUuid) async {
     try {
       List<BluetoothService> services = await device.discoverServices();
       for (var service in services) {
         for (var characteristic in service.characteristics) {
-          if (characteristic.properties.read) {
+          if (characteristic.uuid.str == characteristicUuid &&
+              characteristic.properties.read) {
             var value = await characteristic.read();
-            return int.parse(String.fromCharCodes(value));
+            return int.tryParse(String.fromCharCodes(value));
           }
         }
       }
-      return 0;
+      print(
+          "❌ No readable characteristic found on device: ${device.platformName}");
+      return null;
     } catch (e) {
-      print("Read Error: $e");
-      return 0;
+      print("❌ Read Error: $e");
+      return null;
     }
+  }
+
+  /// **🔄 Handle Reconnection on Unexpected Disconnection**
+  void handleDisconnection(BluetoothDevice device) {
+    device.connectionState.listen((state) async {
+      if (state == BluetoothConnectionState.disconnected) {
+        print(
+            "⚠️ Device Disconnected: ${device.platformName}. Attempting reconnect...");
+        while (!device.isConnected) {
+          bool success = await connectToDevice(device);
+          if (success) {
+            print("✅ Reconnected to: ${device.platformName}");
+            break;
+          }
+          await Future.delayed(const Duration(seconds: 5));
+        }
+      }
+    });
+  }
+
+  /// **🗑️ Dispose Resources (Disconnect Devices, Stop Scanning)**
+  void dispose() {
+    FlutterBluePlus.stopScan();
   }
 }

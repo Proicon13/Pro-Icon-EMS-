@@ -12,6 +12,7 @@ class ControlPanelMad extends Equatable {
   final bool? isBluetoothConnected;
   final bool? isHeartRateSensorConnected;
   final Map<String, int> musclesPercentage;
+  final int? batteryPercentage;
 
   /// ✅ **Bluetooth devices for MAD and Heart Rate connections**
   final BluetoothDevice? madDevice;
@@ -20,6 +21,7 @@ class ControlPanelMad extends Equatable {
   const ControlPanelMad({
     required this.madNo,
     this.client,
+    this.batteryPercentage = 0,
     this.caloriesBurnt = 0,
     this.heartRate = 0,
     this.minHeartRate,
@@ -32,36 +34,36 @@ class ControlPanelMad extends Equatable {
   });
 
   /// ✅ **Deep Copy with `copyWith()`**
-  ControlPanelMad copyWith({
-    int? madNo,
-    ClientEntity? client,
-    int? heartRate,
-    bool? isBluetoothConnected,
-    bool? isHeartRateSensorConnected,
-    Map<String, int>? musclesPercentage,
-    int? caloriesBurnt,
-    int? minHeartRate,
-    int? maxHeartRate,
-    BluetoothDevice? madDevice,
-    BluetoothDevice? heartRateDevice,
-  }) {
+  ControlPanelMad copyWith(
+      {int? madNo,
+      ClientEntity? client,
+      int? heartRate,
+      bool? isBluetoothConnected,
+      bool? isHeartRateSensorConnected,
+      Map<String, int>? musclesPercentage,
+      int? caloriesBurnt,
+      int? minHeartRate,
+      int? maxHeartRate,
+      BluetoothDevice? madDevice,
+      BluetoothDevice? heartRateDevice,
+      int? batteryPercentage}) {
     return ControlPanelMad(
-      madNo: madNo ?? this.madNo,
-      client: client ?? this.client,
-      heartRate: heartRate ?? this.heartRate,
-      isBluetoothConnected: isBluetoothConnected ?? this.isBluetoothConnected,
-      isHeartRateSensorConnected:
-          isHeartRateSensorConnected ?? this.isHeartRateSensorConnected,
-      // ✅ Deep copy for the muscles map to avoid memory issues
-      musclesPercentage: musclesPercentage != null
-          ? Map<String, int>.from(musclesPercentage)
-          : this.musclesPercentage,
-      caloriesBurnt: caloriesBurnt ?? this.caloriesBurnt,
-      minHeartRate: minHeartRate ?? this.minHeartRate,
-      maxHeartRate: maxHeartRate ?? this.maxHeartRate,
-      madDevice: madDevice ?? this.madDevice,
-      heartRateDevice: heartRateDevice ?? this.heartRateDevice,
-    );
+        madNo: madNo ?? this.madNo,
+        client: client ?? this.client,
+        heartRate: heartRate ?? this.heartRate,
+        isBluetoothConnected: isBluetoothConnected ?? this.isBluetoothConnected,
+        isHeartRateSensorConnected:
+            isHeartRateSensorConnected ?? this.isHeartRateSensorConnected,
+        // ✅ Deep copy for the muscles map to avoid memory issues
+        musclesPercentage: musclesPercentage != null
+            ? Map<String, int>.from(musclesPercentage)
+            : this.musclesPercentage,
+        caloriesBurnt: caloriesBurnt ?? this.caloriesBurnt,
+        minHeartRate: minHeartRate ?? this.minHeartRate,
+        maxHeartRate: maxHeartRate ?? this.maxHeartRate,
+        madDevice: madDevice ?? this.madDevice,
+        heartRateDevice: heartRateDevice ?? this.heartRateDevice,
+        batteryPercentage: batteryPercentage ?? this.batteryPercentage);
   }
 
   /// ✅ **Update Min/Max Heart Rate Based on New Reading**
@@ -110,5 +112,6 @@ class ControlPanelMad extends Equatable {
         maxHeartRate,
         madDevice,
         heartRateDevice,
+        batteryPercentage
       ];
 }

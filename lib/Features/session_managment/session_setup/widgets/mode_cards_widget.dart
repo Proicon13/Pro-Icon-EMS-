@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
+import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Features/session_managment/session_setup/widgets/session_mode_card.dart';
 
 import '../../../../Core/constants/app_assets.dart';
@@ -23,17 +25,26 @@ class ModeCardsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: modes.map((mode) {
-        return SessionModeCard(
-          mode: mode,
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      Expanded(
+        child: SessionModeCard(
+          mode: modes[0],
           onTap: () =>
-              context.read<SessionCubit>().selectSessionMode(mode['mode']),
+              context.read<SessionCubit>().selectSessionMode(modes[0]['mode']),
           isSelected: context.watch<SessionCubit>().state.selectedSessionMode ==
-              mode['mode'],
-        );
-      }).toList(),
-    );
+              modes[0]['mode'],
+        ),
+      ),
+      context.setMinSize(50).horizontalSpace,
+      Expanded(
+        child: SessionModeCard(
+          mode: modes[1],
+          onTap: () =>
+              context.read<SessionCubit>().selectSessionMode(modes[1]['mode']),
+          isSelected: context.watch<SessionCubit>().state.selectedSessionMode ==
+              modes[1]['mode'],
+        ),
+      )
+    ]);
   }
 }

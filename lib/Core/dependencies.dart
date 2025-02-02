@@ -59,6 +59,7 @@ import '../Features/custom_programs/my_programs/cubits/cubit/my_programs_cubit.d
 import '../data/services/categories_services.dart';
 import '../data/services/country_service.dart';
 import '../data/services/programmer_request.dart';
+import '../data/services/session_managment_service.dart';
 import 'cubits/user_state/user_state_cubit.dart';
 import 'local_storage/local_storage_provider.dart';
 import 'local_storage/secure_storage_consumer.dart';
@@ -104,6 +105,8 @@ void setupDependencies() {
 
   getIt.registerLazySingleton(
       () => CustomProgramService(baseApiProvider: getIt()));
+  getIt.registerLazySingleton(
+      () => SessionManagmentService(baseApiProvider: getIt()));
 
   getIt.registerLazySingleton(() => ProfileService(apiProvider: getIt()));
   getIt.registerLazySingleton(() => MusclesService(baseApiProvider: getIt()));
@@ -130,6 +133,7 @@ void setupDependencies() {
             madRepository: getIt(),
             musclesService: getIt(),
             bluetoothManager: getIt(),
+            sessionManagmentService: getIt(),
           ));
 
   // cubits

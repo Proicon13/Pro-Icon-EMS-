@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:pro_icon/Core/constants/app_constants.dart';
 import 'package:pro_icon/Core/errors/failures.dart';
 import 'package:pro_icon/data/repos/mads_repo.dart';
 import 'package:pro_icon/data/services/muscles_service.dart';
@@ -132,7 +133,7 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
       {required BluetoothDevice device, required String data}) async {
     try {
       await bluetoothManager.sendDataToDevice(
-          device, data, "87654321-4321-4321-4321-210987654321");
+          device, data, AppConstants.firstCharactersticId);
       return const Right(null);
     } catch (e) {
       return Left(
@@ -146,7 +147,7 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
       {required BluetoothDevice device, required String data}) async {
     try {
       await bluetoothManager.sendDataToDevice(
-          device, data, "87654321-4321-4321-4321-210987654322");
+          device, data, AppConstants.secondCharactersticId);
       return const Right(null);
     } catch (e) {
       return Left(

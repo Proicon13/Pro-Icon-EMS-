@@ -1,11 +1,12 @@
 class MadBluetoothModel {
   final Map<String, int> muscleValues; // Muscle name -> Percentage
+  // TODO: MAKE IT LIST OF INT
   final Map<String, int> pulseWidthValues; // Muscle name -> Pulse Width
   final int frequency; // Stimulation frequency
   final int onTime; // On time duration
   final int offTime; // Off time duration
   final int ramp; // Ramp time
-  final int mode; // Stimulation mode
+  // Stimulation mode
 
   MadBluetoothModel({
     required this.muscleValues,
@@ -14,7 +15,6 @@ class MadBluetoothModel {
     required this.onTime,
     required this.offTime,
     required this.ramp,
-    required this.mode,
   });
 
   /// This includes **muscle power values, pulse width values, and frequency**
@@ -34,7 +34,7 @@ class MadBluetoothModel {
 
   /// This includes **on-time, off-time, ramp, and mode**
   String formatDataForCharacteristic2() {
-    return "$onTime,$offTime,$ramp,$mode";
+    return "$onTime,$offTime,$ramp,0";
   }
 
   /// 📤 Format Stop Signal to **Bluetooth Characteristic 1**

@@ -23,10 +23,7 @@ class LoginButton extends StatelessWidget {
           buildCustomAlert(context, state.errorMessage!, Colors.red);
         }
         if (state.loginStatus == LoginStatus.success) {
-          // navigate to home screen
-          buildCustomAlert(context, "login.success".tr(), Colors.green);
-
-          Future.delayed(const Duration(seconds: 3), () {
+          Future.delayed(const Duration(seconds: 1), () {
             Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
           });
         }

@@ -13,7 +13,6 @@ import 'package:pro_icon/data/repos/session_control_panel_repo.dart';
 import '../../../../../Core/dependencies.dart';
 import '../../../../../Core/entities/automatic_session_entity.dart';
 import '../../../../../Core/entities/control_panel_mad.dart';
-import '../../../../../Core/entities/mad_bluetooth_model.dart';
 import '../../../../../Core/entities/user_entity.dart';
 
 part 'control_panel_state.dart';
@@ -149,33 +148,34 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     if (mad.madDevice == null) return;
     if (state.selectedProgram == null) return;
 
-    final onTime = state.onTime;
-    final offTime = state.offTime;
-    final ramp = state.ramp;
-    final muscles = mad.musclesPercentage;
-    final pulse = state.selectedProgram!.pulse;
-    final frequency = state.selectedProgram!.hertez;
+    // final onTime = state.onTime;
+    // final offTime = state.offTime;
+    // final ramp = state.ramp;
+    // final muscles = mad.musclesPercentage;
+    // final pulse = state.selectedProgram!.pulse;
+    // final frequency = state.selectedProgram!.hertez;
 
-    // ✅ Create `MadBluetoothModel` Object
-    final madBluetoothData = MadBluetoothModel(
-      onTime: onTime,
-      offTime: offTime,
-      ramp: int.parse(ramp.toString()),
-      mode: int.parse(ramp.toString()),
-      pulseWidthValues: {},
-      muscleValues: muscles,
-      frequency: frequency,
-    );
+    // // ✅ Create `MadBluetoothModel` Object
+    // final madBluetoothData = MadBluetoothModel(
+    //   onTime: onTime,
+    //   offTime: offTime,
+    //   ramp: int.parse(ramp.toString()),
+    //   pulseWidthValues: {},
+    //   muscleValues: muscles,
+    //   frequency: frequency,
+    // );
 
     // ✅ Send data to BL1 (Muscles & Pulse)
-    final bl1Data = madBluetoothData.formatDataForCharacteristic1();
+    // final bl1Data = madBluetoothData.formatDataForCharacteristic1();
+    final bl1Data =
+        "10,12,13,14,15,16,17,18,19,20,120,120,120,120,120,120,120,120,120,120,50";
     final result1 = await sessionManagementRepository.sendDataToBluetooth1(
       device: mad.madDevice!,
       data: bl1Data,
     );
 
     // ✅ Send data to BL2 (On-Time, Off-Time, Ramp)
-    final bl2Data = madBluetoothData.formatDataForCharacteristic2();
+    final bl2Data = "10,8,3,0";
     final result2 = await sessionManagementRepository.sendDataToBluetooth2(
       device: mad.madDevice!,
       data: bl2Data,
@@ -360,18 +360,21 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   void adjustOnTime(num value) {
     if (value < 0) return;
 
-    final int newOnTime = value.toInt();
+    final mad = state.selectedMads!.first;
+    sendDataToMad(mad);
 
-    emit(state.copyWith(
-      onTime: newOnTime,
-      currentOnTime: state.isOnCycle
-          ? (state.currentOnTime >= newOnTime ? newOnTime : state.currentOnTime)
-          : state.currentOnTime, // Update current timer if in On cycle
-    ));
+    // final int newOnTime = value.toInt();
 
-    if (state.status == SessionStatus.running && state.isOnCycle) {
-      _startOnOffTimer(state.currentOnTime); // Restart timer dynamically
-    }
+    // emit(state.copyWith(
+    //   onTime: newOnTime,
+    //   currentOnTime: state.isOnCycle
+    //       ? (state.currentOnTime >= newOnTime ? newOnTime : state.currentOnTime)
+    //       : state.currentOnTime, // Update current timer if in On cycle
+    // ));
+
+    // if (state.status == SessionStatus.running && state.isOnCycle) {
+    //   _startOnOffTimer(state.currentOnTime); // Restart timer dynamically
+    // }
   }
 
   void adjustOffTime(num value) {

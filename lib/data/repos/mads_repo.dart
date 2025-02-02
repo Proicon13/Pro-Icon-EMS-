@@ -44,6 +44,7 @@ class MadRepository {
     required bool status,
   }) async {
     try {
+      //TODO: remove cache when logout
       // Retrieve the current list of MADs
       final localMads = await _getLocalMads();
       final updatedMad = localMads[index].copyWith(isActive: status);

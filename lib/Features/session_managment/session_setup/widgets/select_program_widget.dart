@@ -38,6 +38,8 @@ class SelectProgramWidget extends StatelessWidget {
                     context.read<SessionCubit>().selectProgram(value);
                   }
                 },
+                selectedItemBuilder: (context, program) =>
+                    Text("${program!.name}"),
                 items: state.programs
                     .map((program) => DropdownMenuItem<ProgramEntity>(
                           value: program,

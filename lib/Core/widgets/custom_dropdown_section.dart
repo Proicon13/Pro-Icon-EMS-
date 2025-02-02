@@ -57,7 +57,7 @@ class DropdownFormSection<T> extends StatelessWidget {
             enabledBorder: buildEnabledBorder(context),
             contentPadding: EdgeInsets.symmetric(
               horizontal: context.setMinSize(12),
-              vertical: context.setMinSize(20),
+              vertical: context.setMinSize(25),
             ),
           ),
           items: items,

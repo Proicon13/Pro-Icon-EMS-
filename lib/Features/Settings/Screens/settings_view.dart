@@ -29,8 +29,7 @@ class SettingsView extends StatelessWidget {
     final settingsItems = [
       {
         'title': 'Edit Profile',
-        'icon': Assets.assetsImagesProfileIcon
-        ,
+        'icon': Assets.assetsImagesProfileIcon,
         'onTap': () => Navigator.pushNamed(context, ProfileScreen.routeName),
       },
       {
@@ -189,22 +188,25 @@ class SettingsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: CustomSvgVisual(
-        assetPath: icon,
-        width: context.setMinSize(30),
-        height: context.setMinSize(30),
-      ),
-      title: Text(
-        title,
-        style: AppTextStyles.fontSize18(context).copyWith(
-          color: Colors.white,
-          fontWeight: FontWeight.w500,
+    return SizedBox(
+      height: context.setMinSize(70),
+      child: ListTile(
+        leading: CustomSvgVisual(
+          assetPath: icon,
+          width: context.setMinSize(30),
+          height: context.setMinSize(30),
         ),
+        title: Text(
+          title,
+          style: AppTextStyles.fontSize18(context).copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        trailing:
+            const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 25),
+        onTap: onTap,
       ),
-      trailing:
-          const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 25),
-      onTap: onTap,
     );
   }
 }

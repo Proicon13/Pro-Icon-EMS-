@@ -4,7 +4,6 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class BluetoothManager {
-  /// **✅ Ensure Bluetooth & Location Permissions Before Use**
   Future<bool> _ensurePermissionsAndServices() async {
     final bool isBluetoothOn = await _checkBluetooth();
     if (!isBluetoothOn) return false;
@@ -15,7 +14,6 @@ class BluetoothManager {
     return true;
   }
 
-  /// **🔵 Check & Enable Bluetooth if Needed**
   Future<bool> _checkBluetooth() async {
     final BluetoothAdapterState adapterState =
         await FlutterBluePlus.adapterState.first;
@@ -33,7 +31,6 @@ class BluetoothManager {
     return true;
   }
 
-  /// **📍 Ensure Location Permissions & Services Are Enabled**
   Future<bool> _checkLocationPermissions() async {
     if (!(await Permission.location.isGranted)) {
       await Permission.location.request();
@@ -49,7 +46,6 @@ class BluetoothManager {
     return true;
   }
 
-  /// **🔍 Scan for Available Bluetooth Devices (Updated API)**
   Future<List<BluetoothDevice>> scanDevices({int scanDuration = 5}) async {
     final Set<BluetoothDevice> discoveredDevices = {};
     final Completer<List<BluetoothDevice>> scanCompleter = Completer();
@@ -91,7 +87,6 @@ class BluetoothManager {
     return scanCompleter.future;
   }
 
-  /// **🔗 Connect to a Bluetooth Device (Updated API)**
   Future<bool> connectToDevice(BluetoothDevice device) async {
     try {
       if (device.isConnected) {
@@ -108,7 +103,6 @@ class BluetoothManager {
     }
   }
 
-  /// **🔌 Disconnect from a Bluetooth Device**
   Future<bool> disconnectFromDevice(BluetoothDevice device) async {
     try {
       if (!device.isConnected) {
@@ -125,7 +119,6 @@ class BluetoothManager {
     }
   }
 
-  /// **📡 Send Data to a Single Device via Writable Characteristic**
   Future<void> sendDataToDevice(
       BluetoothDevice device, String data, String characteristicUuid) async {
     try {
@@ -148,7 +141,6 @@ class BluetoothManager {
     }
   }
 
-  /// **📡 Send Data to Multiple Devices**
   Future<void> sendDataToDevices(List<BluetoothDevice> devices, String data,
       String characteristicUuid) async {
     for (var device in devices) {
@@ -156,7 +148,6 @@ class BluetoothManager {
     }
   }
 
-  /// **🩺 Read Data from Device via Readable Characteristic**
   Future<int?> readDataFromDevice(
       BluetoothDevice device, String characteristicUuid) async {
     try {
@@ -179,7 +170,6 @@ class BluetoothManager {
     }
   }
 
-  /// **🔄 Handle Reconnection on Unexpected Disconnection**
   void handleDisconnection(BluetoothDevice device) {
     device.connectionState.listen((state) async {
       if (state == BluetoothConnectionState.disconnected) {
@@ -197,7 +187,6 @@ class BluetoothManager {
     });
   }
 
-  /// **🗑️ Dispose Resources (Disconnect Devices, Stop Scanning)**
   void dispose() {
     FlutterBluePlus.stopScan();
   }

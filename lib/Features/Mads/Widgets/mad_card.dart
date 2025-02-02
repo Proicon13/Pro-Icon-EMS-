@@ -89,14 +89,17 @@ class MadCard extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Icon(
+                Icon(
                   Icons.arrow_forward_ios,
                   color: AppColors.lightGreyColor,
+                  size: context.setMinSize(25),
                 ),
                 GestureDetector(
                   onTap: onDeactivate,
-                  child: const CustomSvgVisual(
+                  child: CustomSvgVisual(
                     assetPath: Assets.assetsImagesPowerIcon,
+                    width: context.setMinSize(25),
+                    height: context.setMinSize(25),
                   ),
                 ),
               ],

@@ -15,6 +15,19 @@ class MusclesValueGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final muscleEntries = musclesMap.entries.toList();
+
+    // Ensure safe handling for small lists
+    final int firstHalfSize =
+        muscleEntries.length >= 5 ? 5 : muscleEntries.length;
+    final int secondHalfSize =
+        (muscleEntries.length > 5) ? muscleEntries.length - 5 : 0;
+
+    final leftColumnMuscles = muscleEntries.take(firstHalfSize).toList();
+    final rightColumnMuscles = secondHalfSize > 0
+        ? muscleEntries.skip(5).take(secondHalfSize).toList()
+        : <MapEntry<String, int>>[];
+
     return SizedBox(
       width: double.infinity,
       height: context.sizeConfig.height,
@@ -32,13 +45,7 @@ class MusclesValueGrid extends StatelessWidget {
                   return SizedBox(
                     height: context.sizeConfig.height,
                     width: context.sizeConfig.width,
-                    child: MuscleColumn(
-                      muscleEntries: musclesMap.entries
-                          .where((entry) =>
-                              musclesMap.entries.toList().indexOf(entry) % 2 ==
-                              0)
-                          .toList(),
-                    ),
+                    child: MuscleColumn(muscleEntries: leftColumnMuscles),
                   );
                 }),
               );
@@ -53,22 +60,16 @@ class MusclesValueGrid extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: LayoutBuilder(builder: (context, constarints) {
+            child: LayoutBuilder(builder: (context, constraints) {
               return SizeConfig(
                 baseSize: const Size(150, 290),
-                width: constarints.maxWidth,
-                height: constarints.maxHeight,
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
                 child: Builder(builder: (context) {
                   return SizedBox(
                     height: context.sizeConfig.height,
                     width: context.sizeConfig.width,
-                    child: MuscleColumn(
-                      muscleEntries: musclesMap.entries
-                          .where((entry) =>
-                              musclesMap.entries.toList().indexOf(entry) % 2 !=
-                              0)
-                          .toList(),
-                    ),
+                    child: MuscleColumn(muscleEntries: rightColumnMuscles),
                   );
                 }),
               );

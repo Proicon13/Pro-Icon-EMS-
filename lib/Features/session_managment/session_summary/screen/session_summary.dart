@@ -39,7 +39,7 @@ class SessionSummary extends StatelessWidget {
               context.setMinSize(40).verticalSpace,
               const TabsSection(),
               context.setMinSize(20).verticalSpace,
-              const ScreenView()
+              const TabBarDetails()
             ],
           ),
         ),

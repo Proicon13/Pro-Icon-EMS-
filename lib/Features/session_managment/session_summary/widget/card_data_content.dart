@@ -16,7 +16,7 @@ class CardDataContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          NameRow(userName: "omar sabry".tr(), madsCount: '7'),
+          NameRow(userName: "omar sabry", madsCount: '7'),
           context.setMinSize(10).verticalSpace,
           HeightAndWeightRow(
               userAge: "25", userHight: "174 cm", userWeight: "70 kg"),

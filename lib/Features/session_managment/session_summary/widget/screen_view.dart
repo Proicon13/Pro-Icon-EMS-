@@ -4,8 +4,9 @@ import 'package:pro_icon/Features/session_managment/session_summary/widget/parti
 import 'charts_widget.dart';
 
 // TODO: FOCUS ON NAMING CONVENTIONS IN ALL WIDGETS AND FILES REVISE ALL
-class ScreenView extends StatelessWidget {
-  const ScreenView({super.key});
+// Todo: ChangedName
+class TabBarDetails extends StatelessWidget {
+  const TabBarDetails({super.key});
 
   @override
   Widget build(BuildContext context) {

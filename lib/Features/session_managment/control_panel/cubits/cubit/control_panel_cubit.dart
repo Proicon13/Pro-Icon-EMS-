@@ -1,22 +1,31 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
 import 'package:pro_icon/Core/entities/client_entity.dart';
 import 'package:pro_icon/Core/entities/program_entity.dart';
+import 'package:pro_icon/Features/custom_programs/manage_program/cubits/cubit/manage_custom_program_cubit.dart';
 import 'package:pro_icon/Features/session_managment/session_setup/cubits/cubit/session_setup_state.dart';
 import 'package:pro_icon/data/models/auto_session_model.dart';
+import 'package:pro_icon/data/models/session_details_model.dart';
 import 'package:pro_icon/data/repos/session_control_panel_repo.dart';
 
+import '../../../../../Core/constants/app_constants.dart';
 import '../../../../../Core/dependencies.dart';
 import '../../../../../Core/entities/automatic_session_entity.dart';
 import '../../../../../Core/entities/control_panel_mad.dart';
 import '../../../../../Core/entities/mad_bluetooth_model.dart';
 import '../../../../../Core/entities/user_entity.dart';
+import '../../../../../Core/errors/failures.dart';
+import '../../../../../data/models/create_session_request.dart';
 
 part 'control_panel_state.dart';
+
+// which charac to send in bluetooth
+enum SendingDestenation { char1, char2, both }
 
 class ControlPanelCubit extends Cubit<ControlPanelState> {
   final SessionManagementRepository sessionManagementRepository;
@@ -26,6 +35,65 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   Timer? _sessionTimer;
   Timer? _onOffTimer;
   Timer? _programTimer;
+
+  Future<SessionDetailsModel?> saveSession() async {
+    emit(state.copyWith(saveSessionStatus: RequetsStatus.loading));
+    late SessionDetailsModel sessionResponse;
+    final request = _createSessionRequest();
+
+    final response =
+        await sessionManagementRepository.saveSession(request: request);
+    response.fold((failure) {
+      emit(state.copyWith(
+          saveSessionStatus: RequetsStatus.error,
+          errorMessage: failure.message));
+    }, (session) {
+      sessionResponse = session;
+      emit(state.copyWith(saveSessionStatus: RequetsStatus.success));
+    });
+
+    return sessionResponse;
+  }
+
+  /// Creates a `CreateSessionRequest` object based on the current session state.
+  CreateSessionRequest _createSessionRequest() {
+    final bool isAutoMode =
+        state.selectedSessionMode == SessionControlMode.auto;
+    final String sessionMode = isAutoMode ? "AUTOMATIC" : "PROGRAM";
+
+    final int? sessionId = state.sessionId != -1 ? state.sessionId : null;
+
+    final List<ControlPanelMad> connectedMads = state.selectedMads
+            ?.where((mad) =>
+                mad.isBluetoothConnected == true &&
+                mad.isHeartRateSensorConnected == true)
+            .toList() ??
+        [];
+
+    final List<int> programIds =
+        state.programsUsedInSession.map((program) => program.id).toList();
+
+    return CreateSessionRequest(
+      mode: sessionMode,
+      sessionId: sessionId,
+      mads: connectedMads,
+      programsIds: programIds,
+    );
+  }
+
+  void updateConnectedMadsBattery() async {
+    final connectedMads = state.selectedMads
+            ?.where((mad) =>
+                mad.isBluetoothConnected! && mad.isHeartRateSensorConnected!)
+            .toList() ??
+        [];
+    if (connectedMads.isEmpty) return;
+    for (var mad in connectedMads) {
+      await sessionManagementRepository.readBatteryPercentage(
+          device: mad.madDevice!,
+          characteristicUuid: AppConstants.madReadingCharacteristicId);
+    }
+  }
 
   void onInit(
       {required SessionControlMode mode,
@@ -42,7 +110,8 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
         setAllPrograms(allPrograms!);
       } else if (mode == SessionControlMode.auto) {
         // if mode is auto set automatic session programs
-        setSessionDuration(Duration(minutes: automaticSession!.duration!));
+        setSessionId(automaticSession!.id!);
+        setSessionDuration(Duration(minutes: automaticSession.duration!));
         setAutomaticSessionPrograms(automaticSession.sessionPrograms!);
       }
     } catch (_) {
@@ -51,6 +120,8 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
           errorMessage: "failed to fetch session mode and data"));
     }
   }
+
+  void setSessionId(int id) => emit(state.copyWith(sessionId: id));
 
   void scanForDevices() async {
     emit(state.copyWith(isScanning: true));
@@ -145,7 +216,9 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     );
   }
 
-  Future<void> sendDataToAllMads({bool isStopSignal = false}) async {
+  Future<void> sendDataToAllMads(
+      {bool isStopSignal = false,
+      SendingDestenation destination = SendingDestenation.both}) async {
     // get all mads that are connected and have heart rate
     final mads = List<ControlPanelMad>.from(state.selectedMads!)
         .where((mad) =>
@@ -156,7 +229,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
       if (isStopSignal) {
         sendStopSignal(mad);
       } else {
-        sendDataToMad(mad);
+        sendDataToMad(mad, destination: destination);
       }
     }
   }
@@ -164,54 +237,41 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   void sendStopSignal(ControlPanelMad mad) async {
     final stopSignal = MadBluetoothModel.formatStopSignal();
 
-    final result = await sessionManagementRepository.sendDataToBluetooth1(
+    final bl1Result = await sessionManagementRepository.sendDataToBluetooth1(
         device: mad.madDevice!, data: stopSignal);
-    result.fold((failure) {
+    final bl2Result = await sessionManagementRepository.sendDataToBluetooth2(
+        data: "0,0,0,0", device: mad.madDevice!);
+
+    if (bl2Result.isLeft() || bl1Result.isLeft()) {
       emit(state.copyWith(
           status: SessionStatus.notReady,
-          errorMessage: "failed to stop signal"));
-    }, (_) {});
+          errorMessage: "Failed to send stop signal to mad"));
+    }
   }
 
-  Future<void> sendDataToMad(ControlPanelMad mad) async {
-    if (mad.madDevice == null) return;
-    if (state.selectedProgram == null) return;
+  Future<void> sendDataToMad(ControlPanelMad mad,
+      {SendingDestenation destination = SendingDestenation.both}) async {
+    if (mad.madDevice == null || state.selectedProgram == null) return;
 
-    final pulseWidthValues = _getPulseWidthValues();
-
-    final onTime = state.onTime;
-    final offTime = state.offTime;
-    final ramp = int.parse(state.ramp.toString());
-    final muscles = mad.musclesPercentage.values.toList();
-
-    final frequency = state.selectedProgram!.hertez;
-
-    // ✅ Create `MadBluetoothModel` Object
     final madBluetoothData = MadBluetoothModel(
-      onTime: onTime,
-      offTime: offTime,
-      ramp: int.parse(ramp.toString()),
-      pulseWidthValues: pulseWidthValues,
-      muscleValues: muscles,
-      frequency: frequency,
+      onTime: state.onTime,
+      offTime: state.offTime,
+      ramp: int.parse(state.ramp.toString()),
+      pulseWidthValues: _getPulseWidthValues(),
+      muscleValues: mad.musclesPercentage.values.toList(),
+      frequency: state.selectedProgram!.hertez,
     );
 
-    // ✅ Send data to BL1 (Muscles & Pulse)
-    // final bl1Data = madBluetoothData.formatDataForCharacteristic1();
+    // Prepare formatted data for Bluetooth characteristics
     final bl1Data = madBluetoothData.formatDataForCharacteristic1();
-    final result1 = await sessionManagementRepository.sendDataToBluetooth1(
-      device: mad.madDevice!,
-      data: bl1Data,
-    );
-
-    // ✅ Send data to BL2 (On-Time, Off-Time, Ramp)
     final bl2Data = madBluetoothData.formatDataForCharacteristic2();
-    final result2 = await sessionManagementRepository.sendDataToBluetooth2(
-      device: mad.madDevice!,
-      data: bl2Data,
-    );
 
-    if (result1.isLeft() || result2.isLeft()) {
+    // Send data based on the specified destination
+    final results = await _sendDataBasedOnDestination(
+        mad.madDevice!, bl1Data, bl2Data, destination);
+
+    // Handle success or failure
+    if (results.any((result) => result.isLeft())) {
       emit(state.copyWith(
         status: SessionStatus.notReady,
         errorMessage: "Failed to send data to MAD",
@@ -219,6 +279,27 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     } else {
       print("✅ Data sent successfully to MAD ${mad.madNo}");
     }
+  }
+
+  Future<List<Either<Failure, void>>> _sendDataBasedOnDestination(
+      BluetoothDevice device,
+      String bl1Data,
+      String bl2Data,
+      SendingDestenation destination) async {
+    final results = <Either<Failure, void>>[];
+
+    if (destination == SendingDestenation.char1 ||
+        destination == SendingDestenation.both) {
+      results.add(await sessionManagementRepository.sendDataToBluetooth1(
+          device: device, data: bl1Data));
+    }
+    if (destination == SendingDestenation.char2 ||
+        destination == SendingDestenation.both) {
+      results.add(await sessionManagementRepository.sendDataToBluetooth2(
+          device: device, data: bl2Data));
+    }
+
+    return results;
   }
 
   List<int> _getPulseWidthValues() {
@@ -403,8 +484,6 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   void adjustOnTime(num value) {
     if (value < 0) return;
 
-    sendDataToAllMads();
-
     final int newOnTime = value.toInt();
 
     emit(state.copyWith(
@@ -422,7 +501,6 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   void adjustOffTime(num value) {
     if (value < 0) return;
 
-    sendDataToAllMads();
     final int newOffTime = value.toInt();
 
     emit(state.copyWith(
@@ -443,7 +521,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     if (value < 0) {
       return;
     }
-    sendDataToAllMads();
+
     emit(state.copyWith(ramp: value.toDouble()));
   }
 
@@ -471,7 +549,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
 
     _updateSelectedMad(updatedMuscles);
     // update mad with new value via bluetooth
-    sendDataToAllMads();
+    sendDataToAllMads(destination: SendingDestenation.char1);
   }
 
   /// Increases all muscle values for the first selected Mad
@@ -483,7 +561,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     updatedMuscles.updateAll((key, value) => value + 1);
     _updateSelectedMad(updatedMuscles);
     // update mad with new value via bluetooth
-    sendDataToAllMads();
+    sendDataToAllMads(destination: SendingDestenation.char1);
   }
 
   /// Decreases all muscle values for the first selected Mad
@@ -495,7 +573,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
         (key, value) => (value - 1).clamp(0, double.infinity).toInt());
     _updateSelectedMad(updatedMuscles);
     // update mad with new value via bluetooth
-    sendDataToAllMads();
+    sendDataToAllMads(destination: SendingDestenation.char1);
   }
 
   /// ✅ **Extracted Function: Validates & Fetches Muscle Map**
@@ -641,6 +719,9 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     }
     // Start on/off timer
     _startOnOffTimer();
+
+    // start signal on mads
+    sendDataToAllMads(destination: SendingDestenation.char2);
   }
 
   void pauseSession() {
@@ -693,6 +774,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
           currentOnTime: 0, // Reset On cycle
           currentOffTime: 0, // Reset Off cycle
         ));
+        sendDataToAllMads(destination: SendingDestenation.both);
         _startOnOffTimer(); // Restart with new cycle
       } else {
         currentCycleTime += 1;

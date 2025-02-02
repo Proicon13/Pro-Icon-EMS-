@@ -65,10 +65,19 @@ class SessionControlRow extends StatelessWidget {
                                     height: context.setMinSize(15),
                                   ),
                                   context.setMinSize(8).horizontalSpace,
-                                  Text(
-                                    "70%",
-                                    style: AppTextStyles.fontSize14(context)
-                                        .copyWith(color: Colors.white),
+                                  BlocSelector<ControlPanelCubit,
+                                      ControlPanelState, int>(
+                                    selector: (state) {
+                                      return state.selectedMads!.first
+                                          .batteryPercentage!;
+                                    },
+                                    builder: (context, battery) {
+                                      return Text(
+                                        "$battery%",
+                                        style: AppTextStyles.fontSize14(context)
+                                            .copyWith(color: Colors.white),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),

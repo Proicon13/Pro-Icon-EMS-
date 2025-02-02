@@ -24,6 +24,8 @@ extension SessionStatusExtension on ControlPanelState {
 
 class ControlPanelState extends Equatable {
   final SessionStatus status;
+  final int? sessionId;
+  final RequetsStatus saveSessionStatus;
   final bool isSessionCounted;
   final List<BluetoothDevice> availableDevices; // List of paired devices>
   final int currentProgramIndex; // Which program is active
@@ -55,6 +57,8 @@ class ControlPanelState extends Equatable {
   final List<ProgramEntity> programsUsedInSession;
   const ControlPanelState({
     this.status = SessionStatus.initial,
+    this.sessionId = -1,
+    this.saveSessionStatus = RequetsStatus.intial,
     this.isScanning = false,
     this.isSessionCounted = false,
     this.currentProgramIndex = 0,
@@ -80,63 +84,65 @@ class ControlPanelState extends Equatable {
     this.automaticSessionprograms = const [],
   });
 
-  ControlPanelState copyWith({
-    SessionStatus? status,
-    bool? isScanning,
-    int? currentProgramIndex,
-    Duration? currentProgramDuration,
-    bool? isProgramTransitioning,
-    SessionControlMode? selectedSessionMode,
-    List<ControlPanelMad>? controlPanelMads,
-    Map<String, int>? sharedMuscles,
-    List<ControlPanelMad>? selectedMads,
-    String? errorMessage,
-    bool? isGroupMode,
-    Duration? totalDuration,
-    Duration? currentDuration,
-    int? currentOnTime,
-    int? currentOffTime,
-    List<ProgramEntity>? programsUsedInSession,
-    int? onTime,
-    int? offTime,
-    double? ramp,
-    bool? isOnCycle,
-    ProgramEntity? selectedProgram,
-    List<SessionProgram>? automaticSessionprograms,
-    List<ProgramEntity>? allPrograms,
-    List<BluetoothDevice>? availableDevices,
-    bool? isSessionCounted,
-  }) {
+  ControlPanelState copyWith(
+      {SessionStatus? status,
+      bool? isScanning,
+      int? currentProgramIndex,
+      Duration? currentProgramDuration,
+      bool? isProgramTransitioning,
+      SessionControlMode? selectedSessionMode,
+      List<ControlPanelMad>? controlPanelMads,
+      Map<String, int>? sharedMuscles,
+      List<ControlPanelMad>? selectedMads,
+      String? errorMessage,
+      bool? isGroupMode,
+      Duration? totalDuration,
+      Duration? currentDuration,
+      int? currentOnTime,
+      int? currentOffTime,
+      List<ProgramEntity>? programsUsedInSession,
+      int? onTime,
+      int? offTime,
+      double? ramp,
+      bool? isOnCycle,
+      ProgramEntity? selectedProgram,
+      List<SessionProgram>? automaticSessionprograms,
+      List<ProgramEntity>? allPrograms,
+      List<BluetoothDevice>? availableDevices,
+      bool? isSessionCounted,
+      RequetsStatus? saveSessionStatus,
+      int? sessionId}) {
     return ControlPanelState(
-      status: status ?? this.status,
-      isScanning: isScanning ?? this.isScanning,
-      controlPanelMads: controlPanelMads ?? this.controlPanelMads,
-      availableDevices: availableDevices ?? this.availableDevices,
-      selectedMads: selectedMads ?? this.selectedMads,
-      errorMessage: errorMessage ?? this.errorMessage,
-      isGroupMode: isGroupMode ?? this.isGroupMode,
-      totalDuration: totalDuration ?? this.totalDuration,
-      onTime: onTime ?? this.onTime,
-      offTime: offTime ?? this.offTime,
-      ramp: ramp ?? this.ramp,
-      isOnCycle: isOnCycle ?? this.isOnCycle,
-      selectedProgram: selectedProgram ?? this.selectedProgram,
-      automaticSessionprograms:
-          automaticSessionprograms ?? this.automaticSessionprograms,
-      allPrograms: allPrograms ?? this.allPrograms,
-      selectedSessionMode: selectedSessionMode ?? this.selectedSessionMode,
-      currentDuration: currentDuration ?? this.currentDuration,
-      currentOnTime: currentOnTime ?? this.currentOnTime,
-      currentOffTime: currentOffTime ?? this.currentOffTime,
-      programsUsedInSession:
-          programsUsedInSession ?? this.programsUsedInSession,
-      currentProgramIndex: currentProgramIndex ?? this.currentProgramIndex,
-      currentProgramDuration:
-          currentProgramDuration ?? this.currentProgramDuration,
-      isProgramTransitioning:
-          isProgramTransitioning ?? this.isProgramTransitioning,
-      isSessionCounted: isSessionCounted ?? this.isSessionCounted,
-    );
+        status: status ?? this.status,
+        isScanning: isScanning ?? this.isScanning,
+        controlPanelMads: controlPanelMads ?? this.controlPanelMads,
+        availableDevices: availableDevices ?? this.availableDevices,
+        selectedMads: selectedMads ?? this.selectedMads,
+        errorMessage: errorMessage ?? this.errorMessage,
+        isGroupMode: isGroupMode ?? this.isGroupMode,
+        totalDuration: totalDuration ?? this.totalDuration,
+        onTime: onTime ?? this.onTime,
+        offTime: offTime ?? this.offTime,
+        ramp: ramp ?? this.ramp,
+        isOnCycle: isOnCycle ?? this.isOnCycle,
+        selectedProgram: selectedProgram ?? this.selectedProgram,
+        automaticSessionprograms:
+            automaticSessionprograms ?? this.automaticSessionprograms,
+        allPrograms: allPrograms ?? this.allPrograms,
+        selectedSessionMode: selectedSessionMode ?? this.selectedSessionMode,
+        currentDuration: currentDuration ?? this.currentDuration,
+        currentOnTime: currentOnTime ?? this.currentOnTime,
+        currentOffTime: currentOffTime ?? this.currentOffTime,
+        programsUsedInSession:
+            programsUsedInSession ?? this.programsUsedInSession,
+        currentProgramIndex: currentProgramIndex ?? this.currentProgramIndex,
+        currentProgramDuration:
+            currentProgramDuration ?? this.currentProgramDuration,
+        isProgramTransitioning:
+            isProgramTransitioning ?? this.isProgramTransitioning,
+        isSessionCounted: isSessionCounted ?? this.isSessionCounted,
+        saveSessionStatus: saveSessionStatus ?? this.saveSessionStatus,
+        sessionId: sessionId ?? this.sessionId);
   }
 
   @override
@@ -164,6 +170,8 @@ class ControlPanelState extends Equatable {
         currentProgramIndex,
         currentProgramDuration,
         isProgramTransitioning,
-        isSessionCounted
+        isSessionCounted,
+        saveSessionStatus,
+        sessionId
       ];
 }

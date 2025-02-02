@@ -148,7 +148,7 @@ class BluetoothManager {
     }
   }
 
-  Future<int?> readDataFromDevice(
+  Future<String> readDataFromDevice(
       BluetoothDevice device, String characteristicUuid) async {
     try {
       List<BluetoothService> services = await device.discoverServices();
@@ -157,16 +157,16 @@ class BluetoothManager {
           if (characteristic.uuid.str == characteristicUuid &&
               characteristic.properties.read) {
             var value = await characteristic.read();
-            return int.tryParse(String.fromCharCodes(value));
+            return String.fromCharCodes(value);
           }
         }
       }
       print(
           "❌ No readable characteristic found on device: ${device.platformName}");
-      return null;
+      return "";
     } catch (e) {
       print("❌ Read Error: $e");
-      return null;
+      return "";
     }
   }
 

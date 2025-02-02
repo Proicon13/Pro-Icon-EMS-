@@ -41,7 +41,7 @@ abstract class SessionManagementRepository {
       {required BluetoothDevice device, required String data});
 
   /// 📥 **Read Data from a Bluetooth Device**
-  Future<Either<Failure, String>> readDataFromDevice(
+  Future<Either<Failure, String>> readBatteryPercentage(
       {required BluetoothDevice device, required String characteristicUuid});
 
   /// ⚙️ **Fetch and Process Mads for Control Panel**
@@ -121,15 +121,15 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
     }
 
     try {
-      final int? heartRate = await bluetoothManager.readDataFromDevice(
-          mad.heartRateDevice!, "heart_rate_characteristic_uuid");
+      final String heartRate = await bluetoothManager.readDataFromDevice(
+          mad.heartRateDevice!, AppConstants.heartRateCharacteristicId);
 
-      if (heartRate == null) {
+      if (heartRate.isEmpty) {
         return const Left(
             BluetoothFailure(message: "Failed to read heart rate"));
       }
 
-      final updatedMad = mad.updateHeartRate(heartRate);
+      final updatedMad = mad.updateHeartRate(int.parse(heartRate));
       return Right(updatedMad);
     } catch (e) {
       return Left(BluetoothFailure(message: "Failed to read heart rate: $e"));
@@ -166,15 +166,12 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
 
   /// 📥 **Read Data from a Bluetooth Device**
   @override
-  Future<Either<Failure, String>> readDataFromDevice(
+  Future<Either<Failure, String>> readBatteryPercentage(
       {required BluetoothDevice device,
       required String characteristicUuid}) async {
     try {
       final result =
           await bluetoothManager.readDataFromDevice(device, characteristicUuid);
-      if (result == null) {
-        return const Left(BluetoothFailure(message: "No data received"));
-      }
       return Right(result.toString());
     } catch (e) {
       return Left(BluetoothFailure(message: "Failed to read data: $e"));

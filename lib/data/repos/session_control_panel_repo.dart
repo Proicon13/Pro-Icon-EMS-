@@ -196,7 +196,7 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
           final muscleMap = {for (var muscle in musclesList) muscle.name!: 0};
 
           return ControlPanelMad(
-              madNo: mad.serialNo, musclesPercentage: muscleMap);
+              madId: mad.id, madNo: mad.serialNo, musclesPercentage: muscleMap);
         }).toList();
 
         return Right(controlPanelMads);

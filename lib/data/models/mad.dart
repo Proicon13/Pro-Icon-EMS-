@@ -24,7 +24,7 @@ class Mad extends Equatable {
     return Mad(
       id: json['id'],
       serialNo: json['sNo'],
-      isActive: json['isActive'],
+      isActive: json['isActive'] != null ? json['isActive'] : true,
     );
   }
 

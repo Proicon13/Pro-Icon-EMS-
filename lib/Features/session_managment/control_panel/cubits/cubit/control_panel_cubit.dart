@@ -13,6 +13,7 @@ import 'package:pro_icon/data/repos/session_control_panel_repo.dart';
 import '../../../../../Core/dependencies.dart';
 import '../../../../../Core/entities/automatic_session_entity.dart';
 import '../../../../../Core/entities/control_panel_mad.dart';
+import '../../../../../Core/entities/mad_bluetooth_model.dart';
 import '../../../../../Core/entities/user_entity.dart';
 
 part 'control_panel_state.dart';
@@ -144,38 +145,67 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     );
   }
 
+  Future<void> sendDataToAllMads({bool isStopSignal = false}) async {
+    // get all mads that are connected and have heart rate
+    final mads = List<ControlPanelMad>.from(state.selectedMads!)
+        .where((mad) =>
+            mad.isBluetoothConnected! && mad.isHeartRateSensorConnected!)
+        .toList();
+    if (mads.isEmpty) return;
+    for (var mad in mads) {
+      if (isStopSignal) {
+        sendStopSignal(mad);
+      } else {
+        sendDataToMad(mad);
+      }
+    }
+  }
+
+  void sendStopSignal(ControlPanelMad mad) async {
+    final stopSignal = MadBluetoothModel.formatStopSignal();
+
+    final result = await sessionManagementRepository.sendDataToBluetooth1(
+        device: mad.madDevice!, data: stopSignal);
+    result.fold((failure) {
+      emit(state.copyWith(
+          status: SessionStatus.notReady,
+          errorMessage: "failed to stop signal"));
+    }, (_) {});
+  }
+
   Future<void> sendDataToMad(ControlPanelMad mad) async {
     if (mad.madDevice == null) return;
     if (state.selectedProgram == null) return;
 
-    // final onTime = state.onTime;
-    // final offTime = state.offTime;
-    // final ramp = state.ramp;
-    // final muscles = mad.musclesPercentage;
-    // final pulse = state.selectedProgram!.pulse;
-    // final frequency = state.selectedProgram!.hertez;
+    final pulseWidthValues = _getPulseWidthValues();
 
-    // // ✅ Create `MadBluetoothModel` Object
-    // final madBluetoothData = MadBluetoothModel(
-    //   onTime: onTime,
-    //   offTime: offTime,
-    //   ramp: int.parse(ramp.toString()),
-    //   pulseWidthValues: {},
-    //   muscleValues: muscles,
-    //   frequency: frequency,
-    // );
+    final onTime = state.onTime;
+    final offTime = state.offTime;
+    final ramp = int.parse(state.ramp.toString());
+    final muscles = mad.musclesPercentage.values.toList();
+
+    final frequency = state.selectedProgram!.hertez;
+
+    // ✅ Create `MadBluetoothModel` Object
+    final madBluetoothData = MadBluetoothModel(
+      onTime: onTime,
+      offTime: offTime,
+      ramp: int.parse(ramp.toString()),
+      pulseWidthValues: pulseWidthValues,
+      muscleValues: muscles,
+      frequency: frequency,
+    );
 
     // ✅ Send data to BL1 (Muscles & Pulse)
     // final bl1Data = madBluetoothData.formatDataForCharacteristic1();
-    final bl1Data =
-        "10,12,13,14,15,16,17,18,19,20,120,120,120,120,120,120,120,120,120,120,50";
+    final bl1Data = madBluetoothData.formatDataForCharacteristic1();
     final result1 = await sessionManagementRepository.sendDataToBluetooth1(
       device: mad.madDevice!,
       data: bl1Data,
     );
 
     // ✅ Send data to BL2 (On-Time, Off-Time, Ramp)
-    final bl2Data = "10,8,3,0";
+    final bl2Data = madBluetoothData.formatDataForCharacteristic2();
     final result2 = await sessionManagementRepository.sendDataToBluetooth2(
       device: mad.madDevice!,
       data: bl2Data,
@@ -189,6 +219,19 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     } else {
       print("✅ Data sent successfully to MAD ${mad.madNo}");
     }
+  }
+
+  List<int> _getPulseWidthValues() {
+    List<int> pulseWidthValues = [];
+
+    final selectedProgram = state.selectedProgram!;
+    if (selectedProgram is CustomProgramEntity) {
+      pulseWidthValues =
+          selectedProgram.programMuscles.map((e) => e.pulse!.toInt()).toList();
+    } else {
+      pulseWidthValues = List.generate(10, (index) => selectedProgram.pulse);
+    }
+    return pulseWidthValues;
   }
 
   void setSessionMode(SessionControlMode sessionControlMode) {
@@ -360,26 +403,26 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   void adjustOnTime(num value) {
     if (value < 0) return;
 
-    final mad = state.selectedMads!.first;
-    sendDataToMad(mad);
+    sendDataToAllMads();
 
-    // final int newOnTime = value.toInt();
+    final int newOnTime = value.toInt();
 
-    // emit(state.copyWith(
-    //   onTime: newOnTime,
-    //   currentOnTime: state.isOnCycle
-    //       ? (state.currentOnTime >= newOnTime ? newOnTime : state.currentOnTime)
-    //       : state.currentOnTime, // Update current timer if in On cycle
-    // ));
+    emit(state.copyWith(
+      onTime: newOnTime,
+      currentOnTime: state.isOnCycle
+          ? (state.currentOnTime >= newOnTime ? newOnTime : state.currentOnTime)
+          : state.currentOnTime, // Update current timer if in On cycle
+    ));
 
-    // if (state.status == SessionStatus.running && state.isOnCycle) {
-    //   _startOnOffTimer(state.currentOnTime); // Restart timer dynamically
-    // }
+    if (state.status == SessionStatus.running && state.isOnCycle) {
+      _startOnOffTimer(state.currentOnTime); // Restart timer dynamically
+    }
   }
 
   void adjustOffTime(num value) {
     if (value < 0) return;
 
+    sendDataToAllMads();
     final int newOffTime = value.toInt();
 
     emit(state.copyWith(
@@ -400,6 +443,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     if (value < 0) {
       return;
     }
+    sendDataToAllMads();
     emit(state.copyWith(ramp: value.toDouble()));
   }
 
@@ -419,12 +463,15 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     }
 
     // Adjust value with prevention for negative numbers
+
     final int newValue = isIncrement
         ? updatedMuscles[muscleKey]! + 1
         : (updatedMuscles[muscleKey]! - 1).clamp(0, double.infinity).toInt();
     updatedMuscles[muscleKey] = newValue;
 
     _updateSelectedMad(updatedMuscles);
+    // update mad with new value via bluetooth
+    sendDataToAllMads();
   }
 
   /// Increases all muscle values for the first selected Mad
@@ -435,6 +482,8 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
 
     updatedMuscles.updateAll((key, value) => value + 1);
     _updateSelectedMad(updatedMuscles);
+    // update mad with new value via bluetooth
+    sendDataToAllMads();
   }
 
   /// Decreases all muscle values for the first selected Mad
@@ -445,6 +494,8 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     updatedMuscles.updateAll(
         (key, value) => (value - 1).clamp(0, double.infinity).toInt());
     _updateSelectedMad(updatedMuscles);
+    // update mad with new value via bluetooth
+    sendDataToAllMads();
   }
 
   /// ✅ **Extracted Function: Validates & Fetches Muscle Map**
@@ -569,6 +620,14 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
         timer.cancel();
         stopSession();
       } else {
+        // Calculate elapsed time
+        final elapsedSeconds =
+            state.totalDuration.inSeconds - state.currentDuration.inSeconds;
+
+        // Check if 6 minutes (360 seconds) have passed count the session
+        if (elapsedSeconds == 360 && !state.isSessionCounted) {
+          emit(state.copyWith(isSessionCounted: true));
+        }
         // Update current session duration
         emit(state.copyWith(
           currentDuration: state.currentDuration - const Duration(seconds: 1),
@@ -588,6 +647,8 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     _sessionTimer?.cancel();
     _onOffTimer?.cancel();
     _programTimer?.cancel();
+    // stop signal on mads
+    sendDataToAllMads(isStopSignal: true);
 
     emit(state.copyWith(
       isOnCycle: true,
@@ -602,9 +663,11 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     _sessionTimer?.cancel();
     _onOffTimer?.cancel();
     _programTimer?.cancel();
+    // stop signal on mads
+    sendDataToAllMads(isStopSignal: true);
 
     emit(state.copyWith(
-      status: SessionStatus.stopped,
+      status: SessionStatus.finished,
       currentDuration: state.totalDuration,
       onTime: state.onTime,
       offTime: state.offTime,

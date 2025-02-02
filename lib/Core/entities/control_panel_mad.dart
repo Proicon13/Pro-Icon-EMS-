@@ -4,6 +4,7 @@ import 'package:pro_icon/Core/entities/client_entity.dart';
 
 class ControlPanelMad extends Equatable {
   final int madNo;
+  final int madId;
   final ClientEntity? client;
   final int? heartRate;
   final int? caloriesBurnt;
@@ -20,6 +21,7 @@ class ControlPanelMad extends Equatable {
 
   const ControlPanelMad({
     required this.madNo,
+    required this.madId,
     this.client,
     this.batteryPercentage = 0,
     this.caloriesBurnt = 0,
@@ -46,9 +48,11 @@ class ControlPanelMad extends Equatable {
       int? maxHeartRate,
       BluetoothDevice? madDevice,
       BluetoothDevice? heartRateDevice,
+      int? madId,
       int? batteryPercentage}) {
     return ControlPanelMad(
         madNo: madNo ?? this.madNo,
+        madId: madId ?? this.madId,
         client: client ?? this.client,
         heartRate: heartRate ?? this.heartRate,
         isBluetoothConnected: isBluetoothConnected ?? this.isBluetoothConnected,
@@ -99,6 +103,14 @@ class ControlPanelMad extends Equatable {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+        "madId": madId,
+        "clientId": client?.id,
+        "kcal": caloriesBurnt,
+        "minRate": minHeartRate,
+        "maxRate": maxHeartRate
+      };
+
   @override
   List<Object?> get props => [
         madNo,
@@ -112,6 +124,7 @@ class ControlPanelMad extends Equatable {
         maxHeartRate,
         madDevice,
         heartRateDevice,
-        batteryPercentage
+        batteryPercentage,
+        madId
       ];
 }

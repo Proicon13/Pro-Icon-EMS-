@@ -7,7 +7,7 @@ enum SessionStatus {
   ready,
   running,
   paused,
-  stopped,
+  finished,
   error,
 }
 
@@ -16,7 +16,7 @@ extension SessionStatusExtension on ControlPanelState {
   bool get isInitializing => this.status == SessionStatus.intializing;
   bool get isRunning => this.status == SessionStatus.running;
   bool get isPaused => this.status == SessionStatus.paused;
-  bool get isStopped => this.status == SessionStatus.stopped;
+  bool get isStopped => this.status == SessionStatus.finished;
   bool get isError => this.status == SessionStatus.error;
   bool get isReady => this.status == SessionStatus.ready;
   bool get isNotReady => this.status == SessionStatus.notReady;
@@ -24,6 +24,7 @@ extension SessionStatusExtension on ControlPanelState {
 
 class ControlPanelState extends Equatable {
   final SessionStatus status;
+  final bool isSessionCounted;
   final List<BluetoothDevice> availableDevices; // List of paired devices>
   final int currentProgramIndex; // Which program is active
   final Duration
@@ -55,6 +56,7 @@ class ControlPanelState extends Equatable {
   const ControlPanelState({
     this.status = SessionStatus.initial,
     this.isScanning = false,
+    this.isSessionCounted = false,
     this.currentProgramIndex = 0,
     this.currentProgramDuration = Duration.zero,
     this.isProgramTransitioning = false,
@@ -103,6 +105,7 @@ class ControlPanelState extends Equatable {
     List<SessionProgram>? automaticSessionprograms,
     List<ProgramEntity>? allPrograms,
     List<BluetoothDevice>? availableDevices,
+    bool? isSessionCounted,
   }) {
     return ControlPanelState(
       status: status ?? this.status,
@@ -132,6 +135,7 @@ class ControlPanelState extends Equatable {
           currentProgramDuration ?? this.currentProgramDuration,
       isProgramTransitioning:
           isProgramTransitioning ?? this.isProgramTransitioning,
+      isSessionCounted: isSessionCounted ?? this.isSessionCounted,
     );
   }
 
@@ -159,6 +163,7 @@ class ControlPanelState extends Equatable {
         programsUsedInSession,
         currentProgramIndex,
         currentProgramDuration,
-        isProgramTransitioning
+        isProgramTransitioning,
+        isSessionCounted
       ];
 }

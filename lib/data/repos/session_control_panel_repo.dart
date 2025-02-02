@@ -1,15 +1,22 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:pro_icon/Core/constants/app_constants.dart';
+import 'package:pro_icon/Core/errors/exceptions.dart';
 import 'package:pro_icon/Core/errors/failures.dart';
+import 'package:pro_icon/data/models/session_details_model.dart';
 import 'package:pro_icon/data/repos/mads_repo.dart';
 import 'package:pro_icon/data/services/muscles_service.dart';
+import 'package:pro_icon/data/services/session_managment_service.dart';
 
 import '../../Core/entities/control_panel_mad.dart';
+import '../models/create_session_request.dart';
 import '../models/mad.dart';
 import '../services/bluetooth_manager.dart';
 
 abstract class SessionManagementRepository {
+  Future<Either<Failure, SessionDetailsModel>> saveSession(
+      {required CreateSessionRequest request});
+
   /// 🔍 **Scan for Available Bluetooth Devices**
   Future<Either<Failure, List<BluetoothDevice>>> scanForDevices();
 
@@ -46,11 +53,13 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
   final MadRepository madRepository;
   final MusclesService musclesService;
   final BluetoothManager bluetoothManager;
+  final SessionManagmentService sessionManagmentService;
 
   SessionManagementRepositoryImpl({
     required this.madRepository,
     required this.musclesService,
     required this.bluetoothManager,
+    required this.sessionManagmentService,
   });
 
   /// 🔍 **Scan for Available Bluetooth Devices**
@@ -202,5 +211,17 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
         return Right(controlPanelMads);
       },
     );
+  }
+
+  @override
+  Future<Either<Failure, SessionDetailsModel>> saveSession(
+      {required CreateSessionRequest request}) async {
+    try {
+      final response =
+          await sessionManagmentService.createSession(request: request);
+      return Right(response);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    }
   }
 }

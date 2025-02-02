@@ -13,6 +13,7 @@ class ApiConstants {
   static const currentUserEndpoint = "/auth/me";
   static const getTrainersEndpoint = "/trainers";
   static const clientsEndPoint = "/clients";
+  static const createSessionEndpoint = "/session-management/start-session";
   static const addTrainerEndpoint = "/auth/add-trainer-by-admin";
   static const addCustomProgramEndpoint = "/programer/add-program";
   static updateCustomProgramEndpoint(int id) => "/programer/update-program/$id";

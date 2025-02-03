@@ -9,6 +9,7 @@ enum SessionStatus {
   paused,
   finished,
   error,
+  warning
 }
 
 extension SessionStatusExtension on ControlPanelState {
@@ -16,10 +17,11 @@ extension SessionStatusExtension on ControlPanelState {
   bool get isInitializing => this.status == SessionStatus.intializing;
   bool get isRunning => this.status == SessionStatus.running;
   bool get isPaused => this.status == SessionStatus.paused;
-  bool get isStopped => this.status == SessionStatus.finished;
+  bool get isFinished => this.status == SessionStatus.finished;
   bool get isError => this.status == SessionStatus.error;
   bool get isReady => this.status == SessionStatus.ready;
   bool get isNotReady => this.status == SessionStatus.notReady;
+  bool get isWarning => this.status == SessionStatus.warning;
 }
 
 class ControlPanelState extends Equatable {

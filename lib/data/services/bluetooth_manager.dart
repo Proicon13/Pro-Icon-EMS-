@@ -187,7 +187,15 @@ class BluetoothManager {
     });
   }
 
+  void disconnectAllConnectedDevices() {
+    final connectedDevices = FlutterBluePlus.connectedDevices;
+    for (var device in connectedDevices) {
+      disconnectFromDevice(device);
+    }
+  }
+
   void dispose() {
     FlutterBluePlus.stopScan();
+    disconnectAllConnectedDevices();
   }
 }

@@ -29,7 +29,7 @@ abstract class SessionManagementRepository {
       ControlPanelMad mad, BluetoothDevice device, bool isHeartRate);
 
   /// 🩺 **Read Heart Rate from Heart Rate Sensor**
-  Future<Either<Failure, ControlPanelMad>> listenToHeartRate(
+  Future<Either<Failure, int>> listenToHeartRate(
       {required ControlPanelMad mad});
 
   /// 📡 **Send Data to Bluetooth 1 (Muscle Power & Pulse Width)**
@@ -41,12 +41,14 @@ abstract class SessionManagementRepository {
       {required BluetoothDevice device, required String data});
 
   /// 📥 **Read Data from a Bluetooth Device**
-  Future<Either<Failure, String>> readBatteryPercentage(
+  Future<Either<Failure, int>> readBatteryPercentage(
       {required BluetoothDevice device, required String characteristicUuid});
 
   /// ⚙️ **Fetch and Process Mads for Control Panel**
   Future<Either<Failure, List<ControlPanelMad>>> getControlPanelMads(
       {required List<Mad> rawMads});
+
+  void dispose();
 }
 
 class SessionManagementRepositoryImpl implements SessionManagementRepository {
@@ -113,7 +115,7 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
 
   /// 🩺 **Read Heart Rate from Heart Rate Sensor**
   @override
-  Future<Either<Failure, ControlPanelMad>> listenToHeartRate(
+  Future<Either<Failure, int>> listenToHeartRate(
       {required ControlPanelMad mad}) async {
     if (mad.heartRateDevice == null) {
       return const Left(
@@ -129,8 +131,7 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
             BluetoothFailure(message: "Failed to read heart rate"));
       }
 
-      final updatedMad = mad.updateHeartRate(int.parse(heartRate));
-      return Right(updatedMad);
+      return Right(int.parse(heartRate));
     } catch (e) {
       return Left(BluetoothFailure(message: "Failed to read heart rate: $e"));
     }
@@ -166,13 +167,13 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
 
   /// 📥 **Read Data from a Bluetooth Device**
   @override
-  Future<Either<Failure, String>> readBatteryPercentage(
+  Future<Either<Failure, int>> readBatteryPercentage(
       {required BluetoothDevice device,
       required String characteristicUuid}) async {
     try {
       final result =
           await bluetoothManager.readDataFromDevice(device, characteristicUuid);
-      return Right(result.toString());
+      return Right(int.parse(result.split(",")[0].trim()));
     } catch (e) {
       return Left(BluetoothFailure(message: "Failed to read data: $e"));
     }
@@ -220,5 +221,10 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
     }
+  }
+
+  @override
+  void dispose() {
+    bluetoothManager.dispose();
   }
 }

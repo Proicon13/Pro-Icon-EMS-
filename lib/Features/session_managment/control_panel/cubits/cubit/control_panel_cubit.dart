@@ -81,18 +81,42 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     );
   }
 
-  void updateConnectedMadsBattery() async {
+  Future<void> updateConnectedMadsBatteryAndHeartRate() async {
     final connectedMads = state.selectedMads
             ?.where((mad) =>
-                mad.isBluetoothConnected! && mad.isHeartRateSensorConnected!)
+                mad.isBluetoothConnected == true &&
+                mad.isHeartRateSensorConnected == true)
             .toList() ??
         [];
+
     if (connectedMads.isEmpty) return;
-    for (var mad in connectedMads) {
-      await sessionManagementRepository.readBatteryPercentage(
+
+    // Fetch battery and heart rate in parallel for all connected Mads
+    final updatedMads = await Future.wait(connectedMads.map((mad) async {
+      final battery = await readBatteryPercentage(
           device: mad.madDevice!,
           characteristicUuid: AppConstants.madReadingCharacteristicId);
-    }
+
+      final heartRate = await listenToHeartRate(mad);
+
+      return mad
+        ..copyWith(
+          batteryPercentage: battery != -1 ? battery : mad.batteryPercentage,
+        )
+        ..updateHeartRate(heartRate != -1 ? heartRate : mad.heartRate!);
+    }));
+
+    // Emit new state with updated Mads
+    emit(state.copyWith(
+        controlPanelMads: updatedMads, selectedMads: updatedMads));
+  }
+
+  Future<int> readBatteryPercentage(
+      {required BluetoothDevice device,
+      required String characteristicUuid}) async {
+    final response = await sessionManagementRepository.readBatteryPercentage(
+        device: device, characteristicUuid: characteristicUuid);
+    return response.fold((l) => -1, (value) => value);
   }
 
   void onInit(
@@ -133,31 +157,18 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     });
   }
 
-  Future<void> listenToHeartRate(ControlPanelMad mad) async {
-    if (mad.heartRateDevice == null) return;
+  Future<int> listenToHeartRate(ControlPanelMad mad) async {
+    if (mad.heartRateDevice == null) return -1;
 
     final result =
         await sessionManagementRepository.listenToHeartRate(mad: mad);
 
-    result.fold(
-      (failure) {
-        emit(state.copyWith(
-            status: SessionStatus.notReady, errorMessage: failure.message));
+    return result.fold(
+      (_) {
+        return -1;
       },
-      (updatedMad) {
-        // ✅ Update MADs list with new heart rate data
-        final updatedMads = state.controlPanelMads
-            .map((m) => m.madNo == updatedMad.madNo ? updatedMad : m)
-            .toList();
-
-        final updatedSelectedMads = state.selectedMads!.map((m) {
-          return m.madNo == updatedMad.madNo ? updatedMad : m;
-        }).toList();
-
-        emit(state.copyWith(
-          controlPanelMads: updatedMads,
-          selectedMads: updatedSelectedMads,
-        ));
+      (newHearRate) {
+        return newHearRate;
       },
     );
   }
@@ -244,7 +255,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
 
     if (bl2Result.isLeft() || bl1Result.isLeft()) {
       emit(state.copyWith(
-          status: SessionStatus.notReady,
+          status: SessionStatus.warning,
           errorMessage: "Failed to send stop signal to mad"));
     }
   }
@@ -273,7 +284,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     // Handle success or failure
     if (results.any((result) => result.isLeft())) {
       emit(state.copyWith(
-        status: SessionStatus.notReady,
+        status: SessionStatus.warning,
         errorMessage: "Failed to send data to MAD",
       ));
     } else {
@@ -633,7 +644,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     _sessionTimer?.cancel();
     _onOffTimer?.cancel();
     _programTimer?.cancel();
-
+    sessionManagementRepository.dispose();
     // Call super.close to ensure proper Cubit closure
     return super.close();
   }
@@ -702,6 +713,11 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
         final elapsedSeconds =
             state.totalDuration.inSeconds - state.currentDuration.inSeconds;
 
+        // Every 30 seconds, update battery & heart rate
+        if (elapsedSeconds % 30 == 0) {
+          updateConnectedMadsBatteryAndHeartRate();
+        }
+
         // Check if 6 minutes (360 seconds) have passed count the session
         if (elapsedSeconds == 360 && !state.isSessionCounted) {
           emit(state.copyWith(isSessionCounted: true));
@@ -746,7 +762,6 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     _programTimer?.cancel();
     // stop signal on mads
     sendDataToAllMads(isStopSignal: true);
-
     emit(state.copyWith(
       status: SessionStatus.finished,
       currentDuration: state.totalDuration,
@@ -757,6 +772,9 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
       currentProgramIndex: 0,
       currentProgramDuration: Duration.zero,
     ));
+
+    // Save session data to database
+    saveSession();
   }
 
   void _startOnOffTimer([int? overrideCycleTime]) {

@@ -35,6 +35,7 @@ import '../../Features/manage_trainer/screens/manage_trainer_screen.dart';
 import '../../Features/programming_requst/screen/programming_request_screen.dart';
 import '../../Features/session_managment/control_panel/screens/control_panel_screen.dart';
 import '../../Features/session_managment/session_setup/screens/session_setup_screen.dart';
+import '../../Features/session_managment/session_summary/screen/session_summary.dart';
 import '../../Features/users/screens/users_screen.dart';
 import '../../splash_screen.dart';
 import '../entities/program_entity.dart';
@@ -261,6 +262,14 @@ Route<dynamic>? onGenerteRoute(RouteSettings settings) {
         settings: const RouteSettings(name: SessionSetupScreen.routeName),
         builder: (_) {
           return const SessionSetupScreen();
+        },
+      );
+
+    case SessionSummary.routeName:
+      return MaterialPageRoute(
+        settings: const RouteSettings(name: SessionSummary.routeName),
+        builder: (_) {
+          return const SessionSummary();
         },
       );
 

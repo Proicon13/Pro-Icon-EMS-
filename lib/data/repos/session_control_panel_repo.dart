@@ -9,6 +9,7 @@ import 'package:pro_icon/data/services/muscles_service.dart';
 import 'package:pro_icon/data/services/session_managment_service.dart';
 
 import '../../Core/entities/control_panel_mad.dart';
+import '../../Core/utils/extract_heart_rate.dart';
 import '../models/create_session_request.dart';
 import '../models/mad.dart';
 import '../services/bluetooth_manager.dart';
@@ -123,15 +124,21 @@ class SessionManagementRepositoryImpl implements SessionManagementRepository {
     }
 
     try {
-      final String heartRate = await bluetoothManager.readDataFromDevice(
-          mad.heartRateDevice!, AppConstants.heartRateCharacteristicId);
+      final String heartRate =
+          await bluetoothManager.readNotifiableDataFromDevice(
+              mad.heartRateDevice!, AppConstants.heartRateCharacteristicId,
+              serviceUuid: AppConstants.heartServiceuuid);
 
       if (heartRate.isEmpty) {
         return const Left(
             BluetoothFailure(message: "Failed to read heart rate"));
+      } else {
+        final heartRateValue = extractHeartRate(heartRate);
+        if (heartRateValue == null)
+          return const Left(
+              BluetoothFailure(message: "Failed to read heart rate"));
+        return Right(heartRateValue);
       }
-
-      return Right(int.parse(heartRate));
     } catch (e) {
       return Left(BluetoothFailure(message: "Failed to read heart rate: $e"));
     }

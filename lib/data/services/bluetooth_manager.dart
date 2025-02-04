@@ -149,9 +149,16 @@ class BluetoothManager {
   }
 
   Future<String> readDataFromDevice(
-      BluetoothDevice device, String characteristicUuid) async {
+      BluetoothDevice device, String characteristicUuid,
+      {String? serviceUuid}) async {
     try {
       List<BluetoothService> services = await device.discoverServices();
+
+      // If a specific service UUID is provided, filter services
+      if (serviceUuid != null) {
+        services = services.where((s) => s.uuid.str == serviceUuid).toList();
+      }
+
       for (var service in services) {
         for (var characteristic in service.characteristics) {
           if (characteristic.uuid.str == characteristicUuid &&
@@ -161,11 +168,59 @@ class BluetoothManager {
           }
         }
       }
+
       print(
           "❌ No readable characteristic found on device: ${device.platformName}");
       return "";
     } catch (e) {
       print("❌ Read Error: $e");
+      return "";
+    }
+  }
+
+  Future<String> readNotifiableDataFromDevice(
+      BluetoothDevice device, String characteristicUuid,
+      {String? serviceUuid}) async {
+    try {
+      List<BluetoothService> services = await device.discoverServices();
+
+      // If a specific service UUID is provided, filter services
+      if (serviceUuid != null) {
+        services = services.where((s) => s.uuid.str == serviceUuid).toList();
+      }
+
+      for (var service in services) {
+        for (var characteristic in service.characteristics) {
+          if (characteristic.uuid.str == characteristicUuid &&
+              characteristic.properties.notify) {
+            await characteristic.setNotifyValue(true); // Enable notifications
+
+            Completer<String> completer = Completer<String>();
+
+            StreamSubscription<List<int>>? subscription;
+            subscription = characteristic.lastValueStream.listen((value) async {
+              if (value.isNotEmpty) {
+                String data = String.fromCharCodes(value);
+                print("✅ Received Notified Data: $data");
+
+                completer.complete(data); // Complete with received data
+
+                await subscription?.cancel(); // Stop listening
+                await characteristic
+                    .setNotifyValue(false); // Disable notifications
+              }
+            });
+
+            return completer.future; // Wait until a value is received
+          }
+        }
+      }
+
+      print(
+          "❌ No notifiable characteristic found on device: ${device.platformName}");
+      return "";
+    } catch (e) {
+      print("❌ Notification Read Error: $e");
       return "";
     }
   }

@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
-import 'package:pro_icon/Core/widgets/custom_text_field.dart';
 import 'package:pro_icon/Core/widgets/text_form_section.dart';
 
 class ScoreDetailsSection extends StatelessWidget {
@@ -14,10 +12,10 @@ class ScoreDetailsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-
+        //TODO: NO NEED TO USE SIZE CONFIG HERE WE CAN JUST USE EXPANDED SINCE TEXT FORMSECTION TAKES SIZES FROM THE SCREEN ITSELF
         Expanded(
           child: SizeConfig(
-            baseSize: Size(124, 180),
+            baseSize: const Size(124, 180),
             width: context.setMinSize(124),
             height: context.setMinSize(180),
             child: SizedBox(
@@ -36,7 +34,7 @@ class ScoreDetailsSection extends StatelessWidget {
 
         Expanded(
           child: SizeConfig(
-            baseSize: Size(124, 180),
+            baseSize: const Size(124, 180),
             width: context.setMinSize(124),
             height: context.setMinSize(180),
             child: SizedBox(
@@ -54,7 +52,7 @@ class ScoreDetailsSection extends StatelessWidget {
 
         Expanded(
           child: SizeConfig(
-            baseSize: Size(124, 180),
+            baseSize: const Size(124, 180),
             width: context.setMinSize(124),
             height: context.setMinSize(180),
             child: SizedBox(

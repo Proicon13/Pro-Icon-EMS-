@@ -18,7 +18,7 @@ class ChooseDateWidget extends StatefulWidget {
 class _ChooseDateWidgetState extends State<ChooseDateWidget> {
   late TextEditingController fromController;
   late TextEditingController toController;
-
+  // TODO: translate all TEXTSSSSSSSSSSSS
   @override
   void initState() {
     fromController = TextEditingController();

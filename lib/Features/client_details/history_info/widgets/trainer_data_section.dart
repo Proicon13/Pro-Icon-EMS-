@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
-import 'package:pro_icon/Core/utils/enums/gender.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
-
-// TODO: rename this to client history info column to since it repeated in many places(start,end date, trainer name,cancelations)
 
 class ClientHistoryInfo extends StatelessWidget {
   final String title;

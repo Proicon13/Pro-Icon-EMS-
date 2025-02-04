@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-
-import '../../data/models/auto_session_model.dart';
+import 'package:pro_icon/Core/entities/session_program_entity.dart';
 
 class AutomaticSessionEntity extends Equatable {
   final int? id;
@@ -9,7 +8,7 @@ class AutomaticSessionEntity extends Equatable {
   final int? duration;
   final int? createdById;
   final String? type;
-  final List<SessionProgram>? sessionPrograms;
+  final List<SessionProgramEntity>? sessionPrograms;
 
   const AutomaticSessionEntity(
       {this.id,
@@ -35,7 +34,7 @@ class CustomAutomaticSessionEntity extends AutomaticSessionEntity {
     String? name,
     int? duration,
     int? createdById,
-    List<SessionProgram>? sessionPrograms,
+    List<SessionProgramEntity>? sessionPrograms,
   }) : super(
             id: id,
             name: name,
@@ -53,7 +52,7 @@ class MainAutomaticSessionEntity extends AutomaticSessionEntity {
     String? name,
     int? duration,
     int? createdById,
-    List<SessionProgram>? sessionPrograms,
+    List<SessionProgramEntity>? sessionPrograms,
   }) : super(
             id: id,
             name: name,

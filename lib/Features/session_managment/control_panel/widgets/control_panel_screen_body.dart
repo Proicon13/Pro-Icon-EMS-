@@ -9,6 +9,8 @@ import 'package:pro_icon/Core/widgets/custom_snack_bar.dart';
 import 'package:pro_icon/Features/custom_programs/manage_program/cubits/cubit/manage_custom_program_cubit.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/muscles_control_section.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/timers_control_section.dart';
+import 'package:pro_icon/Features/session_managment/session_summary/screen/session_summary.dart';
+import 'package:pro_icon/data/models/session_details_model.dart';
 
 import '../../../../Core/theme/app_colors.dart';
 import '../../../../Core/utils/responsive_helper/size_constants.dart';
@@ -20,29 +22,47 @@ import 'program_info_section.dart';
 import 'session_control_row.dart';
 
 //TODO: SAVE SESSION LOGIC HANDLING
-class ControlPanelScreenBody extends StatelessWidget {
+class ControlPanelScreenBody extends StatefulWidget {
   const ControlPanelScreenBody({
     super.key,
   });
 
   @override
+  State<ControlPanelScreenBody> createState() => _ControlPanelScreenBodyState();
+}
+
+class _ControlPanelScreenBodyState extends State<ControlPanelScreenBody> {
+  SessionDetailsModel? sessionSummary;
+
+  @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ControlPanelCubit>();
     return BlocConsumer<ControlPanelCubit, ControlPanelState>(
       listenWhen: (previous, current) =>
           previous.status != current.status ||
           previous.saveSessionStatus != current.saveSessionStatus,
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.isNotReady) {
           buildCustomAlert(context, state.errorMessage!, Colors.red);
-          context.read<ControlPanelCubit>().pauseSession();
+          cubit.pauseSession();
         }
         if (state.isError) {
           buildCustomAlert(context, state.errorMessage!, Colors.red);
         }
+        if (state.isFinished) {
+          //TODO: handle when session ends logic
+          sessionSummary = await cubit.saveSession();
+        }
         if (state.saveSessionStatus == RequetsStatus.success) {
+          cubit.setSavingSessionState(RequetsStatus.intial);
           buildCustomAlert(context, "Session saved successfully", Colors.green);
+          if (sessionSummary != null) {
+            Navigator.pushReplacementNamed(context, SessionSummary.routeName,
+                arguments: sessionSummary);
+          }
         }
         if (state.saveSessionStatus == RequetsStatus.error) {
+          cubit.setSavingSessionState(RequetsStatus.intial);
           buildCustomAlert(context, state.errorMessage!, Colors.red);
         }
       },

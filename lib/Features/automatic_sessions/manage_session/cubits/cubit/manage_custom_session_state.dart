@@ -7,7 +7,7 @@ class ManageCustomSessionState extends Equatable {
   final ManageCustomSessionStatus? addSessionStatus;
   final ManageCustomSessionStatus? editSessionStatus;
   final List<ProgramEntity> programs;
-  final List<SessionProgram> sessionPrograms;
+  final List<SessionProgramEntity> sessionPrograms;
   final bool? isEditMode;
   final String? message;
   final int? totalDuration;
@@ -27,7 +27,7 @@ class ManageCustomSessionState extends Equatable {
     ManageCustomSessionStatus? editSessionStatus,
     bool? isEditMode,
     List<ProgramEntity>? programs,
-    List<SessionProgram>? sessionPrograms,
+    List<SessionProgramEntity>? sessionPrograms,
     String? message,
     int? totalDuration,
   }) =>

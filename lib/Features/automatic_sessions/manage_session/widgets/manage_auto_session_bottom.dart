@@ -3,8 +3,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:pro_icon/Core/entities/session_program_entity.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
+import 'package:pro_icon/data/mappers/session_program_mapper.dart';
 
 import '../../../../Core/entities/automatic_session_entity.dart';
 import '../../../../Core/widgets/custom_button.dart';
@@ -109,7 +111,10 @@ class ManageSessionBottomNav extends StatelessWidget {
       final request = AutoSessionModel(
         name: name,
         duration: duration,
-        sessionPrograms: cubit.state.sessionPrograms,
+        sessionPrograms:
+            List<SessionProgramEntity>.from(cubit.state.sessionPrograms)
+                .map((e) => SessionProgramMapper.toModel(e))
+                .toList(),
       );
 
       // Check if changes exist before deciding to add or edit

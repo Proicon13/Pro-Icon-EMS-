@@ -7,9 +7,9 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:pro_icon/Core/cubits/user_state/user_state_cubit.dart';
 import 'package:pro_icon/Core/entities/client_entity.dart';
 import 'package:pro_icon/Core/entities/program_entity.dart';
+import 'package:pro_icon/Core/entities/session_program_entity.dart';
 import 'package:pro_icon/Features/custom_programs/manage_program/cubits/cubit/manage_custom_program_cubit.dart';
 import 'package:pro_icon/Features/session_managment/session_setup/cubits/cubit/session_setup_state.dart';
-import 'package:pro_icon/data/models/auto_session_model.dart';
 import 'package:pro_icon/data/models/session_details_model.dart';
 import 'package:pro_icon/data/repos/session_control_panel_repo.dart';
 
@@ -36,6 +36,8 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   Timer? _onOffTimer;
   Timer? _programTimer;
 
+  void setSavingSessionState(RequetsStatus status) =>
+      emit(state.copyWith(saveSessionStatus: status));
   Future<SessionDetailsModel?> saveSession() async {
     emit(state.copyWith(saveSessionStatus: RequetsStatus.loading));
     late SessionDetailsModel sessionResponse;
@@ -63,12 +65,11 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
 
     final int? sessionId = state.sessionId != -1 ? state.sessionId : null;
 
-    final List<ControlPanelMad> connectedMads = state.selectedMads
-            ?.where((mad) =>
-                mad.isBluetoothConnected == true &&
-                mad.isHeartRateSensorConnected == true)
-            .toList() ??
-        [];
+    final List<ControlPanelMad> connectedMads = state.controlPanelMads
+        .where((mad) =>
+            mad.isBluetoothConnected == true &&
+            mad.isHeartRateSensorConnected == true)
+        .toList();
 
     final List<int> programIds =
         state.programsUsedInSession.map((program) => program.id).toList();
@@ -82,33 +83,48 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   }
 
   Future<void> updateConnectedMadsBatteryAndHeartRate() async {
-    final connectedMads = state.selectedMads
-            ?.where((mad) =>
-                mad.isBluetoothConnected == true &&
-                mad.isHeartRateSensorConnected == true)
-            .toList() ??
-        [];
+    final connectedMads = state.controlPanelMads
+        .where((mad) => mad.madDevice != null && mad.heartRateDevice != null)
+        .toList();
 
     if (connectedMads.isEmpty) return;
 
-    // Fetch battery and heart rate in parallel for all connected Mads
-    final updatedMads = await Future.wait(connectedMads.map((mad) async {
+    // Fetch updates in parallel
+    final updatedMadsMap = <int, ControlPanelMad>{};
+
+    await Future.wait(connectedMads.map((mad) async {
       final battery = await readBatteryPercentage(
           device: mad.madDevice!,
           characteristicUuid: AppConstants.madReadingCharacteristicId);
 
       final heartRate = await listenToHeartRate(mad);
 
-      return mad
-        ..copyWith(
-          batteryPercentage: battery != -1 ? battery : mad.batteryPercentage,
-        )
-        ..updateHeartRate(heartRate != -1 ? heartRate : mad.heartRate!);
+      updatedMadsMap[mad.madId] = mad.copyWith(
+        batteryPercentage: battery != -1 ? battery : mad.batteryPercentage,
+      )..updateHeartRate(heartRate != -1 ? heartRate : mad.heartRate!);
     }));
 
-    // Emit new state with updated Mads
+    if (updatedMadsMap.isEmpty) return; // No updates, skip emitting state
+
+    // Apply updates in a single iteration
+    final updatedControlPanelMads = <ControlPanelMad>[];
+    final updatedSelectedMads = <ControlPanelMad>[];
+
+    for (var mad in state.controlPanelMads) {
+      final updatedMad = updatedMadsMap[mad.madId] ?? mad;
+      updatedControlPanelMads.add(updatedMad);
+
+      // If this Mad is also in selectedMads, update it
+      if (state.selectedMads!.contains(mad)) {
+        updatedSelectedMads.add(updatedMad);
+      }
+    }
+
+    // Emit new state with synchronized updates
     emit(state.copyWith(
-        controlPanelMads: updatedMads, selectedMads: updatedMads));
+      controlPanelMads: updatedControlPanelMads,
+      selectedMads: updatedSelectedMads,
+    ));
   }
 
   Future<int> readBatteryPercentage(
@@ -232,8 +248,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
       SendingDestenation destination = SendingDestenation.both}) async {
     // get all mads that are connected and have heart rate
     final mads = List<ControlPanelMad>.from(state.selectedMads!)
-        .where((mad) =>
-            mad.isBluetoothConnected! && mad.isHeartRateSensorConnected!)
+        .where((mad) => mad.madDevice != null && mad.heartRateDevice != null)
         .toList();
     if (mads.isEmpty) return;
     for (var mad in mads) {
@@ -262,12 +277,12 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
 
   Future<void> sendDataToMad(ControlPanelMad mad,
       {SendingDestenation destination = SendingDestenation.both}) async {
-    if (mad.madDevice == null || state.selectedProgram == null) return;
+    if (mad.madDevice == null) return;
 
     final madBluetoothData = MadBluetoothModel(
       onTime: state.onTime,
       offTime: state.offTime,
-      ramp: int.parse(state.ramp.toString()),
+      ramp: state.ramp.toInt(),
       pulseWidthValues: _getPulseWidthValues(),
       muscleValues: mad.musclesPercentage.values.toList(),
       frequency: state.selectedProgram!.hertez,
@@ -316,12 +331,14 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   List<int> _getPulseWidthValues() {
     List<int> pulseWidthValues = [];
 
-    final selectedProgram = state.selectedProgram!;
+    final selectedProgram = state.selectedSessionMode == SessionControlMode.auto
+        ? state.automaticSessionprograms![state.currentProgramIndex].program
+        : state.selectedProgram;
     if (selectedProgram is CustomProgramEntity) {
       pulseWidthValues =
           selectedProgram.programMuscles.map((e) => e.pulse!.toInt()).toList();
     } else {
-      pulseWidthValues = List.generate(10, (index) => selectedProgram.pulse);
+      pulseWidthValues = List.generate(10, (index) => selectedProgram!.pulse);
     }
     return pulseWidthValues;
   }
@@ -386,12 +403,12 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     final nextProgram = state.automaticSessionprograms![nextIndex];
 
     // ✅ Update muscle values for the new program
-    _updateAllMuscleValues(nextProgram.pulse ?? 0);
+    _updateAllMuscleValues(nextProgram.pulse);
 
     // ✅ Fix: Update `currentProgramDuration` to new program duration
     emit(state.copyWith(
       currentProgramIndex: nextIndex,
-      currentProgramDuration: Duration(seconds: nextProgram.duration!),
+      currentProgramDuration: Duration(seconds: nextProgram.duration),
       isProgramTransitioning: false, // Reset transition state
     ));
   }
@@ -422,9 +439,9 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     ));
   }
 
-  void setAutomaticSessionPrograms(List<SessionProgram> programs) {
+  void setAutomaticSessionPrograms(List<SessionProgramEntity> programs) {
     emit(state.copyWith(
-        currentProgramDuration: Duration(seconds: programs[0].duration ?? 15),
+        currentProgramDuration: Duration(seconds: programs[0].duration),
         automaticSessionprograms: programs));
   }
 
@@ -442,11 +459,11 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   void onControlPanelMadTap(ControlPanelMad mad, int index) {
     if (state.isGroupMode) return; // ignore if group mode
     final mads = [...state.controlPanelMads];
-    // if (!mad.isBluetoothConnected! || !mad.isHeartRateSensorConnected!) {
-    //   mads[index] = mads[index].copyWith(
-    //       isBluetoothConnected: true, isHeartRateSensorConnected: true);
-    // }
-    // ;
+    if (!mad.isBluetoothConnected! || !mad.isHeartRateSensorConnected!) {
+      mads[index] = mads[index].copyWith(
+          isBluetoothConnected: true, isHeartRateSensorConnected: true);
+    }
+    ;
 
     emit(state.copyWith(selectedMads: [mads[index]], controlPanelMads: mads));
   }
@@ -714,12 +731,14 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
             state.totalDuration.inSeconds - state.currentDuration.inSeconds;
 
         // Every 30 seconds, update battery & heart rate
-        if (elapsedSeconds % 30 == 0) {
+        if (elapsedSeconds % 30 == 0 && elapsedSeconds != 0) {
           updateConnectedMadsBatteryAndHeartRate();
         }
 
-        // Check if 6 minutes (360 seconds) have passed count the session
-        if (elapsedSeconds == 360 && !state.isSessionCounted) {
+        // Check if 30% of session total Duration have passed count the session
+
+        if (elapsedSeconds >= (state.totalDuration.inSeconds * 0.3).round() &&
+            !state.isSessionCounted) {
           emit(state.copyWith(isSessionCounted: true));
         }
         // Update current session duration
@@ -737,7 +756,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     _startOnOffTimer();
 
     // start signal on mads
-    sendDataToAllMads(destination: SendingDestenation.char2);
+    sendDataToAllMads(destination: SendingDestenation.both);
   }
 
   void pauseSession() {
@@ -756,14 +775,14 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     ));
   }
 
-  void stopSession() {
+  void stopSession([bool isByUser = false]) async {
     _sessionTimer?.cancel();
     _onOffTimer?.cancel();
     _programTimer?.cancel();
     // stop signal on mads
     sendDataToAllMads(isStopSignal: true);
     emit(state.copyWith(
-      status: SessionStatus.finished,
+      status: isByUser ? SessionStatus.paused : SessionStatus.finished,
       currentDuration: state.totalDuration,
       onTime: state.onTime,
       offTime: state.offTime,
@@ -772,9 +791,6 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
       currentProgramIndex: 0,
       currentProgramDuration: Duration.zero,
     ));
-
-    // Save session data to database
-    saveSession();
   }
 
   void _startOnOffTimer([int? overrideCycleTime]) {
@@ -784,6 +800,8 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
         (state.isOnCycle ? state.currentOnTime : state.currentOffTime);
 
     final int fullCycleValue = state.isOnCycle ? state.onTime : state.offTime;
+    final bool isFullCycleCompleted =
+        !state.isOnCycle && currentCycleTime >= state.offTime;
 
     _onOffTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (currentCycleTime >= fullCycleValue) {
@@ -792,7 +810,10 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
           currentOnTime: 0, // Reset On cycle
           currentOffTime: 0, // Reset Off cycle
         ));
-        sendDataToAllMads(destination: SendingDestenation.both);
+
+        if (isFullCycleCompleted) {
+          sendDataToAllMads(destination: SendingDestenation.both);
+        }
         _startOnOffTimer(); // Restart with new cycle
       } else {
         currentCycleTime += 1;

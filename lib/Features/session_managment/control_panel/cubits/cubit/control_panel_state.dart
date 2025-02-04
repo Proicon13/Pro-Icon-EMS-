@@ -52,7 +52,7 @@ class ControlPanelState extends Equatable {
   final double ramp; // ramp
   final ProgramEntity?
       selectedProgram; // selected program for manual mode (Program mode)
-  final List<SessionProgram>?
+  final List<SessionProgramEntity>?
       automaticSessionprograms; // List of programs> IF AUTOMATIC SESSION MODE APPLIED
   final bool isOnCycle;
   final List<ProgramEntity> allPrograms; // List of all programs in program mode
@@ -108,7 +108,7 @@ class ControlPanelState extends Equatable {
       double? ramp,
       bool? isOnCycle,
       ProgramEntity? selectedProgram,
-      List<SessionProgram>? automaticSessionprograms,
+      List<SessionProgramEntity>? automaticSessionprograms,
       List<ProgramEntity>? allPrograms,
       List<BluetoothDevice>? availableDevices,
       bool? isSessionCounted,

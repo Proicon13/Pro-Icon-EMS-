@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pro_icon/Core/entities/automatic_session_entity.dart';
 import 'package:pro_icon/Core/entities/category_entity.dart';
 import 'package:pro_icon/Core/entities/program_entity.dart';
-import 'package:pro_icon/data/mappers/program_entity_mapper.dart';
+import 'package:pro_icon/Core/entities/session_program_entity.dart';
 import 'package:pro_icon/data/models/auto_session_model.dart';
 import 'package:pro_icon/data/services/auto_session_service.dart';
 import 'package:pro_icon/data/services/categories_services.dart';
@@ -57,10 +57,10 @@ class ManageCustomSessionCubit extends Cubit<ManageCustomSessionState> {
   }
 
   /// Calculate the total duration of session programs (in seconds)
-  int _getTotalProgramDuration(List<SessionProgram> programs) {
+  int _getTotalProgramDuration(List<SessionProgramEntity> programs) {
     return programs.fold<int>(
       0,
-      (total, program) => total + (program.duration ?? 0),
+      (total, program) => total + (program.duration),
     );
   }
 
@@ -74,11 +74,11 @@ class ManageCustomSessionCubit extends Cubit<ManageCustomSessionState> {
   }
 
   void onProgramSelected(ProgramEntity program) {
-    final sessionProgram = SessionProgram(
+    final sessionProgram = SessionProgramEntity(
         id: state.sessionPrograms.length + 1,
         duration: 30,
         pulse: 0,
-        program: ProgramModelToEntityMapper.toModel(program),
+        program: program,
         order: state.sessionPrograms.length + 1);
     final updatedPrograms = [...state.sessionPrograms, sessionProgram];
     final totalDuration = _getTotalProgramDuration(updatedPrograms);
@@ -93,7 +93,7 @@ class ManageCustomSessionCubit extends Cubit<ManageCustomSessionState> {
     }
 
     // Create a mutable copy of the current session programs
-    final newPrograms = List<SessionProgram>.from(state.sessionPrograms);
+    final newPrograms = List<SessionProgramEntity>.from(state.sessionPrograms);
 
     // Remove the program from the old index
     final movedProgram = newPrograms.removeAt(oldIndex);
@@ -110,18 +110,18 @@ class ManageCustomSessionCubit extends Cubit<ManageCustomSessionState> {
     emit(state.copyWith(sessionPrograms: newPrograms));
   }
 
-  void onDeleteSessionProgram(SessionProgram sessionProgram) {
-    final newPrograms = List<SessionProgram>.from(state.sessionPrograms);
+  void onDeleteSessionProgram(SessionProgramEntity sessionProgram) {
+    final newPrograms = List<SessionProgramEntity>.from(state.sessionPrograms);
     newPrograms.remove(sessionProgram);
     final totalDuration = _getTotalProgramDuration(newPrograms);
     emit(state.copyWith(
         sessionPrograms: newPrograms, totalDuration: totalDuration));
   }
 
-  void onDurationChange(SessionProgram sessionProgram, bool isIncrease) {
+  void onDurationChange(SessionProgramEntity sessionProgram, bool isIncrease) {
     final newPrograms = state.sessionPrograms.map((program) {
       if (program == sessionProgram) {
-        final currentDuration = program.duration ?? 0;
+        final currentDuration = program.duration;
         final newDuration = isIncrease
             ? currentDuration + 5
             : (currentDuration - 5).clamp(30, double.infinity).toInt();
@@ -134,10 +134,10 @@ class ManageCustomSessionCubit extends Cubit<ManageCustomSessionState> {
         sessionPrograms: newPrograms, totalDuration: totalDuration));
   }
 
-  void onPulseChange(SessionProgram sessionProgram, bool isIncrease) {
+  void onPulseChange(SessionProgramEntity sessionProgram, bool isIncrease) {
     final newPrograms = state.sessionPrograms.map((program) {
       if (program == sessionProgram) {
-        final currentPulse = program.pulse ?? 0;
+        final currentPulse = program.pulse;
         final newPulse = isIncrease ? currentPulse + 1 : currentPulse - 1;
         return program.copyWith(pulse: newPulse);
       }

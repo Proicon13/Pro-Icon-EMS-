@@ -24,7 +24,11 @@ class MadBluetoothModel {
     while (pulseWidthValues.length < 10) muscleValues.add(0);
 
     // Combine values in order: Muscle Power + Pulse Width + Frequency
-    List<int> formattedValues = [...muscleValues, ...muscleValues, frequency];
+    List<int> formattedValues = [
+      ...muscleValues,
+      ...pulseWidthValues,
+      frequency
+    ];
 
     return formattedValues.join(",");
   }
@@ -37,7 +41,7 @@ class MadBluetoothModel {
   /// 📤 Format Stop Signal to **Bluetooth Characteristic 1**
   /// Sends **21 values where first 20 are `0` and last is `1`**
   static String formatStopSignal() {
-    List<int> stopSignal = List.filled(20, 0);
+    List<int> stopSignal = List.filled(20, 0, growable: true);
     stopSignal.add(1);
     return stopSignal.join(",");
   }

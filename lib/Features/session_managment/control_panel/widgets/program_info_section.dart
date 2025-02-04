@@ -10,7 +10,6 @@ import 'package:pro_icon/Core/widgets/error_widget.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/cubits/cubit/control_panel_cubit.dart';
 import 'package:pro_icon/Features/session_managment/control_panel/widgets/select_program_dialog.dart';
 import 'package:pro_icon/Features/session_managment/session_setup/cubits/cubit/session_setup_state.dart';
-import 'package:pro_icon/data/mappers/program_entity_mapper.dart';
 
 import '../../../../Core/constants/app_assets.dart';
 import '../../../../Core/theme/app_colors.dart';
@@ -138,9 +137,7 @@ class ProgramInfoSection extends StatelessWidget {
                         width: context.setMinSize(100),
                         height: context.setMinSize(115),
                         child: ControlPanelProgramCard(
-                            program:
-                                ProgramModelToEntityMapper.mapFromProgramModel(
-                                    nextProgram.program!)),
+                            program: nextProgram.program),
                       ),
                     ),
                   ),
@@ -179,9 +176,7 @@ class ProgramInfoSection extends StatelessWidget {
               width: context.setMinSize(120),
               height: context.setMinSize(140),
               child: Builder(builder: (context) {
-                return ControlPanelProgramCard(
-                    program: ProgramModelToEntityMapper.mapFromProgramModel(
-                        currentProgram.program!));
+                return ControlPanelProgramCard(program: currentProgram.program);
               }),
             ), // Current program card
           ],

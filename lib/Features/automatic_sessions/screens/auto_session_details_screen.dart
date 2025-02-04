@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/constants/app_assets.dart';
 import 'package:pro_icon/Core/entities/automatic_session_entity.dart';
+import 'package:pro_icon/Core/entities/session_program_entity.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
@@ -15,7 +16,6 @@ import 'package:pro_icon/Core/widgets/pro_icon_logo.dart';
 
 import '../../../Core/theme/app_colors.dart';
 import '../../../Core/widgets/empty_state_widget.dart';
-import '../../../data/models/auto_session_model.dart'; // Assuming it's already in core widgets
 
 class AutoSessionDetailsScreen extends StatelessWidget {
   static const String routeName = '/auto-session-details';
@@ -180,7 +180,7 @@ class HeaderSection extends StatelessWidget {
 }
 
 class ProgramsPackageSection extends StatelessWidget {
-  final List<SessionProgram> sessionPrograms;
+  final List<SessionProgramEntity> sessionPrograms;
   const ProgramsPackageSection({super.key, required this.sessionPrograms});
 
   @override
@@ -197,7 +197,7 @@ class ProgramsPackageSection extends StatelessWidget {
 }
 
 class ProgramCard extends StatelessWidget {
-  final SessionProgram program;
+  final SessionProgramEntity program;
   const ProgramCard({super.key, required this.program});
 
   @override
@@ -217,7 +217,7 @@ class ProgramCard extends StatelessWidget {
           CustomRectangularImage(
               width: context.setMinSize(60),
               height: context.setMinSize(60),
-              imageUrl: program.program?.image ?? ""),
+              imageUrl: program.program.image),
           context.setMinSize(12).horizontalSpace,
           Expanded(
             child: Column(
@@ -227,7 +227,7 @@ class ProgramCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        program.program?.name ?? "Program Name",
+                        program.program.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.fontSize16(context).copyWith(
@@ -238,7 +238,7 @@ class ProgramCard extends StatelessWidget {
                     ),
                     Row(children: [
                       Text(
-                        "HZ ${program.program?.hertez ?? 0}",
+                        "HZ ${program.program.hertez}",
                         style: AppTextStyles.fontSize14(context)
                             .copyWith(color: Colors.white),
                       ),
@@ -250,7 +250,7 @@ class ProgramCard extends StatelessWidget {
                       ),
                       context.setMinSize(4).horizontalSpace,
                       Text(
-                        "PU${program.program?.pulse ?? 0}",
+                        "PU${program.program.pulse}",
                         style: AppTextStyles.fontSize14(context)
                             .copyWith(color: Colors.white),
                       ),
@@ -267,7 +267,7 @@ class ProgramCard extends StatelessWidget {
                     ),
                     context.setMinSize(4).horizontalSpace,
                     Text(
-                      "${program.duration ?? 0} s",
+                      "${program.duration} s",
                       style: AppTextStyles.fontSize14(context)
                           .copyWith(color: AppColors.lightGreyColor),
                     ),
@@ -279,7 +279,7 @@ class ProgramCard extends StatelessWidget {
                     ),
                     context.setMinSize(4).horizontalSpace,
                     Text(
-                      "${program.pulse ?? 0}",
+                      "${program.pulse}",
                       style: AppTextStyles.fontSize14(context)
                           .copyWith(color: AppColors.lightGreyColor),
                     ),

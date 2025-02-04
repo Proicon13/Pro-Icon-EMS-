@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:pro_icon/Core/entities/session_program_entity.dart';
 import 'package:pro_icon/Core/theme/app_colors.dart';
 import 'package:pro_icon/Core/theme/app_text_styles.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
@@ -8,10 +9,9 @@ import 'package:pro_icon/Core/widgets/custom_svg_visual.dart';
 
 import '../../../../Core/constants/app_assets.dart';
 import '../../../../Core/widgets/custom_rectaungular_image.dart';
-import '../../../../data/models/auto_session_model.dart';
 
 class EditableSessionProgramCard extends StatelessWidget {
-  final SessionProgram sessionProgram;
+  final SessionProgramEntity sessionProgram;
   final VoidCallback onRemove;
   final VoidCallback onDurationIncrease;
   final VoidCallback onDurationDecrease;
@@ -48,7 +48,7 @@ class EditableSessionProgramCard extends StatelessWidget {
               CustomRectangularImage(
                 width: context.sizeConfig.height * 0.7,
                 height: context.sizeConfig.height * 0.7,
-                imageUrl: sessionProgram.program?.image ?? '',
+                imageUrl: sessionProgram.program.image,
               ),
               context.setMinSize(10).horizontalSpace,
 
@@ -64,7 +64,7 @@ class EditableSessionProgramCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            sessionProgram.program?.name ?? "Program Name",
+                            sessionProgram.program.name,
                             style: AppTextStyles.fontSize16(context).copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
@@ -95,7 +95,7 @@ class EditableSessionProgramCard extends StatelessWidget {
                                 height: context.setMinSize(24)),
                             context.setMinSize(15).horizontalSpace,
                             CounterRow(
-                              count: sessionProgram.duration ?? 0,
+                              count: sessionProgram.duration,
                               onIncrement: onDurationIncrease,
                               onDecrement: onDurationDecrease,
                             ),
@@ -109,7 +109,7 @@ class EditableSessionProgramCard extends StatelessWidget {
                                 size: context.setMinSize(24)),
                             context.setMinSize(8).horizontalSpace,
                             CounterRow(
-                              count: sessionProgram.pulse ?? 0,
+                              count: sessionProgram.pulse,
                               onIncrement: onPulseIncrease,
                               onDecrement: onPulseDecrease,
                             ),

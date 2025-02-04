@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pro_icon/Core/entities/program_entity.dart';
+import 'package:pro_icon/Core/entities/session_program_entity.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
 import 'package:pro_icon/Core/utils/responsive_helper/size_config.dart';
 import 'package:pro_icon/Features/automatic_sessions/manage_session/cubits/cubit/manage_custom_session_cubit.dart';
 import 'package:pro_icon/Features/automatic_sessions/manage_session/widgets/editable_session_program_card.dart';
-import 'package:pro_icon/data/models/auto_session_model.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Core/theme/app_text_styles.dart';
@@ -30,7 +30,7 @@ class SessionProgramsSection extends StatelessWidget {
 
   Widget _buildSessionProgramsList(ManageCustomSessionCubit cubit) {
     return BlocSelector<ManageCustomSessionCubit, ManageCustomSessionState,
-        List<SessionProgram>>(
+        List<SessionProgramEntity>>(
       selector: (state) {
         return state.sessionPrograms;
       },

@@ -39,51 +39,52 @@ class SessionControlRow extends StatelessWidget {
                   child: Stack(
                     children: [
                       // Battery Indicator on the left
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: SizeConfig(
-                          baseSize: const Size(90, 30),
-                          width: context.setMinSize(90),
-                          height: context.setMinSize(30),
-                          child: Builder(builder: (context) {
-                            return Container(
-                              width: context.sizeConfig.width,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                    context.setMinSize(10)),
-                                color: AppColors.darkGreyColor,
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: context.setMinSize(8),
-                                vertical: context.setMinSize(5),
-                              ),
-                              child: Row(
-                                children: [
-                                  CustomSvgVisual(
-                                    assetPath: Assets.assetsImagesBateryIcon,
-                                    width: context.setMinSize(20),
-                                    height: context.setMinSize(15),
+                      BlocSelector<ControlPanelCubit, ControlPanelState, int>(
+                        selector: (state) {
+                          return state.selectedMads!.isNotEmpty
+                              ? state.selectedMads!.first.batteryPercentage!
+                              : 0;
+                        },
+                        builder: (context, battery) {
+                          return Align(
+                            alignment: Alignment.centerLeft,
+                            child: SizeConfig(
+                              baseSize: const Size(100, 40),
+                              width: context.setMinSize(100),
+                              height: context.setMinSize(40),
+                              child: Builder(builder: (context) {
+                                return Container(
+                                  width: context.sizeConfig.width,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        context.setMinSize(10)),
+                                    color: AppColors.darkGreyColor,
                                   ),
-                                  context.setMinSize(8).horizontalSpace,
-                                  BlocSelector<ControlPanelCubit,
-                                      ControlPanelState, int>(
-                                    selector: (state) {
-                                      return state.selectedMads!.first
-                                          .batteryPercentage!;
-                                    },
-                                    builder: (context, battery) {
-                                      return Text(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: context.setMinSize(8),
+                                    vertical: context.setMinSize(5),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      CustomSvgVisual(
+                                        assetPath:
+                                            Assets.assetsImagesBateryIcon,
+                                        width: context.setMinSize(20),
+                                        height: context.setMinSize(15),
+                                      ),
+                                      context.setMinSize(8).horizontalSpace,
+                                      Text(
                                         "$battery%",
-                                        style: AppTextStyles.fontSize14(context)
+                                        style: AppTextStyles.fontSize16(context)
                                             .copyWith(color: Colors.white),
-                                      );
-                                    },
+                                      )
+                                    ],
                                   ),
-                                ],
-                              ),
-                            );
-                          }),
-                        ),
+                                );
+                              }),
+                            ),
+                          );
+                        },
                       ),
 
                       // Centered Controls

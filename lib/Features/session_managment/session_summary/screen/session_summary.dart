@@ -9,10 +9,13 @@ import 'package:pro_icon/Core/widgets/custom_header.dart';
 import 'package:pro_icon/Features/session_managment/session_summary/widget/auto_card_section.dart';
 import 'package:pro_icon/Features/session_managment/session_summary/widget/screen_view.dart';
 import 'package:pro_icon/Features/session_managment/session_summary/widget/tabs_section.dart';
+import 'package:pro_icon/data/models/session_details_model.dart';
 
 class SessionSummary extends StatelessWidget {
   static const routeName = '/session_summary';
-  const SessionSummary({super.key});
+  const SessionSummary({super.key, required this.sessionSummary});
+
+  final SessionDetailsModel sessionSummary;
 
   @override
   Widget build(BuildContext context) {

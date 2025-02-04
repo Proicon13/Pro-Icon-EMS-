@@ -5,7 +5,7 @@ import '../../../../Core/theme/app_text_styles.dart';
 class StartDateWidget extends StatelessWidget {
   const StartDateWidget({super.key});
   // TODO: using row would be better for more control on spaces and sizes use the refactored widget (ClientHistoryInfoColumn)
-  // TODO: I believe we should keep it as is because the code is shorter and the spacing is handled automatically.
+
   @override
   Widget build(BuildContext context) {
     return Table(

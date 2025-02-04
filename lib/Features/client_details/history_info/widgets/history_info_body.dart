@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/utils/extensions/spaces.dart';
-import 'package:pro_icon/Core/utils/responsive_helper/size_constants.dart';
 import 'package:pro_icon/Core/widgets/custom_button.dart';
 import 'package:pro_icon/Core/widgets/custom_dropdown_section.dart';
 import 'package:pro_icon/Features/client_details/history_info/widgets/start_date_widget.dart';
@@ -20,37 +19,37 @@ class HistoryInfoBody extends StatefulWidget {
 
 class _HistoryInfoBodyState extends State<HistoryInfoBody> {
 // TODO : CHANGE TO STATEFUL WIDGET since you are using texteditingcontroller
-// todo : CHANGED
+
   TextEditingController _notesController = TextEditingController();
 
   Widget build(BuildContext context) {
-    return Padding(
-      padding: SizeConstants.kScaffoldPadding(context),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const StartDateWidget(),
-            context.setMinSize(40).verticalSpace,
-            ClientHistoryInfo(title: "Trainer name".tr(), name: "Omar Sabry"),
-            context.setMinSize(20).verticalSpace,
-            ClientHistoryInfo(title: "Cancelations".tr(), name: "6 times"),
-            context.setMinSize(20).verticalSpace,
-             DropdownFormSection(
-                title: "status".tr(), name: "Active".tr(), hintText: "Active".tr(), items: []),
-            context.setMinSize(15).verticalSpace,
-            TextFormSection(
-              title: "notes".tr(),
-              name: "notes",
-              hintText: "",
-              controller: _notesController,
-              maxLines: 5,
-            ),
-            context.setMinSize(20).verticalSpace,
-            CustomButton(onPressed: () {}, text: "Save" . tr()),
-            context.setMinSize(15).verticalSpace,
-          ],
-        ),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const StartDateWidget(),
+          context.setMinSize(40).verticalSpace,
+          ClientHistoryInfo(title: "Trainer name".tr(), name: "Omar Sabry"),
+          context.setMinSize(20).verticalSpace,
+          ClientHistoryInfo(title: "Cancelations".tr(), name: "6 times"),
+          context.setMinSize(20).verticalSpace,
+          DropdownFormSection(
+              title: "status".tr(),
+              name: "Active".tr(),
+              hintText: "Active".tr(),
+              items: const []),
+          context.setMinSize(15).verticalSpace,
+          TextFormSection(
+            title: "notes".tr(),
+            name: "notes",
+            hintText: "",
+            controller: _notesController,
+            maxLines: 5,
+          ),
+          context.setMinSize(20).verticalSpace,
+          CustomButton(onPressed: () {}, text: "Save".tr()),
+          context.setMinSize(15).verticalSpace,
+        ],
       ),
     );
   }

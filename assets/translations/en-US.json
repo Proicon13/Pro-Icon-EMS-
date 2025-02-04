@@ -149,5 +149,11 @@
     "min.session_duration": "{minutes} min",
     "Trainer name.title": "Trainer name",
     "Change Languages.title" : "Change Languages",
-    "change Confirm.title" : "change Confirm"
+    "change Confirm.title" : "change Confirm",
+    "language_german": "German",
+    "language_english": "English",
+    "language_spanish": "Spanish",
+    "language_french": "French",
+    "language_portuguese": "Portuguese",
+    "language_italian": "Italian"
 }

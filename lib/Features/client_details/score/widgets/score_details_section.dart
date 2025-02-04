@@ -14,41 +14,29 @@ class ScoreDetailsSection extends StatelessWidget {
       children: [
         //TODO: NO NEED TO USE SIZE CONFIG HERE WE CAN JUST USE EXPANDED SINCE TEXT FORMSECTION TAKES SIZES FROM THE SCREEN ITSELF
         const Expanded(
-          child: SizedBox(
-            width: 124,
-            height: 180 ,
-            child: TextFormSection(
-              title: " number",
-              name: "15",
-              hintText: "15",
-            ),
+          child: TextFormSection(
+            title: " number",
+            name: "15",
+            hintText: "15",
           ),
         ),
 
         context.setMinSize(10).horizontalSpace,
 
         const Expanded(
-          child: SizedBox(
-            width: 124,
-            height: 180,
-            child: TextFormSection(
-              title: "Invitations",
-              name: "1",
-              hintText: "1",
-            ),
+          child: TextFormSection(
+            title: "Invitations",
+            name: "1",
+            hintText: "1",
           ),
         ),
         context.setMinSize(10).horizontalSpace,
 
         const Expanded(
-          child: SizedBox(
-            width: 124,
-            height: 180,
-            child: TextFormSection(
-              title: "Bonus",
-              name: "1",
-              hintText: "1",
-            ),
+          child: TextFormSection(
+            title: "Bonus",
+            name: "1",
+            hintText: "1",
           ),
         ),
       ],

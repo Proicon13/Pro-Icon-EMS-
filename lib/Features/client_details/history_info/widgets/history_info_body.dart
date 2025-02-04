@@ -11,11 +11,16 @@ import 'package:pro_icon/Features/client_details/history_info/widgets/trainer_da
 
 import '../../../../Core/widgets/text_form_section.dart';
 
-class HistoryInfoBody extends StatelessWidget {
+class HistoryInfoBody extends StatefulWidget {
   HistoryInfoBody({super.key});
 
+  @override
+  State<HistoryInfoBody> createState() => _HistoryInfoBodyState();
+}
+
+class _HistoryInfoBodyState extends State<HistoryInfoBody> {
 // TODO : CHANGE TO STATEFUL WIDGET since you are using texteditingcontroller
-//TODO: make it late and intialize it in initState and dispose controller in dispose
+// todo : CHANGED
   TextEditingController _notesController = TextEditingController();
 
   Widget build(BuildContext context) {
@@ -27,12 +32,12 @@ class HistoryInfoBody extends StatelessWidget {
           children: [
             const StartDateWidget(),
             context.setMinSize(40).verticalSpace,
-            TrainerDataSection(title: "Trainer name", name: "Omar Sabry"),
+            ClientHistoryInfo(title: "Trainer name".tr(), name: "Omar Sabry"),
             context.setMinSize(20).verticalSpace,
-            TrainerDataSection(title: "Cancelations", name: "6 times"),
+            ClientHistoryInfo(title: "Cancelations".tr(), name: "6 times"),
             context.setMinSize(20).verticalSpace,
-            const DropdownFormSection(
-                title: "status", name: "Active", hintText: "Active", items: []),
+             DropdownFormSection(
+                title: "status".tr(), name: "Active".tr(), hintText: "Active".tr(), items: []),
             context.setMinSize(15).verticalSpace,
             TextFormSection(
               title: "notes".tr(),
@@ -42,7 +47,7 @@ class HistoryInfoBody extends StatelessWidget {
               maxLines: 5,
             ),
             context.setMinSize(20).verticalSpace,
-            CustomButton(onPressed: () {}, text: "Save"),
+            CustomButton(onPressed: () {}, text: "Save" . tr()),
             context.setMinSize(15).verticalSpace,
           ],
         ),

@@ -16,12 +16,12 @@ class LangugesListContent extends StatelessWidget {
   LangugesListContent({super.key});
 
   final Map<String, String> languagesWithFlags = {
-    'Germany': '${Assets.assetsImagesGermanyFlag}',
+    'Deutsch': '${Assets.assetsImagesGermanyFlag}',
     'English': '${Assets.assetsImagesUkFlag}',
-    'Spanish': '${Assets.assetsImagesSpanFlag}',
-    'French': '${Assets.assetsImagesFranchFlag}',
-    'Brazil': '${Assets.assetsImagesBrazil}',
-    'Italy': '${Assets.assetsImagesItalySvg}',
+    'Español': '${Assets.assetsImagesSpanFlag}',
+    'Français': '${Assets.assetsImagesFranchFlag}',
+    'Português': '${Assets.assetsImagesBrazil}',
+    'Italiano': '${Assets.assetsImagesItalySvg}',
   };
   @override
   Widget build(BuildContext context) {
@@ -60,8 +60,8 @@ class LangugesListContent extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return CustomConfirmationDialog(
-                              title: "Change Languages",
-                              confirmationTitle: "change Confirm",
+                              title: "Change Languages".tr(),
+                              confirmationTitle: "change Confirm".tr(),
                               onConfirm: () {});
                         });
                   },

@@ -146,5 +146,8 @@
     "Session Summary.title": "Session Summary",
     "Session details.title": "Session details",
     "Automatic_session.session_type": "Automatic session",
-    "min.session_duration": "{minutes} min"
+    "min.session_duration": "{minutes} min",
+    "Trainer name.title": "Trainer name",
+    "Change Languages.title" : "Change Languages",
+    "change Confirm.title" : "change Confirm"
 }

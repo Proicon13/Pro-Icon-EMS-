@@ -30,9 +30,9 @@ extension ClientSectionsX on ClientSections {
 final clientSectionsToViewsMap = {
   ClientSections.personalInfo: const PersonalInfoView(),
   ClientSections.medicalInfo: const MedicalInfoView(),
-  ClientSections.historyInfo: const SizedBox(),
+  ClientSections.historyInfo: const HistoryInfoView(),
   ClientSections.startegyInfo: const StrategyView(),
-  ClientSections.scoreInfo: const SizedBox(),
+  ClientSections.scoreInfo: const ScoreView(),
 };
 
 class ClientDetailsState extends Equatable {

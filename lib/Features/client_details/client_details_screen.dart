@@ -22,6 +22,7 @@ class ClientDetailsScreen extends StatelessWidget {
       child: KeyboardDismissable(
         child: BaseAppScaffold(
           appBar: CustomAppBar(titleKey: "clientInfo.title".tr()),
+
           body: const ClientDetailsBody(),
         ),
       ),

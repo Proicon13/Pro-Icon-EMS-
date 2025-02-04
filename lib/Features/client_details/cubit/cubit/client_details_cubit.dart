@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pro_icon/Core/errors/failures.dart';
 import 'package:pro_icon/Core/utils/image_picker.dart';
+import 'package:pro_icon/Features/client_details/history_info/screen/history_info_view.dart';
 import 'package:pro_icon/Features/client_details/medical_report/medical_info_view.dart';
 import 'package:pro_icon/Features/client_details/strategy/strategy_view.dart';
 import 'package:pro_icon/data/services/clients_service.dart';
 
 import '../../../../Core/entities/client_entity.dart';
 import '../../personal_info_view.dart';
+import '../../score/screen/score_view.dart';
 
 part 'client_details_state.dart';
 

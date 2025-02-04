@@ -8,7 +8,8 @@ import 'client_details_section.dart';
 import 'sections_list.dart';
 
 class ClientDetailsBody extends StatefulWidget {
-  const ClientDetailsBody({
+  const
+  ClientDetailsBody({
     super.key,
   });
 

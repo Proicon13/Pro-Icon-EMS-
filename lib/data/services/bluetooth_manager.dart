@@ -184,7 +184,7 @@ class BluetoothManager {
     try {
       List<BluetoothService> services = await device.discoverServices();
 
-      // If a specific service UUID is provided, filter services
+      // Filter services if a specific service UUID is provided
       if (serviceUuid != null) {
         services = services.where((s) => s.uuid.str == serviceUuid).toList();
       }
@@ -196,34 +196,49 @@ class BluetoothManager {
             await characteristic.setNotifyValue(true); // Enable notifications
 
             Completer<String> completer = Completer<String>();
+            int validDataCount = 0; // Track the number of non-empty values received
 
             StreamSubscription<List<int>>? subscription;
             subscription = characteristic.lastValueStream.listen((value) async {
               if (value.isNotEmpty) {
-                String data = String.fromCharCodes(value);
-                print("✅ Received Notified Data: $data");
+                validDataCount++;
 
-                completer.complete(data); // Complete with received data
+                // Take the 2nd or 3rd valid data
+                if (validDataCount >= 3) {
+                  String data = String.fromCharCodes(value);
+                  print("✅ Received Fresh Notified Data: $data");
 
-                await subscription?.cancel(); // Stop listening
-                await characteristic
-                    .setNotifyValue(false); // Disable notifications
+                  completer.complete(data); // Complete with the fresh data
+
+                  await subscription?.cancel(); // Stop listening
+                  await characteristic.setNotifyValue(false); // Disable notifications
+                }
               }
             });
 
-            return completer.future; // Wait until a value is received
+            // Timeout to prevent infinite waiting (adjust as needed)
+            Future.delayed(Duration(seconds: 10), () async {
+              if (!completer.isCompleted) {
+                await subscription?.cancel();
+                await characteristic.setNotifyValue(false);
+                completer.complete(""); // Complete with empty if no fresh data
+                print("⚠️ Timeout: No fresh data received within the time limit.");
+              }
+            });
+
+            return completer.future; // Wait until fresh data is received
           }
         }
       }
 
-      print(
-          "❌ No notifiable characteristic found on device: ${device.platformName}");
+      print("❌ No notifiable characteristic found on device: ${device.platformName}");
       return "";
     } catch (e) {
       print("❌ Notification Read Error: $e");
       return "";
     }
   }
+
 
   void handleDisconnection(BluetoothDevice device) {
     device.connectionState.listen((state) async {

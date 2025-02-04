@@ -12,6 +12,6 @@ class AppConstants {
   static const String madReadingCharacteristicId =
       "87654321-4321-4321-4321-210987654323";
   static const String heartRateCharacteristicId =
-      "00002a37-0000-1000-8000-00805f9b34fb";
-  static const String heartServiceuuid = "0000180d-0000-1000-8000-00805f9b34fb";
+      "2a37";
+  static const String heartServiceuuid = "180d";
 }

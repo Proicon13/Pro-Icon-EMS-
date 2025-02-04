@@ -98,10 +98,12 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
           characteristicUuid: AppConstants.madReadingCharacteristicId);
 
       final heartRate = await listenToHeartRate(mad);
-
-      updatedMadsMap[mad.madId] = mad.copyWith(
+      var updatedmad=mad.copyWith(
         batteryPercentage: battery != -1 ? battery : mad.batteryPercentage,
-      )..updateHeartRate(heartRate != -1 ? heartRate : mad.heartRate!);
+      );
+      var updatedheartRateMad=updatedmad.updateHeartRate(heartRate != -1 ? heartRate : mad.heartRate!);
+
+      updatedMadsMap[mad.madId] = updatedheartRateMad;
     }));
 
     if (updatedMadsMap.isEmpty) return; // No updates, skip emitting state
@@ -459,11 +461,11 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   void onControlPanelMadTap(ControlPanelMad mad, int index) {
     if (state.isGroupMode) return; // ignore if group mode
     final mads = [...state.controlPanelMads];
-    if (!mad.isBluetoothConnected! || !mad.isHeartRateSensorConnected!) {
+/*     if (!mad.isBluetoothConnected! || !mad.isHeartRateSensorConnected!) {
       mads[index] = mads[index].copyWith(
           isBluetoothConnected: true, isHeartRateSensorConnected: true);
-    }
-    ;
+    } */
+    
 
     emit(state.copyWith(selectedMads: [mads[index]], controlPanelMads: mads));
   }
@@ -741,7 +743,7 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
             !state.isSessionCounted) {
           emit(state.copyWith(isSessionCounted: true));
         }
-        // Update current session duration
+       
         emit(state.copyWith(
           currentDuration: state.currentDuration - const Duration(seconds: 1),
         ));
@@ -805,15 +807,16 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
 
     _onOffTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (currentCycleTime >= fullCycleValue) {
+        if (!state.isOnCycle) {
+        sendDataToAllMads(destination: SendingDestenation.both);
+      }
         emit(state.copyWith(
           isOnCycle: !state.isOnCycle, // Switch cycle
-          currentOnTime: 0, // Reset On cycle
-          currentOffTime: 0, // Reset Off cycle
+          currentOnTime: 1, // Reset On cycle
+          currentOffTime: 1, // Reset Off cycle
         ));
 
-        if (isFullCycleCompleted) {
-          sendDataToAllMads(destination: SendingDestenation.both);
-        }
+       
         _startOnOffTimer(); // Restart with new cycle
       } else {
         currentCycleTime += 1;

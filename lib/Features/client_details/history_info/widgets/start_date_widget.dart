@@ -24,12 +24,12 @@ class StartDateWidget extends StatelessWidget {
               initialValue: DateTime.now()
                 ..add(const Duration(
                     days:
-                        1)), //TODO: here we put client end Date as intial value
+                        1)), //TODO: heree we put client end Date as intial value
               title: "End Date",
               name: "endDate",
               firstDate: DateTime.now(),
               lastDate: DateTime(2030),
-              hintText: "endDate"),
+              hintText: "End date"),
         ),
       ],
     );

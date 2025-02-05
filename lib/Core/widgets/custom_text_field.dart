@@ -26,6 +26,7 @@ class CustomTextField extends StatelessWidget {
   final String? intialValue;
   final int? maxLines;
   final void Function(PointerDownEvent)? onTapOutside;
+  final bool? readOnly;
   const CustomTextField({
     super.key,
     required this.name,
@@ -46,12 +47,14 @@ class CustomTextField extends StatelessWidget {
     this.textAlign,
     this.onTapOutside,
     this.maxLines,
+    this.readOnly,
   });
 
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
       name: name,
+      readOnly: readOnly ?? false,
       initialValue: intialValue,
       onTapOutside: onTapOutside,
       obscureText: obsecure,

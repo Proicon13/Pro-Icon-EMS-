@@ -21,6 +21,8 @@ class ClientEntityMapper {
       weight: model.weight,
       height: model.height,
       age: model.age,
+      cancelations: model.cancelations,
+      historyNotes: model.historyNotes,
       medicalNotes: model.medicalNotes,
       superVisor: model.user != null
           ? Supervisor(

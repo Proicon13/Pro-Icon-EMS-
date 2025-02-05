@@ -12,8 +12,12 @@ class ClientEntity extends UserEntity {
   final num? height;
   final num? age;
   final String? medicalNotes;
+  final String? historyNotes;
+  final int? cancelations;
 
   const ClientEntity({
+    this.historyNotes,
+    this.cancelations,
     this.gender,
     this.startDate,
     this.endDate,
@@ -56,7 +60,9 @@ class ClientEntity extends UserEntity {
         weight,
         height,
         age,
-        medicalNotes
+        medicalNotes,
+        historyNotes,
+        cancelations
       ];
 }
 

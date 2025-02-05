@@ -19,6 +19,7 @@ class TextFormSection extends StatelessWidget {
   final bool obscureText;
   final String? intialValue;
   final int? maxLines;
+  final bool? readOnly;
 
   const TextFormSection(
       {super.key,
@@ -32,6 +33,7 @@ class TextFormSection extends StatelessWidget {
       this.keyboardInputType,
       this.inputFormatters,
       this.controller,
+      this.readOnly,
       this.obscureText = false,
       this.maxLines});
 
@@ -56,6 +58,7 @@ class TextFormSection extends StatelessWidget {
         onSaved: onSaved,
         obsecure: obscureText,
         maxLines: maxLines,
+        readOnly: readOnly,
       ),
     ]);
   }

@@ -73,7 +73,7 @@ class ClientModel extends AppUserModel {
           ? SupervisorModel.fromJson(json['user'] as Map<String, dynamic>)
           : null,
       medicalNotes: json['medicalNotes'] ?? '',
-      cancelations: json['cancelations'] ?? 0,
+      cancelations: json['cancellations'] ?? 0,
       historyNotes: json['historyNotes'] ?? '',
       city: json['city'] != null
           ? CityModel.fromJson(json['city'] as Map<String, dynamic>)

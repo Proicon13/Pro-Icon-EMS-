@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pro_icon/Core/utils/extensions/size_helper.dart';
 import 'package:pro_icon/Core/widgets/custom_date_picker_section.dart';
+import 'package:pro_icon/Features/client_details/cubit/cubit/client_details_cubit.dart';
 
 class StartDateWidget extends StatelessWidget {
   const StartDateWidget({super.key});
@@ -10,13 +12,20 @@ class StartDateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: DatePickerFormSection(
-              initialValue: DateTime
-                  .now(), //TODO: here we put client start Date as intial value
-              title: "Start Date",
-              name: "startDate",
-              hintText: "start date"),
+        BlocSelector<ClientDetailsCubit, ClientDetailsState, String>(
+          selector: (state) {
+            return state.client!.startDate!;
+          },
+          builder: (context, state) {
+            return Expanded(
+              child: DatePickerFormSection(
+                  initialValue: DateTime.parse(
+                      state), //TODO: here we put client start Date as intial value
+                  title: "Start Date",
+                  name: "startDate",
+                  hintText: "start date"),
+            );
+          },
         ),
         context.setMinSize(20).horizontalSpace,
         Expanded(

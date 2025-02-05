@@ -196,7 +196,8 @@ class BluetoothManager {
             await characteristic.setNotifyValue(true); // Enable notifications
 
             Completer<String> completer = Completer<String>();
-            int validDataCount = 0; // Track the number of non-empty values received
+            int validDataCount =
+                0; // Track the number of non-empty values received
 
             StreamSubscription<List<int>>? subscription;
             subscription = characteristic.lastValueStream.listen((value) async {
@@ -211,18 +212,20 @@ class BluetoothManager {
                   completer.complete(data); // Complete with the fresh data
 
                   await subscription?.cancel(); // Stop listening
-                  await characteristic.setNotifyValue(false); // Disable notifications
+                  await characteristic
+                      .setNotifyValue(false); // Disable notifications
                 }
               }
             });
 
             // Timeout to prevent infinite waiting (adjust as needed)
-            Future.delayed(Duration(seconds: 10), () async {
+            Future.delayed(const Duration(seconds: 10), () async {
               if (!completer.isCompleted) {
                 await subscription?.cancel();
                 await characteristic.setNotifyValue(false);
                 completer.complete(""); // Complete with empty if no fresh data
-                print("⚠️ Timeout: No fresh data received within the time limit.");
+                print(
+                    "⚠️ Timeout: No fresh data received within the time limit.");
               }
             });
 
@@ -231,14 +234,14 @@ class BluetoothManager {
         }
       }
 
-      print("❌ No notifiable characteristic found on device: ${device.platformName}");
+      print(
+          "❌ No notifiable characteristic found on device: ${device.platformName}");
       return "";
     } catch (e) {
       print("❌ Notification Read Error: $e");
       return "";
     }
   }
-
 
   void handleDisconnection(BluetoothDevice device) {
     device.connectionState.listen((state) async {
